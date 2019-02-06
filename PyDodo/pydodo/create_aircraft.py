@@ -20,7 +20,7 @@ def _check_altitude(alt):
 
 
 def _check_flight_level(fl):
-	return int(fl[2:]) > 0
+	return int(fl[2:]) > 60
 
 
 def _check_speed(spd):
@@ -35,6 +35,7 @@ def parse_alt(alt, fl):
 		assert _check_altitude(alt), 'Invalid value {} for altitude'.format(alt)
 		alt = str(alt)
 	else:
+		assert fl is not None, 'Must specify a valid altitude or a flight level'
 		assert _check_flight_level(fl), 'Invalid value {} for flight_level'.format(fl)
 		alt = fl
 
