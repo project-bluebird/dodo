@@ -13,6 +13,8 @@ A boolean, \code{TRUE} indicates success.
 Reset the simulation
 }
 \examples{
+\dontrun{
 reset_simulation()
+}
 
 }
