@@ -40,6 +40,8 @@ create_aircraft <- function(aircraft_id,
 
   stopifnot(is.character(aircraft_id), length(aircraft_id) == 1)
   stopifnot(is.character(type), length(type) == 1)
+
+  # TODO: add guard clauses for valid ranges (e.g. [-90, 90] for latitude)
   stopifnot(is.double(latitude), length(latitude) == 1)
   stopifnot(is.double(longitude), length(longitude) == 1)
   stopifnot(is.double(heading), length(heading) == 1)
