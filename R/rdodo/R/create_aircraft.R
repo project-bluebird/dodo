@@ -19,7 +19,7 @@
 #' @param flight_level
 #' A integer of 60 or more. The aircraft's flight level.
 #' @param speed
-#' A double. The aircraft's speed in knots (KCAS).
+#' A non-negative double. The aircraft's speed in knots (KCAS).
 #'
 #' @return A boolean, \code{TRUE} indicates success.
 #'
@@ -47,7 +47,8 @@ create_aircraft <- function(aircraft_id,
             longitude >= -180, longitude < 180)
   stopifnot(is.double(heading), length(heading) == 1,
             heading >= 0, heading < 360)
-  stopifnot(is.double(speed), length(speed) == 1)
+  stopifnot(is.double(speed), length(speed) == 1,
+            speed >= 0)
 
   # Either altitude or flight_level must be NULL, but not both.
   stopifnot(is.null(altitude) || is.null(flight_level))

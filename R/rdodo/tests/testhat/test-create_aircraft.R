@@ -212,3 +212,120 @@ test_that("the create_aircraft altitude guard clause works", {
                                speed = speed))
 })
 
+test_that("the create_aircraft heading guard clause works", {
+
+  # TODO: check for Bluebird at the expected url and stop if unavailable.
+
+  aircraft_id <- "test1234"
+  type <- "B744"
+  latitude <- 0
+  longitude <- 0
+  flight_level <- 250
+  speed <- 200
+
+  heading <- -0.1
+  expect_error(create_aircraft(aircraft_id = aircraft_id,
+                               type = type,
+                               latitude = latitude,
+                               longitude = longitude,
+                               heading = heading,
+                               flight_level = flight_level,
+                               speed = speed))
+
+  heading <- 360
+  expect_error(create_aircraft(aircraft_id = aircraft_id,
+                               type = type,
+                               latitude = latitude,
+                               longitude = longitude,
+                               heading = heading,
+                               flight_level = flight_level,
+                               speed = speed))
+
+  # Valid heading:
+  heading <- 359.99
+  expect_true(create_aircraft(aircraft_id = aircraft_id,
+                              type = type,
+                              latitude = latitude,
+                              longitude = longitude,
+                              heading = heading,
+                              flight_level = flight_level,
+                              speed = speed))
+})
+
+test_that("the create_aircraft flight_level guard clause works", {
+
+  # TODO: check for Bluebird at the expected url and stop if unavailable.
+
+  aircraft_id <- "test1234"
+  type <- "B744"
+  latitude <- 0
+  longitude <- 0
+  heading <- 0
+  speed <- 200
+
+  altitude <- 6000
+  flight_level <- 250
+  expect_error(create_aircraft(aircraft_id = aircraft_id,
+                               type = type,
+                               latitude = latitude,
+                               longitude = longitude,
+                               heading = heading,
+                               altitude = altitude,
+                               flight_level = flight_level,
+                               speed = speed))
+
+  altitude <- NULL
+  flight_level <- 59
+  expect_error(create_aircraft(aircraft_id = aircraft_id,
+                               type = type,
+                               latitude = latitude,
+                               longitude = longitude,
+                               heading = heading,
+                               altitude = altitude,
+                               flight_level = flight_level,
+                               speed = speed))
+
+  # Valid flight_level:
+  altitude <- NULL
+  flight_level <- 60
+  expect_true(create_aircraft(aircraft_id = aircraft_id,
+                              type = type,
+                              latitude = latitude,
+                              longitude = longitude,
+                              heading = heading,
+                              altitude = altitude,
+                              flight_level = flight_level,
+                              speed = speed))
+})
+
+test_that("the create_aircraft speed guard clause works", {
+
+  # TODO: check for Bluebird at the expected url and stop if unavailable.
+
+  aircraft_id <- "test1234"
+  type <- "B744"
+  latitude <- 0
+  longitude <- 0
+  heading <- 0
+  flight_level <- 250
+
+  speed <- -0.1
+  expect_error(create_aircraft(aircraft_id = aircraft_id,
+                               type = type,
+                               latitude = latitude,
+                               longitude = longitude,
+                               heading = heading,
+                               flight_level = flight_level,
+                               speed = speed))
+
+  # Valid speed:
+  speed <- 0
+  expect_true(create_aircraft(aircraft_id = aircraft_id,
+                              type = type,
+                              latitude = latitude,
+                              longitude = longitude,
+                              heading = heading,
+                              flight_level = flight_level,
+                              speed = speed))
+})
+

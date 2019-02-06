@@ -23,7 +23,7 @@ For altitudes in excess of 6000ft a flight level should be specified instead.}
 
 \item{flight_level}{A integer of 60 or more. The aircraft's flight level.}
 
-\item{speed}{A double. The aircraft's speed in knots (KCAS).}
+\item{speed}{A non-negative double. The aircraft's speed in knots (KCAS).}
 }
 \value{
 A boolean, \code{TRUE} indicates success.
