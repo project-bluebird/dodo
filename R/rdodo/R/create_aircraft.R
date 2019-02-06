@@ -7,9 +7,9 @@
 #' A string aircraft identifier
 #' @param type
 #' A string ICAO aircraft type designator
-#' @param lat
+#' @param latitude
 #' A double in the range [-180, 180). The aircraft's latitude.
-#' @param lon
+#' @param longitude
 #' A double in the range [-90, 90]. The aircraft's longitude.
 #' @param heading
 #' A double in the range [0, 360). The aircraft's heading in degrees.
@@ -29,8 +29,8 @@
 #' @export
 create_aircraft <- function(aircraft_id,
                             type,
-                            lat,
-                            lon,
+                            latitude,
+                            longitude,
                             heading,
                             altitude = NULL,
                             flight_level = NULL,
