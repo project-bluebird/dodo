@@ -41,13 +41,16 @@ create_aircraft <- function(aircraft_id,
   stopifnot(is.character(aircraft_id), length(aircraft_id) == 1)
   stopifnot(is.character(type), length(type) == 1)
 
-  # TODO: add guard clauses for valid ranges (e.g. [-90, 90] for latitude)
-  stopifnot(is.double(latitude), length(latitude) == 1)
-  stopifnot(is.double(longitude), length(longitude) == 1)
-  stopifnot(is.double(heading), length(heading) == 1)
+  stopifnot(is.double(latitude), length(latitude) == 1,
+            latitude >= -90, latitude <= 90)
+  stopifnot(is.double(longitude), length(longitude) == 1,
+            longitude >= -180, longitude < 180)
+  stopifnot(is.double(heading), length(heading) == 1,
+            heading >= 0, heading < 360)
   stopifnot(is.double(speed), length(speed) == 1)
 
   # Either altitude or flight_level must be NULL, but not both.
+  stopifnot(is.null(altitude) || is.null(flight_level))
   if (is.null(altitude)) {
 
     # Check that flight_level is an integer value, without requiring is.integer.
@@ -55,13 +58,15 @@ create_aircraft <- function(aircraft_id,
       stopifnot(is.numeric(flight_level), flight_level %% 1 == 0)
       flight_level <- as.integer(flight_level)
     }
-    stopifnot(is.integer(flight_level), length(flight_level) == 1)
+    stopifnot(is.integer(flight_level), length(flight_level) == 1,
+              flight_level >= 60)
 
     # Flight level unit corresponds to hundreds of feet.
     altitude <- flight_level * 100
   }
   if (is.null(flight_level)) {
-    stopifnot(is.double(altitude), length(altitude) == 1)
+    stopifnot(is.double(altitude), length(altitude) == 1,
+              altitude >= 0, altitude <= 6000)
   }
 
   body <- list(

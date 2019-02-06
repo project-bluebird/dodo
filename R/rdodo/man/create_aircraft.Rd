@@ -12,9 +12,9 @@ create_aircraft(aircraft_id, type, latitude, longitude, heading,
 
 \item{type}{A string ICAO aircraft type designator}
 
-\item{latitude}{A double in the range [-180, 180). The aircraft's latitude.}
+\item{latitude}{A double in the range [-90, 90]. The aircraft's latitude.}
 
-\item{longitude}{A double in the range [-90, 90]. The aircraft's longitude.}
+\item{longitude}{A double in the range [-180, 180). The aircraft's longitude.}
 
 \item{heading}{A double in the range [0, 360). The aircraft's heading in degrees.}
 
