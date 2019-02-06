@@ -10,4 +10,4 @@ if __name__ == '__main__':
 	settings.BB_HOST = ARGS.bluebird_host
 
 	p = PyDodo()
-	p.create_test()
+	p.create_aircraft_test()
