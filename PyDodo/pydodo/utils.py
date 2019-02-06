@@ -6,4 +6,4 @@ def construct_endpoint_url(endpoint):
 
 
 def get_bluebird_url():
-	return '{}:{}'.format(settings.BB_HOST, settings.BB_PORT)
+	return 'http://{}:{}'.format(settings.BB_HOST, settings.BB_PORT)
