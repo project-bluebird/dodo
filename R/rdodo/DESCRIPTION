@@ -8,7 +8,7 @@ Authors@R: c(
     person("The Alan Turing Institute", role = "cph")
     )
 Maintainer: Timothy Hobson <thobson@turing.ac.uk>
-Description: Scaffold for ATC agents to interface with the Bluebird API
+Description: Scaffold for ATC agents to interface with the Bluebird API.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
