@@ -8,9 +8,9 @@
 #' @param type
 #' A string ICAO aircraft type designator
 #' @param latitude
-#' A double in the range [-180, 180). The aircraft's latitude.
+#' A double in the range [-90, 90]. The aircraft's latitude.
 #' @param longitude
-#' A double in the range [-90, 90]. The aircraft's longitude.
+#' A double in the range [-180, 180). The aircraft's longitude.
 #' @param heading
 #' A double in the range [0, 360). The aircraft's heading in degrees.
 #' @param altitude
