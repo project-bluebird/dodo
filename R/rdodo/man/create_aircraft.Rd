@@ -4,17 +4,17 @@
 \alias{create_aircraft}
 \title{Create an aircraft}
 \usage{
-create_aircraft(aircraft_id, type, lat, lon, heading, altitude = NULL,
-  flight_level = NULL, speed)
+create_aircraft(aircraft_id, type, latitude, longitude, heading,
+  altitude = NULL, flight_level = NULL, speed)
 }
 \arguments{
 \item{aircraft_id}{A string aircraft identifier}
 
 \item{type}{A string ICAO aircraft type designator}
 
-\item{lat}{A double in the range [-180, 180). The aircraft's latitude.}
+\item{latitude}{A double in the range [-180, 180). The aircraft's latitude.}
 
-\item{lon}{A double in the range [-90, 90]. The aircraft's longitude.}
+\item{longitude}{A double in the range [-90, 90]. The aircraft's longitude.}
 
 \item{heading}{A double in the range [0, 360). The aircraft's heading in degrees.}
 
@@ -33,6 +33,8 @@ Either the \code{altitude} or \code{flight_level} argument must be given,
 but not both.
 }
 \examples{
+\dontrun{
 create_aircraft("test1234", "B744", 0, 0, 0, flight_level = 250, speed = 200)
+}
 
 }

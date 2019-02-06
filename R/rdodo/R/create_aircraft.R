@@ -24,7 +24,9 @@
 #' @return A boolean, \code{TRUE} indicates success.
 #'
 #' @examples
+#' \dontrun{
 #' create_aircraft("test1234", "B744", 0, 0, 0, flight_level = 250, speed = 200)
+#' }
 #'
 #' @export
 create_aircraft <- function(aircraft_id,
@@ -35,6 +37,47 @@ create_aircraft <- function(aircraft_id,
                             altitude = NULL,
                             flight_level = NULL,
                             speed) {
+
+  stopifnot(is.character(aircraft_id), length(aircraft_id) == 1)
+  stopifnot(is.character(type), length(type) == 1)
+  stopifnot(is.double(latitude), length(latitude) == 1)
+  stopifnot(is.double(longitude), length(longitude) == 1)
+  stopifnot(is.double(heading), length(heading) == 1)
+  stopifnot(is.double(speed), length(speed) == 1)
+
+  # Either altitude or flight_level must be NULL, but not both.
+  if (is.null(altitude)) {
+
+    # Check that flight_level is an integer value, without requiring is.integer.
+    if (!is.integer(flight_level)) {
+      stopifnot(is.numeric(flight_level), flight_level %% 1 == 0)
+      flight_level <- as.integer(flight_level)
+    }
+    stopifnot(is.integer(flight_level), length(flight_level) == 1)
+
+    # Flight level unit corresponds to hundreds of feet.
+    altitude <- flight_level * 100
+  }
+  if (is.null(flight_level)) {
+    stopifnot(is.double(altitude), length(altitude) == 1)
+  }
+
+  body <- list(
+    "acid" = aircraft_id,
+    "type" = type,
+    "lat" = latitude,
+    "lon" = longitude,
+    "hdg" = heading,
+    "alt" = altitude,
+    "spd" = speed
+  )
+
+  # TODO: hard-coded endpoint.
+  response <- httr::POST(url = construct_endpoint_url(endpoint = "cre"),
+                         body = body, encode = "json")
+
+  if (httr::status_code(response) == 200)
+    return(TRUE)
 
   FALSE
 }
