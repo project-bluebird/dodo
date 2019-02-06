@@ -13,6 +13,6 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Suggests: testthat
-Imports: httr
+Imports: httr, magrittr, purrr, jsonlite
 RoxygenNote: 6.1.0
 NeedsCompilation: no
