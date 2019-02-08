@@ -25,7 +25,7 @@ aircraft_position <- function(aircraft_id = NULL) {
 
   if (is.null(aircraft_id)) {
     # Get position for all aircraft
-
+    get_all()
   } else if (is.vector(aircraft_id)) {
     # Loop over aircraft and return their positions
     result <-
