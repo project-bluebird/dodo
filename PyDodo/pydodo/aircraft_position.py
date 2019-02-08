@@ -30,8 +30,11 @@ def format_output(aircraft_pos):
 
 def get_pos_request(aircraft_id):
     """
-    Get position dictionary for aircraft_id from bluebird. Bluebird accepts
-    either single aircraft_id or 'all'. Return NULL if aircraft_id doesn't exist.
+    Get position dictionary for aircraft_id from bluebird or NULL if aircraft_id
+    doesn't exist.
+
+    :param aircraft_id : 'all' or single aircraft_id
+    :return : list of dictionaries if aircraft_id=='all', else dictionary
     """
     endpoint="pos"
     url = construct_endpoint_url(endpoint)
@@ -40,7 +43,7 @@ def get_pos_request(aircraft_id):
     if resp.status_code == 200:
         json_data = json.loads(resp.text)
         if aircraft_id == 'all':
-            pos_data = {key:format_output(json_data[key]) for key in json_data.keys()}
+            pos_data = [{key:format_output(json_data[key])} for key in json_data.keys()]
         else:
             pos_data = {aircraft_id:format_output(json_data)}
         return pos_data
@@ -48,15 +51,17 @@ def get_pos_request(aircraft_id):
 
 def aircraft_position(aircraft_id="all"):
     """
-    Get position of aircraft,  all or by aircraft_id.
+    Get position of aircraft, all or by aircraft_id.
 
-    :param aircraft_id: str or vector of str of aircraft IDs
+    :param aircraft_id: 'all', single aircraft ID or list of aircraft IDs
     :return: list of aircraft position dictionaries, one for each aircraft_id
     """
     assert _check_aircraft_id(aircraft_id), 'Invalid input {} for aircraft id'.format(aircraft_id)
 
-    if type(aircraft_id) == list:
-        aircraft_positions = [get_pos_request(id) for id in aircraft_id_list]
+    if aircraft_id == 'all':
+        aircraft_positions = get_pos_request(aircraft_id)
+    elif type(aircraft_id) == list:
+        aircraft_positions = [get_pos_request(id) for id in aircraft_id]
     else:
         aircraft_positions = [get_pos_request(aircraft_id)]
     return aircraft_positions
