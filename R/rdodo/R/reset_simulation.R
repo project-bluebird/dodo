@@ -3,7 +3,9 @@
 #' @return A boolean, \code{TRUE} indicates success.
 #'
 #' @examples
+#' \dontrun{
 #' reset_simulation()
+#' }
 #'
 #' @export
 reset_simulation <- function() {
