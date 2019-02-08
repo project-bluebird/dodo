@@ -9,5 +9,5 @@
 get_bluebird_url <- function() {
 
   # TODO: replace with config parameters for ip & port.
-  "0.0.0.0:5001"
+  "localhost:5001"
 }
