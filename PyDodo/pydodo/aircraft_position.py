@@ -37,7 +37,7 @@ def get_all_request():
     resp = requests.get(url, json={"acid": "all"})
     if resp.status_code == 200:
         json_data = json.loads(resp.text)
-        pos_data = [{key:format_output(json_data[key])} for key in json_data.keys()]
+        pos_data = [{aircraft["acid"]:format_output(aircraft)} for aircraft in json_data]
         return pos_data
     return []
 
