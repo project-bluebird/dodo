@@ -21,8 +21,6 @@
 #' @export
 aircraft_position <- function(aircraft_id = NULL) {
 
-  library(magrittr)
-
   if (is.null(aircraft_id)) {
     # Get position for all aircraft
     get_all()
