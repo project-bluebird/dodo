@@ -19,10 +19,12 @@ Get position of a single or multiple aircraft based on their IDs, or
 positions of all aircraft in the simulation.
 }
 \examples{
+\dontrun{
 aircraft_position()
 
 aircraft_position('ABC123')
 
 aircraft_position(c('ABC123', 'DEF456'))
+}
 
 }

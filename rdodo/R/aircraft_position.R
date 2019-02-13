@@ -10,11 +10,13 @@
 #' @return A list of aircraft positions as a named list. Position is NULL if aircraft not found.
 #'
 #' @examples
+#' \dontrun{
 #' aircraft_position()
 #'
 #' aircraft_position('ABC123')
 #'
 #' aircraft_position(c('ABC123', 'DEF456'))
+#' }
 #'
 #' @import magrittr
 #'
