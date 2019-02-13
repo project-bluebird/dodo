@@ -1,5 +1,10 @@
+"""
+Get position information for a single or multiple aircrafts. Can request specific aircraft ID or all aircrafts in the simulation.
+"""
+
 import requests
 import json
+import numpy as np
 
 from .utils import construct_endpoint_url
 
@@ -14,27 +19,34 @@ def format_output(aircraft_pos):
     """
     Format aircraft position dictionary returned by bluebird.
     """
-    key_map = {
-        "alt": "altitude",
-        "gs": "ground_speed",
-        "lat": "latitude",
-        "lon": "longitude",
-        "vs": "vertical_speed"
-        }
-    data = {
-        key_map[key]: aircraft_pos[key]
-        for key in aircraft_pos.keys()
-        if key in key_map.keys()
-        }
-    return data
+    position_formatted = {
+        "altitude":aircraft_pos["alt"],
+        "ground_speed":aircraft_pos["gs"],
+        "latitude":aircraft_pos["lat"],
+        "longitude":aircraft_pos["lon"],
+        "vertical_speed":aircraft_pos["vs"]
+    }
+    return position_formatted
+
+def get_all_request():
+    """
+    Get position dictionary for all aircraft.
+    """
+    endpoint="pos"
+    url = construct_endpoint_url(endpoint)
+    resp = requests.get(url, json={"acid": "all"})
+    if resp.status_code == 200:
+        json_data = json.loads(resp.text)
+        pos_data = [{key:format_output(json_data[key])} for key in json_data.keys()]
+        return pos_data
+    return []
 
 def get_pos_request(aircraft_id):
     """
-    Get position dictionary for aircraft_id from bluebird or NULL if aircraft_id
-    doesn't exist.
+    Get position dictionary for aircraft_id.
 
-    :param aircraft_id : 'all' or single aircraft_id
-    :return : list of dictionaries if aircraft_id=='all', else dictionary
+    :param aircraft_id :
+    :return : dictionary with position data or NULL if aircraft_id does not exist
     """
     endpoint="pos"
     url = construct_endpoint_url(endpoint)
@@ -42,12 +54,11 @@ def get_pos_request(aircraft_id):
 
     if resp.status_code == 200:
         json_data = json.loads(resp.text)
-        if aircraft_id == 'all':
-            pos_data = [{key:format_output(json_data[key])} for key in json_data.keys()]
-        else:
-            pos_data = {aircraft_id:format_output(json_data)}
+        pos_data = {aircraft_id:format_output(json_data)}
         return pos_data
-    return {aircraft_id: None}
+    # elif resp.status_code == 404:
+    else:
+        return {aircraft_id: np.nan}
 
 def aircraft_position(aircraft_id="all"):
     """
@@ -59,7 +70,7 @@ def aircraft_position(aircraft_id="all"):
     assert _check_aircraft_id(aircraft_id), 'Invalid input {} for aircraft id'.format(aircraft_id)
 
     if aircraft_id == 'all':
-        aircraft_positions = get_pos_request(aircraft_id)
+        aircraft_positions = get_all_request()
     elif type(aircraft_id) == list:
         aircraft_positions = [get_pos_request(id) for id in aircraft_id]
     else:
