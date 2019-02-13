@@ -1,10 +1,13 @@
 """
 Get position information for a single or multiple aircrafts. Can request specific aircraft ID or all aircrafts in the simulation.
+
+Return requested aircraft positions as pandas dataframe. Rows are NULL if aircraft ID does not exist.
 """
 
 import requests
 import json
 import numpy as np
+import pandas as pd
 
 from .utils import construct_endpoint_url
 
@@ -20,6 +23,7 @@ def format_output(aircraft_pos):
     Format aircraft position dictionary returned by bluebird.
     """
     position_formatted = {
+        "acid":aircraft_pos["acid"],
         "altitude":aircraft_pos["alt"],
         "ground_speed":aircraft_pos["gs"],
         "latitude":aircraft_pos["lat"],
@@ -37,9 +41,10 @@ def get_all_request():
     resp = requests.get(url, json={"acid": "all"})
     if resp.status_code == 200:
         json_data = json.loads(resp.text)
-        pos_data = [{aircraft["acid"]:format_output(aircraft)} for aircraft in json_data]
-        return pos_data
-    return []
+        pos_data = {aircraft["acid"]:format_output(aircraft) for aircraft in json_data}
+        pos_dict = pd.DataFrame.from_dict(pos_data, orient='index')
+        return pos_dict
+    return False
 
 def get_pos_request(aircraft_id):
     """
@@ -51,14 +56,21 @@ def get_pos_request(aircraft_id):
     endpoint="pos"
     url = construct_endpoint_url(endpoint)
     resp = requests.get(url, json={"acid": aircraft_id})
-
     if resp.status_code == 200:
         json_data = json.loads(resp.text)
         pos_data = {aircraft_id:format_output(json_data)}
-        return pos_data
+        pos_dict = pd.DataFrame.from_dict(pos_data, orient='index')
+        return pos_dict
     # elif resp.status_code == 404:
     else:
-        return {aircraft_id: np.nan}
+        return pd.DataFrame({
+            "acid":aircraft_id,
+            "altitude":np.nan,
+            "ground_speed":np.nan,
+            "latitude":np.nan,
+            "longitude":np.nan,
+            "vertical_speed":np.nan
+            }, index=[aircraft_id])
 
 def aircraft_position(aircraft_id="all"):
     """
@@ -72,7 +84,7 @@ def aircraft_position(aircraft_id="all"):
     if aircraft_id == 'all':
         aircraft_positions = get_all_request()
     elif type(aircraft_id) == list:
-        aircraft_positions = [get_pos_request(id) for id in aircraft_id]
+        aircraft_positions = pd.concat([get_pos_request(id) for id in aircraft_id])
     else:
-        aircraft_positions = [get_pos_request(aircraft_id)]
+        aircraft_positions = get_pos_request(aircraft_id)
     return aircraft_positions
