@@ -5,9 +5,9 @@
 #' @examples
 #' get_bluebird_url()
 #'
+#' @import config
 #' @export
 get_bluebird_url <- function() {
 
-  # TODO: replace with config parameters for ip & port.
-  "localhost:5001"
+  paste(config::get("host"), config::get("port"), sep = ":")
 }
