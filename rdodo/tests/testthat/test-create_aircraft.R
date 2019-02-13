@@ -1,9 +1,9 @@
 require(testthat)
 context("create_aircraft function")
 
-test_that("the create_aircraft function works", {
+skip_if_not(found_bluebird(), message = "BlueBird not found: tests skipped.")
 
-  # TODO: check for Bluebird at the expected url and stop if unavailable.
+test_that("the create_aircraft function works", {
 
   aircraft_id <- "test1234"
   type <- "B744"
@@ -24,8 +24,6 @@ test_that("the create_aircraft function works", {
 })
 
 test_that("the create_aircraft latitude guard clause works", {
-
-  # TODO: check for Bluebird at the expected url and stop if unavailable.
 
   aircraft_id <- "test1234"
   type <- "B744"
@@ -65,8 +63,6 @@ test_that("the create_aircraft latitude guard clause works", {
 
 test_that("the create_aircraft longitude guard clause works", {
 
-  # TODO: check for Bluebird at the expected url and stop if unavailable.
-
   aircraft_id <- "test1234"
   type <- "B744"
   latitude <- 0
@@ -105,8 +101,6 @@ test_that("the create_aircraft longitude guard clause works", {
 
 test_that("the create_aircraft heading guard clause works", {
 
-  # TODO: check for Bluebird at the expected url and stop if unavailable.
-
   aircraft_id <- "test1234"
   type <- "B744"
   latitude <- 0
@@ -144,8 +138,6 @@ test_that("the create_aircraft heading guard clause works", {
 })
 
 test_that("the create_aircraft altitude guard clause works", {
-
-  # TODO: check for Bluebird at the expected url and stop if unavailable.
 
   aircraft_id <- "test1234"
   type <- "B744"
@@ -214,8 +206,6 @@ test_that("the create_aircraft altitude guard clause works", {
 
 test_that("the create_aircraft heading guard clause works", {
 
-  # TODO: check for Bluebird at the expected url and stop if unavailable.
-
   aircraft_id <- "test1234"
   type <- "B744"
   latitude <- 0
@@ -253,8 +243,6 @@ test_that("the create_aircraft heading guard clause works", {
 })
 
 test_that("the create_aircraft flight_level guard clause works", {
-
-  # TODO: check for Bluebird at the expected url and stop if unavailable.
 
   aircraft_id <- "test1234"
   type <- "B744"
@@ -299,8 +287,6 @@ test_that("the create_aircraft flight_level guard clause works", {
 })
 
 test_that("the create_aircraft speed guard clause works", {
-
-  # TODO: check for Bluebird at the expected url and stop if unavailable.
 
   aircraft_id <- "test1234"
   type <- "B744"
