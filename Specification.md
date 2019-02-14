@@ -5,7 +5,7 @@
 **Function name:** `create_simulation`
 
 **Parameters:**
-- `filename`: A string indicating path to scenario file.
+- `filename`: A string indicating path to scenario file. The path is relative to BlueSky root directory (e.g., `scenario/8.SCN`).
 
 **Return value:** A boolean, `TRUE` indicates success.
 
@@ -19,7 +19,7 @@
 
 **Return value:** A boolean, `TRUE` indicates success.
 
-**Description:** Reset simulation to the start of the currently running scenario.
+**Description:** Reset simulation to the start of the currently running scenario (if one is running).
 
 ## Create aircraft
 
