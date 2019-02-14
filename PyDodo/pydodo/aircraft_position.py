@@ -14,7 +14,7 @@ from .utils import construct_endpoint_url
 def _check_aircraft_id(aircraft_id):
     """Check that aircraft_id is a string or a list of strings."""
     try:
-        return bool(aircraft_id) and all(isinstance(elem, str) for elem in aircraft_id)
+        return bool(aircraft_id) and all(isinstance(elem, str) and len(elem) >= 3 for elem in aircraft_id)
     except:
         return False
 
@@ -79,7 +79,7 @@ def aircraft_position(aircraft_id="all"):
     :param aircraft_id: 'all', single aircraft ID or list of aircraft IDs
     :return: list of aircraft position dictionaries, one for each aircraft_id
     """
-    assert _check_aircraft_id(aircraft_id), 'Invalid input {} for aircraft id'.format(aircraft_id)
+    assert _check_aircraft_id(aircraft_id), 'Invalid input {} for aircraft id, must be string with at least three characters'.format(aircraft_id)
 
     if aircraft_id == 'all':
         aircraft_positions = get_all_request()
