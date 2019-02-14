@@ -56,4 +56,7 @@ def create_aircraft(aircraft_id, type, latitude, longitude, heading, altitude, f
 
 	resp = requests.post(url, json=json)
 
-	print('{} - {}'.format(resp.status_code, resp.json()))
+	# print('{} - {}'.format(resp.status_code, resp.json()))
+	if resp.status_code == 200:
+		return True
+	return False
