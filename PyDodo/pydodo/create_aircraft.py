@@ -48,6 +48,7 @@ def create_aircraft(aircraft_id, type, latitude, longitude, heading, altitude, f
 	assert _check_latitude(latitude), 'Invalid value {} for latitude'.format(latitude)
 	assert _check_longitude(longitude), 'Invalid value {} for longitude'.format(longitude)
 	assert _check_heading(heading), 'Invalid value {} for heading'.format(heading)
+	assert _check_speed(speed), 'Invalid value {} for speed'.format(speed)
 	alt = parse_alt(altitude, flight_level)
 
 	json = {'acid': aircraft_id, 'type': type, 'lat': latitude, 'lon': longitude, 'hdg': heading,
