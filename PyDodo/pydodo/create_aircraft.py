@@ -20,11 +20,18 @@ def _check_altitude(alt):
 
 
 def _check_flight_level(fl):
-	return int(fl[2:]) > 60
+	return flt >= 60
 
 
 def _check_speed(spd):
 	return spd >= 0
+
+
+def _check_string_input(input):
+    """Check that input is a non-empty string"""
+    if type(input) == str:
+        return len(input) >= 1
+    return False
 
 
 endpoint = 'cre'
@@ -37,7 +44,7 @@ def parse_alt(alt, fl):
 	else:
 		assert fl is not None, 'Must specify a valid altitude or a flight level'
 		assert _check_flight_level(fl), 'Invalid value {} for flight_level'.format(fl)
-		alt = fl
+		alt = "FL{}".format(fl)
 
 	return alt
 
@@ -45,6 +52,8 @@ def parse_alt(alt, fl):
 def create_aircraft(aircraft_id, type, latitude, longitude, heading, altitude, flight_level, speed):
 	url = construct_endpoint_url(endpoint)
 
+	assert _check_string_input(aircraft_id), 'Invalid value {} for aircraft_id'.format(aircraft_id)
+	assert _check_string_input(type), 'Invalid value {} for type'.format(type)
 	assert _check_latitude(latitude), 'Invalid value {} for latitude'.format(latitude)
 	assert _check_longitude(longitude), 'Invalid value {} for longitude'.format(longitude)
 	assert _check_heading(heading), 'Invalid value {} for heading'.format(heading)
