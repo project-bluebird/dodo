@@ -1,7 +1,7 @@
 """
-Get position information for a single or multiple aircrafts. Can request specific aircraft ID or all aircrafts in the simulation.
+Get position information for a single or all aircrafts currently in the simulation.
 
-Return requested aircraft positions as pandas dataframe. Rows are NULL if aircraft ID does not exist.
+Return requested aircraft position(s) as pandas dataframe. Rows are NULL if aircraft ID does not exist.
 """
 
 import requests
@@ -12,11 +12,10 @@ import pandas as pd
 from .utils import construct_endpoint_url
 
 def _check_aircraft_id(aircraft_id):
-    """Check that aircraft_id is a string or a list of strings."""
-    try:
-        return bool(aircraft_id) and all(isinstance(elem, str) and len(elem) >= 3 for elem in aircraft_id)
-    except:
-        return False
+    """Check that aircraft_id is a non-empty string"""
+    if type(aircraft_id) == str:
+        return len(aircraft_id) >= 1
+    return False
 
 def format_output(aircraft_pos):
     """
@@ -44,14 +43,14 @@ def get_all_request():
         pos_data = {aircraft["acid"]:format_output(aircraft) for aircraft in json_data}
         pos_dict = pd.DataFrame.from_dict(pos_data, orient='index')
         return pos_dict
-    return False
+    return resp.status_code
 
 def get_pos_request(aircraft_id):
     """
     Get position dictionary for aircraft_id.
 
     :param aircraft_id :
-    :return : dictionary with position data or NULL if aircraft_id does not exist
+    :return : dataframe with position data or NULL if aircraft_id does not exist
     """
     endpoint="pos"
     url = construct_endpoint_url(endpoint)
@@ -61,7 +60,7 @@ def get_pos_request(aircraft_id):
         pos_data = {aircraft_id:format_output(json_data)}
         pos_dict = pd.DataFrame.from_dict(pos_data, orient='index')
         return pos_dict
-    # elif resp.status_code == 404:
+    # elif resp.status_code == 404: #NOT FOUND
     else:
         return pd.DataFrame({
             "acid":aircraft_id,
@@ -76,15 +75,13 @@ def aircraft_position(aircraft_id="all"):
     """
     Get position of aircraft, all or by aircraft_id.
 
-    :param aircraft_id: 'all', single aircraft ID or list of aircraft IDs
-    :return: list of aircraft position dictionaries, one for each aircraft_id
+    :param aircraft_id: 'all' or single aircraft ID
+    :return: dataframe with aircraft positions, row for each aircraft_id
     """
-    assert _check_aircraft_id(aircraft_id), 'Invalid input {} for aircraft id, must be string with at least three characters'.format(aircraft_id)
+    assert _check_aircraft_id(aircraft_id), 'Invalid input {} for aircraft id'.format(aircraft_id)
 
     if aircraft_id == 'all':
         aircraft_positions = get_all_request()
-    elif type(aircraft_id) == list:
-        aircraft_positions = pd.concat([get_pos_request(id) for id in aircraft_id])
     else:
         aircraft_positions = get_pos_request(aircraft_id)
     return aircraft_positions
