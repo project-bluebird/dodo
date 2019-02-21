@@ -7,8 +7,8 @@
 found_bluebird()
 }
 \value{
-A boolean, \code{TRUE} indicates a valid response was received from
-the BlueBird API.
+A boolean, \code{TRUE} indicates that a request to the BlueBird URL
+was successful.
 }
 \description{
 Check communication with BlueBird

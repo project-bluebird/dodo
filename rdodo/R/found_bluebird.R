@@ -1,25 +1,22 @@
 #' Check communication with BlueBird
 #'
-#' @return A boolean, \code{TRUE} indicates a valid response was received from
-#' the BlueBird API.
+#' @return A boolean, \code{TRUE} indicates that a request to the BlueBird URL
+#' was successful.
 #'
 #' @examples
 #' \dontrun{
 #' found_bluebird()
 #' }
 #'
+#' @import httr
 #' @export
 found_bluebird <- function() {
 
   tryCatch({
-      # TODO:
-      # Temporary use of the reset command to check communication
-      # (to be replaced with a "ping" endpoint when available).
-      reset_simulation()
-    },
-    error=function(cond) {
-      message(paste(cond))
-      return(FALSE)
-    }
-  )
+    !httr::http_error(get_bluebird_url())
+  },
+  error=function(cond) {
+    message(paste(cond))
+    return(FALSE)
+  })
 }
