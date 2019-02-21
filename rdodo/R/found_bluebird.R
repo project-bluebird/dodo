@@ -11,26 +11,15 @@
 #' @export
 found_bluebird <- function() {
 
-  response <- tryCatch({
-      # TODO (temporary use of the "ic" command to check communication):
-      httr::POST(url = construct_endpoint_url(endpoint = "ic"))
+  tryCatch({
+      # TODO:
+      # Temporary use of the reset command to check communication
+      # (to be replaced with a "ping" endpoint when available).
+      reset_simulation()
     },
     error=function(cond) {
       message(paste(cond))
       return(FALSE)
     }
   )
-
-  if (identical(response, FALSE))
-    return(FALSE)
-
-  # TODO: Temporary:
-  if (httr::status_code(response) == 418)
-    return(TRUE)
-
-  # 202 status code: Accepted for processing.
-  if (httr::status_code(response) == 202)
-    return(TRUE)
-
-  FALSE
 }

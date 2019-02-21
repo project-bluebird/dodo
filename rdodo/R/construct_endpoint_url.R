@@ -10,5 +10,6 @@
 #' @export
 construct_endpoint_url <- function(endpoint) {
 
+  # TODO: hard-coded API version number.
   paste0(get_bluebird_url(), "/api/v1/", endpoint)
 }
