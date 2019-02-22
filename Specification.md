@@ -6,9 +6,6 @@ Dodo is a scaffold for air traffic control (ATC) agents implemented in Python an
 
 A shared `config.yaml` file exists for both rdodo and PyDodo, specifying common required parameters, settings and test cases.
 
-TO DO:  
-A separate `config.yaml` should exist for each simulator with an easy way of specifying which to use.
-
 # Commands
 
 ### Create scenario simulation
@@ -16,11 +13,13 @@ A separate `config.yaml` should exist for each simulator with an easy way of spe
 **Function name:** `create_simulation`
 
 **Parameters:**
-- `filename`: A string indicating path to scenario file. The path is relative to the simulator (e.g., BlueSky) root directory (e.g., `scenario/8.SCN`).
+- `filename`: A string indicating path to scenario file. 
 
 **Return value:** A boolean, `TRUE` indicates success.
 
 **Description:** Load scenario file and begin simulation.
+
+Currently, the path is relative to the simulator (e.g., BlueSky) root directory (e.g., `scenario/8.SCN`). 
 
 ### Reset the simulation
 
@@ -73,7 +72,7 @@ If aircraft ID does not exist, returns row with NULLs for that aircraft ID.
 
 ### Change aircraft altitude
 
-**Function name:** `change_aircraft_altitude`
+**Function name:** `change_altitude`
 
 **Parameters:**
 - `aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
@@ -86,7 +85,7 @@ If aircraft ID does not exist, returns row with NULLs for that aircraft ID.
 
 ### Change aircraft heading
 
-**Function name:** `change_aircraft_heading`
+**Function name:** `change_heading`
 
 **Parameters:**
 - `aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
@@ -98,7 +97,7 @@ If aircraft ID does not exist, returns row with NULLs for that aircraft ID.
 
 ### Change aircraft vertical speed
 
-**Function name:** `change_aircraft_vertical_speed`
+**Function name:** `change_vertical_speed`
 
 **Parameters:**
 - `aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
@@ -110,7 +109,7 @@ If aircraft ID does not exist, returns row with NULLs for that aircraft ID.
 
 ### Change aircraft speed
 
-**Function name:** `change_aircraft_speed`
+**Function name:** `change_speed`
 
 **Parameters:**
 - `aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
