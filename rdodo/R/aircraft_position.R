@@ -39,8 +39,8 @@ aircraft_position <- function(aircraft_id = NULL) {
 }
 
 position_call <- function(query_body) {
-  response <-
-    httr::GET(url = construct_endpoint_url(endpoint = "pos"),
+  endpoint <- config::get("endpoint_aircraft_position")
+  response <- httr::GET(url = construct_endpoint_url(endpoint = endpoint),
               query = list(arcid = query_body))
 
   if (httr::http_type(response) != "application/json") {

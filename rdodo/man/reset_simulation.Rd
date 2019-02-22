@@ -7,7 +7,7 @@
 reset_simulation()
 }
 \value{
-A boolean, \code{TRUE} indicates success.
+\code{TRUE} if successful. Otherwise \code{FALSE} and an error is thrown.
 }
 \description{
 Reset the simulation

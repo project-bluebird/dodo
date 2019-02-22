@@ -1,21 +1,26 @@
 #' Reset the simulation
 #'
-#' @return A boolean, \code{TRUE} indicates success.
+#' @return \code{TRUE} if successful. Otherwise \code{FALSE} and an error is thrown.
 #'
 #' @examples
 #' \dontrun{
 #' reset_simulation()
 #' }
 #'
-#' @import httr
+#' @import httr config
 #' @export
 reset_simulation <- function() {
 
-  # TODO: hard-coded endpoint.
-  response <- httr::POST(url = construct_endpoint_url(endpoint = "reset"))
+  endpoint <- config::get("endpoint_reset_simulation")
+  response <- tryCatch({
+    httr::POST(url = construct_endpoint_url(endpoint = endpoint))
+  },
+  error=function(cond) {
+    stop(paste(conditionMessage(cond)))
+  })
 
   if (httr::status_code(response) == 200)
     return(TRUE)
 
-  stop(paste("Response status unsuccessful:", httr::status_code(response)))
+  stop(paste("Response status:", httr::status_code(response)))
 }

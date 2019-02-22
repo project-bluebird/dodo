@@ -38,6 +38,8 @@ create_aircraft <- function(aircraft_id,
                             flight_level = NULL,
                             speed) {
 
+  ## TODO: replace hard-coded numbers with config parameters.
+
   stopifnot(is.character(aircraft_id), length(aircraft_id) == 1)
   stopifnot(is.character(type), length(type) == 1)
 
@@ -80,8 +82,8 @@ create_aircraft <- function(aircraft_id,
     "spd" = speed
   )
 
-  # TODO: hard-coded endpoint.
-  response <- httr::POST(url = construct_endpoint_url(endpoint = "cre"),
+  endpoint <- config::get("endpoint_create_aircraft")
+  response <- httr::POST(url = construct_endpoint_url(endpoint = endpoint),
                          body = body, encode = "json")
 
   if (httr::status_code(response) == 200)
