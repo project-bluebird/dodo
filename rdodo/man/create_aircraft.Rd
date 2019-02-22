@@ -36,5 +36,4 @@ but not both.
 \dontrun{
 create_aircraft("test1234", "B744", 0, 0, 0, flight_level = 250, speed = 200)
 }
-
 }

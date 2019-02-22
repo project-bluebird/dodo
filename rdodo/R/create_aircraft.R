@@ -27,7 +27,7 @@
 #' \dontrun{
 #' create_aircraft("test1234", "B744", 0, 0, 0, flight_level = 250, speed = 200)
 #' }
-#'
+#' @import config httr
 #' @export
 create_aircraft <- function(aircraft_id,
                             type,
@@ -62,14 +62,14 @@ create_aircraft <- function(aircraft_id,
       flight_level <- as.integer(flight_level)
     }
     stopifnot(is.integer(flight_level), length(flight_level) == 1,
-              flight_level >= 60)
+              flight_level >= config::get("flight_level_lower_limit"))
 
     # Flight level unit corresponds to hundreds of feet.
     altitude <- flight_level * 100
   }
   if (is.null(flight_level)) {
     stopifnot(is.double(altitude), length(altitude) == 1,
-              altitude >= 0, altitude <= 6000)
+              altitude >= 0, altitude <= config::get("feet_altitude_upper_limit"))
   }
 
   body <- list(

@@ -1,6 +1,12 @@
 default:
   host: "localhost"
   port: "5001"
+  
+  # Bluebird API endpoints
   endpoint_reset_simulation: "reset"
   endpoint_create_aircraft: "cre"
   endpoint_aircraft_position: "pos"
+
+  # Physical
+  feet_altitude_upper_limit: 6000
+  flight_level_lower_limit: 60
