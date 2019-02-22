@@ -8,7 +8,7 @@ A shared `config.yaml` file exists for both rdodo and PyDodo, specifying common 
 
 # Commands
 
-### Create scenario simulation
+## Create scenario simulation
 
 **Function name:** `create_simulation`
 
@@ -21,7 +21,7 @@ A shared `config.yaml` file exists for both rdodo and PyDodo, specifying common 
 
 Currently, the path is relative to the simulator (e.g., BlueSky) root directory (e.g., `scenario/8.SCN`). 
 
-### Reset the simulation
+## Reset the simulation
 
 **Function name:** `reset_simulation`
 
@@ -31,7 +31,7 @@ Currently, the path is relative to the simulator (e.g., BlueSky) root directory 
 
 **Description:** Reset simulation to the start of the currently running scenario (if one is running).
 
-### Create aircraft
+## Create aircraft
 
 **Function name:** `create_aircraft`
 
@@ -51,7 +51,7 @@ Either the `altitude` or `flight_level` argument must be given, but not both.
 
 **Description:** Initiate a new aircraft in the simulation at the given position, heading and speed.
 
-### Get aircraft position
+## Get aircraft position
 
 **Function name:** `aircraft_position`
 
@@ -70,7 +70,7 @@ If aircraft ID does not exist, returns row with NULLs for that aircraft ID.
 
 **Description:** Get position information for a single or all aircrafts currently in the simulation.
 
-### Change aircraft altitude
+## Change aircraft altitude
 
 **Function name:** `change_altitude`
 
@@ -83,7 +83,7 @@ If aircraft ID does not exist, returns row with NULLs for that aircraft ID.
 
 **Description:** Request change to aircraft altitude.
 
-### Change aircraft heading
+## Change aircraft heading
 
 **Function name:** `change_heading`
 
@@ -95,7 +95,7 @@ If aircraft ID does not exist, returns row with NULLs for that aircraft ID.
 
 **Description:** Request change to aircraft heading.
 
-### Change aircraft vertical speed
+## Change aircraft vertical speed
 
 **Function name:** `change_vertical_speed`
 
@@ -107,7 +107,7 @@ If aircraft ID does not exist, returns row with NULLs for that aircraft ID.
 
 **Description:** Request change to aircraft vertical speed.
 
-### Change aircraft speed
+## Change aircraft speed
 
 **Function name:** `change_speed`
 
