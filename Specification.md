@@ -95,7 +95,7 @@ Either the `altitude` or `flight_level` argument must be given, but not both.
 - `aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
 - `heading`: A double in the range [0, 360). The aircraft's heading in degrees.
 
-**Return value:** A boolean, `TRUE` indicates success.
+**Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
 **Description:** Request change to aircraft heading.
 
