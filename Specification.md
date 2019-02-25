@@ -77,8 +77,11 @@ If any parameter is invalid, or the response from Bluebird contains an error sta
 
 **Parameters:**
 - `aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
-- `altitude`: A double in the range [0, 6000]. The aircraft's altitude in feet.
+- `altitude`: A double in the range [0, 6000]. The aircraft's altitude in feet. For altitudes in excess of 6000ft a flight level should be specified instead.
+- `flight_level`: A integer of 60 or more. The aircraft's flight level.
 - `vertical_speed`: A optional double. The aircraft's vertical speed in feet/min (units according to BlueSky docs).
+
+Either the `altitude` or `flight_level` argument must be given, but not both.
 
 **Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
