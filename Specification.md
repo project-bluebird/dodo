@@ -15,7 +15,7 @@ A shared `config.yaml` file exists for both rdodo and PyDodo, specifying common 
 **Parameters:**
 - `filename`: A string indicating path to scenario file. 
 
-**Return value:** A boolean, `TRUE` indicates success.
+**Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
 **Description:** Load scenario file and begin simulation.
 
@@ -27,7 +27,7 @@ Currently, the path is relative to the simulator (e.g., BlueSky) root directory 
 scenario
 **Parameters:**
 
-**Return value:** A boolean, `TRUE` indicates success.
+**Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
 **Description:** Reset simulation to the start of the currently running scenario (if one is running).
 
@@ -47,7 +47,7 @@ scenario
 
 Either the `altitude` or `flight_level` argument must be given, but not both.
 
-**Return value:** A boolean, `TRUE` indicates success.
+**Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
 **Description:** Initiate a new aircraft in the simulation at the given position, heading and speed.
 
@@ -79,7 +79,7 @@ If aircraft ID does not exist, returns row with NULLs for that aircraft ID.
 - `altitude`: A double in the range [0, 6000]. The aircraft's altitude in feet.
 - `vertical_speed`: A optional double. The aircraft's vertical speed in feet/min (units according to BlueSky docs).
 
-**Return value:** A boolean, `TRUE` indicates success.
+**Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
 **Description:** Request change to aircraft altitude.
 
@@ -103,7 +103,7 @@ If aircraft ID does not exist, returns row with NULLs for that aircraft ID.
 - `aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
 - `vertical_speed`: A double. The aircraft's vertical speed in feet/min (units according to BlueSky docs).
 
-**Return value:** A boolean, `TRUE` indicates success.
+**Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
 **Description:** Request change to aircraft vertical speed.
 
@@ -115,6 +115,6 @@ If aircraft ID does not exist, returns row with NULLs for that aircraft ID.
 - `aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
 - `speed`: A non-negative double. The aircraft's speed in knots.
 
-**Return value:** A boolean, `TRUE` indicates success.
+**Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
 **Description:** Request change to aircraft speed.
