@@ -1,9 +1,12 @@
 default:
   host: "localhost"
   port: "5001"
+  api_path: "api"
+  api_version: "v1"
   
   # Bluebird API endpoints (to be removed in favour of OpenAPI)
   endpoint_reset_simulation: "reset"
+  endpoint_load_scenario: "ic"
   endpoint_create_aircraft: "cre"
   endpoint_aircraft_position: "pos"
   endpoint_change_altitude: "alt"
