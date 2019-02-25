@@ -67,6 +67,8 @@ Either the `altitude` or `flight_level` argument must be given, but not both.
 
 If aircraft ID does not exist, returns row with NULLs for that aircraft ID.
 
+If any parameter is invalid, or the response from Bluebird contains an error status code, an exception is thrown.
+
 **Description:** Get position information for a single or all aircrafts currently in the simulation.
 
 ## Change aircraft altitude
