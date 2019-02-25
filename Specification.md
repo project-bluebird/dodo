@@ -8,9 +8,9 @@ A shared `config.yaml` file exists for both rdodo and PyDodo, specifying common 
 
 # Commands
 
-## Create scenario simulation
+## Load simulation
 
-**Function name:** `create_simulation`
+**Function name:** `load_simulation`
 
 **Parameters:**
 - `filename`: A string indicating path to scenario file. 
@@ -24,7 +24,7 @@ Currently, the path is relative to the simulator (e.g., BlueSky) root directory 
 ## Reset the simulation
 
 **Function name:** `reset_simulation`
-
+scenario
 **Parameters:**
 
 **Return value:** A boolean, `TRUE` indicates success.
