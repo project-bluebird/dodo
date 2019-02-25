@@ -19,8 +19,6 @@ reset_simulation <- function() {
     stop(paste(conditionMessage(cond)))
   })
 
-  if (httr::status_code(response) == 200)
-    return(TRUE)
-
-  stop(paste("Response status:", httr::status_code(response)))
+  validate_response(response)
+  TRUE
 }

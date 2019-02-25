@@ -84,8 +84,6 @@ create_aircraft <- function(aircraft_id,
   response <- httr::POST(url = construct_endpoint_url(endpoint = endpoint),
                          body = body, encode = "json")
 
-  if (httr::status_code(response) == 200)
-    return(TRUE)
-
-  FALSE
+  validate_response(response)
+  TRUE
 }
