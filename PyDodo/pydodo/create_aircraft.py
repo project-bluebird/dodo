@@ -1,7 +1,9 @@
 import requests
 
+from . import settings
 from .utils import construct_endpoint_url
 
+endpoint = settings.default['endpoint_create_aircraft']
 
 def _check_latitude(lat):
 	return abs(lat) <= 90
@@ -20,7 +22,7 @@ def _check_altitude(alt):
 
 
 def _check_flight_level(fl):
-	return flt >= 60
+	return fl >= 60
 
 
 def _check_speed(spd):
@@ -32,9 +34,6 @@ def _check_string_input(input):
     if type(input) == str:
         return len(input) >= 1
     return False
-
-
-endpoint = 'cre'
 
 
 def parse_alt(alt, fl):
@@ -60,12 +59,11 @@ def create_aircraft(aircraft_id, type, latitude, longitude, heading, altitude, f
 	assert _check_speed(speed), 'Invalid value {} for speed'.format(speed)
 	alt = parse_alt(altitude, flight_level)
 
-	json = {'acid': aircraft_id, 'type': type, 'lat': latitude, 'lon': longitude, 'hdg': heading,
-	        'alt': alt, 'spd': speed}
+	json = {'acid': aircraft_id, 'type': type, 'lat': latitude, 'lon': longitude,
+			'hdg': heading, 'alt': alt, 'spd': speed}
 
 	resp = requests.post(url, json=json)
 
-	# print('{} - {}'.format(resp.status_code, resp.json()))
 	if resp.status_code == 200:
 		return True
 	return False

@@ -10,7 +10,7 @@ class PyDodo:
 		print('PyDodo constructed!')
 
 	def create_aircraft_test(self):
-		create_aircraft('TST1001', 'B744', 55.945336, -3.187299, 123.45, None, 'FL160', 250.25)
+		create_aircraft('TST1001', 'B744', 55.945336, -3.187299, 123.45, None, 160, 250.25)
 
 	def reset_simulation_test(self):
 		print("Reset simulation successful: {0}".format(reset_simulation()))

@@ -9,7 +9,10 @@ import json
 import numpy as np
 import pandas as pd
 
+from . import settings
 from .utils import construct_endpoint_url
+
+endpoint = settings.default['endpoint_aircraft_position']
 
 def _check_aircraft_id(aircraft_id):
     """Check that aircraft_id is a non-empty string"""
@@ -22,7 +25,6 @@ def format_output(aircraft_pos):
     Format aircraft position dictionary returned by bluebird.
     """
     position_formatted = {
-        "acid":aircraft_pos["acid"],
         "altitude":aircraft_pos["alt"],
         "ground_speed":aircraft_pos["gs"],
         "latitude":aircraft_pos["lat"],
@@ -35,15 +37,16 @@ def get_all_request():
     """
     Get position dictionary for all aircraft.
     """
-    endpoint="pos"
     url = construct_endpoint_url(endpoint)
-    resp = requests.get(url, json={"acid": "all"})
+    resp = requests.get(url, params={"acid": "all"})
     if resp.status_code == 200:
         json_data = json.loads(resp.text)
-        pos_data = {aircraft["acid"]:format_output(aircraft) for aircraft in json_data}
+        pos_data = {aircraft:format_output(json_data[aircraft]) for aircraft in json_data.keys()}
         pos_dict = pd.DataFrame.from_dict(pos_data, orient='index')
         return pos_dict
-    return resp.status_code
+    else:
+        # TO DO: CHANGE WHAT IS RETURNED
+        return resp.status_code
 
 def get_pos_request(aircraft_id):
     """
@@ -52,24 +55,24 @@ def get_pos_request(aircraft_id):
     :param aircraft_id :
     :return : dataframe with position data or NULL if aircraft_id does not exist
     """
-    endpoint="pos"
     url = construct_endpoint_url(endpoint)
-    resp = requests.get(url, json={"acid": aircraft_id})
+    resp = requests.get(url, params={"acid": aircraft_id})
     if resp.status_code == 200:
         json_data = json.loads(resp.text)
         pos_data = {aircraft_id:format_output(json_data)}
         pos_dict = pd.DataFrame.from_dict(pos_data, orient='index')
         return pos_dict
-    # elif resp.status_code == 404: #NOT FOUND
-    else:
+    elif resp.status_code == 404: #aircraft_id NOT FOUND
         return pd.DataFrame({
-            "acid":aircraft_id,
             "altitude":np.nan,
             "ground_speed":np.nan,
             "latitude":np.nan,
             "longitude":np.nan,
             "vertical_speed":np.nan
             }, index=[aircraft_id])
+    else:
+        # TO DO: CHANGE WHAT IS RETURNED
+        return resp.status_code
 
 def aircraft_position(aircraft_id="all"):
     """
