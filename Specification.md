@@ -59,8 +59,7 @@ Either the `altitude` or `flight_level` argument must be given, but not both.
 - `aircraft_id`: Optional string `all` or single aircraft ID. For the BlueSky simulator, this has to be at least three characters.
 
 **Return value:** Dataframe indexed by aircraft ID with columns:
-  - `aircraft_id`: A string aircraft identifier.
-  - `altitude`: A double in the range [0, 6000]. The aircraft's altitude in feet.
+  - `altitude`: A non-negatige double. The aircraft's altitude in feet.
   - `ground_speed`: A non-negative double. The aircraft's ground speed in knots.
   - `latitude`: A double in the range [-90, 90]. The aircraft's latitude.
   - `longitude`: A double in the range [-180, 180). The aircraft's longitude.
