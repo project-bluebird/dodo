@@ -38,8 +38,6 @@ create_aircraft <- function(aircraft_id,
                             flight_level = NULL,
                             speed) {
 
-  ## TODO: replace hard-coded numbers with config parameters.
-
   stopifnot(is.character(aircraft_id), length(aircraft_id) == 1)
   stopifnot(is.character(type), length(type) == 1)
 
