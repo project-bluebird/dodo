@@ -7,9 +7,12 @@
 #' @examples
 #' construct_endpoint_url(endpoint = "ic")
 #'
+#' @import httr
 #' @export
-construct_endpoint_url <- function(endpoint) {
+construct_endpoint_url <- function(endpoint, query = NULL) {
 
-  # TODO: hard-coded API version number.
-  paste0(get_bluebird_url(), "/api/v1/", endpoint)
+  path <- paste(config::get("api_path"), config::get("api_version"), endpoint,
+                sep = "/")
+
+  httr::modify_url(bluebird_url(), path = path, query = query)
 }

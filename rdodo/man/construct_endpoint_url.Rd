@@ -4,7 +4,7 @@
 \alias{construct_endpoint_url}
 \title{Construct a Bluebird API endpoint URL}
 \usage{
-construct_endpoint_url(endpoint)
+construct_endpoint_url(endpoint, query = NULL)
 }
 \arguments{
 \item{endpoint}{A string}
