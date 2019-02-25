@@ -24,12 +24,12 @@ Currently, the path is relative to the simulator (e.g., BlueSky) root directory 
 ## Reset the simulation
 
 **Function name:** `reset_simulation`
-scenario
-**Parameters:**
+
+**Parameters:** None
 
 **Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
-**Description:** Reset simulation to the start of the currently running scenario (if one is running).
+**Description:** Reset simulation to the start of the currently running scenario.
 
 ## Create aircraft
 
