@@ -16,7 +16,7 @@ def _check_heading(hdg):
 
 
 def _check_altitude(alt):
-	return 0 <= alt < 6000
+	return 0 <= alt <= 6000
 
 
 def _check_flight_level(fl):
