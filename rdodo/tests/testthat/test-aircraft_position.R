@@ -101,8 +101,9 @@ test_that("the aircraft_position function works with vector argument", {
   expect_identical(object = result[aircraft_id_1, "altitude"],
                    expected = flight_level_1 * 100)
 
-  expect_identical(object = result[aircraft_id_1, "ground_speed"],
-                   expected = speed_1)
+  # Ground speed differs from indicated speed, so allow a tolerance of +/- 5%.
+  expect_equal(object = result[aircraft_id_1, "ground_speed"],
+               expected = speed_1, tolerance = 0.05)
 
   expect_true(object = result[aircraft_id_1, "latitude"] > 0)
   expect_identical(object = result[aircraft_id_1, "longitude"], expected = 0)
@@ -111,8 +112,9 @@ test_that("the aircraft_position function works with vector argument", {
   expect_identical(object = result[aircraft_id_2, "altitude"],
                    expected = flight_level_2 * 100)
 
-  expect_identical(object = result[aircraft_id_2, "ground_speed"],
-                   expected = speed_2)
+  # Ground speed differs from indicated speed, so allow a tolerance of +/- 5%.
+  expect_equal(object = result[aircraft_id_2, "ground_speed"],
+               expected = speed_2, tolerance = 0.05)
 
   expect_true(object = result[aircraft_id_2, "latitude"] < 0)
   expect_identical(object = result[aircraft_id_2, "longitude"], expected = 0)
