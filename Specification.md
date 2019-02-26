@@ -58,7 +58,7 @@ Either the `altitude` or `flight_level` argument must be given, but not both.
 **Parameters:**
 - `aircraft_id`: String aircraft ID. For the BlueSky simulator, this has to be at least three characters.
 
-**Return value:** Dataframe indexed by aircraft ID with columns:
+**Return value:** Dataframe indexed by **uppercase** aircraft ID with columns:
   - `altitude`: A non-negatige double. The aircraft's altitude in feet.
   - `ground_speed`: A non-negative double. The aircraft's ground speed in knots.
   - `latitude`: A double in the range [-90, 90]. The aircraft's latitude.
@@ -77,7 +77,7 @@ If the response from Bluebird contains an error status code, an exception is thr
 
 **Parameters:** None
 
-**Return value:** Dataframe indexed by aircraft ID with columns:
+**Return value:** Dataframe indexed by **uppercase** aircraft ID with columns:
   - `altitude`: A non-negatige double. The aircraft's altitude in feet.
   - `ground_speed`: A non-negative double. The aircraft's ground speed in knots.
   - `latitude`: A double in the range [-90, 90]. The aircraft's latitude.
