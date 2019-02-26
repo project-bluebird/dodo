@@ -3,7 +3,7 @@
 #' @return
 #' \code{TRUE} if successful. Otherwise \code{FALSE} and an error is thrown.
 #'
-#' @params filename
+#' @param filename
 #' A string indicating the relative path to a scenario file.
 #'
 #' @examples
