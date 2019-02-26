@@ -42,6 +42,13 @@ process_parsed_position <- function(parsed, aircraft_id) {
   expected_names <- c("alt", "gs", "lat", "lon", "vs")
   new_names <- c("altitude", "ground_speed", "latitude", "longitude", "vertical_speed")
 
+  # Handle the case of no existing aircraft.
+  if (length(parsed) == 0) {
+    ret <- data.frame(matrix(nrow = 0, ncol = length(new_names)))
+    colnames(ret) <- new_names
+    return(ret)
+  }
+
   # TODO: bluesky returns altitude in metres, not feet.
 
   stopifnot(all(expected_names %in% names(parsed)))
