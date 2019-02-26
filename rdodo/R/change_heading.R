@@ -26,7 +26,7 @@ change_heading <- function(aircraft_id, heading = NULL) {
 
   body <- list(
     "acid" = aircraft_id,
-    "hdg" = altitude
+    "hdg" = heading
   )
   post_call(endpoint = config::get("endpoint_change_heading"), body = body)
 }
