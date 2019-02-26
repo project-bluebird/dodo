@@ -8,7 +8,7 @@
 #' @param aircraft_id
 #' A string aircraft identifier
 #' @param altitude
-#' A double in the range [0, 6000]. The aircraft's altitude in feet.
+#' A double in the range [0, 6000]. The aircraft's new altitude in feet.
 #' For altitudes in excess of 6000ft a flight level should be specified instead.
 #' @param flight_level
 #' A integer of 60 or more. The aircraft's flight level.
@@ -68,10 +68,5 @@ change_altitude <- function(aircraft_id,
     body <- c(body, l)
   }
 
-  endpoint <- config::get("endpoint_change_altitude")
-  response <- httr::POST(url = construct_endpoint_url(endpoint = endpoint),
-                         body = body, encode = "json")
-
-  validate_response(response)
-  TRUE
+  post_call(endpoint = config::get("endpoint_change_altitude"), body = body)
 }

@@ -11,14 +11,5 @@
 #' @export
 reset_simulation <- function() {
 
-  endpoint <- config::get("endpoint_reset_simulation")
-  response <- tryCatch({
-    httr::POST(url = construct_endpoint_url(endpoint = endpoint))
-  },
-  error=function(cond) {
-    stop(paste(conditionMessage(cond)))
-  })
-
-  validate_response(response)
-  TRUE
+  post_call(endpoint = config::get("endpoint_reset_simulation"))
 }

@@ -80,10 +80,5 @@ create_aircraft <- function(aircraft_id,
     "spd" = speed
   )
 
-  endpoint <- config::get("endpoint_create_aircraft")
-  response <- httr::POST(url = construct_endpoint_url(endpoint = endpoint),
-                         body = body, encode = "json")
-
-  validate_response(response)
-  TRUE
+  post_call(endpoint = config::get("endpoint_create_aircraft"), body = body)
 }
