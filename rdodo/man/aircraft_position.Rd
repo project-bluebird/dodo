@@ -4,18 +4,19 @@
 \alias{aircraft_position}
 \title{Get aircraft position}
 \usage{
-aircraft_position(aircraft_id = NULL)
+aircraft_position(aircraft_id)
 }
 \arguments{
-\item{aircraft_id}{(Optional) Single aircraft ID, or a vector of aircraft IDs.
-If no ID is supplied, returns positions of all aircraft in the simulation.
-Aircraft ID is a string with at least three characters.}
+\item{aircraft_id}{(Optional) Single aircraft ID, or a vector of aircraft IDs. If no ID is
+supplied, returns positions of all aircraft in the simulation. Each aircraft
+ID is a string.}
 }
 \value{
-A list of aircraft positions as a named list. Position is NULL if aircraft not found.
+A list of aircraft positions as a data frame with one row per aircraft. The
+row names are aircraft IDs. All columns are NULL if aircraft not found.
 }
 \description{
-Get position of a single or multiple aircraft based on their IDs, or
+Get the position of a single or multiple aircraft based on their IDs, or
 positions of all aircraft in the simulation.
 }
 \examples{
