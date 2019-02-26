@@ -15,7 +15,8 @@
 #' @param vertical_speed
 #' A non-negative double. The requested vertical speed in feet/min.
 #'
-#' @return \code{TRUE} if successful. Otherwise \code{FALSE} and an error is thrown.
+#' @return
+#' \code{TRUE} if successful. Otherwise \code{FALSE} and an error is thrown.
 #'
 #' @examples
 #' \dontrun{
@@ -71,8 +72,6 @@ change_altitude <- function(aircraft_id,
   response <- httr::POST(url = construct_endpoint_url(endpoint = endpoint),
                          body = body, encode = "json")
 
-  if (httr::status_code(response) == 200)
-    return(TRUE)
-
-  FALSE
+  validate_response(response)
+  TRUE
 }

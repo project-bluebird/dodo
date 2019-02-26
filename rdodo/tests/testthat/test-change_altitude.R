@@ -30,7 +30,8 @@ test_that("the change_altitude function works", {
 
   # Check the altitude.
   position <- aircraft_position(aircraft_id)
-  expect_identical(object = position[["altitude"]], expected = flight_level * 100)
+  expect_equal(object = position[aircraft_id, "altitude"],
+               expected = flight_level * 100)
 
   # Give the command to ascend.
   new_flight_level <- 450
@@ -39,5 +40,5 @@ test_that("the change_altitude function works", {
 
   # Check that the new altitude exceeds the original one.
   new_position <- aircraft_position(aircraft_id)
-  expect_true(new_position[["altitude"]] > flight_level * 100)
+  expect_true(new_position[aircraft_id, "altitude"] > flight_level * 100)
 })
