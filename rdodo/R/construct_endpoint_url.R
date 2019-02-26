@@ -1,6 +1,9 @@
 #' Construct a Bluebird API endpoint URL
 #'
-#' @param endpoint A string
+#' @param endpoint
+#' A string specifying the API endpoint.
+#' @param query
+#' A list of HTTP query parameters.
 #'
 #' @return A string.
 #'

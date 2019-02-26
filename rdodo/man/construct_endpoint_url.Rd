@@ -7,7 +7,9 @@
 construct_endpoint_url(endpoint, query = NULL)
 }
 \arguments{
-\item{endpoint}{A string}
+\item{endpoint}{A string specifying the API endpoint.}
+
+\item{query}{A list of HTTP query parameters.}
 }
 \value{
 A string.

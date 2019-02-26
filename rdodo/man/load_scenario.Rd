@@ -6,6 +6,9 @@
 \usage{
 load_scenario(filename)
 }
+\arguments{
+\item{filename}{A string indicating the relative path to a scenario file.}
+}
 \value{
 \code{TRUE} if successful. Otherwise \code{FALSE} and an error is thrown.
 }
