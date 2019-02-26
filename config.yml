@@ -10,6 +10,7 @@ default:
   endpoint_create_aircraft: "cre"
   endpoint_aircraft_position: "pos"
   endpoint_change_altitude: "alt"
+  query_aircraft_id: "acid"
 
   # Physical
   feet_altitude_upper_limit: 6000
