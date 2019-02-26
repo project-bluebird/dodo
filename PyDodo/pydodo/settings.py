@@ -8,10 +8,10 @@ API_VERSION = 1
 # BB_HOST = '0.0.0.0'
 # BB_PORT = 5001
 
-import os
+from os import path
 import yaml
 
-file_path = os.path.abspath(__file__)
+file_path = path.abspath(__file__)
 root_dir = file_path.split("/PyDodo")[0]
 config_file = "config.yml"
 
