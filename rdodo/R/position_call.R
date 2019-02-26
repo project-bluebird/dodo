@@ -49,8 +49,6 @@ process_parsed_position <- function(parsed, aircraft_id) {
     return(ret)
   }
 
-  # TODO: bluesky returns altitude in metres, not feet.
-
   stopifnot(all(expected_names %in% names(parsed)))
 
   # Rename the elements.
@@ -60,7 +58,8 @@ process_parsed_position <- function(parsed, aircraft_id) {
   # Convert to a data frame.
   ret <- as.data.frame(parsed[new_names])
   rownames(ret) <- aircraft_id
-  ret
+
+  ret %>% normalise_positions_units
 }
 
 # Process the parsed position JSON for multiple aircraft and return a data
@@ -70,4 +69,17 @@ process_parsed_positions <- function(parsed) {
   # Process each position list and bind the rows of the resulting data frames.
   Reduce(f = rbind,
          x = purrr::map2(parsed, names(parsed), .f = process_parsed_position))
+}
+
+# Normalise units of measurement in the positions data.
+normalise_positions_units <- function(df) {
+
+  SCALE_METRES_TO_FEET <- 3.280839895
+
+  # TODO: hard-coded element names.
+  # Bluesky returns altitude in metres, not feet.
+  if (config::get("simulator") == config::get("bluesky_simulator"))
+    df[, "altitude"] <- SCALE_METRES_TO_FEET * df[, "altitude"]
+
+  df
 }

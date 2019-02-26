@@ -40,7 +40,7 @@ test_that("the aircraft_position function works with scalar argument", {
   expected <- c("altitude", "ground_speed", "latitude", "longitude", "vertical_speed")
   expect_identical(object = colnames(result), expected = expected)
 
-  expect_identical(object = result[aircraft_id, "altitude"],
+  expect_equal(object = result[aircraft_id, "altitude"],
                    expected = flight_level * 100)
 
   # Aircaft initial speed may differ from specified speed.
@@ -98,7 +98,7 @@ test_that("the aircraft_position function works with vector argument", {
   expect_identical(object = colnames(result), expected = expected)
 
   # Check aircraft_id_1 entries.
-  expect_identical(object = result[aircraft_id_1, "altitude"],
+  expect_equal(object = result[aircraft_id_1, "altitude"],
                    expected = flight_level_1 * 100)
 
   # Aircaft initial speed may differ from specified speed.
@@ -109,7 +109,7 @@ test_that("the aircraft_position function works with vector argument", {
   expect_identical(object = result[aircraft_id_1, "vertical_speed"], expected = 0)
 
   # Check aircraft_id_2 entries.
-  expect_identical(object = result[aircraft_id_2, "altitude"],
+  expect_equal(object = result[aircraft_id_2, "altitude"],
                    expected = flight_level_2 * 100)
 
   # Aircaft initial speed may differ from specified speed.
