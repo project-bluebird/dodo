@@ -1,6 +1,7 @@
 """
-- Incorrect aircraft_id inputs raise error
-- Output is a dataframe
+Test aircraft_position and all_positions functions:
+    - raise error if invalid aircraft_id is used
+    - output a dataframe
 """
 
 import pytest
@@ -9,9 +10,12 @@ import pandas as pd
 import requests
 import json
 
-from pydodo.aircraft_position import aircraft_position, get_pos_request, get_all_request
+from pydodo.aircraft_position import aircraft_position
+from pydodo.all_positions import all_positions
 from pydodo.utils import ping_bluebird
 from pydodo.utils import construct_endpoint_url
+
+from requests.exceptions import HTTPError
 
 @pytest.mark.parametrize(
     "aircraft_id",
@@ -24,28 +28,13 @@ def test_input_aircraft_id(aircraft_id):
     with pytest.raises(AssertionError):
         aircraft_position(aircraft_id)
 
-def test_request_format():
-    """
-    Check aircraft_position sends request in correct format
-    """
-    with patch.object(requests, 'get') as mock_get:
-        url = construct_endpoint_url("pos")
-
-        aircraft_position()
-        mock_get.assert_called_with(url, params={"acid":"all"})
-
-        aircraft_position('all')
-        mock_get.assert_called_with(url, params={"acid":"all"})
-
-        aircraft_position('TEST1')
-        mock_get.assert_called_with(url, params={"acid":"TEST1"})
-
 def mocked_requests_get(*args, **kwargs):
     class MockResponse:
         def __init__(self, json_data, status_code):
             self.json_data = json_data
             self.status_code = status_code
             self.text = json.dumps(json_data)
+            self.raise_for_status = requests.exceptions.HTTPError
 
     if kwargs['params']["acid"] == 'all':
         return MockResponse(
@@ -66,8 +55,8 @@ def test_output_format(mock_get):
     """
     output = pd.DataFrame.from_dict({"TEST1":{"altitude":7620,  "ground_speed":250.25, "latitude":55.945336, "longitude":-3.187299,  "vertical_speed":0}}, orient='index')
 
-    json_data = get_all_request()
-    assert json_data.equals(output)
-
-    json_data_2 = get_pos_request("TEST1")
-    assert json_data_2.equals(output)
+    json_data_all = all_positions()
+    assert json_data_all.equals(output)
+#
+    json_data_id = aircraft_position("TEST1")
+    assert json_data_id.equals(output)

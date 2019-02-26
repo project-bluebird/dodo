@@ -1,7 +1,9 @@
 """
-Get position information for a single or all aircrafts currently in the simulation.
+Get position information, use:
+    - `all_positions` for all aircraft in simulation
+    - `aircraft_position` to request possition for single aircraft by ID
 
-Return requested aircraft position(s) as pandas dataframe. Rows are NULL if aircraft ID does not exist.
+Return requested aircraft position as pandas dataframe. Rows are NULL if aircraft ID does not exist.
 """
 
 import requests
@@ -10,15 +12,10 @@ import numpy as np
 import pandas as pd
 
 from . import settings
-from .utils import construct_endpoint_url
+from . import utils
 
 endpoint = settings.default['endpoint_aircraft_position']
-
-def _check_aircraft_id(aircraft_id):
-    """Check that aircraft_id is a non-empty string"""
-    if type(aircraft_id) == str:
-        return len(aircraft_id) >= 1
-    return False
+url = utils.construct_endpoint_url(endpoint)
 
 def format_output(aircraft_pos):
     """
@@ -33,29 +30,15 @@ def format_output(aircraft_pos):
     }
     return position_formatted
 
-def get_all_request():
-    """
-    Get position dictionary for all aircraft.
-    """
-    url = construct_endpoint_url(endpoint)
-    resp = requests.get(url, params={"acid": "all"})
-    if resp.status_code == 200:
-        json_data = json.loads(resp.text)
-        pos_data = {aircraft:format_output(json_data[aircraft]) for aircraft in json_data.keys()}
-        pos_dict = pd.DataFrame.from_dict(pos_data, orient='index')
-        return pos_dict
-    else:
-        # TO DO: CHANGE WHAT IS RETURNED
-        return resp.status_code
-
-def get_pos_request(aircraft_id):
+def aircraft_position(aircraft_id):
     """
     Get position dictionary for aircraft_id.
 
     :param aircraft_id :
     :return : dataframe with position data or NULL if aircraft_id does not exist
     """
-    url = construct_endpoint_url(endpoint)
+    assert utils._check_string_input(aircraft_id), 'Invalid input {} for aircraft id'.format(aircraft_id)
+
     resp = requests.get(url, params={"acid": aircraft_id})
     if resp.status_code == 200:
         json_data = json.loads(resp.text)
@@ -71,20 +54,4 @@ def get_pos_request(aircraft_id):
             "vertical_speed":np.nan
             }, index=[aircraft_id])
     else:
-        # TO DO: CHANGE WHAT IS RETURNED
-        return resp.status_code
-
-def aircraft_position(aircraft_id="all"):
-    """
-    Get position of aircraft, all or by aircraft_id.
-
-    :param aircraft_id: 'all' or single aircraft ID
-    :return: dataframe with aircraft positions, row for each aircraft_id
-    """
-    assert _check_aircraft_id(aircraft_id), 'Invalid input {} for aircraft id'.format(aircraft_id)
-
-    if aircraft_id == 'all':
-        aircraft_positions = get_all_request()
-    else:
-        aircraft_positions = get_pos_request(aircraft_id)
-    return aircraft_positions
+        raise requests.HTTPError(resp.text)
