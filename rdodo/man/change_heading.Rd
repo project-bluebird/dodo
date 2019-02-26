@@ -4,7 +4,7 @@
 \alias{change_heading}
 \title{Send a "change heading" command}
 \usage{
-change_heading(aircraft_id, heading = NULL)
+change_heading(aircraft_id, heading)
 }
 \arguments{
 \item{aircraft_id}{A string aircraft identifier}

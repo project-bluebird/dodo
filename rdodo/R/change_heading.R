@@ -16,7 +16,7 @@
 #' }
 #' @import config httr
 #' @export
-change_heading <- function(aircraft_id, heading = NULL) {
+change_heading <- function(aircraft_id, heading) {
 
   stopifnot(is.character(aircraft_id), length(aircraft_id) == 1)
 

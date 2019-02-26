@@ -32,6 +32,10 @@ test_that("the change_heading function works", {
   position <- aircraft_position(aircraft_id)
   expect_identical(object = position[aircraft_id, "longitude"], expected = 0)
 
+  # Test with an invalid heading.
+  invalid_heading <- 400
+  expect_error(change_heading(aircraft_id = aircraft_id, heading = invalid_heading))
+
   # Give the command to change heading.
   new_heading <- 90
   expect_true(change_heading(aircraft_id = aircraft_id, heading = new_heading))
