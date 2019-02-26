@@ -39,9 +39,12 @@ test_that("the all_positions function works when aircraft exist", {
   # Get all positions.
   result <- all_positions()
 
+  # Aircraft IDs are converted to uppercase.
+  aircraft_id_1 <- toupper(aircraft_id_1)
+
   expect_true(is.data.frame(result))
   expect_identical(object = nrow(result), expected = 1L)
-  expect_identical(object = rownames(result), expected = aircraft_id)
+  expect_identical(object = rownames(result), expected = toupper(aircraft_id_1))
   expected <- c("altitude", "ground_speed", "latitude", "longitude", "vertical_speed")
   expect_identical(object = colnames(result), expected = expected)
 
@@ -62,8 +65,8 @@ test_that("the all_positions function works when aircraft exist", {
   latitude_2 <- 0
   longitude_2 <- 0
   heading_2 <- 180
-  flight_level_2 <- 450
-  speed_2 <- 400
+  flight_level_2 <- 200
+  speed_2 <- 300
 
   expect_true(create_aircraft(aircraft_id = aircraft_id_2,
                               type = type_2,
@@ -75,6 +78,9 @@ test_that("the all_positions function works when aircraft exist", {
 
   # Get all positions.
   result <- all_positions()
+
+  # Aircraft IDs are converted to uppercase.
+  aircraft_id_2 <- toupper(aircraft_id_2)
 
   expect_true(is.data.frame(result))
   expect_identical(object = nrow(result), expected = 2L)

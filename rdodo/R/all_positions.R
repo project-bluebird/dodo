@@ -14,5 +14,10 @@
 #' @export
 all_positions <- function() {
 
-  process_parsed_positions(position_call(aircraft_id = "all"))
+  parsed <- position_call(aircraft_id = "all")
+
+  if (length(parsed) == 0)
+    return(process_parsed_position(parsed))
+
+  process_parsed_positions(parsed)
 }
