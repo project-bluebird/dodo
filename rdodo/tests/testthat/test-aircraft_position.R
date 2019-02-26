@@ -6,7 +6,13 @@ skip_if_not(found_bluebird(), message = "BlueBird not found: tests skipped.")
 # Reset the simulation to ensure no aircraft exist initially.
 reset_simulation()
 
-test_that("the aircraft_position function works", {
+test_that("the aircraft_position function works with invalid aircraft ID", {
+
+  aircraft_id <- "NO-SUCH-AIRCRAFT"
+  expect_error(aircraft_position(aircraft_id), regexp = "Invalid")
+})
+
+test_that("the aircraft_position function works with scalar argument", {
 
   aircraft_id <- "test-aircraft-position"
   type <- "B744"
@@ -29,21 +35,24 @@ test_that("the aircraft_position function works", {
   result <- aircraft_position(aircraft_id)
 
   expect_true(is.data.frame(result))
-  expect_identical(object = nrow(result), expected = 1)
+  expect_identical(object = nrow(result), expected = 1L)
   expect_identical(object = rownames(result), expected = aircraft_id)
   expected <- c("altitude", "ground_speed", "latitude", "longitude", "vertical_speed")
   expect_identical(object = colnames(result), expected = expected)
 
   expect_identical(object = result[aircraft_id, "altitude"],
                    expected = flight_level * 100)
-  expect_identical(object = result[aircraft_id, "ground_speed"],
-                   expected = speed)
-  expect_identical(object = result[aircraft_id, "latitude"], expected = 0)
-  expect_true(object = result[aircraft_id, "longitude"] > 0)
+
+  # Ground speed differs from indicated speed, so allow a tolerance of +/- 5%.
+  expect_equal(object = result[aircraft_id, "ground_speed"],
+                   expected = speed, tolerance = 0.05)
+
+  expect_true(object = result[aircraft_id, "latitude"] > 0)
+  expect_identical(object = result[aircraft_id, "longitude"], expected = 0)
   expect_identical(object = result[aircraft_id, "vertical_speed"], expected = 0)
 })
 
-test_that("the aircraft_position function works with NULL argument", {
+test_that("the aircraft_position function works with vector argument", {
 
   # Create two aircraft.
   aircraft_id_1 <- "test-aircraft-position-1"
@@ -79,10 +88,10 @@ test_that("the aircraft_position function works with NULL argument", {
                               speed = speed_2))
 
   # Get their positions.
-  result <- aircraft_position()
+  result <- aircraft_position(c(aircraft_id_1, aircraft_id_2))
 
   expect_true(is.data.frame(result))
-  expect_identical(object = nrow(result), expected = 2)
+  expect_identical(object = nrow(result), expected = 2L)
   expect_identical(object = rownames(result),
                    expected = c(aircraft_id_1, aircraft_id_2))
   expected <- c("altitude", "ground_speed", "latitude", "longitude",
@@ -91,18 +100,21 @@ test_that("the aircraft_position function works with NULL argument", {
 
   expect_identical(object = result[aircraft_id_1, "altitude"],
                    expected = flight_level_1 * 100)
+
   expect_identical(object = result[aircraft_id_1, "ground_speed"],
                    expected = speed_1)
-  expect_identical(object = result[aircraft_id_1, "latitude"], expected = 0)
-  expect_true(object = result[aircraft_id_1, "longitude"] > 0)
+
+  expect_true(object = result[aircraft_id_1, "latitude"] > 0)
+  expect_identical(object = result[aircraft_id_1, "longitude"], expected = 0)
   expect_identical(object = result[aircraft_id_1, "vertical_speed"], expected = 0)
 
   expect_identical(object = result[aircraft_id_2, "altitude"],
                    expected = flight_level_2 * 100)
+
   expect_identical(object = result[aircraft_id_2, "ground_speed"],
                    expected = speed_2)
-  expect_identical(object = result[aircraft_id_2, "latitude"], expected = 0)
-  expect_true(object = result[aircraft_id_2, "longitude"] < 0)
-  expect_identical(object = result[aircraft_id_2, "vertical_speed"], expected = 0)
 
+  expect_true(object = result[aircraft_id_2, "latitude"] < 0)
+  expect_identical(object = result[aircraft_id_2, "longitude"], expected = 0)
+  expect_identical(object = result[aircraft_id_2, "vertical_speed"], expected = 0)
 })
