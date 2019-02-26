@@ -43,9 +43,8 @@ test_that("the aircraft_position function works with scalar argument", {
   expect_identical(object = result[aircraft_id, "altitude"],
                    expected = flight_level * 100)
 
-  # Ground speed differs from indicated speed, so allow a tolerance of +/- 5%.
-  expect_equal(object = result[aircraft_id, "ground_speed"],
-                   expected = speed, tolerance = 0.05)
+  # Aircaft initial speed may differ from specified speed.
+  expect_true(result[aircraft_id, "ground_speed"] > 150)
 
   expect_true(object = result[aircraft_id, "latitude"] > 0)
   expect_identical(object = result[aircraft_id, "longitude"], expected = 0)
@@ -76,8 +75,8 @@ test_that("the aircraft_position function works with vector argument", {
   latitude_2 <- 0
   longitude_2 <- 0
   heading_2 <- 180
-  flight_level_2 <- 450
-  speed_2 <- 400
+  flight_level_2 <- 300
+  speed_2 <- 220
 
   expect_true(create_aircraft(aircraft_id = aircraft_id_2,
                               type = type_2,
@@ -98,25 +97,26 @@ test_that("the aircraft_position function works with vector argument", {
                 "vertical_speed")
   expect_identical(object = colnames(result), expected = expected)
 
+  # Check aircraft_id_1 entries.
   expect_identical(object = result[aircraft_id_1, "altitude"],
                    expected = flight_level_1 * 100)
 
-  # Ground speed differs from indicated speed, so allow a tolerance of +/- 5%.
-  expect_equal(object = result[aircraft_id_1, "ground_speed"],
-               expected = speed_1, tolerance = 0.05)
+  # Aircaft initial speed may differ from specified speed.
+  expect_true(result[aircraft_id_1, "ground_speed"] > 150)
 
   expect_true(object = result[aircraft_id_1, "latitude"] > 0)
   expect_identical(object = result[aircraft_id_1, "longitude"], expected = 0)
   expect_identical(object = result[aircraft_id_1, "vertical_speed"], expected = 0)
 
+  # Check aircraft_id_2 entries.
   expect_identical(object = result[aircraft_id_2, "altitude"],
                    expected = flight_level_2 * 100)
 
-  # Ground speed differs from indicated speed, so allow a tolerance of +/- 5%.
-  expect_equal(object = result[aircraft_id_2, "ground_speed"],
-               expected = speed_2, tolerance = 0.05)
+  # Aircaft initial speed may differ from specified speed.
+  expect_true(result[aircraft_id_2, "ground_speed"] > 150)
 
   expect_true(object = result[aircraft_id_2, "latitude"] < 0)
-  expect_identical(object = result[aircraft_id_2, "longitude"], expected = 0)
+  expect_equal(object = result[aircraft_id_2, "longitude"], expected = 0,
+               tolerance = 10^(-10))
   expect_identical(object = result[aircraft_id_2, "vertical_speed"], expected = 0)
 })
