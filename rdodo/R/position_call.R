@@ -12,7 +12,8 @@
 #' position_call('ABC123')
 #' }
 #'
-#' @import config httr jsonlite
+#' @import config httr
+#' @importFrom jsonlite fromJSON
 #' @export
 position_call <- function(aircraft_id) {
 
