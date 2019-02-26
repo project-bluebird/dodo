@@ -49,6 +49,9 @@ def parse_alt(alt, fl):
 
 
 def create_aircraft(aircraft_id, type, latitude, longitude, heading, altitude, flight_level, speed):
+	"""
+	Create new aircraft. Raises error if inputs are invalid or if aircraft already exists.
+	"""
 	url = construct_endpoint_url(endpoint)
 
 	assert _check_string_input(aircraft_id), 'Invalid value {} for aircraft_id'.format(aircraft_id)
@@ -65,6 +68,6 @@ def create_aircraft(aircraft_id, type, latitude, longitude, heading, altitude, f
 
 	resp = requests.post(url, json=json)
 
-	if resp.status_code == 200:
-		return True
-	return False
+	# if response is 4XX or 5XX, raise exception
+	resp.raise_for_status()
+	return True

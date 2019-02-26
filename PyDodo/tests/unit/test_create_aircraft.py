@@ -1,14 +1,16 @@
 """
-Test create_aircraft function raises error if incorrect inputs are provided.
-
-Function returns True if valid inputs are used and connection to bluebird exists.
+Test create_aircraft function:
+- raises error if incorrect inputs are provided
+- returns True if valid inputs are used
 """
 
 import pytest
-import numpy as np
 
 from pydodo.create_aircraft import create_aircraft
+from pydodo.reset_simulation import reset_simulation
 from pydodo.utils import ping_bluebird
+
+from requests.exceptions import HTTPError
 
 # Valid input parameter values
 aircraft_id = "TST1001"
@@ -16,19 +18,30 @@ type = "B744"
 latitude = 0
 longitude = 0
 heading = 0
-altitude = np.nan
+altitude = None
 flight_level = 250
 speed = 200
 
+# test if can connect to BlueBird
 bb_resp = ping_bluebird()
+
 @pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
 def test_output_create_aircraft():
     """
-    For valid inputs, check function returns True (if can connect to bluebird)
+    For valid inputs, check function returns True
+
+    If try to create already existing aircraft (repeat same request twice), get error
     """
+    # reset so that no aircraft exist
+    reset_simulation()
+
     output = create_aircraft(aircraft_id, type, latitude, longitude,
                              heading, altitude, flight_level, speed)
     assert output == True
+
+    with pytest.raises(HTTPError):
+         output = create_aircraft(aircraft_id, type, latitude, longitude,
+                                  heading, altitude, flight_level, speed)
 
 @pytest.mark.parametrize(
     "acid,tp",
@@ -71,7 +84,7 @@ def test_input_heading(hdg):
 
 @pytest.mark.parametrize(
     "alt,fl",
-    [(6000,250), (6001, np.nan), (np.nan, 59)]
+    [(6000,250), (6001, None), (None, 59)]
     )
 def test_input_alt_fl(alt, fl):
     """

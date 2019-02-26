@@ -9,13 +9,14 @@ def load_scenario(filename):
     """
     Load scenario from file and start the simulation.
 
-    :param filename : A string, path to scenario file relative to BlueSkye root directory
-    :return : A boolean, TRUE indicates success
+    :param filename : A string, path to scenario file
+    :return : 
     """
+    assert filename, "Must provide scenario file path"
 
     url = construct_endpoint_url(endpoint)
     resp = requests.post(url, json={"filename": filename})
 
-    if resp.status_code == 200:
-        return True
-    return False
+    # if response is 4XX or 5XX, raise exception
+    resp.raise_for_status()
+    return True
