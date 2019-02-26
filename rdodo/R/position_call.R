@@ -48,6 +48,7 @@ process_parsed_position <- function(parsed, aircraft_id) {
   parsed <- parsed[expected_names]
   names(parsed) <- new_names
 
+  # Convert to a data frame.
   ret <- as.data.frame(parsed[new_names])
   rownames(ret) <- aircraft_id
   ret
