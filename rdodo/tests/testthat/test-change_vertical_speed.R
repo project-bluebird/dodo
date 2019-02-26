@@ -6,7 +6,7 @@ skip_if_not(found_bluebird(), message = "BlueBird not found: tests skipped.")
 # Reset the simulation to ensure no aircraft exist initially.
 reset_simulation()
 
-test_that("the change_speed function works", {
+test_that("the change_vertical_speed function works", {
 
   aircraft_id <- "test-change-vertical-speed"
   type <- "B744"

@@ -12,7 +12,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' change_vertical_speed("test1234", speed = 8)
+#' change_vertical_speed("test1234", vertical_speed = 10)
 #' }
 #' @import config httr
 #' @export
@@ -26,7 +26,7 @@ change_vertical_speed <- function(aircraft_id, vertical_speed) {
 
   body <- list(
     "acid" = aircraft_id,
-    "vspd" = speed
+    "vspd" = vertical_speed
   )
   post_call(endpoint = config::get("endpoint_change_vertical_speed"), body = body)
 }

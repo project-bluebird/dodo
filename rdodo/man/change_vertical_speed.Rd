@@ -19,6 +19,6 @@ Request an aircraft to change vertical speed.
 }
 \examples{
 \dontrun{
-change_vertical_speed("test1234", speed = 8)
+change_vertical_speed("test1234", vertical_speed = 10)
 }
 }
