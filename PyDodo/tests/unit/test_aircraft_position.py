@@ -19,7 +19,7 @@ from requests.exceptions import HTTPError
 
 @pytest.mark.parametrize(
     "aircraft_id",
-    [123, "", [], ["TEST"]]
+    [123, "", [], ["TEST", 123]]
     )
 def test_input_aircraft_id(aircraft_id):
     """
@@ -46,8 +46,6 @@ def mocked_requests_get(*args, **kwargs):
 
     return MockResponse(None, 404)
 
-
-## CHECK FORMATTING FOR WHEN NOTHING IS RETURNED OR WHEN AN ERROR IS RAISED
 @patch('requests.get', side_effect=mocked_requests_get)
 def test_output_format(mock_get):
     """
@@ -60,3 +58,11 @@ def test_output_format(mock_get):
 #
     json_data_id = aircraft_position("TEST1")
     assert json_data_id.equals(output)
+
+# @patch('requests.get', side_effect=mocked_requests_get)
+# def test_id_not_found(mock_get):
+#     """
+#     If get 404 on all entered aircraft_id, raise error
+#     """
+#     with pytest.raises(AssertionError):
+#         aircraft_position("123")

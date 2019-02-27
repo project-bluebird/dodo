@@ -19,7 +19,6 @@ def ping_bluebird():
 
 	# /pos endpoint only supports GET requests, this should return an error if BlueBird is running
 	# on the specified host
-
 	try:
 		resp = requests.post(url)
 	except requests.exceptions.ConnectionError as e:
@@ -30,6 +29,7 @@ def ping_bluebird():
 		return True
 
 	return False
+
 
 def _check_latitude(lat):
 	return abs(lat) <= 90
@@ -52,7 +52,7 @@ def _check_string_input(input):
     if type(input) == str:
         return len(input) >= 1
     return False
-	
+
 def _check_altitude(alt):
 	return 0 <= alt <= settings.default['feet_altitude_upper_limit']
 
@@ -69,3 +69,6 @@ def parse_alt(alt, fl):
 		alt = "FL{}".format(fl)
 
 	return alt
+
+def _check_id_list(aircraft_id):
+    return bool(aircraft_id) and all(isinstance(elem, str) and len(elem) >= 1 for elem in aircraft_id)
