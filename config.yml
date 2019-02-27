@@ -8,6 +8,9 @@ default:
   endpoint_create_aircraft: "cre"
   endpoint_aircraft_position: "pos"
   endpoint_change_altitude: "alt"
+  endpoint_change_speed: "spd"
+  endpoint_change_vertical_speed: "vs"
+  endpoint_change_heading: "hdg"
 
 
   # Physical

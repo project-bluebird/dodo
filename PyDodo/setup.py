@@ -9,5 +9,7 @@ setup(
     version = "0.1.0",
     author = "Radka Jersakova and Ruairidh MacLeod",
     install_requires=REQUIRED_PACKAGES,
-    packages = find_packages(exclude=['*test'])
+    packages = ["pydodo"],
+    # packages = find_packages(exclude=['*test']),
+    url="https://github.com/alan-turing-institute/dodo/PyDoDo"
 )
