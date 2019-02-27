@@ -56,16 +56,16 @@ Either the `altitude` or `flight_level` argument must be given, but not both.
 **Function name:** `aircraft_position`
 
 **Parameters:**
-- `aircraft_id`: String aircraft ID. For the BlueSky simulator, this has to be at least three characters.
+- `aircraft_id`: A string or vector of strings representing one or more aircraft IDs. For the BlueSky simulator, each ID must contain at least three characters.
 
-**Return value:** Dataframe indexed by aircraft ID with columns:
+**Return value:** Dataframe indexed by **uppercase** aircraft ID with columns:
   - `altitude`: A non-negatige double. The aircraft's altitude in feet.
   - `ground_speed`: A non-negative double. The aircraft's ground speed in knots.
   - `latitude`: A double in the range [-90, 90]. The aircraft's latitude.
   - `longitude`: A double in the range [-180, 180). The aircraft's longitude.
   - `vertical_speed`: A double. The aircraft's vertical speed in feet/min (units according to BlueSky docs).
 
-If aircraft ID does not exist, returns a row with NULLs for that aircraft ID.
+If none of the given aircraft IDs exist in the simulation, an exception is thrown. If some but not all of them exist, the returned dataframe contains a row of NULLs for each of the given IDs that was not matched to an aircraft.
 
 If the response from Bluebird contains an error status code, an exception is thrown.
 
@@ -77,7 +77,7 @@ If the response from Bluebird contains an error status code, an exception is thr
 
 **Parameters:** None
 
-**Return value:** Dataframe indexed by aircraft ID with columns:
+**Return value:** Dataframe indexed by **uppercase** aircraft ID with columns:
   - `altitude`: A non-negatige double. The aircraft's altitude in feet.
   - `ground_speed`: A non-negative double. The aircraft's ground speed in knots.
   - `latitude`: A double in the range [-90, 90]. The aircraft's latitude.
