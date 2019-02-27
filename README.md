@@ -19,7 +19,9 @@ TO DO: install from GitHub  !
 ### Example usage
 
 ```{python}
-from pydodo.aircraft_position import aircraft_position
+import pydodo
+
+pydodo.reset_simulation()
 ```
 
 ## rdodo
