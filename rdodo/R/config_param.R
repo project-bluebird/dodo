@@ -22,7 +22,7 @@ config_param <- function(param, file = config_file_location()) {
     if (!file.exists(file))
       stop("Failed to find config file.")
 
-    message("Using config file at: ", file)
+    message("Using rdodo config file at: ", file)
   }
   config::get(param, file = file, use_parent = FALSE)
 }
@@ -50,6 +50,7 @@ retrieve_config_file <- function() {
     stop(paste("Failed to download rdodo config file. You will need to obtain one, e.g. from:\n", url))
 
   # Return the path to the retrieved config file.
+  message("Downloaded config file to: ", destfile)
   destfile
 }
 
@@ -61,16 +62,21 @@ config_file_location <- function() {
   config_filename <- "config.yml"
 
   # Note that when running tests with cmd+T or running R CMD CHECK this function
-  # returns the package source subdirectory rdodo/inst/, *not* the installation
-  # directory.
+  # returns the package source root directory, *not* the installation directory.
   path <- system.file(package = "rdodo")
 
-  # If running tests/R CMD CHECK, strip rdodo/inst from the end of the path so
-  # it points to the parent of the rdodo package root directory.
+  if (file.exists(file.path(path, config_filename)))
+    return(file.path(path, config_filename))
+
+  # If running tests/R CMD CHECK, the config file will not be in the expected
+  # location. In that case, modify the path so it points to the parent "dodo" of
+  # the rdodo source package directory (which contains the development config file).
   split_path <- strsplit(path, split = .Platform$file.sep)
-  if (identical(tail(split_path[[1]], n = 1), "inst"))
-    path <- paste(head(split_path[[1]], n = length(split_path[[1]]) - 2),
-                       collapse = .Platform$file.sep)
+  source_parent <- "dodo"
+  if (source_parent %in% split_path[[1]]) {
+    n <- which(split_path[[1]] == source_parent)
+    path <- paste(head(split_path[[1]], n = n), collapse = .Platform$file.sep)
+  }
 
   file.path(path, config_filename)
 }
