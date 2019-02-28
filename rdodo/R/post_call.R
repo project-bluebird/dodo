@@ -1,5 +1,10 @@
 #' Make a POST request to the Bluebird API
 #'
+#' @param endpoint
+#' The Bluebird API endpoing to call.
+#' @param body
+#' A named list.
+#'
 #' @return
 #' \code{TRUE} if successful. Otherwise \code{FALSE} and an error is thrown.
 #'

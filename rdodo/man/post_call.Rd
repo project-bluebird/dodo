@@ -6,6 +6,11 @@
 \usage{
 post_call(endpoint, body = NULL)
 }
+\arguments{
+\item{endpoint}{The Bluebird API endpoing to call.}
+
+\item{body}{A named list.}
+}
 \value{
 \code{TRUE} if successful. Otherwise \code{FALSE} and an error is thrown.
 }
