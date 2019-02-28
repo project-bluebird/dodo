@@ -53,7 +53,24 @@ retrieve_config_file <- function() {
   destfile
 }
 
-# Returns the default config file location in the package installation directory.
+# Returns the default config file location. Normally this is the package
+# installation directory, except when running tests with cmd+T or running
+# R CMD CHECK, in which case it is the parent of the package source root.
 config_file_location <- function() {
-  file.path(system.file(package = "rdodo"), "config.yml")
+
+  config_filename <- "config.yml"
+
+  # Note that when running tests with cmd+T or running R CMD CHECK this function
+  # returns the package source subdirectory rdodo/inst/, *not* the installation
+  # directory.
+  path <- system.file(package = "rdodo")
+
+  # If running tests/R CMD CHECK, strip rdodo/inst from the end of the path so
+  # it points to the parent of the rdodo package root directory.
+  split_path <- strsplit(path, split = .Platform$file.sep)
+  if (identical(tail(split_path[[1]], n = 1), "inst"))
+    path <- paste(head(split_path[[1]], n = length(split_path[[1]]) - 2),
+                       collapse = .Platform$file.sep)
+
+  file.path(path, config_filename)
 }

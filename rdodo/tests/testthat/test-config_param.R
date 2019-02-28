@@ -1,5 +1,5 @@
 require(testthat)
-context("aircraft_position function")
+context("config_param function")
 
 test_that("the config_param function works", {
 
