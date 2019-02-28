@@ -30,6 +30,10 @@ test_that("the change_heading function works", {
 
   # Check the heading.
   position <- aircraft_position(aircraft_id)
+
+  # In the returned data frame aircraft_id is uppercase.
+  aircraft_id <- toupper(aircraft_id)
+
   expect_identical(object = position[aircraft_id, "longitude"], expected = 0)
 
   # Test with an invalid heading.

@@ -31,6 +31,9 @@ test_that("the change_speed function works", {
   # Check the speed.
   position <- aircraft_position(aircraft_id)
 
+  # In the returned data frame aircraft_id is uppercase.
+  aircraft_id <- toupper(aircraft_id)
+
   # Aircaft initial speed differs from specified speed.
   expect_true(position[aircraft_id, "ground_speed"] < 198)
 

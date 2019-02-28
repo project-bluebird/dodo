@@ -30,6 +30,10 @@ test_that("the change_altitude function works", {
 
   # Check the altitude.
   position <- aircraft_position(aircraft_id)
+
+  # In the returned data frame aircraft_id is uppercase.
+  aircraft_id <- toupper(aircraft_id)
+
   expect_equal(object = position[aircraft_id, "altitude"],
                expected = flight_level * 100)
 
