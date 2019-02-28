@@ -3,19 +3,13 @@ Settings for the Dodo app
 - imported from `config.yaml` file in root directory
 """
 
-API_VERSION = 1
-
-# BB_HOST = '0.0.0.0'
-# BB_PORT = 5001
-
-from os import path
+import os
 import yaml
 
-file_path = path.abspath(__file__)
-root_dir = file_path.split("/PyDodo")[0]
-config_file = "config.yml"
+API_VERSION = 1
 
-with open(root_dir+"/"+config_file, 'r') as ymlfile:
+this_dir, this_filename = os.path.split(os.path.abspath(__file__))
+with open(os.path.join(this_dir, "config.yml"), 'r') as ymlfile:
     cfg = yaml.load(ymlfile)
 
 default = cfg['default']

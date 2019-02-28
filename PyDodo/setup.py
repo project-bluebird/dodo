@@ -1,30 +1,34 @@
-import os
+import os 
 from setuptools import setup, find_packages
 from setuptools.command.develop import develop as _develop
 from setuptools.command.install import install as _install
 from subprocess import call
 
-# BASEPATH = os.path.dirname(os.path.abspath(__file__))
-
 with open("requirements.txt", "r") as f:
     REQUIRED_PACKAGES = f.read().splitlines()
 
-def get_config():
+def get_config(dir=None):
     print("Getting the config file")
     config = 'https://raw.githubusercontent.com/alan-turing-institute/dodo/master/config.yml'
-    call(['wget', config])
+    if dir==None:
+        call(['wget', config])
+    else:
+        call(['wget', config],  cwd=dir)
 
 class develop(_develop):
     """Post-installation in develop mode"""
     def run(self):
         _develop.run(self)
-        get_config()
+        if not os.path.exists("config.yml"):
+            get_config()
 
 class install(_install):
     """Post-installation in install mode"""
     def run(self):
         _install.run(self)
-        get_config()
+        package_path = os.path.join(self.install_lib, 'pydodo')
+        if not os.path.exists(os.path.join(package_path, 'config.yml')):
+            self.execute(get_config, (package_path,))
 
 setup(
     name = "PyDodo",
