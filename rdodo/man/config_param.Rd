@@ -4,7 +4,7 @@
 \alias{config_param}
 \title{Get a configuration parameter}
 \usage{
-config_param(param, file = Sys.getenv("RDODO_CONFIG_FILE"))
+config_param(param, file = config_file_location())
 }
 \arguments{
 \item{param}{The name of the config parameter.}

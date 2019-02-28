@@ -19,10 +19,7 @@
 #' @export
 position_call <- function(aircraft_id) {
 
-  # TODO: move to validate_aircraft_id function
-  stopifnot(is.character(aircraft_id), length(aircraft_id) == 1)
-  if (config_param("simulator") == config_param("bluesky_simulator"))
-    stopifnot(nchar(aircraft_id) >= 3)
+  validate_aircraft_id(aircraft_id)
 
   endpoint <- config_param("endpoint_aircraft_position")
   query <- list(aircraft_id)
@@ -48,10 +45,9 @@ position_call <- function(aircraft_id) {
 process_parsed_position <- function(parsed, aircraft_id) {
 
   stopifnot(is.list(parsed))
-  # TODO: move to validate_aircraft_id function
-  stopifnot(is.character(aircraft_id), length(aircraft_id) == 1)
+  validate_aircraft_id(aircraft_id)
 
-  # TODO: hard-coded element names to be replaced with Bluebird config parameters.
+  # TODO: replace string literals with config parameters from Bluebird.
   expected_names <- c("alt", "gs", "lat", "lon", "vs")
   new_names <- c(config_param("altitude"),
                  config_param("ground_speed"),

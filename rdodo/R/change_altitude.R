@@ -33,31 +33,22 @@ change_altitude <- function(aircraft_id,
   stopifnot(is.character(aircraft_id), length(aircraft_id) == 1)
 
   if (!is.null(vertical_speed))
-    stopifnot(is.double(vertical_speed), length(vertical_speed) == 1,
-              vertical_speed >= 0)
+    validate_speed(vertical_speed)
 
   # TODO: move to validate_flight_level and validate_altitude functions.
 
   # Either altitude or flight_level must be NULL, but not both.
   stopifnot(is.null(altitude) || is.null(flight_level))
   if (is.null(altitude)) {
-
-    # Check that flight_level is an integer value, without requiring is.integer.
-    if (!is.integer(flight_level)) {
-      stopifnot(is.numeric(flight_level), flight_level %% 1 == 0)
-      flight_level <- as.integer(flight_level)
-    }
-    stopifnot(is.integer(flight_level), length(flight_level) == 1,
-              flight_level >= config_param("flight_level_lower_limit"))
+    flight_level <- validate_flight_level(flight_level)
 
     # Flight level unit corresponds to hundreds of feet.
     altitude <- flight_level * 100
   }
-  if (is.null(flight_level)) {
-    stopifnot(is.double(altitude), length(altitude) == 1,
-              altitude >= 0, altitude <= config_param("feet_altitude_upper_limit"))
-  }
+  if (is.null(flight_level))
+    validate_altitude(altitude)
 
+  # TODO: replace string literals with config parameters from Bluebird.
   body <- list(
     "acid" = aircraft_id,
     "alt" = altitude

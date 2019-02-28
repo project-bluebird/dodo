@@ -18,11 +18,10 @@
 #' @export
 change_speed <- function(aircraft_id, speed) {
 
-  stopifnot(is.character(aircraft_id), length(aircraft_id) == 1)
+  validate_aircraft_id(aircraft_id)
+  validate_speed(speed)
 
-  # TODO: move to validate_speed function.
-  stopifnot(is.double(speed), length(speed) == 1, speed >= 0)
-
+  # TODO: replace string literals with config parameters from Bluebird.
   body <- list(
     "acid" = aircraft_id,
     "spd" = speed
