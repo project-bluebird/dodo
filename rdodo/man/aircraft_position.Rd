@@ -13,7 +13,9 @@ ID is a string.}
 }
 \value{
 A list of aircraft positions as a data frame with one row per aircraft. The
-row names are aircraft IDs. All columns are NULL if aircraft not found.
+row names are aircraft IDs. If any of the given aircraft IDs does not exist
+in the simulation, the returned dataframe contains a row of missing (NA)
+values for that ID.
 }
 \description{
 Get the position of a single or multiple aircraft based on their IDs, or

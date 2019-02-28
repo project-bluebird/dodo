@@ -8,7 +8,8 @@ all_positions()
 }
 \value{
 A data frame of aircraft positions with one row per aircraft. The
-row names are aircraft IDs.
+row names are aircraft IDs. Returns an empty data frame if there are no
+aircraft in the simulation.
 }
 \description{
 Get all aircraft positions

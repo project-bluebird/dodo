@@ -7,11 +7,13 @@
 position_call(aircraft_id)
 }
 \arguments{
-\item{aircraft_id}{A string aircraft identifier. If this aircraft does not exist an exception
-will be thrown.}
+\item{aircraft_id}{A scalar string aircraft identifier, or the special string \code{all}.}
 }
 \value{
-A list of aircraft position information.
+A list of aircraft position information, or an empty list if the given
+\code{aircraft_id} did not match any aircraft in the simulation (this includes
+the case that \code{aircraft_id} was the special string \code{all} but there
+were no existing aircraft).
 }
 \description{
 Make a call to the aircraft position endpoint

@@ -20,7 +20,7 @@ test_that("the all_positions function works when no aircraft exist", {
 test_that("the all_positions function works when aircraft exist", {
 
   # Create an aircraft.
-  aircraft_id_1 <- "test-aircraft-position-1"
+  aircraft_id_1 <- "testAircraftPosition1"
   type_1 <- "B744"
   latitude_1 <- 0
   longitude_1 <- 0
@@ -44,7 +44,7 @@ test_that("the all_positions function works when aircraft exist", {
 
   expect_true(is.data.frame(result))
   expect_identical(object = nrow(result), expected = 1L)
-  expect_identical(object = rownames(result), expected = toupper(aircraft_id_1))
+  expect_identical(object = rownames(result), expected = aircraft_id_1)
   expected <- c("altitude", "ground_speed", "latitude", "longitude", "vertical_speed")
   expect_identical(object = colnames(result), expected = expected)
 
@@ -59,7 +59,7 @@ test_that("the all_positions function works when aircraft exist", {
   expect_identical(object = result[aircraft_id_1, "vertical_speed"], expected = 0)
 
   # Create another aircraft.
-  aircraft_id_2 <- "test-aircraft-position-2"
+  aircraft_id_2 <- "testAircraftPosition2"
   type_2 <- "C744"
   latitude_2 <- 0
   longitude_2 <- 0

@@ -10,7 +10,9 @@
 #'
 #' @return
 #' A list of aircraft positions as a data frame with one row per aircraft. The
-#' row names are aircraft IDs. All columns are NULL if aircraft not found.
+#' row names are aircraft IDs. If any of the given aircraft IDs does not exist
+#' in the simulation, the returned dataframe contains a row of missing (NA)
+#' values for that ID.
 #'
 #' @examples
 #' \dontrun{
@@ -25,7 +27,7 @@
 aircraft_position <- function(aircraft_id) {
 
   parsed_list <- purrr::map(aircraft_id, .f = position_call)
-  names(parsed_list) <- aircraft_id
+  names(parsed_list) <- toupper(aircraft_id)
 
   process_parsed_positions(parsed_list)
 }
