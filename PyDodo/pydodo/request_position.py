@@ -33,7 +33,7 @@ def get_position(aircraft_id):
         pos_data = {aircraft_id:format_output(json_data)}
         pos_dict = pd.DataFrame.from_dict(pos_data, orient='index')
         return pos_dict
-    elif resp.status_code == 404: #aircraft_id NOT FOUND
+    elif resp.status_code == settings.default['status_code_aircraft_id_not_found']:
         return pd.DataFrame({
             "altitude":np.nan,
             "ground_speed":np.nan,
