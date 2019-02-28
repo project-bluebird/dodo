@@ -18,6 +18,9 @@
     return(packageStartupMessage("No config.yml file found"))
 
   # Copy the found config file to the installed package directory.
+
+  # Note that the following must agree with the config_file_location function
+  # (which is not available here as the package hasn't been loaded).
   destfile <- file.path(system.file(package = pkgname), "config.yml")
   packageStartupMessage(paste("Copying config file from", config_file, "to", destfile))
   file.copy(from = config_file, to = destfile, overwrite = TRUE)

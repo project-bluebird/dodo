@@ -42,7 +42,6 @@ retrieve_config_file <- function() {
   if (file.exists(destfile))
     stop(paste("Aborting download attempt due to conflicting file at:", destfile))
 
-  # TODO: change 'rdodo' branch to 'master' once merged.
   url <- "https://raw.githubusercontent.com/alan-turing-institute/dodo/master/config.yml"
   response <- tryCatch({
     utils::download.file(url, destfile = destfile)

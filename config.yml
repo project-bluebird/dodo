@@ -19,6 +19,13 @@ default:
   endpoint_change_vertical_speed: "vs"
   query_aircraft_id: "acid"
 
+  # Column/element names
+  latitude: "latitude"
+  longitude: "longitude"
+  altitude: "altitude"
+  ground_speed: "ground_speed"
+  vertical_speed: "vertical_speed"  
+  
   # Physical
   feet_altitude_upper_limit: 6000
   flight_level_lower_limit: 60

@@ -51,8 +51,13 @@ process_parsed_position <- function(parsed, aircraft_id) {
   # TODO: move to validate_aircraft_id function
   stopifnot(is.character(aircraft_id), length(aircraft_id) == 1)
 
-  # TODO: hard-coded element names.
+  # TODO: hard-coded element names to be replaced with Bluebird config parameters.
   expected_names <- c("alt", "gs", "lat", "lon", "vs")
+  new_names <- c(config_param("altitude"),
+                 config_param("ground_speed"),
+                 config_param("latitude"),
+                 config_param("longitude"),
+                 config_param("vertical_speed"))
 
   # Handle the case that the aircraft_id was not found.
   if (length(parsed) == 0) {
@@ -63,7 +68,6 @@ process_parsed_position <- function(parsed, aircraft_id) {
   stopifnot(all(expected_names %in% names(parsed)))
 
   # Rename the elements.
-  new_names <- c("altitude", "ground_speed", "latitude", "longitude", "vertical_speed")
   parsed <- parsed[expected_names]
   names(parsed) <- new_names
 
@@ -96,10 +100,10 @@ normalise_positions_units <- function(df) {
 
   SCALE_METRES_TO_FEET <- 3.280839895
 
-  # TODO: hard-coded element names.
   # Bluesky returns altitude in metres, not feet.
   if (config_param("simulator") == config_param("bluesky_simulator"))
-    df[, "altitude"] <- SCALE_METRES_TO_FEET * df[, "altitude"]
+    df[, config_param("altitude")] <-
+      SCALE_METRES_TO_FEET * df[, config_param("altitude")]
 
   df
 }
