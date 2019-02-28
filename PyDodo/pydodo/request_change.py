@@ -39,7 +39,7 @@ def change_heading(aircraft_id, heading):
 
 def change_speed(aircraft_id, speed):
     """
-    Change aircraft speed, raise error if inputs are invalid or not successful
+    Change aircraft speed.
     """
     assert utils._check_string_input(aircraft_id), 'Invalid input {} for aircraft id'.format(aircraft_id)
     assert utils._check_speed(speed), 'Invalid input {} for speed'
@@ -54,7 +54,7 @@ def change_speed(aircraft_id, speed):
 
 def change_vertical_speed(aircraft_id, vertical_speed):
     """
-    Change aircraft speed, raise error if inputs are invalid or not successful
+    Change aircraft vertical speed.
     """
     assert utils._check_string_input(aircraft_id), 'Invalid input {} for aircraft id'.format(aircraft_id)
     assert utils._check_speed(vertical_speed), 'Invalid input {} for vertical speed'
@@ -62,7 +62,7 @@ def change_vertical_speed(aircraft_id, vertical_speed):
     endpoint = settings.default['endpoint_change_vertical_speed']
     url = utils.construct_endpoint_url(endpoint)
 
-    json = {'acid': aircraft_id, 'vspd': speed}
+    json = {'acid': aircraft_id, 'vspd': vertical_speed}
     resp = requests.post(url, json=json)
     resp.raise_for_status()
     return True
