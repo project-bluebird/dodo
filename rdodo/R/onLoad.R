@@ -5,13 +5,6 @@
 #
 .onLoad <- function(libname, pkgname) {
 
-  # TODO:
-  # If no config.yml file is found in the working directory or its immediate
-  # parent, an attempt is made to download one from the rdodo repository.
-  # Check that this works when importing rdodo in another package, i.e. does the
-  # config package search for config.yml in the working directory or in the
-  # location at which rdodo is installed?
-
   # Check the config.yml file exists.
   config_filename <- "config.yml"
 
@@ -22,25 +15,10 @@
   if (file.exists(config_filename))
     config_file <- config_filename
 
-  # If necessary, pick up the config file from the dodo repository. Note there
-  # is no danger of overwriting an existing file, given the above.
-  if (is.na(config_file)) {
-    packageStartupMessage("No config.yml file found. Attempting to download one...")
+  if (is.na(config_file))
+    return(packageStartupMessage("No config.yml file found"))
 
-    url <- "https://raw.githubusercontent.com/alan-turing-institute/dodo/master/config.yml"
-    response <- tryCatch({
-      utils::download.file(url, destfile = file.path(getwd(), config_filename))
-    },
-    error=function(cond) {
-      packageStartupMessage("Error downloading rdodo config.yml file.")
-      stop(paste(conditionMessage(cond)))
-    })
-
-    if (response != 0L || !file.exists(config_filename))
-      warning(paste("Failed to download rdodo config.yml file. You will need to obtain one, e.g. from:\n", url))
-    packageStartupMessage(paste("Downloaded rdodo configuration file:", config_filename))
-
-    config_file <- config_filename
-  }
+  # Note: the following env variable name must match that in the config_param function.
+  Sys.setenv("RDODO_CONFIG_FILE" = config_file)
   packageStartupMessage(paste("Using configuration file:", config_file))
 }
