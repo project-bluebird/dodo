@@ -18,12 +18,10 @@
 #' @export
 change_vertical_speed <- function(aircraft_id, vertical_speed) {
 
-  stopifnot(is.character(aircraft_id), length(aircraft_id) == 1)
+  validate_aircraft_id(aircraft_id)
+  validate_speed(vertical_speed)
 
-  # TODO: move to validate_vertical_speed function.
-  stopifnot(is.double(vertical_speed), length(vertical_speed) == 1,
-            vertical_speed >= 0)
-
+  # TODO: replace string literals with config parameters from Bluebird.
   body <- list(
     "acid" = aircraft_id,
     "vspd" = vertical_speed

@@ -18,12 +18,10 @@
 #' @export
 change_heading <- function(aircraft_id, heading) {
 
-  stopifnot(is.character(aircraft_id), length(aircraft_id) == 1)
+  validate_aircraft_id(aircraft_id)
+  validate_heading(heading)
 
-  # TODO: move to validate_heading function.
-  stopifnot(is.double(heading), length(heading) == 1,
-            heading >= 0, heading < 360)
-
+  # TODO: replace string literals with config parameters from Bluebird.
   body <- list(
     "acid" = aircraft_id,
     "hdg" = heading
