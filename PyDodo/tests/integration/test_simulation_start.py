@@ -5,8 +5,7 @@ Test load_scenario and reset_simulation functions
 """
 
 import pytest
-from pydodo.reset_simulation import reset_simulation
-from pydodo.load_scenario import load_scenario
+from pydodo import reset_simulation, load_scenario
 from pydodo.utils import ping_bluebird
 
 from requests.exceptions import HTTPError

@@ -4,7 +4,7 @@ Test create_aircraft function raises error if incorrect inputs are provided
 
 import pytest
 
-from pydodo.create_aircraft import create_aircraft
+from pydodo import create_aircraft
 from pydodo.utils import ping_bluebird
 
 # Valid input parameter values

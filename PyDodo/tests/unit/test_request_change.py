@@ -4,10 +4,7 @@ Test change_altitude function raises exception if valid inputs are used
 
 import pytest
 
-from pydodo.change_altitude import change_altitude
-from pydodo.change_heading import change_heading
-from pydodo.change_speed import change_speed
-from pydodo.change_vertical_speed import change_vertical_speed
+from pydodo import change_altitude, change_heading, change_speed, change_vertical_speed
 
 @pytest.mark.parametrize(
     "aircraft_id,altitude,flight_level,vertical_speed",

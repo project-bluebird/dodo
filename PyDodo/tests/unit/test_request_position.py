@@ -10,10 +10,8 @@ import pandas as pd
 import requests
 import json
 
-from pydodo.aircraft_position import aircraft_position
-from pydodo.all_positions import all_positions
-from pydodo.utils import ping_bluebird
-from pydodo.utils import construct_endpoint_url
+from pydodo import aircraft_position, all_positions
+from pydodo.utils import ping_bluebird, construct_endpoint_url
 
 from requests.exceptions import HTTPError
 

@@ -6,8 +6,7 @@ Test create_aircraft function:
 
 import pytest
 
-from pydodo.create_aircraft import create_aircraft
-from pydodo.reset_simulation import reset_simulation
+from pydodo import create_aircraft, reset_simulation
 from pydodo.utils import ping_bluebird
 
 from requests.exceptions import HTTPError
