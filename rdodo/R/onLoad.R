@@ -25,22 +25,22 @@
   # If necessary, pick up the config file from the dodo repository. Note there
   # is no danger of overwriting an existing file, given the above.
   if (is.na(config_file)) {
-    message("No config.yml file found. Attempting to download one...")
+    packageStartupMessage("No config.yml file found. Attempting to download one...")
 
     url <- "https://raw.githubusercontent.com/alan-turing-institute/dodo/master/config.yml"
     response <- tryCatch({
       utils::download.file(url, destfile = file.path(getwd(), config_filename))
     },
     error=function(cond) {
-      message("Error downloading rdodo config.yml file.")
+      packageStartupMessage("Error downloading rdodo config.yml file.")
       stop(paste(conditionMessage(cond)))
     })
 
     if (response != 0L || !file.exists(config_filename))
       warning(paste("Failed to download rdodo config.yml file. You will need to obtain one, e.g. from:\n", url))
-    message(paste("Downloaded rdodo configuration file:", config_filename))
+    packageStartupMessage(paste("Downloaded rdodo configuration file:", config_filename))
 
     config_file <- config_filename
   }
-  message(paste("Using configuration file:", config_file))
+  packageStartupMessage(paste("Using configuration file:", config_file))
 }
