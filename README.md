@@ -9,12 +9,26 @@ Scaffold for ATC agents
 ```{bash}
 git clone https://github.com/alan-turing-institute/dodo.git
 cd dodo/Pydodo
+```
+For developing use either one of:
+
+```{bash}
 python setup.py develop
+pip install -e .
 ```
 
-### Install
+This does not install the package but creates a .egg-link directory relative to the project path.
 
-TO DO: install from GitHub  !
+To install the pacakge in the user site-packages directory use either of:
+
+```{bash}
+python setup.py install
+pip install .
+```
+
+### GitHub install
+
+TO DO
 
 ### Example usage
 
@@ -23,5 +37,3 @@ import pydodo
 
 pydodo.reset_simulation()
 ```
-
-## rdodo
