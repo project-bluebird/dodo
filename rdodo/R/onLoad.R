@@ -5,6 +5,13 @@
 #
 .onLoad <- function(libname, pkgname) {
 
+  # TODO:
+  # If no config.yml file is found in the working directory or its immediate
+  # parent, an attempt is made to download one from the rdodo repository.
+  # Check that this works when importing rdodo in another package, i.e. does the
+  # config package search for config.yml in the working directory or in the
+  # location at which rdodo is installed?
+
   # Check the config.yml file exists.
   config_filename <- "config.yml"
 
