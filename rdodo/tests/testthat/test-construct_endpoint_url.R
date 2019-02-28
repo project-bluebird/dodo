@@ -7,8 +7,8 @@ test_that("the construct_endpoint_url function works", {
   result <- construct_endpoint_url(endpoint = endpoint)
 
   scheme <- "http"
-  stub <- paste(config::get("host"), config::get("port"), sep = ":")
-  url <- paste(stub, config::get("api_path"), config::get("api_version"),
+  stub <- paste(config_param("host"), config_param("port"), sep = ":")
+  url <- paste(stub, config_param("api_path"), config_param("api_version"),
                endpoint, sep = "/")
   expected <- paste(scheme, url, sep = "://")
 

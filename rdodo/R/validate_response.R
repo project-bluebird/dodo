@@ -6,7 +6,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' response <- httr::POST(construct_endpoint_url(config::get("endpoint_reset_simulation")))
+#' response <- httr::POST(construct_endpoint_url(config_param("endpoint_reset_simulation")))
 #' validate_response(response)
 #' }
 #'

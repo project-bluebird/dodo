@@ -14,7 +14,7 @@
 #' \dontrun{
 #' change_speed("test1234", speed = 90)
 #' }
-#' @import config httr
+#' @import httr
 #' @export
 change_speed <- function(aircraft_id, speed) {
 
@@ -27,5 +27,5 @@ change_speed <- function(aircraft_id, speed) {
     "acid" = aircraft_id,
     "spd" = speed
   )
-  post_call(endpoint = config::get("endpoint_change_speed"), body = body)
+  post_call(endpoint = config_param("endpoint_change_speed"), body = body)
 }

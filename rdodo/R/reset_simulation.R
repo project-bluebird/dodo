@@ -7,9 +7,9 @@
 #' reset_simulation()
 #' }
 #'
-#' @import httr config
+#' @import httr
 #' @export
 reset_simulation <- function() {
 
-  post_call(endpoint = config::get("endpoint_reset_simulation"))
+  post_call(endpoint = config_param("endpoint_reset_simulation"))
 }

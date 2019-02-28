@@ -14,7 +14,7 @@
 #' @export
 construct_endpoint_url <- function(endpoint, query = NULL) {
 
-  path <- paste(config::get("api_path"), config::get("api_version"), endpoint,
+  path <- paste(config_param("api_path"), config_param("api_version"), endpoint,
                 sep = "/")
 
   httr::modify_url(bluebird_url(), path = path, query = query)

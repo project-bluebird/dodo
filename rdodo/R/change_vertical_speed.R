@@ -28,5 +28,5 @@ change_vertical_speed <- function(aircraft_id, vertical_speed) {
     "acid" = aircraft_id,
     "vspd" = vertical_speed
   )
-  post_call(endpoint = config::get("endpoint_change_vertical_speed"), body = body)
+  post_call(endpoint = config_param("endpoint_change_vertical_speed"), body = body)
 }

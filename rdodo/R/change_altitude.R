@@ -23,7 +23,7 @@
 #' change_altitude("test1234", flight_level = 450)
 #' change_altitude("test1234", altitude = 5000)
 #' }
-#' @import config httr
+#' @import httr
 #' @export
 change_altitude <- function(aircraft_id,
                             altitude = NULL,
@@ -48,14 +48,14 @@ change_altitude <- function(aircraft_id,
       flight_level <- as.integer(flight_level)
     }
     stopifnot(is.integer(flight_level), length(flight_level) == 1,
-              flight_level >= config::get("flight_level_lower_limit"))
+              flight_level >= config_param("flight_level_lower_limit"))
 
     # Flight level unit corresponds to hundreds of feet.
     altitude <- flight_level * 100
   }
   if (is.null(flight_level)) {
     stopifnot(is.double(altitude), length(altitude) == 1,
-              altitude >= 0, altitude <= config::get("feet_altitude_upper_limit"))
+              altitude >= 0, altitude <= config_param("feet_altitude_upper_limit"))
   }
 
   body <- list(
@@ -68,5 +68,5 @@ change_altitude <- function(aircraft_id,
     body <- c(body, l)
   }
 
-  post_call(endpoint = config::get("endpoint_change_altitude"), body = body)
+  post_call(endpoint = config_param("endpoint_change_altitude"), body = body)
 }

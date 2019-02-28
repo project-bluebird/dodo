@@ -14,7 +14,7 @@
 #' \dontrun{
 #' change_heading("test1234", heading = 90)
 #' }
-#' @import config httr
+#' @import httr
 #' @export
 change_heading <- function(aircraft_id, heading) {
 
@@ -28,5 +28,5 @@ change_heading <- function(aircraft_id, heading) {
     "acid" = aircraft_id,
     "hdg" = heading
   )
-  post_call(endpoint = config::get("endpoint_change_heading"), body = body)
+  post_call(endpoint = config_param("endpoint_change_heading"), body = body)
 }

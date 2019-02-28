@@ -11,12 +11,12 @@
 #' load_scenario("scenario/8.SCN")
 #' }
 #'
-#' @import httr config
+#' @import httr
 #' @export
 load_scenario <- function(filename) {
 
   stopifnot(is.character(filename), length(filename) == 1)
 
   body <- list("filename" = filename)
-  post_call(endpoint = config::get("endpoint_load_scenario"), body = body)
+  post_call(endpoint = config_param("endpoint_load_scenario"), body = body)
 }

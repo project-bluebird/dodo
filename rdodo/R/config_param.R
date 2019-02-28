@@ -16,25 +16,33 @@ config_param <- function(param, file = Sys.getenv("RDODO_CONFIG_FILE")) {
   # config package search for config.yml in the working directory or in the
   # location at which rdodo is installed?
 
-  if (!file.exists(file))
-    file <- retrieve_config_file(file)
+  if (!file.exists(file)) {
+    message(paste("Config file not found at: ", file))
+
+    file <- config_file_location()
+    if (file.exists(file))
+      message("Using config file at: ", file)
+    else
+      file <- retrieve_config_file()
+
+    if (!file.exists(file))
+      stop("Failed to find config file.")
+  }
 
   config::get(param, file = file, use_parent = TRUE)
 }
 
 # Download the config file from the dodo repository and return it's location.
-retrieve_config_file <- function(file) {
+retrieve_config_file <- function() {
 
   message("Attempting to download rdodo config file ...")
-
-  default_filename <- "config.yml"
-  destfile <- file.path(getwd(), default_filename)
+  destfile <- config_file_location()
 
   # Avoid overwriting an existing file.
   if (file.exists(destfile))
-    warning(paste("rdodo config file not found at expected location:", file,
-                  "\nAborting download attempt due to conflicting file at:", destfile))
+    stop(paste("Aborting download attempt due to conflicting file at:", destfile))
 
+  # TODO: change 'rdodo' branch to 'master' once merged.
   url <- "https://raw.githubusercontent.com/alan-turing-institute/dodo/master/config.yml"
   response <- tryCatch({
     utils::download.file(url, destfile = destfile)
@@ -51,4 +59,8 @@ retrieve_config_file <- function(file) {
 
   # Return the path to the retrieved config file.
   destfile
+}
+
+config_file_location <- function() {
+  file.path(system.file(package = "rdodo"), "config.yml")
 }

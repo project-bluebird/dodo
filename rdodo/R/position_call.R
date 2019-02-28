@@ -14,19 +14,19 @@
 #' position_call('ABC123')
 #' }
 #'
-#' @import config httr
+#' @import httr
 #' @importFrom jsonlite fromJSON
 #' @export
 position_call <- function(aircraft_id) {
 
   # TODO: move to validate_aircraft_id function
   stopifnot(is.character(aircraft_id), length(aircraft_id) == 1)
-  if (config::get("simulator") == config::get("bluesky_simulator"))
+  if (config_param("simulator") == config_param("bluesky_simulator"))
     stopifnot(nchar(aircraft_id) >= 3)
 
-  endpoint <- config::get("endpoint_aircraft_position")
+  endpoint <- config_param("endpoint_aircraft_position")
   query <- list(aircraft_id)
-  names(query) <- config::get("query_aircraft_id")
+  names(query) <- config_param("query_aircraft_id")
   response <- tryCatch({
     httr::GET(url = construct_endpoint_url(endpoint, query = query))
   },
@@ -36,7 +36,7 @@ position_call <- function(aircraft_id) {
 
   # Status code 404 indicates that the aircraft_id was not matched to an
   # aircraft in the simulation. In that case return an empty list.
-  if (httr::status_code(response) == config::get("status_code_aircraft_id_not_found"))
+  if (httr::status_code(response) == config_param("status_code_aircraft_id_not_found"))
     return(list())
 
   validate_response(response)
@@ -98,7 +98,7 @@ normalise_positions_units <- function(df) {
 
   # TODO: hard-coded element names.
   # Bluesky returns altitude in metres, not feet.
-  if (config::get("simulator") == config::get("bluesky_simulator"))
+  if (config_param("simulator") == config_param("bluesky_simulator"))
     df[, "altitude"] <- SCALE_METRES_TO_FEET * df[, "altitude"]
 
   df

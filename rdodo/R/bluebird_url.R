@@ -5,12 +5,12 @@
 #' @examples
 #' bluebird_url()
 #'
-#' @import config httr
+#' @import httr
 #' @export
 bluebird_url <- function() {
 
   httr::modify_url(url = "",
                    scheme = "http",
-                   hostname = config::get("host"),
-                   port = config::get("port"))
+                   hostname = config_param("host"),
+                   port = config_param("port"))
 }
