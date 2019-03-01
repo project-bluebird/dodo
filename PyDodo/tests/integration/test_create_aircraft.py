@@ -31,9 +31,9 @@ def test_output_create_aircraft():
     reset_simulation()
 
     output = create_aircraft(aircraft_id, type, latitude, longitude,
-                             heading, altitude, flight_level, speed)
+                             heading, speed, altitude, flight_level)
     assert output == True
 
     with pytest.raises(HTTPError):
          output = create_aircraft(aircraft_id, type, latitude, longitude,
-                                  heading, altitude, flight_level, speed)
+                                  heading, speed, altitude, flight_level)

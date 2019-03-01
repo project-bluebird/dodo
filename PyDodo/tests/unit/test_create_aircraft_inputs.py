@@ -27,7 +27,7 @@ def test_input_aircraft_info(acid, tp):
     """
     with pytest.raises(AssertionError):
         create_aircraft(acid, tp, latitude, longitude,
-                        heading, altitude, flight_level, speed)
+                        heading, speed, altitude, flight_level)
 
 @pytest.mark.parametrize("lat", [91, -90.1])
 def test_input_latitude(lat):
@@ -36,7 +36,7 @@ def test_input_latitude(lat):
     """
     with pytest.raises(AssertionError):
         create_aircraft(aircraft_id, type, lat, longitude,
-                        heading, altitude, flight_level, speed)
+                        heading, speed, altitude, flight_level)
 
 @pytest.mark.parametrize("lon", [180, -180.1])
 def test_input_longitude(lon):
@@ -45,7 +45,7 @@ def test_input_longitude(lon):
     """
     with pytest.raises(AssertionError):
         create_aircraft(aircraft_id, type, latitude, lon,
-                        heading, altitude, flight_level, speed)
+                        heading, speed, altitude, flight_level)
 
 @pytest.mark.parametrize("hdg", [-0.1, 360])
 def test_input_heading(hdg):
@@ -54,7 +54,7 @@ def test_input_heading(hdg):
     """
     with pytest.raises(AssertionError):
         create_aircraft(aircraft_id, type, latitude, longitude,
-                        hdg, altitude, flight_level, speed)
+                        hdg, speed, altitude, flight_level)
 
 @pytest.mark.parametrize(
     "alt,fl",
@@ -66,7 +66,7 @@ def test_input_alt_fl(alt, fl):
     """
     with pytest.raises(AssertionError):
         create_aircraft(aircraft_id, type, latitude, longitude,
-                        heading, alt, fl, speed)
+                        heading, speed, alt, fl)
 
 @pytest.mark.parametrize("spd", [-0.1])
 def test_input_speed(spd):
@@ -75,4 +75,4 @@ def test_input_speed(spd):
     """
     with pytest.raises(AssertionError):
         create_aircraft(aircraft_id, type, latitude, longitude,
-                        heading, altitude, flight_level, spd)
+                        heading, spd, altitude, flight_level)

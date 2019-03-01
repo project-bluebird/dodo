@@ -6,7 +6,7 @@ from . import utils
 endpoint = settings.default['endpoint_create_aircraft']
 url = utils.construct_endpoint_url(endpoint)
 
-def create_aircraft(aircraft_id, type, latitude, longitude, heading, altitude, flight_level, speed):
+def create_aircraft(aircraft_id, type, latitude, longitude, heading, speed, altitude=None, flight_level=None):
 	"""
 	Create new aircraft. Raises error if inputs are invalid or if aircraft already exists.
 	"""
