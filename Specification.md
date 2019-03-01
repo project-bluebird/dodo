@@ -38,12 +38,12 @@ Currently, the path is relative to the simulator (e.g., BlueSky) root directory 
 **Parameters:**
 - `aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
 - `type`: A string ICAO aircraft type designator.
-- `latitude`: A double in the range [-90, 90]. The aircraft's latitude.
-- `longitude`: A double in the range [-180, 180). The aircraft's longitude.
-- `heading`: A double in the range [0, 360). The aircraft's heading in degrees.
-- `altitude`: A double in the range [0, 6000]. The aircraft's altitude in feet. For altitudes in excess of 6000ft a flight level should be specified instead.
-- `flight_level`: An integer of 60 or more. The aircraft's flight level.
-- `speed`: A non-negative double. The aircraft's speed in knots (KCAS).
+- `latitude`: A double in the range [-90, 90]. The aircraft's initial latitude.
+- `longitude`: A double in the range [-180, 180). The aircraft's initial longitude.
+- `heading`: A double in the range [0, 360). The aircraft's initial heading in degrees.
+- `altitude`: A double in the range [0, 6000]. The aircraft's initial altitude in feet. For altitudes in excess of 6000ft a flight level should be specified instead.
+- `flight_level`: An integer of 60 or more. The aircraft's initial flight level.
+- `speed`: A non-negative double. The aircraft's initial calibrated air speed in knots (KCAS).
 
 Either the `altitude` or `flight_level` argument must be given, but not both.
 
@@ -96,9 +96,9 @@ If the response from Bluebird contains an error status code, an exception is thr
 
 **Parameters:**
 - `aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
-- `altitude`: A double in the range [0, 6000]. The aircraft's altitude in feet. For altitudes in excess of 6000ft a flight level should be specified instead.
-- `flight_level`: An integer of 60 or more. The aircraft's flight level.
-- `vertical_speed`: An optional double. The aircraft's vertical speed in feet/min (units according to BlueSky docs).
+- `altitude`: A double in the range [0, 6000]. The requested altitude in feet. For altitudes in excess of 6000ft a flight level should be specified instead.
+- `flight_level`: An integer of 60 or more. The requested flight level.
+- `vertical_speed`: An optional double. The requested vertical speed for the climb/descent in feet/min (units according to BlueSky docs).
 
 Either the `altitude` or `flight_level` argument must be given, but not both.
 
@@ -112,7 +112,7 @@ Either the `altitude` or `flight_level` argument must be given, but not both.
 
 **Parameters:**
 - `aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
-- `heading`: A double in the range [0, 360). The aircraft's heading in degrees.
+- `heading`: A double in the range [0, 360). The requested heading in degrees.
 
 **Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
@@ -124,7 +124,7 @@ Either the `altitude` or `flight_level` argument must be given, but not both.
 
 **Parameters:**
 - `aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
-- `vertical_speed`: A double. The aircraft's vertical speed in feet/min (units according to BlueSky docs).
+- `vertical_speed`: A double. The requested vertical speed in feet/min (units according to BlueSky docs).
 
 **Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
@@ -136,7 +136,7 @@ Either the `altitude` or `flight_level` argument must be given, but not both.
 
 **Parameters:**
 - `aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
-- `speed`: A non-negative double. The aircraft's speed in knots.
+- `speed`: A non-negative double. The requested calibrated air speed in knots (KCAS).
 
 **Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
