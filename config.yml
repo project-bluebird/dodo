@@ -1,3 +1,31 @@
 default:
   host: "localhost"
   port: "5001"
+  api_path: "api"
+  api_version: "v1"
+  simulator: "bluesky"
+  bluesky_simulator: "bluesky"
+  college_simulator: "college"
+  
+  # Bluebird API endpoints (to be removed in favour of OpenAPI)
+  status_code_aircraft_id_not_found: 404
+  endpoint_reset_simulation: "reset"
+  endpoint_load_scenario: "ic"
+  endpoint_create_aircraft: "cre"
+  endpoint_aircraft_position: "pos"
+  endpoint_change_altitude: "alt"
+  endpoint_change_heading: "hdg"
+  endpoint_change_speed: "spd"
+  endpoint_change_vertical_speed: "vs"
+  query_aircraft_id: "acid"
+
+  # Column/element names
+  latitude: "latitude"
+  longitude: "longitude"
+  altitude: "altitude"
+  ground_speed: "ground_speed"
+  vertical_speed: "vertical_speed"  
+  
+  # Physical
+  feet_altitude_upper_limit: 6000
+  flight_level_lower_limit: 60
