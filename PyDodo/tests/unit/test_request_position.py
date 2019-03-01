@@ -53,9 +53,9 @@ def mocked_requests_get(*args, **kwargs):
 @patch('requests.get', side_effect=mocked_requests_get)
 def test_output_format(mock_get):
     """
-    Check request output is formatted correctly
+    Check request output is formatted correctly.
     """
-    alt = altitude*3.280839895
+    alt = round(altitude*3.280839895, 2)
     output = pd.DataFrame.from_dict({"TEST1":{"altitude":alt,  "ground_speed":speed, "latitude":latitude, "longitude":longitude,  "vertical_speed":vertical_speed}}, orient='index')
 
     json_data_all = all_positions()
@@ -63,11 +63,3 @@ def test_output_format(mock_get):
 #
     json_data_id = aircraft_position("TEST1")
     assert json_data_id.equals(output)
-
-# @patch('requests.get', side_effect=mocked_requests_get)
-# def test_id_not_found(mock_get):
-#     """
-#     If get 404 on all entered aircraft_id, raise error
-#     """
-#     with pytest.raises(AssertionError):
-#         aircraft_position("123")

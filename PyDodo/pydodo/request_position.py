@@ -27,10 +27,11 @@ def format_output(aircraft_pos):
 def normalise_positions_units(df):
     """Normalise units of measurement in the positions data."""
     SCALE_METRES_TO_FEET = 3.280839895
-    
+
     # Bluesky returns altitude in metres, not feet.
     if settings.default["simulator"] == settings.default["bluesky_simulator"]:
-        df["altitude"] = SCALE_METRES_TO_FEET * df["altitude"]
+        df.loc[:, "altitude"] = SCALE_METRES_TO_FEET * df["altitude"]
+        df.loc[:, "altitude"] = df["altitude"].round(2)
     return df
 
 def get_position(aircraft_id):
