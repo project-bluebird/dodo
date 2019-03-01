@@ -1,4 +1,4 @@
-import os 
+import os
 from setuptools import setup, find_packages
 from setuptools.command.develop import develop as _develop
 from setuptools.command.install import install as _install
@@ -9,7 +9,8 @@ with open("requirements.txt", "r") as f:
 
 def get_config(dir=None):
     print("Getting the config file")
-    config = 'https://raw.githubusercontent.com/alan-turing-institute/dodo/master/config.yml'
+    # TO DO: replace `py_dodo` with `master` after merge
+    config = 'https://raw.githubusercontent.com/alan-turing-institute/dodo/py_dodo/config.yml'
     if dir==None:
         call(['wget', config])
     else:
