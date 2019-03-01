@@ -26,6 +26,13 @@ def test_input_aircraft_id(aircraft_id):
     with pytest.raises(AssertionError):
         aircraft_position(aircraft_id)
 
+latitude = 55.945336
+longitude = -3.187299
+heading = 123.45
+altitude = 76.2
+speed = 250.25
+vertical_speed = 0
+
 def mocked_requests_get(*args, **kwargs):
     class MockResponse:
         def __init__(self, json_data, status_code):
@@ -36,11 +43,10 @@ def mocked_requests_get(*args, **kwargs):
 
     if kwargs['params']["acid"] == 'all':
         return MockResponse(
-            {"TEST1":{"_validTo": "Mon, 25 Feb 2019 17:35:07 GMT", "lat":55.945336, "lon":-3.187299, "hdg":123.45, "alt":7620,  "gs":250.25, "vs":0}}
-            , 200)
+            {"TEST1":{"_validTo": "Mon, 25 Feb 2019 17:35:07 GMT", "lat":latitude, "lon":longitude, "hdg":heading, "alt":altitude,  "gs":speed, "vs":vertical_speed}}, 200)
     elif kwargs['params']["acid"] == 'TEST1':
         # return dictionary
-        return MockResponse({"_validTo": "Mon, 25 Feb 2019 17:35:07 GMT","lat":55.945336, "lon":-3.187299, "hdg":123.45, "alt":7620,  "gs":250.25, "vs":0}, 200)
+        return MockResponse({"_validTo": "Mon, 25 Feb 2019 17:35:07 GMT","lat":latitude, "lon":longitude, "hdg":heading, "alt":altitude,  "gs":speed, "vs":vertical_speed}, 200)
 
     return MockResponse(None, 404)
 
@@ -49,7 +55,8 @@ def test_output_format(mock_get):
     """
     Check request output is formatted correctly
     """
-    output = pd.DataFrame.from_dict({"TEST1":{"altitude":7620,  "ground_speed":250.25, "latitude":55.945336, "longitude":-3.187299,  "vertical_speed":0}}, orient='index')
+    alt = altitude*3.280839895
+    output = pd.DataFrame.from_dict({"TEST1":{"altitude":alt,  "ground_speed":speed, "latitude":latitude, "longitude":longitude,  "vertical_speed":vertical_speed}}, orient='index')
 
     json_data_all = all_positions()
     assert json_data_all.equals(output)

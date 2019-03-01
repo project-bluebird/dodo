@@ -1,6 +1,9 @@
 default:
   host: "localhost"
   port: "5001"
+  simulator: "bluesky"
+  bluesky_simulator: "bluesky"
+  college_simulator: "college"
 
   # Bluebird API endpoints (to be removed in favour of OpenAPI)
   status_code_aircraft_id_not_found: 404

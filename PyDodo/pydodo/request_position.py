@@ -23,6 +23,16 @@ def format_output(aircraft_pos):
     }
     return position_formatted
 
+
+def normalise_positions_units(df):
+    """Normalise units of measurement in the positions data."""
+    SCALE_METRES_TO_FEET = 3.280839895
+    
+    # Bluesky returns altitude in metres, not feet.
+    if settings.default["simulator"] == settings.default["bluesky_simulator"]:
+        df["altitude"] = SCALE_METRES_TO_FEET * df["altitude"]
+    return df
+
 def get_position(aircraft_id):
     """
     Get position dataframe for single aircraft_id.
@@ -53,15 +63,15 @@ def aircraft_position(aircraft_id):
         """
         if type(aircraft_id) == str:
             assert utils._check_string_input(aircraft_id), 'Invalid input {} for aircraft id'.format(aircraft_id)
-            output = get_position(aircraft_id)
+            pos_df = get_position(aircraft_id)
         elif type(aircraft_id) == list:
             assert utils._check_id_list(aircraft_id), 'Invalid input {} for aircraft id'.format(aircraft_id)
-            output = pd.concat([get_position(id) for id in aircraft_id])
+            pos_df = pd.concat([get_position(id) for id in aircraft_id])
         else:
             raise AssertionError("Invalid input {} for aircraft id".format(aircraft_id))
 
-        #assert not output.isnull().all().all(), 'None of the {} aircraft IDs were found'.format(aircraft_id)
-        return output
+        #assert not pos_df.isnull().all().all(), 'None of the {} aircraft IDs were found'.format(aircraft_id)
+        return normalise_positions_units(pos_df)
 
 def all_positions():
     """
@@ -74,5 +84,5 @@ def all_positions():
 
     json_data = json.loads(resp.text)
     pos_data = {aircraft:format_output(json_data[aircraft]) for aircraft in json_data.keys()}
-    pos_dict = pd.DataFrame.from_dict(pos_data, orient='index')
-    return pos_dict
+    pos_df = pd.DataFrame.from_dict(pos_data, orient='index')
+    return normalise_positions_units(pos_df)
