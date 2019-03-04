@@ -1,0 +1,18 @@
+Package: rdodo
+Type: Package
+Title: Scaffold for ATC agents
+Version: 0.1.0
+Authors@R: c(
+    person("Timothy", "Hobson", email = "thobson@turing.ac.uk", role = c("aut", "cre")),
+    person("Gabasova", "Evelina", email = "egabasova@turing.ac.uk", role = c("aut")),
+    person("The Alan Turing Institute", role = "cph")
+    )
+Maintainer: Timothy Hobson <thobson@turing.ac.uk>
+Description: Scaffold for ATC agents to interface with the Bluebird API.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Suggests: testthat
+Imports: utils, config, httr, magrittr, purrr, jsonlite
+RoxygenNote: 6.1.1
+NeedsCompilation: no
