@@ -8,7 +8,7 @@ from pydodo.utils import ping_bluebird
 bb_resp = ping_bluebird()
 
 @pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
-def test_change_heading():
+def test_change_speed():
     reset_simulation()
 
     aircraft_id = "TST1001"

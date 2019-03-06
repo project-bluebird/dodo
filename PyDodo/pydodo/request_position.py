@@ -23,7 +23,6 @@ def format_output(aircraft_pos):
     }
     return position_formatted
 
-
 def normalise_positions_units(df):
     """Normalise units of measurement in the positions data."""
     SCALE_METRES_TO_FEET = 3.280839895
@@ -32,6 +31,28 @@ def normalise_positions_units(df):
     if settings.default["simulator"] == settings.default["bluesky_simulator"]:
         df.loc[:, "altitude"] = SCALE_METRES_TO_FEET * df["altitude"]
         df.loc[:, "altitude"] = df["altitude"].round(2)
+    return df
+
+def null_pos_df(aircraft_id=None):
+    """
+    Returns empty dataframe if no ID is provided otherwise dataframe with NAN.
+    """
+    if aircraft_id == None:
+        df = pd.DataFrame({
+            "altitude":[],
+            "ground_speed":[],
+            "latitude":[],
+            "longitude":[],
+            "vertical_speed":[]
+            })
+    else:
+        df = pd.DataFrame({
+            "altitude":np.nan,
+            "ground_speed":np.nan,
+            "latitude":np.nan,
+            "longitude":np.nan,
+            "vertical_speed":np.nan
+            }, index=[aircraft_id])
     return df
 
 def get_position(aircraft_id):
@@ -45,13 +66,7 @@ def get_position(aircraft_id):
         pos_dict = pd.DataFrame.from_dict(pos_data, orient='index')
         return pos_dict
     elif resp.status_code == settings.default['status_code_aircraft_id_not_found']:
-        return pd.DataFrame({
-            "altitude":np.nan,
-            "ground_speed":np.nan,
-            "latitude":np.nan,
-            "longitude":np.nan,
-            "vertical_speed":np.nan
-            }, index=[aircraft_id])
+        return null_pos_df(aircraft_id)
     else:
         raise requests.HTTPError(resp.text)
 
@@ -84,6 +99,9 @@ def all_positions():
     resp.raise_for_status()
 
     json_data = json.loads(resp.text)
-    pos_data = {aircraft:format_output(json_data[aircraft]) for aircraft in json_data.keys()}
-    pos_df = pd.DataFrame.from_dict(pos_data, orient='index')
+    if json_data != {}:
+        pos_data = {aircraft:format_output(json_data[aircraft]) for aircraft in json_data.keys()}
+        pos_df = pd.DataFrame.from_dict(pos_data, orient='index')
+    else:
+        pos_df = null_pos_df()
     return normalise_positions_units(pos_df)
