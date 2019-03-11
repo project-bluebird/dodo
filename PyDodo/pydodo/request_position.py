@@ -10,6 +10,7 @@ from . import utils
 endpoint = config_param('endpoint_aircraft_position')
 url = utils.construct_endpoint_url(endpoint)
 
+
 def format_output(aircraft_pos):
     """
     Format aircraft position dictionary returned by bluebird.
@@ -23,6 +24,7 @@ def format_output(aircraft_pos):
     }
     return position_formatted
 
+
 def normalise_positions_units(df):
     """Normalise units of measurement in the positions data."""
     SCALE_METRES_TO_FEET = 3.280839895
@@ -32,6 +34,7 @@ def normalise_positions_units(df):
         df.loc[:, "altitude"] = SCALE_METRES_TO_FEET * df["altitude"]
         df.loc[:, "altitude"] = df["altitude"].round(2)
     return df
+
 
 def null_pos_df(aircraft_id=None):
     """
@@ -55,6 +58,7 @@ def null_pos_df(aircraft_id=None):
             }, index=[aircraft_id])
     return df
 
+
 def get_position(aircraft_id):
     """
     Get position dataframe for single aircraft_id.
@@ -69,6 +73,7 @@ def get_position(aircraft_id):
         return null_pos_df(aircraft_id)
     else:
         raise requests.HTTPError(resp.text)
+
 
 def aircraft_position(aircraft_id):
         """
@@ -88,6 +93,7 @@ def aircraft_position(aircraft_id):
 
         #assert not pos_df.isnull().all().all(), 'None of the {} aircraft IDs were found'.format(aircraft_id)
         return normalise_positions_units(pos_df)
+
 
 def all_positions():
     """

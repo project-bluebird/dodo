@@ -3,7 +3,8 @@ import requests
 from .config_param import config_param
 from .utils import construct_endpoint_url
 
-def post_request(param):
+
+def post_simulation_request(param):
     """
     Common format for posting simulation request to BlueBird.
     """
@@ -15,20 +16,23 @@ def post_request(param):
     resp.raise_for_status()
     return True
 
+
 def reset_simulation():
     """
     Reset the simulation.
     """
-    return post_request('endpoint_reset_simulation')
+    return post_simulation_request('endpoint_reset_simulation')
+
 
 def pause_simulation():
     """
     Pause the simulation.
     """
-    return post_request('endpoint_pause_simulation')
+    return post_simulation_request('endpoint_pause_simulation')
+
 
 def resume_simulation():
     """
     Resume the simulation.
     """
-    return post_request('endpoint_resume_simulation')
+    return post_simulation_request('endpoint_resume_simulation')
