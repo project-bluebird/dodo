@@ -1,18 +1,18 @@
 import requests
 
-from . import settings
+from .config_param import config_param
 
 
 def construct_endpoint_url(endpoint):
-	return '{0}/{1}/{2}/{3}'.format(get_bluebird_url(), settings.API_PATH, settings.API_VERSION, endpoint)
+	return '{0}/{1}/{2}/{3}'.format(get_bluebird_url(), config_param('api_path'), config_param('api_version'), endpoint)
 
 
 def get_bluebird_url():
-	return 'http://{}:{}'.format(settings.HOST, settings.PORT)
+	return 'http://{}:{}'.format(config_param('host'), config_param('port'))
 
 
 def ping_bluebird():
-	endpoint = settings.default['endpoint_aircraft_position']
+	endpoint = config_param('endpoint_aircraft_position')
 
 	url = construct_endpoint_url(endpoint)
 	print('ping bluebird on {}'.format(url))
@@ -54,10 +54,10 @@ def _check_string_input(input):
     return False
 
 def _check_altitude(alt):
-	return 0 <= alt <= settings.default['feet_altitude_upper_limit']
+	return 0 <= alt <= config_param('feet_altitude_upper_limit')
 
 def _check_flight_level(fl):
-	return fl >= settings.default['flight_level_lower_limit']
+	return fl >= config_param('flight_level_lower_limit')
 
 def parse_alt(alt, fl):
 	if alt is not None:

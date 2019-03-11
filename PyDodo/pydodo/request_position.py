@@ -4,10 +4,10 @@ import json
 import numpy as np
 import pandas as pd
 
-from . import settings
+from .config_param import config_param
 from . import utils
 
-endpoint = settings.default['endpoint_aircraft_position']
+endpoint = config_param('endpoint_aircraft_position')
 url = utils.construct_endpoint_url(endpoint)
 
 def format_output(aircraft_pos):
@@ -28,7 +28,7 @@ def normalise_positions_units(df):
     SCALE_METRES_TO_FEET = 3.280839895
 
     # Bluesky returns altitude in metres, not feet.
-    if settings.default["simulator"] == settings.default["bluesky_simulator"]:
+    if config_param('simulator') == config_param("bluesky_simulator"):
         df.loc[:, "altitude"] = SCALE_METRES_TO_FEET * df["altitude"]
         df.loc[:, "altitude"] = df["altitude"].round(2)
     return df
@@ -65,7 +65,7 @@ def get_position(aircraft_id):
         pos_data = {aircraft_id:format_output(json_data)}
         pos_dict = pd.DataFrame.from_dict(pos_data, orient='index')
         return pos_dict
-    elif resp.status_code == settings.default['status_code_aircraft_id_not_found']:
+    elif resp.status_code == config_param('status_code_aircraft_id_not_found'):
         return null_pos_df(aircraft_id)
     else:
         raise requests.HTTPError(resp.text)

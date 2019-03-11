@@ -1,9 +1,9 @@
 import requests
 
-from . import settings
+from .config_param import config_param
 from . import utils
 
-endpoint = settings.default['endpoint_create_aircraft']
+endpoint = config_param('endpoint_create_aircraft')
 url = utils.construct_endpoint_url(endpoint)
 
 def create_aircraft(aircraft_id, type, latitude, longitude, heading, speed, altitude=None, flight_level=None):

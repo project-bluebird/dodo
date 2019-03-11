@@ -1,6 +1,6 @@
 import requests
 
-from . import settings
+from .config_param import config_param
 from . import utils
 
 def change_altitude(aircraft_id, altitude=None, flight_level=None, vertical_speed=None):
@@ -11,7 +11,7 @@ def change_altitude(aircraft_id, altitude=None, flight_level=None, vertical_spee
     assert altitude is None or flight_level is None, 'Only altitude or flight level should be provided, not both'
     alt = utils.parse_alt(altitude, flight_level)
 
-    endpoint = settings.default['endpoint_change_altitude']
+    endpoint = config_param('endpoint_change_altitude')
     url = utils.construct_endpoint_url(endpoint)
 
     json = {'acid': aircraft_id, 'alt': alt}
@@ -29,7 +29,7 @@ def change_heading(aircraft_id, heading):
     assert utils._check_string_input(aircraft_id), 'Invalid input {} for aircraft id'.format(aircraft_id)
     assert utils._check_heading(heading), 'Invalid input {} for heading'
 
-    endpoint = settings.default['endpoint_change_heading']
+    endpoint = config_param('endpoint_change_heading')
     url = utils.construct_endpoint_url(endpoint)
 
     json = {'acid': aircraft_id, 'hdg': heading}
@@ -44,7 +44,7 @@ def change_speed(aircraft_id, speed):
     assert utils._check_string_input(aircraft_id), 'Invalid input {} for aircraft id'.format(aircraft_id)
     assert utils._check_speed(speed), 'Invalid input {} for speed'
 
-    endpoint = settings.default['endpoint_change_speed']
+    endpoint = config_param('endpoint_change_speed')
     url = utils.construct_endpoint_url(endpoint)
 
     json = {'acid': aircraft_id, 'spd': speed}
@@ -59,7 +59,7 @@ def change_vertical_speed(aircraft_id, vertical_speed):
     assert utils._check_string_input(aircraft_id), 'Invalid input {} for aircraft id'.format(aircraft_id)
     assert utils._check_speed(vertical_speed), 'Invalid input {} for vertical speed'
 
-    endpoint = settings.default['endpoint_change_vertical_speed']
+    endpoint = config_param('endpoint_change_vertical_speed')
     url = utils.construct_endpoint_url(endpoint)
 
     json = {'acid': aircraft_id, 'vspd': vertical_speed}
