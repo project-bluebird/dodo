@@ -5,7 +5,7 @@ Test load_scenario and reset_simulation functions
 """
 
 import pytest
-from pydodo import reset_simulation, load_scenario
+from pydodo import reset_simulation, load_scenario, pause_simulation, resume_simulation
 from pydodo.utils import ping_bluebird
 
 from requests.exceptions import HTTPError
@@ -13,19 +13,23 @@ from requests.exceptions import HTTPError
 bb_resp = ping_bluebird()
 
 @pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
-def test_reset_simulation():
+def test_simulation():
     """
-    Check returns True when called and connection to bluebird exists
-    """
-    resp = reset_simulation()
-    assert resp == True
-
-@pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
-def test_load_scenario():
-    """
-    Check returns True if valid file path is provided (BlueSky)
+    - Load scenario - check returns True if valid file path is provided (BlueSky)
+    - Pause
+    - Resume
+    - Reset
     """
     resp = load_scenario("scenario/8.scn")
+    assert resp == True
+
+    resp = pause_simulation()
+    assert resp == True
+
+    resp = resume_simulation()
+    assert resp == True
+
+    resp = reset_simulation()
     assert resp == True
 
 def test_load_empty():
