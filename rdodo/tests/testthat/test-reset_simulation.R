@@ -1,5 +1,5 @@
 require(testthat)
-context("aircraft_position function")
+context("reset_simulation function")
 
 skip_if_not(found_bluebird(), message = "BlueBird not found: tests skipped.")
 

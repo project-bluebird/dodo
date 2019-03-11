@@ -8,7 +8,7 @@ reset_simulation()
 
 test_that("the create_aircraft function works", {
 
-  aircraft_id <- "test-create"
+  aircraft_id <- "testCreate"
   type <- "B744"
   latitude <- 0
   longitude <- 0
