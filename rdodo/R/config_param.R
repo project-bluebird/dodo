@@ -5,6 +5,9 @@
 #' @param file
 #' The configuration file to read from.
 #'
+#' @return The value of the requested configuration parameter. An error is
+#' thrown if the given parameter name is not found in the config file.
+#'
 #' @import config utils
 #' @export
 config_param <- function(param, file = config_file_location()) {
@@ -24,7 +27,13 @@ config_param <- function(param, file = config_file_location()) {
 
     message("Using rdodo config file at: ", file)
   }
-  config::get(param, file = file, use_parent = FALSE)
+  ret <- config::get(param, file = file, use_parent = FALSE)
+
+  # Throw an error if the given config parameter is not found.
+  if (is.null(ret))
+    stop(paste("Config parameter", param, "not found"))
+
+  ret
 }
 
 # Download the config file from the dodo repository and return it's location.
