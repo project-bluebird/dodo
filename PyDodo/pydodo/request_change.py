@@ -13,6 +13,7 @@ def post_change_request(param, json):
     resp.raise_for_status()
     return True
 
+
 def change_altitude(aircraft_id, altitude=None, flight_level=None, vertical_speed=None):
     """
     Change aircraft altitude.
