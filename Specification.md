@@ -31,6 +31,37 @@ Currently, the path is relative to the simulator (e.g., BlueSky) root directory 
 
 **Description:** Reset simulation to the start of the currently running scenario.
 
+## Pause the simulation
+
+**Function name:** `pause_simulation`
+
+**Parameters:** None
+
+**Return value:** `TRUE` if successful. Otherwise an exception is thrown.
+
+**Description:** Pause the simulation.
+
+## Resume the simulation
+
+**Function name:** `resume_simulation`
+
+**Parameters:** None
+
+**Return value:** `TRUE` if successful. Otherwise an exception is thrown.
+
+**Description:** Resume the simulation after a pause.
+
+## Set the simulation rate multiplier
+
+**Function name:** `set_simulation_rate_multiplier`
+
+**Parameters:** 
+- `multiplier`: A positive double.
+
+**Return value:** `TRUE` if successful. Otherwise an exception is thrown.
+
+**Description:** Sets the simulation rate multiplier for the current simulation. By default this multiplier is equal to one (real-time operation). If set to another value, the simulation will run faster (or slower) than real-time, with a fixed multiplier as provided. For example, a multiplier of 2 would cause the simulation to run twice as fast: 60 simulation minutes take 30 actual minutes.
+
 ## Create aircraft
 
 **Function name:** `create_aircraft`
