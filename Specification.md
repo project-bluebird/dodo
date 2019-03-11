@@ -4,7 +4,7 @@
 
 Dodo is a scaffold for air traffic control (ATC) agents implemented in Python and R (PyDodo and rdodo respectively). It provides a set of commands for communicating with [BlueBird](https://github.com/alan-turing-institute/bluebird), an API for communicating with ATC simulators (e.g, [BlueSky](https://github.com/alan-turing-institute/bluesky)).
 
-A shared `config.yaml` file exists for both rdodo and PyDodo, specifying common required parameters, settings and test cases.
+A shared `config.yml` file exists for both rdodo and PyDodo, specifying common required parameters, settings and test cases.
 
 # Commands
 
