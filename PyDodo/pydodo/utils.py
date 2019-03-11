@@ -4,15 +4,15 @@ from . import settings
 
 
 def construct_endpoint_url(endpoint):
-	return '{}/api/v{}/{}'.format(get_bluebird_url(), settings.API_VERSION, endpoint)
+	return '{0}/{1}/{2}/{3}'.format(get_bluebird_url(), settings.API_PATH, settings.API_VERSION, endpoint)
 
 
 def get_bluebird_url():
-	return 'http://{}:{}'.format(settings.BB_HOST, settings.BB_PORT)
+	return 'http://{}:{}'.format(settings.HOST, settings.PORT)
 
 
 def ping_bluebird():
-	endpoint = "pos"
+	endpoint = settings.default['endpoint_aircraft_position']
 
 	url = construct_endpoint_url(endpoint)
 	print('ping bluebird on {}'.format(url))

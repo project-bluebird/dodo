@@ -6,8 +6,6 @@ Settings for the Dodo app
 import os
 import yaml
 
-API_VERSION = 1
-
 this_dir, this_filename = os.path.split(os.path.abspath(__file__))
 try:
     """used for installs"""
@@ -26,5 +24,8 @@ except:
             raise FileNotFoundError("The config file is missing.")
 
 default = cfg['default']
-BB_HOST = cfg['default']['host']
-BB_PORT = cfg['default']['port']
+HOST = cfg['default']['host']
+PORT = cfg['default']['port']
+API_VERSION = cfg['default']['api_version']
+API_PATH = cfg['default']['api_path']
+SIMULATOR = cfg['default']['simulator']
