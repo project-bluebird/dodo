@@ -17,6 +17,7 @@ def test_no_positions():
     pos_df = all_positions()
     assert pos_df.empty
 
+@pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
 def test_wrong_id():
     """
     Expect dataframe with NAN if request aircraft not in simulation.
@@ -34,6 +35,7 @@ def test_wrong_id():
             }, index=['TEST1'])
     )
 
+@pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
 def test_positions():
     cmd = reset_simulation()
     assert cmd == True

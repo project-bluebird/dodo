@@ -1,0 +1,20 @@
+matrix:
+  include:
+    - language: python
+      dist: xenial # no python 3.7 on trusy so use xenial
+      python:
+        - 3.6
+        - 3.7
+      install:
+        - pip install -r PyDodo/requirements.txt
+      before_script:
+        cd PyDodo
+      script:
+        - pytest -v
+    - language: r
+      before_install:
+        cd rdodo
+# safelist
+branches:
+  only:
+  - master
