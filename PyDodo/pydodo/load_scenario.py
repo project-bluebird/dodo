@@ -13,5 +13,5 @@ def load_scenario(filename):
     """
     assert filename, "Must provide scenario file path"
 
-    json={"filename": filename}
-    return post_request(config_param('endpoint_load_scenario'), json)
+    json = {"filename": filename}
+    return post_request(config_param("endpoint_load_scenario"), json)
