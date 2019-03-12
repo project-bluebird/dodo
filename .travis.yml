@@ -10,7 +10,9 @@ matrix:
       before_script:
         cd PyDodo
       script:
-        - pytest
+        - pytest -v
     - language: r
+      before_install:
+        cd rdodo
       before_script:
         cd rdodo
