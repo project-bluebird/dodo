@@ -11,3 +11,4 @@ matrix:
         cd PyDodo
       script:
         - pytest
+    - language: r
