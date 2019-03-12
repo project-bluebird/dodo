@@ -14,3 +14,7 @@ matrix:
     - language: r
       before_install:
         cd rdodo
+# safelist
+branches:
+  only:
+  - master
