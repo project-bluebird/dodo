@@ -11,7 +11,6 @@
 #' load_scenario("scenario/8.SCN")
 #' }
 #'
-#' @import httr
 #' @export
 load_scenario <- function(filename) {
 

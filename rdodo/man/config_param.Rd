@@ -11,6 +11,10 @@ config_param(param, file = config_file_location())
 
 \item{file}{The configuration file to read from.}
 }
+\value{
+The value of the requested configuration parameter. An error is
+thrown if the given parameter name is not found in the config file.
+}
 \description{
 Get a configuration parameter
 }

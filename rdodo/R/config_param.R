@@ -5,6 +5,9 @@
 #' @param file
 #' The configuration file to read from.
 #'
+#' @return The value of the requested configuration parameter. An error is
+#' thrown if the given parameter name is not found in the config file.
+#'
 #' @import config utils
 #' @export
 config_param <- function(param, file = config_file_location()) {
@@ -24,7 +27,13 @@ config_param <- function(param, file = config_file_location()) {
 
     message("Using rdodo config file at: ", file)
   }
-  config::get(param, file = file, use_parent = FALSE)
+  ret <- config::get(param, file = file, use_parent = FALSE)
+
+  # Throw an error if the given config parameter is not found.
+  if (is.null(ret))
+    stop(paste("Config parameter", param, "not found"))
+
+  ret
 }
 
 # Download the config file from the dodo repository and return it's location.
@@ -37,8 +46,7 @@ retrieve_config_file <- function() {
   if (file.exists(destfile))
     stop(paste("Aborting download attempt due to conflicting file at:", destfile))
 
-  # TODO: replace `rdodo` branch with `master` after merge.
-  url <- "https://raw.githubusercontent.com/alan-turing-institute/dodo/rdodo/config.yml"
+  url <- "https://raw.githubusercontent.com/alan-turing-institute/dodo/master/config.yml"
   response <- tryCatch({
     utils::download.file(url, destfile = destfile)
   },
@@ -60,6 +68,12 @@ retrieve_config_file <- function() {
 config_file_location <- function() {
 
   config_filename <- "config.yml"
+
+  # Fist look in the working directory or its parent.
+  if (file.exists(config_filename))
+    return(file.path(config_filename))
+  if (file.exists(file.path("..", config_filename)))
+    return(file.path("..", config_filename))
 
   # Note that when running tests with cmd+T or running R CMD CHECK this function
   # returns the package source root directory, *not* the installation directory.
