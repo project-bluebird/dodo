@@ -1,7 +1,11 @@
 language: python
 
+# no python 3.7 on trusy so use xenial
+dist: xenial
+
 python:
   - 3.6
+  - 3.7
 
 install:
   - pip install -r PyDodo/requirements.txt
