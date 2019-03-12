@@ -1,10 +1,9 @@
 import requests
 
-from .config_param import config_param
 from . import utils
+from .utils import post_request
+from .config_param import config_param
 
-endpoint = config_param('endpoint_create_aircraft')
-url = utils.construct_endpoint_url(endpoint)
 
 def create_aircraft(aircraft_id, type, latitude, longitude, heading, speed, altitude=None, flight_level=None):
 	"""
@@ -22,8 +21,4 @@ def create_aircraft(aircraft_id, type, latitude, longitude, heading, speed, alti
 	json = {'acid': aircraft_id, 'type': type, 'lat': latitude, 'lon': longitude,
 			'hdg': heading, 'alt': alt, 'spd': speed}
 
-	resp = requests.post(url, json=json)
-
-	# if response is 4XX or 5XX, raise exception
-	resp.raise_for_status()
-	return True
+	return post_request(config_param('endpoint_create_aircraft'), json)

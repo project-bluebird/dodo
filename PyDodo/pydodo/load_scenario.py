@@ -1,9 +1,8 @@
 import requests
 
 from .config_param import config_param
-from .utils import construct_endpoint_url
+from .utils import post_request
 
-endpoint = config_param('endpoint_load_scenario')
 
 def load_scenario(filename):
     """
@@ -14,9 +13,5 @@ def load_scenario(filename):
     """
     assert filename, "Must provide scenario file path"
 
-    url = construct_endpoint_url(endpoint)
-    resp = requests.post(url, json={"filename": filename})
-
-    # if response is 4XX or 5XX, raise exception
-    resp.raise_for_status()
-    return True
+    json={"filename": filename}
+    return post_request(config_param('endpoint_load_scenario'), json)

@@ -3,13 +3,12 @@ import requests
 from .config_param import config_param
 
 
-def post_request(param, json=None):
+def post_request(endpoint, body=None):
     """
     Common format for POST requests to BlueBird.
     """
-    endpoint = config_param(param)
     url = construct_endpoint_url(endpoint)
-    resp = requests.post(url, json=json)
+    resp = requests.post(url, params=body)
     # if response is 4XX or 5XX, raise exception
     resp.raise_for_status()
     return True
