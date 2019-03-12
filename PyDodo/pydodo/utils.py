@@ -8,7 +8,7 @@ def post_request(endpoint, body=None):
     Common format for POST requests to BlueBird.
     """
     url = construct_endpoint_url(endpoint)
-    resp = requests.post(url, params=body)
+    resp = requests.post(url, json=body)
     # if response is 4XX or 5XX, raise exception
     resp.raise_for_status()
     return True
