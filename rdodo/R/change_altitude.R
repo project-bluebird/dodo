@@ -35,8 +35,6 @@ change_altitude <- function(aircraft_id,
   if (!is.null(vertical_speed))
     validate_speed(vertical_speed)
 
-  # TODO: move to validate_flight_level and validate_altitude functions.
-
   # Either altitude or flight_level must be NULL, but not both.
   stopifnot(is.null(altitude) || is.null(flight_level))
   if (is.null(altitude)) {

@@ -12,6 +12,7 @@ default:
   endpoint_reset_simulation: "reset"
   endpoint_pause_simulation: "hold"
   endpoint_resume_simulation: "op"
+  endpoint_set_simulation_rate_multiplier: "dtmult"
   endpoint_load_scenario: "ic"
   endpoint_create_aircraft: "cre"
   endpoint_aircraft_position: "pos"
