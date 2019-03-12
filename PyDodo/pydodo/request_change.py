@@ -2,16 +2,7 @@ import requests
 
 from .config_param import config_param
 from . import utils
-
-def post_change_request(param, json):
-    """
-    Common format for requesting aircraft change from BlueBird.
-    """
-    endpoint = config_param(param)
-    url = utils.construct_endpoint_url(endpoint)
-    resp = requests.post(url, json=json)
-    resp.raise_for_status()
-    return True
+from .utils import post_request
 
 
 def change_altitude(aircraft_id, altitude=None, flight_level=None, vertical_speed=None):
@@ -26,7 +17,7 @@ def change_altitude(aircraft_id, altitude=None, flight_level=None, vertical_spee
     if vertical_speed:
         assert utils._check_speed(vertical_speed), 'Invalid input {} for vertical speed'.format(vertical_speed)
         json['vs'] = vertical_speed
-    return post_change_request('endpoint_change_altitude', json)
+    return post_request('endpoint_change_altitude', json)
 
 
 def change_heading(aircraft_id, heading):
@@ -37,7 +28,7 @@ def change_heading(aircraft_id, heading):
     assert utils._check_heading(heading), 'Invalid input {} for heading'
 
     json = {'acid': aircraft_id, 'hdg': heading}
-    return post_change_request('endpoint_change_heading', json)
+    return post_request('endpoint_change_heading', json)
 
 
 def change_speed(aircraft_id, speed):
@@ -48,7 +39,7 @@ def change_speed(aircraft_id, speed):
     assert utils._check_speed(speed), 'Invalid input {} for speed'
 
     json = {'acid': aircraft_id, 'spd': speed}
-    return post_change_request('endpoint_change_speed', json)
+    return post_request('endpoint_change_speed', json)
 
 
 def change_vertical_speed(aircraft_id, vertical_speed):
@@ -59,4 +50,4 @@ def change_vertical_speed(aircraft_id, vertical_speed):
     assert utils._check_speed(vertical_speed), 'Invalid input {} for vertical speed'
 
     json = {'acid': aircraft_id, 'vspd': vertical_speed}
-    return post_change_request('endpoint_change_vertical_speed', json)
+    return post_request('endpoint_change_vertical_speed', json)

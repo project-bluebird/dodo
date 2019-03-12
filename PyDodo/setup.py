@@ -9,7 +9,6 @@ with open("requirements.txt", "r") as f:
 
 def get_config(dir=None):
     print("Getting the config file")
-    # TO DO: replace `py_dodo` with `master` after merge
     config = 'https://raw.githubusercontent.com/alan-turing-institute/dodo/master/config.yml'
     if dir==None:
         call(['wget', config])

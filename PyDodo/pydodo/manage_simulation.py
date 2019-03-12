@@ -1,38 +1,31 @@
 import requests
 
-from .config_param import config_param
-from .utils import construct_endpoint_url
-
-
-def post_simulation_request(param):
-    """
-    Common format for posting simulation request to BlueBird.
-    """
-    endpoint = config_param(param)
-    url = construct_endpoint_url(endpoint)
-    resp = requests.post(url)
-
-    # if response is 4XX or 5XX, raise exception
-    resp.raise_for_status()
-    return True
+from .utils import post_request
 
 
 def reset_simulation():
     """
     Reset the simulation.
     """
-    return post_simulation_request('endpoint_reset_simulation')
+    return post_request('endpoint_reset_simulation')
 
 
 def pause_simulation():
     """
     Pause the simulation.
     """
-    return post_simulation_request('endpoint_pause_simulation')
+    return post_request('endpoint_pause_simulation')
 
 
 def resume_simulation():
     """
     Resume the simulation.
     """
-    return post_simulation_request('endpoint_resume_simulation')
+    return post_request('endpoint_resume_simulation')
+
+
+def set_simulation_rate_multiplier(multiplier):
+    assert multiplier > 0, 'Invalid value {} for multiplier'.format(multiplier)
+
+    json = {'multiplier': multiplier}
+    return post_request('endpoint_set_simulation_rate_multiplier', json)
