@@ -12,3 +12,5 @@ matrix:
       script:
         - pytest
     - language: r
+      before_script:
+        cd rdodo
