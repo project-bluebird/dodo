@@ -5,10 +5,11 @@ import numpy as np
 import pandas as pd
 
 from .config_param import config_param
-from . import utils
+from .utils import construct_endpoint_url
+from . import validate_input
 
 endpoint = config_param("endpoint_aircraft_position")
-url = utils.construct_endpoint_url(endpoint)
+url = construct_endpoint_url(endpoint)
 
 
 def format_output(aircraft_pos):
@@ -88,10 +89,10 @@ def aircraft_position(aircraft_id):
     :return : dataframe with position data or NULL if aircraft_id does not exist
     """
     if type(aircraft_id) == str:
-        utils._check_string_input(aircraft_id, "aircraft_id")
+        validate_input._check_type_string(aircraft_id, "aircraft_id")
         pos_df = get_position(aircraft_id)
     elif type(aircraft_id) == list:
-        utils._check_id_list(aircraft_id)
+        validate_input._check_id_list(aircraft_id)
         pos_df = pd.concat([get_position(id) for id in aircraft_id])
     else:
         raise AssertionError("Invalid input {} for aircraft id".format(aircraft_id))
