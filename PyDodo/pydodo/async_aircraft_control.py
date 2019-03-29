@@ -7,7 +7,7 @@ from .utils import construct_endpoint_url, post_request
 from .config_param import config_param
 
 
-def async_request(commands):
+def batch(commands):
     """
     Execute list of aircraft control commands asynchronously.
 
@@ -22,6 +22,7 @@ def async_request(commands):
     loop = asyncio.get_event_loop()
     tasks = asyncio.gather(*futures, return_exceptions=True)
     results = loop.run_until_complete(tasks)
+    loop.close()
     return results
 
 

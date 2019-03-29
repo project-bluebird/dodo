@@ -15,7 +15,7 @@ from .simulation_control import (
     set_simulation_rate_multiplier
 )
 from .async_aircraft_control import (
-    async_request,
+    batch,
     async_change_altitude,
     async_change_heading
 )

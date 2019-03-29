@@ -1,14 +1,17 @@
 import pytest
 
 from pydodo import (async_change_altitude, async_change_heading,
-                    async_request, reset_simulation, create_aircraft)
+                    batch, reset_simulation, create_aircraft)
 from pydodo.utils import ping_bluebird
 
 # test if can connect to BlueBird
 bb_resp = ping_bluebird()
 
 @pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
-def test_async():
+def test_async_request():
+    """
+    Tests async_request() function
+    """
     reset_simulation()
 
     aircraft_id = "TST1001"
@@ -31,7 +34,7 @@ def test_async():
     commands = []
     commands.append(async_change_altitude(aircraft_id = aircraft_id, flight_level = 200))
     commands.append(async_change_heading(aircraft_id = aircraft_id, heading = 90))
-    results = async_request(commands)
+    results = batch(commands)
 
     assert results[0] == True
     assert results[1] == True
