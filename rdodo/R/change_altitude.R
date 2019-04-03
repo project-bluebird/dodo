@@ -23,7 +23,6 @@
 #' change_altitude("test1234", flight_level = 450)
 #' change_altitude("test1234", altitude = 5000)
 #' }
-#' @import httr
 #' @export
 change_altitude <- function(aircraft_id,
                             altitude = NULL,
