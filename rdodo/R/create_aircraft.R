@@ -3,6 +3,9 @@
 #' Either the \code{altitude} or \code{flight_level} argument must be given,
 #' but not both.
 #'
+#' If an aircraft with the given \code{aircraft_id} already exists an error is
+#' thrown.
+#'
 #' @param aircraft_id
 #' A string aircraft identifier
 #' @param type
@@ -21,7 +24,8 @@
 #' @param speed
 #' A non-negative double. The aircraft's speed in knots (KCAS).
 #'
-#' @return A boolean, \code{TRUE} indicates success.
+#' @return
+#' \code{TRUE} if successful. Otherwise \code{FALSE} and an error is thrown.
 #'
 #' @examples
 #' \dontrun{
