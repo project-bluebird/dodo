@@ -10,7 +10,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' body <- list("acid" = "ABC100", "type" = "B744", "lat" = 0, "lon" = 0, "hdg" = 0, "alt" = 20000, "spd" = 240)
+#' body <- list(acid="BA10", type="B744", lat=0, lon=0, hdg=0, alt=20000, spd=240)
 #' endpoint <- config_param("endpoint_create_aircraft")
 #' post_call(endpoint = endpoint, body = body)
 #' }
