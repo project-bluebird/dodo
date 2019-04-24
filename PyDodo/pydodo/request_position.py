@@ -86,7 +86,7 @@ def all_positions():
 
     Returns NULL dataframe if no aircraft found in simulation.
     """
-    resp = requests.get(url, params={"acid": "all"})
+    resp = requests.get(url, params={config_param("query_aircraft_id"): "all"})
     if resp.status_code == 200:
         pos_df = process_response(resp)
         return normalise_positions_units(pos_df)
@@ -100,7 +100,7 @@ def get_position(aircraft_id):
     """
     Get position dataframe for single aircraft_id.
     """
-    resp = requests.get(url, params={"acid": aircraft_id})
+    resp = requests.get(url, params={config_param("query_aircraft_id"): aircraft_id})
     if resp.status_code == 200:
         return process_response(resp)
     elif resp.status_code == config_param("status_code_aircraft_id_not_found"):
