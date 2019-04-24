@@ -13,8 +13,8 @@ def create_aircraft(
     heading,
     speed,
     altitude=None,
-    flight_level=None,
-):
+    flight_level=None
+    ):
     """
 	Create new aircraft. Raises error if inputs are invalid or if aircraft already exists.
 	"""
