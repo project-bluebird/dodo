@@ -11,9 +11,9 @@ endpoint = config_param("endpoint_aircraft_position")
 url = utils.construct_endpoint_url(endpoint)
 
 
-def format_output(aircraft_pos):
+def format_pos_output(aircraft_pos):
     """
-    Format aircraft position dictionary returned by bluebird.
+    Format position dictionary for an aircraft returned by bluebird.
     """
     position_formatted = {
         "altitude": aircraft_pos["alt"],
@@ -23,6 +23,21 @@ def format_output(aircraft_pos):
         "vertical_speed": aircraft_pos["vs"],
     }
     return position_formatted
+
+
+def process_response(response):
+    """
+    Process response from POS request.
+    """
+    json_data = json.loads(response.text)
+    pos_dict = {
+        aircraft: format_pos_output(json_data[aircraft])
+        for aircraft in json_data.keys()
+        if aircraft != 'sim_t'
+    }
+    pos_df = pd.DataFrame.from_dict(pos_dict, orient="index")
+    pos_df.sim_t = json_data['sim_t']
+    return pos_df
 
 
 def normalise_positions_units(df):
@@ -38,8 +53,9 @@ def normalise_positions_units(df):
 
 def null_pos_df(aircraft_id=None):
     """
-    Returns empty dataframe if no ID is provided otherwise dataframe with NAN.
+    Returns empty dataframe if no ID is provided otherwise dataframe with NANs.
     """
+
     if aircraft_id == None:
         df = pd.DataFrame(
             {
@@ -64,16 +80,29 @@ def null_pos_df(aircraft_id=None):
     return df
 
 
+def all_positions():
+    """
+    Get dataframe with position information for all aircraft in simulation.
+
+    Returns NULL dataframe if no aircraft found in simulation.
+    """
+    resp = requests.get(url, params={"acid": "all"})
+    if resp.status_code == 200:
+        pos_df = process_response(resp)
+        return normalise_positions_units(pos_df)
+    elif resp.status_code == config_param("status_code_no_aircraft_found"):
+        return null_pos_df()
+    else:
+        raise requests.HTTPError(resp.text)
+
+
 def get_position(aircraft_id):
     """
     Get position dataframe for single aircraft_id.
     """
     resp = requests.get(url, params={"acid": aircraft_id})
     if resp.status_code == 200:
-        json_data = json.loads(resp.text)
-        pos_data = {aircraft_id: format_output(json_data)}
-        pos_dict = pd.DataFrame.from_dict(pos_data, orient="index")
-        return pos_dict
+        return process_response(resp)
     elif resp.status_code == config_param("status_code_aircraft_id_not_found"):
         return null_pos_df(aircraft_id)
     else:
@@ -85,33 +114,15 @@ def aircraft_position(aircraft_id):
     Get position dataframe for aircraft_id.
 
     :param aircraft_id : string or a list of strings
-    :return : dataframe with position data or NULL if aircraft_id does not exist
+    :return : dataframe with position data, NaN if aircraft_id does not exist
     """
     if type(aircraft_id) == str:
         utils._check_string_input(aircraft_id, "aircraft_id")
         pos_df = get_position(aircraft_id)
     elif type(aircraft_id) == list:
         utils._check_id_list(aircraft_id)
-        pos_df = pd.concat([get_position(id) for id in aircraft_id])
+        all_pos = all_positions()
+        pos_df = all_pos.ix(aircraft_id) #filter requested IDs
     else:
         raise AssertionError("Invalid input {} for aircraft id".format(aircraft_id))
-    return normalise_positions_units(pos_df)
-
-
-def all_positions():
-    """
-    Get dataframe with position information for all aircraft in simulation.
-    """
-    resp = requests.get(url, params={"acid": "all"})
-    # if response other than 200, raise
-    resp.raise_for_status()
-    json_data = json.loads(resp.text)
-    if json_data != {}:
-        pos_data = {
-            aircraft: format_output(json_data[aircraft])
-            for aircraft in json_data.keys()
-        }
-        pos_df = pd.DataFrame.from_dict(pos_data, orient="index")
-    else:
-        pos_df = null_pos_df()
     return normalise_positions_units(pos_df)

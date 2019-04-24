@@ -3,6 +3,7 @@ import time
 
 from pydodo import change_speed, reset_simulation, create_aircraft, aircraft_position
 from pydodo.utils import ping_bluebird
+import time
 
 # test if can connect to BlueBird
 bb_resp = ping_bluebird()
@@ -47,7 +48,7 @@ def test_change_speed():
     assert cmd == True
 
     # Wait for the ground speed to increase.
-    time.sleep(0.5)
+    time.sleep(1)
 
     # Check that the heading has changed.
     new_position = aircraft_position(aircraft_id)

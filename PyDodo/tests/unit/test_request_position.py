@@ -41,13 +41,10 @@ def mocked_requests_get(*args, **kwargs):
             self.text = json.dumps(json_data)
             self.raise_for_status = requests.exceptions.HTTPError
 
-    if kwargs['params']["acid"] == 'all':
+    if kwargs['params']["acid"] == 'all' or kwargs['params']["acid"] == 'TEST1':
         return MockResponse(
-            {"TEST1":{"_validTo": "Mon, 25 Feb 2019 17:35:07 GMT", "lat":latitude, "lon":longitude, "hdg":heading, "alt":altitude,  "gs":speed, "vs":vertical_speed}}, 200)
-    elif kwargs['params']["acid"] == 'TEST1':
-        # return dictionary
-        return MockResponse({"_validTo": "Mon, 25 Feb 2019 17:35:07 GMT","lat":latitude, "lon":longitude, "hdg":heading, "alt":altitude,  "gs":speed, "vs":vertical_speed}, 200)
-
+            {"TEST1":{"_validTo": "Mon, 25 Feb 2019 17:35:07 GMT", "lat":latitude, "lon":longitude, "hdg":heading, "alt":altitude,  "gs":speed, "vs":vertical_speed}, 'sim_t':0}, 200)
+            
     return MockResponse(None, 404)
 
 @patch('requests.get', side_effect=mocked_requests_get)
