@@ -75,6 +75,7 @@ create_aircraft <- function(aircraft_id,
   post_call(endpoint = config_param("endpoint_create_aircraft"), body = body)
 }
 
+# Validate a *scalar* aircraft ID.
 validate_aircraft_id <- function(aircraft_id) {
 
   stopifnot(is.character(aircraft_id), length(aircraft_id) == 1)
