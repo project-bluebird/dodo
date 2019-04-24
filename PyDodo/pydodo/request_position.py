@@ -55,29 +55,18 @@ def null_pos_df(aircraft_id=None):
     """
     Returns empty dataframe if no ID is provided otherwise dataframe with NANs.
     """
-
+    null_dict = {
+        "altitude": [],
+        "ground_speed": [],
+        "latitude": [],
+        "longitude": [],
+        "vertical_speed": [],
+    }
     if aircraft_id == None:
-        df = pd.DataFrame(
-            {
-                "altitude": [],
-                "ground_speed": [],
-                "latitude": [],
-                "longitude": [],
-                "vertical_speed": [],
-            }
-        )
+        return pd.DataFrame(null_dict)
     else:
-        df = pd.DataFrame(
-            {
-                "altitude": np.nan,
-                "ground_speed": np.nan,
-                "latitude": np.nan,
-                "longitude": np.nan,
-                "vertical_speed": np.nan,
-            },
-            index=[aircraft_id],
-        )
-    return df
+        nan_dict = {key:np.nan for key in null_dict.keys()}
+        return pd.DataFrame(nan_dict, index=[aircraft_id])
 
 
 def all_positions():
