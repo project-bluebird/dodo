@@ -62,11 +62,23 @@ def _check_speed(spd):
     assert spd >= 0, "Invalid value {} for speed".format(spd)
 
 
-def _check_string_input(input, arg):
+def _check_type(aircraft_type):
     """Check that input is a non-empty string"""
-    assert type(input) == str and len(input) >= 1, "Invalid input {} for {}".format(
-        input, arg
-    )
+    assert (
+        type(aircraft_type) == str and len(aircraft_type) >= 1
+    ), "Invalid input {} for aircraft type".format(aircraft_type)
+
+
+def _check_id(aircraft_id):
+    """Check aircraft_id is non-empty string (and length >= 3 if using bluesky)"""
+    if config_param("simulator") == config_param("bluesky_simulator"):
+        assert (
+            type(aircraft_id) == str and len(aircraft_id) >= 3
+        ), "Invalid input {} for aircraft ID".format(aircraft_id)
+    else:
+        assert (
+            type(aircraft_id) == str and len(aircraft_id) >= 1
+        ), "Invalid input {} for aircraft ID".format(aircraft_id)
 
 
 def _check_altitude(alt):
@@ -86,10 +98,3 @@ def parse_alt(alt, fl):
         assert _check_flight_level(fl), "Invalid value {} for flight_level".format(fl)
         alt = "FL{}".format(fl)
     return alt
-
-
-def _check_id_list(aircraft_id):
-    """Check list of aircraft IDs"""
-    assert bool(aircraft_id) and all(
-        isinstance(elem, str) and len(elem) >= 1 for elem in aircraft_id
-    ), "Invalid input for aircraft id in {}".format(aircraft_id)

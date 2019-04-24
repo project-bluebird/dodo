@@ -13,13 +13,13 @@ def create_aircraft(
     heading,
     speed,
     altitude=None,
-    flight_level=None
+    flight_level=None,
 ):
     """
 	Create new aircraft. Raises error if inputs are invalid or if aircraft already exists.
 	"""
-    utils._check_string_input(aircraft_id, "aircraft_id")
-    utils._check_string_input(type, "type")
+    utils._check_id(aircraft_id)
+    utils._check_type(type)
     utils._check_latitude(latitude)
     utils._check_longitude(longitude)
     utils._check_heading(heading)

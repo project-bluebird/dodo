@@ -1,4 +1,3 @@
-
 from .request_position import aircraft_position, all_positions
 from .aircraft_control import (
     change_altitude,

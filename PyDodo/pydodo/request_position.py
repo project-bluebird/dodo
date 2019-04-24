@@ -1,4 +1,3 @@
-
 import requests
 import json
 import numpy as np
@@ -33,10 +32,10 @@ def process_response(response):
     pos_dict = {
         aircraft: format_pos_output(json_data[aircraft])
         for aircraft in json_data.keys()
-        if aircraft != 'sim_t'
+        if aircraft != "sim_t"
     }
     pos_df = pd.DataFrame.from_dict(pos_dict, orient="index")
-    pos_df.sim_t = json_data['sim_t']
+    pos_df.sim_t = json_data["sim_t"]
     return pos_df
 
 
@@ -65,7 +64,7 @@ def null_pos_df(aircraft_id=None):
     if aircraft_id == None:
         return pd.DataFrame(null_dict)
     else:
-        nan_dict = {key:np.nan for key in null_dict.keys()}
+        nan_dict = {key: np.nan for key in null_dict.keys()}
         return pd.DataFrame(nan_dict, index=[aircraft_id])
 
 
@@ -106,12 +105,13 @@ def aircraft_position(aircraft_id):
     :return : dataframe with position data, NaN if aircraft_id does not exist
     """
     if type(aircraft_id) == str:
-        utils._check_string_input(aircraft_id, "aircraft_id")
+        utils._check_id(aircraft_id)
         pos_df = get_position(aircraft_id)
-    elif type(aircraft_id) == list:
-        utils._check_id_list(aircraft_id)
+    elif type(aircraft_id) == list and bool(aircraft_id):
+        for aircraft in aircraft_id:
+            utils._check_id(aircraft)
         all_pos = all_positions()
-        pos_df = all_pos.ix(aircraft_id) #filter requested IDs
+        pos_df = all_pos.ix(aircraft_id)  # filter requested IDs
     else:
         raise AssertionError("Invalid input {} for aircraft id".format(aircraft_id))
     return normalise_positions_units(pos_df)
