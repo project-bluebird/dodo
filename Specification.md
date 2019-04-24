@@ -96,6 +96,8 @@ Either the `altitude` or `flight_level` argument must be given, but not both.
   - `longitude`: A double in the range [-180, 180). The aircraft's longitude.
   - `vertical_speed`: A double. The aircraft's vertical speed in feet/min (units according to BlueSky docs).
 
+This dataframe also contains a metadata attribute named `sim_time` containing the simulator time in seconds since the start of the scenario.
+
 If any of the given aircraft IDs does not exist in the simulation, the returned dataframe contains a row of missing values for that ID.
 
 If an invalid ID is given, or the call to Bluebird fails, an exception is thrown.
@@ -114,6 +116,8 @@ If an invalid ID is given, or the call to Bluebird fails, an exception is thrown
   - `latitude`: A double in the range [-90, 90]. The aircraft's latitude.
   - `longitude`: A double in the range [-180, 180). The aircraft's longitude.
   - `vertical_speed`: A double. The aircraft's vertical speed in feet/min (units according to BlueSky docs).
+
+This dataframe also contains a metadata attribute named `sim_time` containing the simulator time in seconds since the start of the scenario.
 
 If no aircraft exists an empty data frame is returned.
 
