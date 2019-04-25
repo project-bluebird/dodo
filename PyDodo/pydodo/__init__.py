@@ -6,8 +6,8 @@ from .aircraft_control import (
     change_vertical_speed
 )
 from .create_aircraft import create_aircraft
-from .load_scenario import load_scenario
 from .simulation_control import (
+    load_scenario,
     reset_simulation,
     pause_simulation,
     resume_simulation,

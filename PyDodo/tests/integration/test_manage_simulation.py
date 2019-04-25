@@ -6,7 +6,8 @@ Test load_scenario and reset_simulation functions
 
 import pytest
 from pydodo import (create_aircraft, reset_simulation, load_scenario,
-                    pause_simulation, resume_simulation, aircraft_position)
+                    pause_simulation, resume_simulation, aircraft_position,
+                    set_simulation_rate_multiplier)
 from pydodo.utils import ping_bluebird
 
 from requests.exceptions import HTTPError
@@ -14,14 +15,14 @@ from requests.exceptions import HTTPError
 bb_resp = ping_bluebird()
 
 
-
 @pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
-def test_simulation():
+def test_simulation_control():
     """
-    - Load scenario - check returns True if valid file path is provided (BlueSky)
-    - Pause
-    - Resume
-    - Reset
+    Test simulation endpoints
+    - Pause Simulation
+    - Resume Simulation
+    - Reset Simulation
+    - Simulation time
     """
     aircraft_id = "TST1001"
     type = "B744"
@@ -59,9 +60,7 @@ def test_simulation():
     # check that position has changed since simulation was resumed
     assert pos3.loc[aircraft_id]["latitude"] > pos2.loc[aircraft_id]["latitude"]
 
-@pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
-def test_load_scenario():
-    resp = load_scenario("scenario/8.scn")
+    resp = set_simulation_rate_multiplier(1.5)
     assert resp == True
 
 @pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
@@ -71,11 +70,3 @@ def test_load_empty():
     """
     with pytest.raises(AssertionError):
         resp = load_scenario("")
-
-@pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
-def test_load_invalid_file():
-    """
-    Check exception is raised if invalid file path is provided
-    """
-    with pytest.raises(HTTPError):
-         resp = load_scenario("hello")
