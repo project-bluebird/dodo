@@ -14,6 +14,7 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 
 **Parameters:**
 - `filename`: A string indicating path to scenario file.
+- `multiplier`: An optional double. Simulation rate multiplier.
 
 **Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
