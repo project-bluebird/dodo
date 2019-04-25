@@ -6,6 +6,26 @@ Dodo is a scaffold for air traffic control (ATC) agents implemented in Python an
 
 A shared `config.yml` file exists for both rdodo and PyDodo, specifying common required parameters, settings and test cases.
 
+## Contents
+
+### Simulation control
+
+- [Load Scenario](#load-scenario)
+- [Reset Simulation](#reset-the-simulation)
+- [Pause Simulation](#pause-the-simulation)
+- [Resume Simulation](#resume-the-simulation)
+- [Set Simulation Rate Multiplier](#set-the-simulation-rate-multiplier)
+
+### Aircraft control
+
+- [Create Aircraft](#create-aircraft)
+- [Get aircraft position](#get-aircraft-position)
+- [Get all aircraft positions](#get-all-aircraft-positions)
+- [Change Altitude](#change-aircraft-altitude)
+- [Change Heading](#change-aircraft-heading)
+- [Change Speed](#change-aircraft-speed)
+- [Change Vertical Speed](#change-aircraft-vertical-speed)
+
 # Commands
 
 ## Load scenario
