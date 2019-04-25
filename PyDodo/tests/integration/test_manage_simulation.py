@@ -1,17 +1,20 @@
-
 import pytest
 
-from pydodo import (create_aircraft, reset_simulation, load_scenario,
-                    pause_simulation, resume_simulation, aircraft_position,
-                    set_simulation_rate_multiplier, define_waypoint)
+from pydodo import (
+    create_aircraft,
+    reset_simulation,
+    load_scenario,
+    pause_simulation,
+    resume_simulation,
+    aircraft_position,
+    set_simulation_rate_multiplier,
+    define_waypoint
+)
 from pydodo.utils import ping_bluebird
 from pydodo.config_param import config_param
 
-from requests.exceptions import HTTPError
-
-
 bb_resp = ping_bluebird()
-bluesky_sim = (config_param("simulator") == config_param("bluesky_simulator"))
+bluesky_sim = config_param("simulator") == config_param("bluesky_simulator")
 
 
 @pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
@@ -35,8 +38,9 @@ def test_simulation_control():
     resp = reset_simulation()
     assert resp == True
 
-    resp = create_aircraft(aircraft_id, type, latitude, longitude,
-                             heading, speed, altitude, flight_level)
+    resp = create_aircraft(
+        aircraft_id, type, latitude, longitude, heading, speed, altitude, flight_level
+    )
     assert resp == True
 
     pos0 = aircraft_position(aircraft_id)
@@ -91,18 +95,20 @@ def test_load_fail():
 
 @pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
 def test_define_waypoint():
-    resp = define_waypoint('test', 0, 0, 'my_type')
+    resp = define_waypoint("test", 0, 0, "my_type")
     assert resp == True
 
 
 @pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
 @pytest.mark.parametrize(
-    "name,latitude,longitude,type",
-    [('', 0, 0, 'type'),
-    ('test', -91, 0, 'type'),
-    ('test', 0, 180, 'type'),
-    ('test', 0, 0, '')]
-    )
-def test_define_waypoint_fail(name, latitude, longitude, type):
+    "waypoint_name,latitude,longitude,waypoint_type",
+    [
+        ("", 0, 0, "type"),
+        ("test", -91, 0, "type"),
+        ("test", 0, 180, "type"),
+        ("test", 0, 0, ""),
+    ],
+)
+def test_define_waypoint_fail(waypoint_name, latitude, longitude, waypoint_type):
     with pytest.raises(AssertionError):
-        define_waypoint(name, latitude, longitude, type)
+        define_waypoint(waypoint_name, latitude, longitude, waypoint_type)

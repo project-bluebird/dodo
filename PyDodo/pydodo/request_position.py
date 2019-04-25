@@ -105,11 +105,11 @@ def aircraft_position(aircraft_id):
     :return : dataframe with position data, NaN if aircraft_id does not exist
     """
     if type(aircraft_id) == str:
-        utils._check_id(aircraft_id)
+        utils._validate_id(aircraft_id)
         pos_df = get_position(aircraft_id)
     elif type(aircraft_id) == list and bool(aircraft_id):
         for aircraft in aircraft_id:
-            utils._check_id(aircraft)
+            utils._validate_id(aircraft)
         all_pos = all_positions()
         pos_df = all_pos.ix(aircraft_id)  # filter requested IDs
     else:

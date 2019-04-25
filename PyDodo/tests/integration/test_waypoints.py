@@ -1,7 +1,15 @@
 import pytest
 import time
+from requests.exceptions import HTTPError
 
-from pydodo import change_heading, reset_simulation, create_aircraft, aircraft_position
+from pydodo import (
+    reset_simulation,
+    create_aircraft,
+    aircraft_position,
+    define_waypoint,
+    add_waypoint,
+    direct_to_waypoint
+)
 from pydodo.utils import ping_bluebird
 
 # test if can connect to BlueBird
@@ -9,7 +17,7 @@ bb_resp = ping_bluebird()
 
 
 @pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
-def test_change_heading():
+def test_direct_to_waypoint():
     cmd = reset_simulation()
     assert cmd == True
 
@@ -39,14 +47,19 @@ def test_change_heading():
     aircraft_id = aircraft_id.upper()
     assert position.loc[aircraft_id]["longitude"] == 0
 
-    # Test with an invalid heading.
-    invalid_heading = 400
-    with pytest.raises(AssertionError):
-        change_heading(aircraft_id=aircraft_id, heading=invalid_heading)
+    cmd = define_waypoint("new_waypoint", 45, 45)
+    assert cmd == True
 
-    # Give the command to change heading.
-    new_heading = 90
-    cmd = change_heading(aircraft_id=aircraft_id, heading=new_heading)
+    # Test with an invalid waypoint, it has not been added to flight route yet
+    wpt = "new_waypoint"
+    with pytest.raises(HTTPError):
+        direct_to_waypoint(aircraft_id=aircraft_id, waypoint_name=wpt)
+
+    cmd = add_waypoint(aircraft_id=aircraft_id, waypoint_name=wpt)
+    assert cmd == True
+
+    # Give the command to head to waypoint.
+    cmd = direct_to_waypoint(aircraft_id=aircraft_id, waypoint_name=wpt)
     assert cmd == True
 
     # Check that the heading has changed.

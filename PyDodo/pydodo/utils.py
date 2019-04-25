@@ -1,4 +1,3 @@
-
 import requests
 
 from .config_param import config_param
@@ -47,59 +46,55 @@ def ping_bluebird():
     return False
 
 
-def _check_latitude(lat):
+def _validate_latitude(lat):
     assert abs(lat) <= 90, "Invalid value {} for latitude".format(lat)
 
 
-def _check_longitude(lon):
+def _validate_longitude(lon):
     assert -180 <= lon < 180, "Invalid value {} for longitude".format(lon)
 
 
-def _check_heading(hdg):
+def _validate_heading(hdg):
     assert 0 <= hdg < 360, "Invalid value {} for heading".format(hdg)
 
 
-def _check_speed(spd):
+def _validate_speed(spd):
     assert spd >= 0, "Invalid value {} for speed".format(spd)
 
 
-def _check_type(aircraft_type):
-    """Check that input is a non-empty string"""
-    assert (
-        type(aircraft_type) == str and len(aircraft_type) >= 1
-    ), "Invalid input {} for aircraft type".format(aircraft_type)
+def _validate_string(input, param):
+    """Validate that input is a non-empty string"""
+    assert input and type(input) == str, "Invalid input {} for {}".format(input, param)
 
 
-def _check_id(aircraft_id):
-    """Check aircraft_id is non-empty string (and length >= 3 if using bluesky)"""
+def _validate_id(aircraft_id):
+    """Validate aircraft_id is non-empty string (and length >= 3 if using bluesky)"""
     if config_param("simulator") == config_param("bluesky_simulator"):
         assert (
             type(aircraft_id) == str and len(aircraft_id) >= 3
         ), "Invalid input {} for aircraft ID".format(aircraft_id)
     else:
-        assert (
-            type(aircraft_id) == str and len(aircraft_id) >= 1
-        ), "Invalid input {} for aircraft ID".format(aircraft_id)
+        _validate_string(aircraft_id, "aircraft ID")
 
 
-def _check_altitude(alt):
+def _validate_altitude(alt):
     return 0 <= alt <= config_param("feet_altitude_upper_limit")
 
 
-def _check_flight_level(fl):
+def _validate_flight_level(fl):
     return fl >= config_param("flight_level_lower_limit")
 
 
 def parse_alt(alt, fl):
     if alt is not None:
-        assert _check_altitude(alt), "Invalid value {} for altitude".format(alt)
+        assert _validate_altitude(alt), "Invalid value {} for altitude".format(alt)
         alt = str(alt)
     else:
         assert fl is not None, "Must specify a valid altitude or a flight level"
-        assert _check_flight_level(fl), "Invalid value {} for flight_level".format(fl)
+        assert _validate_flight_level(fl), "Invalid value {} for flight_level".format(fl)
         alt = "FL{}".format(fl)
     return alt
 
 
-def _check_multiplier(dtmult):
+def _validate_multiplier(dtmult):
     assert dtmult > 0, "Invalid value {} for multiplier".format(dtmult)

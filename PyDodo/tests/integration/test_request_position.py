@@ -6,9 +6,7 @@ import numpy as np
 from pydodo import aircraft_position, all_positions, reset_simulation, create_aircraft
 from pydodo.utils import ping_bluebird
 
-
 bb_resp = ping_bluebird()
-
 
 # TWO EXAMPLE AIRCRAFT
 aircraft_id = "TST1001"
@@ -64,8 +62,6 @@ def test_wrong_id():
 def test_all_positions():
     cmd = reset_simulation()
     assert cmd == True
-
-
 
     cmd = create_aircraft(aircraft_id = aircraft_id,
                           type = type,
