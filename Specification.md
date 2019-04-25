@@ -250,6 +250,6 @@ Either the `altitude` or `flight_level` argument can given, but not both.
 
 **Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
-**Description:** Request aircraft to change heading toward the waypoint.
+**Description:** Request aircraft to change heading toward the waypoint. The waypoint must exist on the aircraft route.
 
 
