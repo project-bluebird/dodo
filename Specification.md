@@ -6,6 +6,27 @@ Dodo is a scaffold for air traffic control (ATC) agents implemented in Python an
 
 A shared `config.yml` file exists for both rdodo and PyDodo, specifying common required parameters, settings and test cases.
 
+## Contents
+
+### Simulation control
+
+- [Load Scenario](#load-scenario)
+- [Reset Simulation](#reset-the-simulation)
+- [Pause Simulation](#pause-the-simulation)
+- [Resume Simulation](#resume-the-simulation)
+- [Set Simulation Rate Multiplier](#set-the-simulation-rate-multiplier)
+- [Define Waypoint](#define-a-custom-waypoint)
+
+### Aircraft control
+
+- [Create Aircraft](#create-aircraft)
+- [Get aircraft position](#get-aircraft-position)
+- [Get all aircraft positions](#get-all-aircraft-positions)
+- [Change Altitude](#change-aircraft-altitude)
+- [Change Heading](#change-aircraft-heading)
+- [Change Speed](#change-aircraft-speed)
+- [Change Vertical Speed](#change-aircraft-vertical-speed)
+
 # Commands
 
 ## Load scenario
@@ -14,6 +35,7 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 
 **Parameters:**
 - `filename`: A string indicating path to scenario file.
+- `multiplier`: An optional double. Simulation rate multiplier.
 
 **Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
@@ -61,6 +83,20 @@ Currently, the path is relative to the simulator (e.g., BlueSky) root directory 
 **Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
 **Description:** Sets the simulation rate multiplier for the current simulation. By default this multiplier is equal to one (real-time operation). If set to another value, the simulation will run faster (or slower) than real-time, with a fixed multiplier as provided. For example, a multiplier of 2 would cause the simulation to run twice as fast: 60 simulation minutes take 30 actual minutes.
+
+## Define a custom waypoint
+
+**Function name:** `define_waypoint`
+
+**Parameters:** 
+- `name`: A string waypoint name.
+- `latitude`: A double in the range [-90, 90]. The waypoint's latitude.
+- `longitude`: A double in the range [-180, 180). The waypoint's longitude.
+- `type`: Optional string to tag waypoints.
+
+**Return value:** `TRUE` if successful. Otherwise an exception is thrown.
+
+**Description:** Create a custom waypoint in the simulation at a given position. Optinally can provide a custom tag for the waypoint.
 
 ## Create aircraft
 
