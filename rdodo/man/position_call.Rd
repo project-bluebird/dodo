@@ -4,16 +4,16 @@
 \alias{position_call}
 \title{Make a call to the aircraft position endpoint}
 \usage{
-position_call(aircraft_id)
+position_call(aircraft_id = NULL)
 }
 \arguments{
-\item{aircraft_id}{A scalar string aircraft identifier, or the special string \code{all}.}
+\item{aircraft_id}{A scalar aircraft identifier (string), or NULL (the default).}
 }
 \value{
-A list of aircraft position information, or an empty list if the given
-\code{aircraft_id} did not match any aircraft in the simulation (this includes
-the case that \code{aircraft_id} was the special string \code{all} but there
-were no existing aircraft).
+A list of lists, each element named by a \code{aircraft_id} and each sublist
+containing aircraft position information. If the \code{aircraft_id} was not
+found in the simulation, the sublist will be empty. Returns an empty list if
+\code{aircraft_id} was NULL but there were no existing aircraft.
 }
 \description{
 Make a call to the aircraft position endpoint
@@ -21,6 +21,7 @@ Make a call to the aircraft position endpoint
 \examples{
 \dontrun{
 position_call('ABC123')
+position_call()
 }
 
 }

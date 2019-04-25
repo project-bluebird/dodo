@@ -4,7 +4,7 @@
 \alias{aircraft_position}
 \title{Get aircraft position}
 \usage{
-aircraft_position(aircraft_id)
+aircraft_position(aircraft_id = NULL)
 }
 \arguments{
 \item{aircraft_id}{(Optional) Single aircraft ID, or a vector of aircraft IDs. If no ID is
@@ -24,8 +24,8 @@ positions of all aircraft in the simulation.
 \examples{
 \dontrun{
 aircraft_position('ABC123')
-
 aircraft_position(c('ABC123', 'DEF456'))
+aircraft_position()
 }
 
 }
