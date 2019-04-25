@@ -15,7 +15,7 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 - [Pause Simulation](#pause-the-simulation)
 - [Resume Simulation](#resume-the-simulation)
 - [Set Simulation Rate Multiplier](#set-the-simulation-rate-multiplier)
-- [Define Waypoint](#define-custom-waypoint)
+- [Define Waypoint](#define-a-custom-waypoint)
 
 ### Aircraft control
 
