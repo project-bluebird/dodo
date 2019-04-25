@@ -1,18 +1,17 @@
-"""
-Test load_scenario and reset_simulation functions
-- return True if successful
-- raise error if invalid input provided
-"""
 
 import pytest
+
 from pydodo import (create_aircraft, reset_simulation, load_scenario,
                     pause_simulation, resume_simulation, aircraft_position,
                     set_simulation_rate_multiplier)
 from pydodo.utils import ping_bluebird
+from pydodo.config_param import config_param
 
 from requests.exceptions import HTTPError
 
+
 bb_resp = ping_bluebird()
+bluesky_sim = (config_param("simulator") == config_param("bluesky_simulator"))
 
 
 @pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
@@ -63,10 +62,28 @@ def test_simulation_control():
     resp = set_simulation_rate_multiplier(1.5)
     assert resp == True
 
+
 @pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
-def test_load_empty():
+@pytest.mark.skipif(not bluesky_sim, reason="Not using BlueSky")
+def test_load_bluesky():
     """
-    Check fails if no scenario file is provided
+    Check that can load BlueSky scenario files (if using BlueSky) and change
+    the sim rate multiplier.
+    """
+    resp = load_scenario("scenario/8.scn")
+    assert resp == True
+
+    resp = load_scenario("scenario/8.scn", 1.5)
+    assert resp == True
+
+
+@pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
+def test_load_fail():
+    """
+    Check fails if no scenario file is provided or wrong
     """
     with pytest.raises(AssertionError):
-        resp = load_scenario("")
+        load_scenario("")
+
+    with pytest.raises(AssertionError):
+        load_scenario("scenario/8.scn", 0)

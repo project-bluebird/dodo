@@ -4,7 +4,7 @@ from .utils import post_request
 from .config_param import config_param
 
 
-def load_scenario(filename):
+def load_scenario(filename, multiplier=1.0):
     """
     Load scenario from file and start the simulation.
 
@@ -12,8 +12,9 @@ def load_scenario(filename):
     :return :
     """
     assert filename, "Must provide scenario file path"
+    assert multiplier > 0, "Invalid value {} for multiplier".format(multiplier)
 
-    json = {"filename": filename}
+    json = {"filename": filename, "multiplier": multiplier}
     return post_request(config_param("endpoint_load_scenario"), json)
 
 
