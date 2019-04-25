@@ -12,7 +12,8 @@
 #' A list of aircraft positions as a data frame with one row per aircraft. The
 #' row names are aircraft IDs. If any of the given aircraft IDs does not exist
 #' in the simulation, the returned dataframe contains a row of missing (NA)
-#' values for that ID.
+#' values for that ID. If \code{aircraft_id} is NULL (or omitted) and no
+#' aircraft exist in the simulation, an empty data frame is returned.
 #'
 #' @examples
 #' \dontrun{

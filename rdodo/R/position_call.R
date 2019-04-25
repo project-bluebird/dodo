@@ -64,7 +64,7 @@ process_parsed_positions <- function(parsed_list) {
   # all_positions function and no aircraft were found. In this case return an
   # empty dataframe.
   if (length(parsed_list) == 0)
-    return(process_parsed_position(list())[-1, ])
+    return(process_parsed_position(list(), aircraft_id = "DUMMY")[-1, ])
 
   # Pull out the simulator time attribute.
   sim_t <- parsed_list[[config_param("simulator_time")]]
@@ -82,10 +82,11 @@ process_parsed_positions <- function(parsed_list) {
 # Process the parsed position JSON for a single aircraft and return a data
 # frame containing a single row, named by the aircraft ID. If `parsed` is
 # empty, indicating the given aircraft_id was not found in the simulation,
-# return a data frame containing a row of NA values.
+# return a data frame containing a row of NA values for the given aircraft_id.
 process_parsed_position <- function(parsed, aircraft_id) {
 
   stopifnot(is.list(parsed))
+  validate_aircraft_id(aircraft_id)
 
   # TODO: replace string literals with config parameters from Bluebird.
   expected_names <- c("actype", "alt", "gs", "lat", "lon", "vs")
@@ -103,7 +104,6 @@ process_parsed_position <- function(parsed, aircraft_id) {
     names(parsed) <- expected_names
   }
 
-  validate_aircraft_id(aircraft_id)
   stopifnot(all(expected_names %in% names(parsed)))
 
   # Rename the elements.
@@ -112,7 +112,6 @@ process_parsed_position <- function(parsed, aircraft_id) {
 
   # Convert to a data frame.
   ret <- as.data.frame(parsed[new_names], stringsAsFactors = FALSE)
-
   rownames(ret) <- aircraft_id
 
   ret %>% normalise_positions_units

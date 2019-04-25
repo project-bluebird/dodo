@@ -228,6 +228,20 @@ reset_simulation()
 
 test_that("the aircraft_position function works with no argument", {
 
+  # Get all aircraft positions.
+  result <- aircraft_position()
+
+  # Check that the result is an empty data frame with the expected columns.
+  expect_true(is.data.frame(result))
+  expect_identical(object = nrow(result), expected = 0L)
+  expected <- c(config_param("aircraft_type"),
+                config_param("altitude"),
+                config_param("ground_speed"),
+                config_param("latitude"),
+                config_param("longitude"),
+                config_param("vertical_speed"))
+  expect_identical(object = colnames(result), expected = expected)
+
   # Create an aircraft.
   aircraft_id_1 <- "testAircraftPositionAll1"
   type_1 <- "B744"
