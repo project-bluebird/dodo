@@ -9,6 +9,24 @@ from pydodo.utils import ping_bluebird
 bb_resp = ping_bluebird()
 
 
+# TWO TEST AIRCRAFT
+aircraft_id = "TST1001"
+type = "B744"
+latitude = 0
+longitude = 0
+heading = 0
+flight_level = 250
+speed = 200
+
+aircraft_id_2 = "TST2002"
+type_2 = "C744"
+latitude_2 = 0
+longitude_2 = 0
+heading_2 = 180
+flight_level_2 = 200
+speed_2 = 300
+
+
 @pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
 def test_no_positions():
     """
@@ -46,13 +64,7 @@ def test_all_positions():
     cmd = reset_simulation()
     assert cmd == True
 
-    aircraft_id = "TST1001"
-    type = "B744"
-    latitude = 0
-    longitude = 0
-    heading = 0
-    flight_level = 250
-    speed = 200
+
 
     cmd = create_aircraft(aircraft_id = aircraft_id,
                           type = type,
@@ -76,14 +88,6 @@ def test_all_positions():
 
     # check that dataframe has sim_t attribute
     assert isinstance(pos.sim_t, int)
-
-    aircraft_id_2 = "TST2002"
-    type_2 = "C744"
-    latitude_2 = 0
-    longitude_2 = 0
-    heading_2 = 180
-    flight_level_2 = 200
-    speed_2 = 300
 
     cmd = create_aircraft(aircraft_id = aircraft_id_2,
                           type = type_2,
@@ -122,14 +126,6 @@ def test_aircraft_position():
     cmd = reset_simulation()
     assert cmd == True
 
-    aircraft_id = "TST1001"
-    type = "B744"
-    latitude = 0
-    longitude = 0
-    heading = 0
-    flight_level = 250
-    speed = 200
-
     cmd = create_aircraft(aircraft_id = aircraft_id,
                           type = type,
                           latitude = latitude,
@@ -137,6 +133,15 @@ def test_aircraft_position():
                           heading = heading,
                           flight_level = flight_level,
                           speed = speed)
+    assert cmd == True
+    
+    cmd = create_aircraft(aircraft_id = aircraft_id_2,
+                          type = type_2,
+                          latitude = latitude_2,
+                          longitude = longitude_2,
+                          heading = heading_2,
+                          flight_level = flight_level_2,
+                          speed = speed_2)
     assert cmd == True
 
     pos = aircraft_position('TST1001')
