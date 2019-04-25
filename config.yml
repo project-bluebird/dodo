@@ -22,6 +22,10 @@ default:
   endpoint_change_speed: "spd"
   endpoint_change_vertical_speed: "vs"
   endpoint_define_waypoint: "defwpt"
+  endpoint_add_waypoint: "addwpt"
+  endpoint_direct_to_waypoint: "direct"
+  endpoint_list_route: "listroute"
+  endpoint_episode_info: "epinfo"
   query_aircraft_id: "acid"
 
   # Column/element/attribute names
