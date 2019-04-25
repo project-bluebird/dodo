@@ -80,7 +80,7 @@ def test_load_bluesky():
 @pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
 def test_load_fail():
     """
-    Check fails if no scenario file is provided or wrong
+    Check fails if no scenario file is provided or wrong multiplier value provided.
     """
     with pytest.raises(AssertionError):
         load_scenario("")

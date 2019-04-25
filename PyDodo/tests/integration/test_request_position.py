@@ -1,3 +1,4 @@
+
 import pytest
 import pandas as pd
 import numpy as np
@@ -9,7 +10,7 @@ from pydodo.utils import ping_bluebird
 bb_resp = ping_bluebird()
 
 
-# TWO TEST AIRCRAFT
+# TWO EXAMPLE AIRCRAFT
 aircraft_id = "TST1001"
 type = "B744"
 latitude = 0
@@ -134,7 +135,7 @@ def test_aircraft_position():
                           flight_level = flight_level,
                           speed = speed)
     assert cmd == True
-    
+
     cmd = create_aircraft(aircraft_id = aircraft_id_2,
                           type = type_2,
                           latitude = latitude_2,
