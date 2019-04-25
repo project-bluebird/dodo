@@ -1,3 +1,4 @@
+
 import requests
 
 from .config_param import config_param
@@ -98,3 +99,7 @@ def parse_alt(alt, fl):
         assert _check_flight_level(fl), "Invalid value {} for flight_level".format(fl)
         alt = "FL{}".format(fl)
     return alt
+
+
+def _check_multiplier(dtmult):
+    assert dtmult > 0, "Invalid value {} for multiplier".format(dtmult)

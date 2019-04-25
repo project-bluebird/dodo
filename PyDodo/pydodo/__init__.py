@@ -11,5 +11,6 @@ from .simulation_control import (
     reset_simulation,
     pause_simulation,
     resume_simulation,
-    set_simulation_rate_multiplier
+    set_simulation_rate_multiplier,
+    define_waypoint
 )
