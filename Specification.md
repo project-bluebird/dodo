@@ -26,6 +26,14 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 - [Change Heading](#change-aircraft-heading)
 - [Change Speed](#change-aircraft-speed)
 - [Change Vertical Speed](#change-aircraft-vertical-speed)
+- [List Route](#list-aircraft-route)
+- [Add Waypoint](#add-waypoint-to-route)
+- [Direct to Waypoint](#direct-aircaft-to-waypoint)
+
+### Episode information
+- [Simulation Time](#get-simulation-time)
+- [Episode Info](#get-episode-information)
+
 
 # Commands
 
@@ -89,10 +97,10 @@ Currently, the path is relative to the simulator (e.g., BlueSky) root directory 
 **Function name:** `define_waypoint`
 
 **Parameters:** 
-- `name`: A string waypoint name.
+- `waypoint_name`: A string waypoint identifier.
 - `latitude`: A double in the range [-90, 90]. The waypoint's latitude.
 - `longitude`: A double in the range [-180, 180). The waypoint's longitude.
-- `type`: Optional string to tag waypoints.
+- `waypoint_type`: An optional string to tag waypoints.
 
 **Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
@@ -212,3 +220,70 @@ Either the `altitude` or `flight_level` argument must be given, but not both.
 **Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
 **Description:** Request change to aircraft speed.
+
+## List aircraft route
+
+**Function name:** `list_route`
+
+**Parameters:**
+- `aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
+
+**Return value:** A list of waypoints on an aircraft's route. Each waypooint is a dictionary with the following information:
+- `current`: A boolean indicating whether aircraft is currently heading toward this waypoint.
+- `requested_altitude`: A non-negatige double. The aircraft's requested altitude in feet (?or FL?) at waypoint.
+- `requested_speed`: A non-negative double. The aircraft's requested speed at waypoint.
+- `waypoint_name`: A string waypoint identifier.
+
+**Description:** 
+
+## Add waypoint to route
+
+**Function name:** `add_waypoint`
+
+**Parameters:**
+- `aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
+- `waypoint_name`: A string waypoint identifier.
+- `latitude`: A double in the range [-90, 90]. The waypoint's latitude.
+- `longitude`: A double in the range [-180, 180). The waypoint's longitude.
+- `altitude`: An optional double in the range [0, 6000]. The requested altitude in feet. For altitudes in excess of 6000ft a flight level should be specified instead.
+- `flight_level`: An optional integer of 60 or more. The requested flight level.
+- `speed`:  An optional non-negative double. The requested calibrated air speed in knots (KCAS).
+
+Either the `name` or both `latitude` and `longitude` arguments must be provided.
+Either the `altitude` or `flight_level` argument can given, but not both.
+
+**Return value:** `TRUE` if successful. Otherwise an exception is thrown.
+
+**Description:** Add a waypoint to the end of the aircraft's route. Can also provided altitude or flight level and speed which should be achieved by the time the waypoint is reached.
+
+## Direct aircaft to waypoint
+
+**Function name:** `direct_to_waypoint`
+
+**Parameters:**
+- `aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
+- `waypoint_name`: A string waypoint identifier. The waypoint to direct the aircraft to.
+
+**Return value:** `TRUE` if successful. Otherwise an exception is thrown.
+
+**Description:** Request aircraft to change heading toward the waypoint. The waypoint must exist on the aircraft route.
+
+## Get simulation time
+
+**Function name:** `simulation_time`
+
+**Parameters:** 
+
+**Return value:** ?
+
+**Description:** Get the current simulated time. 
+
+## Get episode information
+
+**Function name:** `episode_info`
+
+**Parameters:** 
+
+**Return value:** ?
+
+**Description:** Returns information for the current episode.
