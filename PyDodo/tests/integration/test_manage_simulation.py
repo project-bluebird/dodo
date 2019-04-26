@@ -7,8 +7,7 @@ from pydodo import (
     pause_simulation,
     resume_simulation,
     aircraft_position,
-    set_simulation_rate_multiplier,
-    define_waypoint
+    set_simulation_rate_multiplier
 )
 from pydodo.utils import ping_bluebird
 from pydodo.config_param import config_param
@@ -91,24 +90,3 @@ def test_load_fail():
 
     with pytest.raises(AssertionError):
         load_scenario("scenario/8.scn", 0)
-
-
-@pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
-def test_define_waypoint():
-    resp = define_waypoint("test", 0, 0, "my_type")
-    assert resp == True
-
-
-@pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
-@pytest.mark.parametrize(
-    "waypoint_name,latitude,longitude,waypoint_type",
-    [
-        ("", 0, 0, "type"),
-        ("test", -91, 0, "type"),
-        ("test", 0, 180, "type"),
-        ("test", 0, 0, ""),
-    ],
-)
-def test_define_waypoint_fail(waypoint_name, latitude, longitude, waypoint_type):
-    with pytest.raises(AssertionError):
-        define_waypoint(waypoint_name, latitude, longitude, waypoint_type)

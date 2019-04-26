@@ -45,19 +45,3 @@ def set_simulation_rate_multiplier(multiplier):
 
     body = {"multiplier": multiplier}
     return post_request(config_param("endpoint_set_simulation_rate_multiplier"), body)
-
-
-def define_waypoint(waypoint_name, latitude, longitude, waypoint_type=None):
-    """
-    Define a custom waypoint.
-    """
-    utils._validate_string(waypoint_name, "waypoint name")
-    utils._validate_latitude(latitude)
-    utils._validate_longitude(longitude)
-
-    body = {"wpname": waypoint_name, "lat": latitude, "lon": longitude}
-    if waypoint_type != None:
-        utils._validate_string(waypoint_type, "waypoint type")
-        body["type"] = waypoint_type
-
-    return post_request(config_param("endpoint_define_waypoint"), body)

@@ -1,4 +1,5 @@
 import requests
+import json
 
 from . import utils
 from .utils import post_request
@@ -54,43 +55,6 @@ def change_vertical_speed(aircraft_id, vertical_speed):
 
     body = {config_param("query_aircraft_id"): aircraft_id, "vspd": vertical_speed}
     return post_request(config_param("endpoint_change_vertical_speed"), body)
-
-
-def add_waypoint(
-        aircraft_id,
-        waypoint_name=None,
-        latitude=None,
-        longitude=None,
-        altitude=None,
-        flight_level=None,
-        speed=None
-    ):
-    utils._validate_id(aircraft_id)
-    body = {config_param("query_aircraft_id"): aircraft_id}
-
-    if waypoint_name == None:
-        utils._validate_latitude(latitude)
-        utils._validate_longitude(longitude)
-        body["lat"] = latitude
-        body["lon"] = longitude
-    else:
-        assert (
-            latitude == None and longitude == None
-        ), "Waypoint name or both latitude and longitude should be provided"
-        utils._validate_string(waypoint_name, "waypoint name")
-        body["wpname"] = waypoint_name
-
-    if altitude != None or flight_level != None:
-        assert (
-            altitude is None or flight_level is None
-        ), "Only altitude or flight level should be provided, not both"
-        alt = utils.parse_alt(altitude, flight_level)
-        body["alt"] = alt
-    if speed != None:
-        utils._validate_speed(speed)
-        body["spd"] = speed
-
-    return post_request(config_param("endpoint_add_waypoint"), body)
 
 
 def direct_to_waypoint(aircraft_id, waypoint_name):

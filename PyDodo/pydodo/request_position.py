@@ -10,7 +10,7 @@ endpoint = config_param("endpoint_aircraft_position")
 url = utils.construct_endpoint_url(endpoint)
 
 
-def format_pos_output(aircraft_pos):
+def format_pos_info(aircraft_pos):
     """
     Format position dictionary for an aircraft returned by bluebird.
     """
@@ -24,13 +24,13 @@ def format_pos_output(aircraft_pos):
     return position_formatted
 
 
-def process_response(response):
+def process_pos_response(response):
     """
     Process response from POS request.
     """
     json_data = json.loads(response.text)
     pos_dict = {
-        aircraft: format_pos_output(json_data[aircraft])
+        aircraft: format_pos_info(json_data[aircraft])
         for aircraft in json_data.keys()
         if aircraft != "sim_t"
     }
@@ -76,7 +76,7 @@ def all_positions():
     """
     resp = requests.get(url, params={config_param("query_aircraft_id"): "all"})
     if resp.status_code == 200:
-        pos_df = process_response(resp)
+        pos_df = process_pos_response(resp)
         return normalise_positions_units(pos_df)
     elif resp.status_code == config_param("status_code_no_aircraft_found"):
         return null_pos_df()
@@ -90,7 +90,7 @@ def get_position(aircraft_id):
     """
     resp = requests.get(url, params={config_param("query_aircraft_id"): aircraft_id})
     if resp.status_code == 200:
-        return process_response(resp)
+        return process_pos_response(resp)
     elif resp.status_code == config_param("status_code_aircraft_id_not_found"):
         return null_pos_df(aircraft_id)
     else:

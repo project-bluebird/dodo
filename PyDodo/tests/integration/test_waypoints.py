@@ -1,16 +1,17 @@
 import pytest
 import time
 from requests.exceptions import HTTPError
+import pandas as pd
 
 from pydodo import (
     reset_simulation,
     create_aircraft,
     aircraft_position,
-    define_waypoint,
-    add_waypoint,
+    list_route,
     direct_to_waypoint
 )
 from pydodo.utils import ping_bluebird
+from pydodo.list_route import define_waypoint, add_waypoint
 
 # test if can connect to BlueBird
 bb_resp = ping_bluebird()
@@ -36,33 +37,49 @@ def test_direct_to_waypoint():
         longitude=longitude,
         heading=heading,
         flight_level=flight_level,
-        speed=speed,
+        speed=speed
     )
     assert cmd == True
 
-    # Check the altitude.
+
     position = aircraft_position(aircraft_id)
 
     # In the returned data frame aircraft_id is uppercase.
     aircraft_id = aircraft_id.upper()
     assert position.loc[aircraft_id]["longitude"] == 0
 
-    cmd = define_waypoint("new_waypoint", 45, 45)
+    wpt_name = "new_waypoint"
+    wpt_lat = 45
+    wpt_lon = 45
+    cmd = define_waypoint(wpt_name, wpt_lat, wpt_lon)
     assert cmd == True
 
     # Test with an invalid waypoint, it has not been added to flight route yet
-    wpt = "new_waypoint"
     with pytest.raises(HTTPError):
-        direct_to_waypoint(aircraft_id=aircraft_id, waypoint_name=wpt)
+        direct_to_waypoint(aircraft_id=aircraft_id, waypoint_name=wpt_name)
 
-    cmd = add_waypoint(aircraft_id=aircraft_id, waypoint_name=wpt)
+    wpt_alt = 6000
+    wpt_spd = 50
+    cmd = add_waypoint(aircraft_id=aircraft_id, waypoint_name=wpt_name, altitude=wpt_alt, speed=wpt_spd)
     assert cmd == True
 
     # Give the command to head to waypoint.
-    cmd = direct_to_waypoint(aircraft_id=aircraft_id, waypoint_name=wpt)
+    cmd = direct_to_waypoint(aircraft_id=aircraft_id, waypoint_name=wpt_name)
     assert cmd == True
 
     # Check that the heading has changed.
     time.sleep(1)
     new_position = aircraft_position(aircraft_id)
-    assert new_position.loc[aircraft_id]["longitude"] > 0
+    assert new_position.loc[aircraft_id]["longitude"] > longitude
+
+    # access route information
+    route = list_route(aircraft_id)
+    assert isinstance(route, pd.DataFrame)
+    assert len(route.index) == 1
+    assert isinstance(route.sim_t, int)
+    assert isinstance(route.aircraft_id, str)
+    assert route.aircraft_id == aircraft_id
+    assert route.iloc[0]["waypoint_name"] == wpt_name.upper()
+    assert route.iloc[0]["requested_altitude"] == wpt_alt
+    assert route.iloc[0]["requested_speed"] == wpt_spd
+    assert route.iloc[0]["current"] == True
