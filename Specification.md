@@ -8,7 +8,7 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 
 ## Contents
 
-### Simulation control
+### Simulation commands
 
 - [Load Scenario](#load-scenario)
 - [Reset Simulation](#reset-the-simulation)
@@ -16,8 +16,9 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 - [Resume Simulation](#resume-the-simulation)
 - [Set Simulation Rate Multiplier](#set-the-simulation-rate-multiplier)
 - [Define Waypoint](#define-a-custom-waypoint)
+- [Simulation Time](#get-simulation-time)
 
-### Aircraft control
+### Aircraft commands
 
 - [Create Aircraft](#create-aircraft)
 - [Get aircraft position](#get-aircraft-position)
@@ -30,8 +31,7 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 - [Add Waypoint](#add-waypoint-to-route)
 - [Direct to Waypoint](#direct-aircaft-to-waypoint)
 
-### Episode information
-- [Simulation Time](#get-simulation-time)
+### Episode commands
 - [Episode Info](#get-episode-information)
 
 
