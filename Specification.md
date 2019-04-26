@@ -208,7 +208,7 @@ Either the `altitude` or `flight_level` argument must be given, but not both.
 - `aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
 
 **Return value:** A  dataframe with the following columns:
-- `waypoint_name`: A string waypoint identifier.
+- `waypoint_name`: An **uppercase** string waypoint identifier.
 - `requested_altitude`: A non-negatige double. The aircraft's requested altitude in feet at waypoint.
 - `requested_speed`: A non-negative double. The aircraft's requested speed at waypoint.
 - `current`: A boolean indicating whether the aircraft is currently heading toward this waypoint.
