@@ -26,9 +26,9 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 - [Change Heading](#change-aircraft-heading)
 - [Change Speed](#change-aircraft-speed)
 - [Change Vertical Speed](#change-aircraft-vertical-speed)
+- [List Route](#list-aircraft-route)
 - [Add Waypoint](#add-waypoint-to-route)
 - [Direct to Waypoint](#direct-aircaft-to-waypoint)
-- [List Route](#list-aircraft-route)
 
 ### Episode information
 - [Simulation Time](#get-simulation-time)
