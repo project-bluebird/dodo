@@ -1,7 +1,7 @@
 import requests
 import json
 
-from . import utils
+from . import validate_input
 from .utils import post_request
 from .config_param import config_param
 
@@ -10,11 +10,12 @@ def change_altitude(aircraft_id, altitude=None, flight_level=None, vertical_spee
     """
     Change aircraft altitude.
     """
+
     utils._validate_id(aircraft_id)
     assert (
         altitude is None or flight_level is None
     ), "Only altitude or flight level should be provided, not both"
-    alt = utils.parse_alt(altitude, flight_level)
+    alt = validate_input.parse_alt(altitude, flight_level)
 
     body = {config_param("query_aircraft_id"): aircraft_id, "alt": alt}
 

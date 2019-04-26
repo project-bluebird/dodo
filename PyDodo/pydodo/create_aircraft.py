@@ -1,6 +1,6 @@
 import requests
 
-from . import utils
+from . import validate_input
 from .utils import post_request
 from .config_param import config_param
 
@@ -27,7 +27,7 @@ def create_aircraft(
     assert (
         altitude is None or flight_level is None
     ), "Only altitude or flight level should be provided, not both"
-    alt = utils.parse_alt(altitude, flight_level)
+    alt = validate_input.parse_alt(altitude, flight_level)
 
     body = {
         "acid": aircraft_id,

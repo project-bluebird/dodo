@@ -4,10 +4,11 @@ import numpy as np
 import pandas as pd
 
 from .config_param import config_param
-from . import utils
+from .utils import construct_endpoint_url
+from . import validate_input
 
 endpoint = config_param("endpoint_aircraft_position")
-url = utils.construct_endpoint_url(endpoint)
+url = construct_endpoint_url(endpoint)
 
 
 def format_pos_info(aircraft_pos):
@@ -105,6 +106,7 @@ def aircraft_position(aircraft_id):
     :return : dataframe with position data, NaN if aircraft_id does not exist
     """
     if type(aircraft_id) == str:
+
         utils._validate_id(aircraft_id)
         pos_df = get_position(aircraft_id)
     elif type(aircraft_id) == list and bool(aircraft_id):

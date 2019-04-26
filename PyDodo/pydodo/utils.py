@@ -98,3 +98,4 @@ def parse_alt(alt, fl):
 
 def _validate_multiplier(dtmult):
     assert dtmult > 0, "Invalid value {} for multiplier".format(dtmult)
+
