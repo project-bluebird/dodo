@@ -1,13 +1,13 @@
 #' Reset the simulation
 #'
-#' @return \code{TRUE} if successful. Otherwise \code{FALSE} and an error is thrown.
+#' @return
+#' \code{TRUE} if successful. Otherwise \code{FALSE} and an error is thrown.
 #'
 #' @examples
 #' \dontrun{
 #' reset_simulation()
 #' }
 #'
-#' @import httr
 #' @export
 reset_simulation <- function() {
 

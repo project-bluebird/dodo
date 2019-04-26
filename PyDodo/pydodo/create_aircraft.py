@@ -14,22 +14,22 @@ def create_aircraft(
     speed,
     altitude=None,
     flight_level=None
-):
+    ):
     """
 	Create new aircraft. Raises error if inputs are invalid or if aircraft already exists.
 	"""
-    validate_input._check_type_string(aircraft_id, "aircraft_id")
-    validate_input._check_type_string(type, "type")
-    validate_input._check_latitude(latitude)
-    validate_input._check_longitude(longitude)
-    validate_input._check_heading(heading)
-    validate_input._check_speed(speed)
+    utils._validate_id(aircraft_id)
+    utils._validate_string(type, "aircraft type")
+    utils._validate_latitude(latitude)
+    utils._validate_longitude(longitude)
+    utils._validate_heading(heading)
+    utils._validate_speed(speed)
     assert (
         altitude is None or flight_level is None
     ), "Only altitude or flight level should be provided, not both"
     alt = validate_input.parse_alt(altitude, flight_level)
 
-    json = {
+    body = {
         "acid": aircraft_id,
         "type": type,
         "lat": latitude,
@@ -39,4 +39,4 @@ def create_aircraft(
         "spd": speed,
     }
 
-    return post_request(config_param("endpoint_create_aircraft"), json)
+    return post_request(config_param("endpoint_create_aircraft"), body)
