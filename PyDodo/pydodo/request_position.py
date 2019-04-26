@@ -5,7 +5,7 @@ import pandas as pd
 
 from .config_param import config_param
 from .utils import construct_endpoint_url
-from . import validate_input
+from . import utils
 
 endpoint = config_param("endpoint_aircraft_position")
 url = construct_endpoint_url(endpoint)
