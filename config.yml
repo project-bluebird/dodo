@@ -26,6 +26,7 @@ default:
   endpoint_direct_to_waypoint: "direct"
   endpoint_list_route: "listroute"
   endpoint_episode_info: "epinfo"
+  endpoint_simulation_time: "time"
   query_aircraft_id: "acid"
 
   # Column/element/attribute names
