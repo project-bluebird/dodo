@@ -28,10 +28,11 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 - [Change Vertical Speed](#change-aircraft-vertical-speed)
 - [Add Waypoint](#add-waypoint-to-route)
 - [Direct to Waypoint](#direct-aircaft-to-waypoint)
+- [List Route](#list-aircraft-route)
 
-
-### Episode
-
+### Episode information
+- [Simulation Time](#get-simulation-time)
+- [Episode Info](#get-episode-information)
 
 
 # Commands
@@ -220,6 +221,21 @@ Either the `altitude` or `flight_level` argument must be given, but not both.
 
 **Description:** Request change to aircraft speed.
 
+## List aircraft route
+
+**Function name:** `list_route`
+
+**Parameters:**
+- `aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
+
+**Return value:** A list of waypoints on an aircraft's route. Each waypooint is a dictionary with the following information:
+- `current`: A boolean indicating whether aircraft is currently heading toward this waypoint.
+- `requested_altitude`: A non-negatige double. The aircraft's requested altitude in feet (?or FL?) at waypoint.
+- `requested_speed`: A non-negative double. The aircraft's requested speed at waypoint.
+- `waypoint_name`: A string waypoint identifier.
+
+**Description:** 
+
 ## Add waypoint to route
 
 **Function name:** `add_waypoint`
@@ -252,4 +268,22 @@ Either the `altitude` or `flight_level` argument can given, but not both.
 
 **Description:** Request aircraft to change heading toward the waypoint. The waypoint must exist on the aircraft route.
 
+## Get simulation time
 
+**Function name:** `simulation_time`
+
+**Parameters:** 
+
+**Return value:** ?
+
+**Description:** Get the current simulated time. 
+
+## Get episode information
+
+**Function name:** `episode_info`
+
+**Parameters:** 
+
+**Return value:** ?
+
+**Description:** Returns information for the current episode.
