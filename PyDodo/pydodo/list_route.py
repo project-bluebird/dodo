@@ -32,17 +32,18 @@ def format_wpt_info(waypoint):
 def process_listroute_response(response):
     """
     Process response from LISTROUTE request.
+    Return dataframe with sim_t and aircraft_id attributes.
     """
     json_data = json.loads(response.text)
     route_dict = {
         wpt["wpt_name"]: format_wpt_info(wpt)
         for wpt in json_data["route"]
     }
+    df = pd.DataFrame.from_dict(route_dict, orient="index")
+    df.sim_t = json_data["sim_t"]
+    df.aircraft_id = json_data["acid"]
 
-    # TO DO: add sim_t and aircraft_id attributed to df
-    # once they are included in the response
-
-    return pd.DataFrame.from_dict(route_dict, orient="index")
+    return df
 
 
 def list_route(aircraft_id):
@@ -53,13 +54,8 @@ def list_route(aircraft_id):
 
     resp = requests.get(url, params={config_param("query_aircraft_id"): aircraft_id})
     resp.raise_for_status()
-    df = process_listroute_response(resp)
 
-    # TO DO: Remove below once these attributes are returned by bluebird
-    df.aircraft_id = aircraft_id
-    df.sim_t = 1
-
-    return df
+    return process_listroute_response(resp)
 
 
 def define_waypoint(waypoint_name, latitude, longitude, waypoint_type=None):

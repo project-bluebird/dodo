@@ -83,3 +83,4 @@ def test_direct_to_waypoint():
     assert route.iloc[0]["requested_altitude"] == wpt_alt
     assert route.iloc[0]["requested_speed"] == wpt_spd
     assert route.iloc[0]["current"] == True
+    assert route.sim_t > 1
