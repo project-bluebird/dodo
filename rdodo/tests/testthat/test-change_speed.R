@@ -25,29 +25,31 @@ test_that("the change_speed function works", {
                               flight_level = flight_level,
                               speed = speed))
 
-  # Check the speed.
-  position <- aircraft_position(aircraft_id)
-
   # In the returned data frame aircraft_id is uppercase.
   aircraft_id <- toupper(aircraft_id)
 
+  # Check the speed.
+  position <- aircraft_position(aircraft_id)
+  h_speed <- config_param("ground_speed")
+
   # Aircaft initial speed differs from specified speed.
-  expect_true(position[aircraft_id, config_param("ground_speed")] < 198)
+  expect_true(position[aircraft_id, h_speed] < 198)
 
   # Test with an invalid speed.
   invalid_speed <- -1
   expect_error(change_speed(aircraft_id = aircraft_id, speed = invalid_speed))
 
-  expect_true(position[aircraft_id, config_param("ground_speed")] < 198)
+  expect_true(position[aircraft_id, h_speed] < 198)
 
   # Give the command to change speed.
   new_speed <- 400
   expect_true(change_speed(aircraft_id = aircraft_id, speed = new_speed))
 
-  # Wait for the ground speed to increase.
-  Sys.sleep(0.5)
+  # Wait for the speed to increase.
+  expect_true(wait(aircraft_id, property = h_speed, operator = `>`,
+                   initial_value = 198))
 
   # Check that the speed has changed.
   new_position <- aircraft_position(aircraft_id)
-  expect_true(new_position[aircraft_id, config_param("ground_speed")] > 198)
+  expect_true(new_position[aircraft_id, h_speed] > 198)
 })

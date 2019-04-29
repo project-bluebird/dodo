@@ -25,6 +25,8 @@ test_that("the batch function works", {
                               flight_level = flight_level,
                               speed = speed))
 
+  # In the returned data frame aircraft_id is uppercase.
+  aircraft_id <- toupper(aircraft_id)
 
   # Execute several commands in series.
   t_start_series <- as.numeric(Sys.time())
@@ -92,6 +94,9 @@ test_that("the batch function handles errors correctly", {
                               heading = heading,
                               flight_level = flight_level,
                               speed = speed))
+
+  # In the returned data frame aircraft_id is uppercase.
+  aircraft_id <- toupper(aircraft_id)
 
   # Execute a batch of commands asynchronously.
   result <- batch(

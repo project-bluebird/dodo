@@ -6,13 +6,21 @@ skip_if_not(found_bluebird(), message = "BlueBird not found: tests skipped.")
 # Reset the simulation to ensure no aircraft exist initially.
 reset_simulation()
 
+test_that("the position_call function works when there are no aircraft", {
+
+  # Expect an empty list when there are no aircraft in the simulation and no
+  # aircraft_id is passed.
+  expect_identical(position_call(), expected = list())
+})
+
 test_that("the position_call function works with an invalid aircraft ID", {
 
   # Missing aircraft_id (i.e. not found in the simulation).
   invalid_id <- "NoSuchAircraft"
 
-  # Expect an empty list.
-  expect_identical(position_call(invalid_id), expected = list())
+  # Expect a list containing an empty list.
+  expected <- list(list()); names(expected) <- invalid_id
+  expect_identical(position_call(invalid_id), expected = expected)
 })
 
 test_that("the position_call function works with a valid aircraft ID", {
