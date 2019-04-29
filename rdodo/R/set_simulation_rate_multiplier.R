@@ -1,5 +1,3 @@
-#' Send a "set rate multiplier" command
-#'
 #' Set the simulation rate multiplier.
 #'
 #' Sets the simulation rate multiplier for the current simulation. By default
@@ -24,10 +22,8 @@ set_simulation_rate_multiplier <- function(multiplier) {
 
   stopifnot(is.double(multiplier), length(multiplier) == 1, multiplier > 0)
 
-  # TODO: replace string literals with config parameters from Bluebird.
-  body <- list(
-    "multiplier" = multiplier
-  )
+  # TODO: replace string literal with config parameter from Bluebird.
+  body <- list("multiplier" = multiplier)
 
   post_call(endpoint = config_param("endpoint_set_simulation_rate_multiplier"),
             body = body)
