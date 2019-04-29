@@ -6,6 +6,28 @@ Dodo is a scaffold for air traffic control (ATC) agents implemented in Python an
 
 A shared `config.yml` file exists for both rdodo and PyDodo, specifying common required parameters, settings and test cases.
 
+## Contents
+
+### Simulation commands
+
+- [Load Scenario](#load-scenario)
+- [Reset Simulation](#reset-the-simulation)
+- [Pause Simulation](#pause-the-simulation)
+- [Resume Simulation](#resume-the-simulation)
+- [Set Simulation Rate Multiplier](#set-the-simulation-rate-multiplier)
+
+### Aircraft commands
+
+- [Create Aircraft](#create-aircraft)
+- [Get aircraft position](#get-aircraft-position)
+- [Get all aircraft positions](#get-all-aircraft-positions)
+- [Change Altitude](#change-aircraft-altitude)
+- [Change Heading](#change-aircraft-heading)
+- [Change Speed](#change-aircraft-speed)
+- [Change Vertical Speed](#change-aircraft-vertical-speed)
+- [List Route](#list-aircraft-route)
+- [Direct to Waypoint](#direct-aircaft-to-waypoint)
+
 # Commands
 
 ## Load scenario
@@ -14,6 +36,7 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 
 **Parameters:**
 - `filename`: A string indicating path to scenario file.
+- `multiplier`: An optional double. Simulation rate multiplier.
 
 **Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
@@ -176,3 +199,34 @@ Either the `altitude` or `flight_level` argument must be given, but not both.
 **Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
 **Description:** Request change to aircraft speed.
+
+## List aircraft route
+
+**Function name:** `list_route`
+
+**Parameters:**
+- `aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
+
+**Return value:** A  dataframe with the following columns:
+- `waypoint_name`: An **uppercase** string waypoint identifier.
+- `requested_altitude`: A non-negatige double. The aircraft's requested altitude in feet at waypoint.
+- `requested_speed`: A non-negative double. The aircraft's requested speed at waypoint.
+- `current`: A boolean indicating whether the aircraft is currently heading toward this waypoint.
+
+This dataframe also contains metadata attributes named `aircraft_id` and `sim_t` containing the simulator time in seconds since the start of the scenario.
+
+**Description:** Get a dataframe of waypoints on an aircraft's route.
+
+## Direct aircaft to waypoint
+
+**Function name:** `direct_to_waypoint`
+
+**Parameters:**
+- `aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
+- `waypoint_name`: A string waypoint identifier. The waypoint to direct the aircraft to.
+
+**Return value:** `TRUE` if successful. Otherwise an exception is thrown.
+
+**Description:** Request aircraft to change heading toward the waypoint. The waypoint must exist on the aircraft route.
+
+
