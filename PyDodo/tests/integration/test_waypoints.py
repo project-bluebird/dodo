@@ -58,6 +58,15 @@ def test_direct_to_waypoint():
     with pytest.raises(HTTPError):
         direct_to_waypoint(aircraft_id=aircraft_id, waypoint_name=wpt_name)
 
+    # Aircraft has no route
+    no_route = list_route(aircraft_id)
+    assert isinstance(no_route, pd.DataFrame)
+    assert no_route.empty
+    assert isinstance(no_route.aircraft_id, str)
+    assert "requested_altitude" in no_route.columns
+    assert "requested_speed" in no_route.columns
+    assert "current" in no_route.columns
+
     wpt_alt = 6000
     wpt_spd = 50
     cmd = add_waypoint(aircraft_id=aircraft_id, waypoint_name=wpt_name, altitude=wpt_alt, speed=wpt_spd)
@@ -74,13 +83,13 @@ def test_direct_to_waypoint():
 
     # access route information
     route = list_route(aircraft_id)
+    wpt_name_upper = wpt_name.upper()
     assert isinstance(route, pd.DataFrame)
     assert len(route.index) == 1
     assert isinstance(route.sim_t, int)
     assert isinstance(route.aircraft_id, str)
     assert route.aircraft_id == aircraft_id
-    assert route.iloc[0]["waypoint_name"] == wpt_name.upper()
-    assert route.iloc[0]["requested_altitude"] == wpt_alt
-    assert route.iloc[0]["requested_speed"] == wpt_spd
-    assert route.iloc[0]["current"] == True
+    assert route.loc[wpt_name_upper]["requested_altitude"] == wpt_alt
+    assert route.loc[wpt_name_upper]["requested_speed"] == wpt_spd
+    assert route.loc[wpt_name_upper]["current"] == True
     assert route.sim_t > 1

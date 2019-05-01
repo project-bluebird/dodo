@@ -15,7 +15,6 @@ def format_wpt_info(waypoint):
     Format waypoint dictionary returned by bluebird.
     """
     wpt_formatted = {
-        "waypoint_name": waypoint["wpt_name"],
         "requested_altitude": waypoint["req_alt"],
         "requested_speed": waypoint["req_spd"],
         "current": waypoint["is_current"]
@@ -53,9 +52,14 @@ def list_route(aircraft_id):
     utils._validate_id(aircraft_id)
 
     resp = requests.get(url, params={config_param("query_aircraft_id"): aircraft_id})
-    resp.raise_for_status()
-
-    return process_listroute_response(resp)
+    if resp.status_code == 200:
+       return process_listroute_response(resp)
+    elif resp.status_code == 500 and 'no route' in resp.text:
+        df = pd.DataFrame({"requested_altitude":[], "requested_speed":[], "current":[]})
+        df.aircraft_id = aircraft_id
+        return df
+    else:
+        raise requests.HTTPError(resp.text)
 
 
 def define_waypoint(waypoint_name, latitude, longitude, waypoint_type=None):
