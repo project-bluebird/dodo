@@ -29,7 +29,7 @@ change_altitude <- function(aircraft_id,
                             flight_level = NULL,
                             vertical_speed = NULL) {
 
-  stopifnot(is.character(aircraft_id), length(aircraft_id) == 1)
+  validate_aircraft_id(aircraft_id)
 
   if (!is.null(vertical_speed))
     validate_speed(vertical_speed)
