@@ -54,8 +54,7 @@ route_call <- function(aircraft_id) {
   # throw an exception.
   if (httr::status_code(response) == 500) {
     content <- httr::content(response)
-    # TODO: move string literal to the config:
-    if (!stringr::str_detect(content, 'Aircraft has no route'))
+    if (!stringr::str_detect(content, config_param("err_msg_aircraft_has_no_route")))
       stop(content)
     ret <- list(aircraft_id, list()); names(ret) <- c('acid', 'route')
     return(ret)
