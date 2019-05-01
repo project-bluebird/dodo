@@ -17,7 +17,7 @@ def format_wpt_info(waypoint):
     wpt_formatted = {
         "requested_altitude": waypoint["req_alt"],
         "requested_speed": waypoint["req_spd"],
-        "current": waypoint["is_current"]
+        "current": waypoint["is_current"],
     }
 
     # if altitude is a flight level string (e.g., FL250), convert to FEET
@@ -34,10 +34,7 @@ def process_listroute_response(response):
     Return dataframe with sim_t and aircraft_id attributes.
     """
     json_data = json.loads(response.text)
-    route_dict = {
-        wpt["wpt_name"]: format_wpt_info(wpt)
-        for wpt in json_data["route"]
-    }
+    route_dict = {wpt["wpt_name"]: format_wpt_info(wpt) for wpt in json_data["route"]}
     df = pd.DataFrame.from_dict(route_dict, orient="index")
     df.sim_t = json_data["sim_t"]
     df.aircraft_id = json_data["acid"]
@@ -53,9 +50,14 @@ def list_route(aircraft_id):
 
     resp = requests.get(url, params={config_param("query_aircraft_id"): aircraft_id})
     if resp.status_code == 200:
-       return process_listroute_response(resp)
-    elif resp.status_code == 500 and 'no route' in resp.text:
-        df = pd.DataFrame({"requested_altitude":[], "requested_speed":[], "current":[]})
+        return process_listroute_response(resp)
+    elif (
+        resp.status_code == 500
+        and config_param("err_msg_aircraft_has_no_route") in resp.text
+    ):
+        df = pd.DataFrame(
+            {"requested_altitude": [], "requested_speed": [], "current": []}
+        )
         df.aircraft_id = aircraft_id
         return df
     else:
@@ -80,11 +82,7 @@ def define_waypoint(waypoint_name, latitude, longitude, waypoint_type=None):
 
 
 def add_waypoint(
-        aircraft_id,
-        waypoint_name=None,
-        altitude=None,
-        flight_level=None,
-        speed=None
+    aircraft_id, waypoint_name=None, altitude=None, flight_level=None, speed=None
     ):
     """
     Add waypoint to aircraft route.
