@@ -67,6 +67,9 @@ def test_direct_to_waypoint():
     assert "requested_speed" in no_route.columns
     assert "current" in no_route.columns
 
+    with pytest.raises(HTTPError):
+        list_route("TST1002")
+
     wpt_alt = 6000
     wpt_spd = 50
     cmd = add_waypoint(aircraft_id=aircraft_id, waypoint_name=wpt_name, altitude=wpt_alt, speed=wpt_spd)
