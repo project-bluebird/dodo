@@ -11,8 +11,9 @@ position_call(aircraft_id = NULL)
 }
 \value{
 A list of lists, each element named by a \code{aircraft_id} and each sublist
-containing aircraft position information. If the \code{aircraft_id} was not
-found in the simulation, the sublist will be empty. Returns an empty list if
+containing aircraft position information, plus an element for the
+\code{simulator_time}. If the \code{aircraft_id} was not found in the
+simulation, the sublist will be empty. Returns an empty list if
 \code{aircraft_id} was NULL but there were no existing aircraft.
 }
 \description{

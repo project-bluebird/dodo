@@ -5,8 +5,9 @@
 #'
 #' @return
 #' A list of lists, each element named by a \code{aircraft_id} and each sublist
-#' containing aircraft position information. If the \code{aircraft_id} was not
-#' found in the simulation, the sublist will be empty. Returns an empty list if
+#' containing aircraft position information, plus an element for the
+#' \code{simulator_time}. If the \code{aircraft_id} was not found in the
+#' simulation, the sublist will be empty. Returns an empty list if
 #' \code{aircraft_id} was NULL but there were no existing aircraft.
 #'
 #' @examples
@@ -60,13 +61,14 @@ position_call <- function(aircraft_id = NULL) {
 # data frame containing a row for each of them, named by the aircraft ID.
 process_parsed_positions <- function(parsed_list) {
 
+  # TODO: the simulator_time attribute is lost in this case:
   # Handle the case that parsed_list is empty, indicating the call came from the
   # all_positions function and no aircraft were found. In this case return an
   # empty dataframe.
   if (length(parsed_list) == 0)
     return(process_parsed_position(list(), aircraft_id = "DUMMY")[-1, ])
 
-  # Pull out the simulator time attribute.
+  # Pull out the simulator time attribute, then remove it from the list.
   sim_t <- parsed_list[[config_param("simulator_time")]]
   parsed_list[[config_param("simulator_time")]] <- NULL
 
