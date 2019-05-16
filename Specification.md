@@ -28,6 +28,8 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 - [List Route](#list-aircraft-route)
 - [Direct to Waypoint](#direct-aircaft-to-waypoint)
 
+### Distance measures
+
 # Commands
 
 ## Load scenario
