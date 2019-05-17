@@ -31,7 +31,7 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 ### Distance measures
 
 - [Geodesic separation](#geodesic-separation)
-- [Geodesic distance)](#geodesic-distance)
+- [Geodesic distance](#geodesic-distance)
 - [Great-circle separation](#great-circle-separation)
 - [Great-circle distance](#great-circle-distance)
 - [Vertical separation](#vertical-separation)
@@ -309,7 +309,7 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 
 **Description:** Get vertical separation in metres between the positions of all `from` and `to` pairs of aircraft. 
 
-## Verticle distance
+## Vertical distance
 
 **Function name:** `vertical_distance`
 
