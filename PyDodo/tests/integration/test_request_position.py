@@ -49,6 +49,7 @@ def test_wrong_id():
     pos_df = aircraft_position("TEST1")
     assert pos_df.equals(
         pd.DataFrame({
+            "type":np.nan,
             "altitude":np.nan,
             "ground_speed":np.nan,
             "latitude":np.nan,
@@ -75,6 +76,7 @@ def test_all_positions():
     pos = all_positions()
     assert isinstance(pos, pd.DataFrame)
     assert len(pos.index) == 1
+    assert pos.loc[aircraft_id]['type'] == type
     assert pos.loc[aircraft_id]['latitude'] > 0
     assert pos.loc[aircraft_id]['longitude'] == 0
     assert pos.loc[aircraft_id]['vertical_speed'] == 0
@@ -98,6 +100,7 @@ def test_all_positions():
     pos = all_positions()
     assert isinstance(pos, pd.DataFrame)
     assert len(pos.index) == 2
+    assert pos.loc[aircraft_id]['type'] == type
     assert pos.loc[aircraft_id]['latitude'] > 0
     assert pos.loc[aircraft_id]['longitude'] == 0
     assert pos.loc[aircraft_id]['vertical_speed'] == 0
@@ -106,6 +109,7 @@ def test_all_positions():
     # aircraft initial speed may differ from indicated speed
     assert pos.loc[aircraft_id]['ground_speed'] > 150
 
+    assert pos.loc[aircraft_id_2]['type'] == type_2
     assert pos.loc[aircraft_id_2]['latitude'] < 0
     assert round(pos.loc[aircraft_id_2]['longitude'], 2) == 0
     assert pos.loc[aircraft_id_2]['vertical_speed'] == 0
@@ -144,6 +148,7 @@ def test_aircraft_position():
     pos = aircraft_position('TST1001')
     assert isinstance(pos, pd.DataFrame)
     assert len(pos.index) == 1
+    assert pos.loc[aircraft_id]['type'] == type
     assert pos.loc[aircraft_id]['latitude'] > 0
     assert pos.loc[aircraft_id]['longitude'] == 0
     assert pos.loc[aircraft_id]['vertical_speed'] == 0

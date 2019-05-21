@@ -15,6 +15,7 @@ def format_pos_info(aircraft_pos):
     Format position dictionary for an aircraft returned by bluebird.
     """
     position_formatted = {
+        "type": aircraft_pos["actype"],
         "altitude": aircraft_pos["alt"],
         "ground_speed": aircraft_pos["gs"],
         "latitude": aircraft_pos["lat"],
@@ -55,6 +56,7 @@ def null_pos_df(aircraft_id=None):
     Returns empty dataframe if no ID is provided otherwise dataframe with NANs.
     """
     null_dict = {
+        "type": [],
         "altitude": [],
         "ground_speed": [],
         "latitude": [],
