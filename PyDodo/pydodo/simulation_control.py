@@ -1,7 +1,22 @@
 import requests
 
+from . import utils
 from .utils import post_request
 from .config_param import config_param
+
+
+def load_scenario(filename, multiplier=1.0):
+    """
+    Load scenario from file and start the simulation.
+
+    :param filename : A string, path to scenario file
+    :return :
+    """
+    utils._validate_string(filename, "file path")
+    utils._validate_multiplier(multiplier)
+
+    body = {"filename": filename, "multiplier": multiplier}
+    return post_request(config_param("endpoint_load_scenario"), body)
 
 
 def reset_simulation():
@@ -26,7 +41,7 @@ def resume_simulation():
 
 
 def set_simulation_rate_multiplier(multiplier):
-    assert multiplier > 0, "Invalid value {} for multiplier".format(multiplier)
+    utils._validate_multiplier(multiplier)
 
-    json = {"multiplier": multiplier}
-    return post_request(config_param("endpoint_set_simulation_rate_multiplier", json))
+    body = {"multiplier": multiplier}
+    return post_request(config_param("endpoint_set_simulation_rate_multiplier"), body)

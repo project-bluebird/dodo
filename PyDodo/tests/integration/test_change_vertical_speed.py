@@ -7,9 +7,11 @@ from pydodo.utils import ping_bluebird
 # test if can connect to BlueBird
 bb_resp = ping_bluebird()
 
+
 @pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
 def test_change_vertical_speed():
-    reset_simulation()
+    cmd = reset_simulation()
+    assert cmd == True
 
     aircraft_id = "TST1001"
     type = "B744"
