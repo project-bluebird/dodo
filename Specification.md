@@ -10,11 +10,13 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 
 ### Simulation commands
 
-- [Load Scenario](#load-scenario)
+- [Load Scenario](#load-scenario) [TO DO]
 - [Reset Simulation](#reset-the-simulation)
 - [Pause Simulation](#pause-the-simulation)
 - [Resume Simulation](#resume-the-simulation)
 - [Set Simulation Rate Multiplier](#set-the-simulation-rate-multiplier)
+- [Episode Log](#episode-log) [TO DO]
+- [Shutdown](#shutdown) [TO DO]
 
 ### Aircraft commands
 
@@ -28,17 +30,16 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 - [List Route](#list-aircraft-route)
 - [Direct to Waypoint](#direct-aircaft-to-waypoint)
 
-
 ### Distance measures
-[TO DO]
-- [Geodesic separation](#geodesic-separation)
-- [Geodesic distance](#geodesic-distance)
-- [Great-circle separation](#great-circle-separation)
-- [Great-circle distance](#great-circle-distance)
-- [Vertical separation](#vertical-separation)
-- [Vertical distance](#vertical-distance)
-- [Euclidean separation](#euclidean-separation)
-- [Euclidean distance](#euclidean-distance)
+
+- [Geodesic separation](#geodesic-separation) [TO DO]
+- [Geodesic distance](#geodesic-distance) [TO DO]
+- [Great-circle separation](#great-circle-separation) [TO DO]
+- [Great-circle distance](#great-circle-distance) [TO DO]
+- [Vertical separation](#vertical-separation) [TO DO]
+- [Vertical distance](#vertical-distance) [TO DO]
+- [Euclidean separation](#euclidean-separation) [TO DO]
+- [Euclidean distance](#euclidean-distance) [TO DO]
 
 # Commands
 
