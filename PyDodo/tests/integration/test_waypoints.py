@@ -96,12 +96,18 @@ def test_direct_to_waypoint():
     # access route information
     route = list_route(aircraft_id)
     wpt_name_upper = wpt_name.upper()
+    wpt_name_2_upper = wpt_name_2.upper()
     assert isinstance(route, pd.DataFrame)
     assert len(route.index) == 2
+    assert route.index[0] == wpt_name_upper
+    assert route.index[1] == wpt_name_2_upper
     assert isinstance(route.sim_t, int)
     assert isinstance(route.aircraft_id, str)
     assert route.aircraft_id == aircraft_id
     assert route.loc[wpt_name_upper]["requested_altitude"] == wpt_alt
     assert route.loc[wpt_name_upper]["requested_speed"] == wpt_spd
     assert route.loc[wpt_name_upper]["current"] == True
+    
+    assert route.loc[wpt_name_2_upper]["requested_altitude"] == wpt_alt
+    assert route.loc[wpt_name_2_upper]["requested_speed"] == wpt_spd
     assert route.sim_t > 1
