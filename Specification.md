@@ -10,13 +10,12 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 
 ### Simulation commands
 
-- [Load Scenario](#load-scenario) [TO DO]
+- [Load Scenario](#load-scenario) 
+- [Create Scenario](#create-scenario) [TO DO]
 - [Reset Simulation](#reset-the-simulation)
 - [Pause Simulation](#pause-the-simulation)
 - [Resume Simulation](#resume-the-simulation)
 - [Set Simulation Rate Multiplier](#set-the-simulation-rate-multiplier)
-- [Episode Log](#episode-log) [TO DO]
-- [Shutdown](#shutdown) [TO DO]
 
 ### Aircraft commands
 
@@ -41,6 +40,11 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 - [Euclidean separation](#euclidean-separation) [TO DO]
 - [Euclidean distance](#euclidean-distance) [TO DO]
 
+### Bluebird commands
+
+- [Episode Log](#episode-log) [TO DO]
+- [Shutdown](#shutdown) [TO DO]
+
 # Commands
 
 ## Load scenario
@@ -55,7 +59,11 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 
 **Description:** Load a scenario file and begin the simulation.
 
-Currently, the path is relative to the simulator (e.g., BlueSky) root directory (e.g., `scenario/8.SCN`).
+The path is relative to the simulator (e.g., BlueSky) root directory (e.g., `scenario/8.SCN`).
+
+## Create scenario
+
+[TO DO]
 
 ## Reset the simulation
 
@@ -352,3 +360,11 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 **Return value:** A double, euclidean distance between two points.
 
 **Description:** Get euclidean distance between two points' positions defined as [latitude, logitude, altitude].
+
+## Episode log
+
+[TO DO]
+
+## Shutdown
+
+[TO DO]
