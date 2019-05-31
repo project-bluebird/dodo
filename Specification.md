@@ -28,9 +28,9 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 - [List Route](#list-aircraft-route)
 - [Direct to Waypoint](#direct-aircaft-to-waypoint)
 
-[TO IMPLEMENT]
-### Distance measures
 
+### Distance measures
+[TO DO]
 - [Geodesic separation](#geodesic-separation)
 - [Geodesic distance](#geodesic-distance)
 - [Great-circle separation](#great-circle-separation)
