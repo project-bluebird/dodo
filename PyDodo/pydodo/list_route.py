@@ -36,6 +36,10 @@ def process_listroute_response(response):
     json_data = json.loads(response.text)
     route_dict = {wpt["wpt_name"]: format_wpt_info(wpt) for wpt in json_data["route"]}
     df = pd.DataFrame.from_dict(route_dict, orient="index")
+
+    wpt_order = route_dict.keys()
+    df = df.reindex(wpt_order)
+    
     df.sim_t = json_data["sim_t"]
     df.aircraft_id = json_data["acid"]
 

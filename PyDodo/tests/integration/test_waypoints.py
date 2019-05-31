@@ -48,10 +48,16 @@ def test_direct_to_waypoint():
     aircraft_id = aircraft_id.upper()
     assert position.loc[aircraft_id]["longitude"] == 0
 
-    wpt_name = "new_waypoint"
+    wpt_name = "waypoint"
     wpt_lat = 45
     wpt_lon = 45
     cmd = define_waypoint(wpt_name, wpt_lat, wpt_lon)
+    assert cmd == True
+
+    wpt_name_2 = "new_waypoint"
+    wpt_lat_2 = 43
+    wpt_lon_2 = 43
+    cmd = define_waypoint(wpt_name_2, wpt_lat_2, wpt_lon_2)
     assert cmd == True
 
     # Test with an invalid waypoint, it has not been added to flight route yet
@@ -75,6 +81,9 @@ def test_direct_to_waypoint():
     cmd = add_waypoint(aircraft_id=aircraft_id, waypoint_name=wpt_name, altitude=wpt_alt, speed=wpt_spd)
     assert cmd == True
 
+    cmd = add_waypoint(aircraft_id=aircraft_id, waypoint_name=wpt_name_2, altitude=wpt_alt, speed=wpt_spd)
+    assert cmd == True
+
     # Give the command to head to waypoint.
     cmd = direct_to_waypoint(aircraft_id=aircraft_id, waypoint_name=wpt_name)
     assert cmd == True
@@ -88,7 +97,7 @@ def test_direct_to_waypoint():
     route = list_route(aircraft_id)
     wpt_name_upper = wpt_name.upper()
     assert isinstance(route, pd.DataFrame)
-    assert len(route.index) == 1
+    assert len(route.index) == 2
     assert isinstance(route.sim_t, int)
     assert isinstance(route.aircraft_id, str)
     assert route.aircraft_id == aircraft_id
