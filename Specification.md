@@ -367,4 +367,10 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 
 ## Shutdown
 
-[TO DO]
+**Function name:** `shutdown`
+
+**Parameters:** None
+
+**Return value:** `TRUE` if successful. Otherwise an exception is thrown.
+
+**Description:** Shut down the BlueBird server.
