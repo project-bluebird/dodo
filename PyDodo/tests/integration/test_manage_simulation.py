@@ -1,5 +1,6 @@
 import pytest
 import os
+import time
 
 from pydodo import (
     create_aircraft,
@@ -114,6 +115,8 @@ def test_create_scenario(rootdir):
 
     resp = load_scenario(test_scenario)
     assert resp == True
+
+    time.sleep(1)
 
     pos = all_positions()
     assert len(pos.index) == 2
