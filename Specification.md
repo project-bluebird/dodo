@@ -369,7 +369,14 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 
 ## Episode log
 
-[TO DO]
+**Function name:** `episode_log`
+
+**Parameters:** 
+- `filename`: A string indicating name of file to save episode log under.
+
+**Return value:** `TRUE` if successful. Otherwise an exception is thrown.
+
+**Description:** Get the episode log and save to file in the working directory.
 
 ## Shutdown
 
