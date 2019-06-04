@@ -16,3 +16,4 @@ from .simulation_control import (
     resume_simulation,
     set_simulation_rate_multiplier
 )
+from .bb_control import episode_log, shutdown
