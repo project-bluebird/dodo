@@ -25,13 +25,14 @@ test_that("the change_altitude function works", {
                               flight_level = flight_level,
                               speed = speed))
 
-  # Check the altitude.
-  position <- aircraft_position(aircraft_id)
-
   # In the returned data frame aircraft_id is uppercase.
   aircraft_id <- toupper(aircraft_id)
 
-  expect_equal(object = position[aircraft_id, config_param("altitude")],
+  # Check the altitude.
+  position <- aircraft_position(aircraft_id)
+  h_altitude <- config_param("altitude")
+
+  expect_equal(object = position[aircraft_id, h_altitude],
                expected = flight_level * 100)
 
   # Give the command to ascend.
@@ -39,7 +40,11 @@ test_that("the change_altitude function works", {
   expect_true(change_altitude(aircraft_id = aircraft_id,
                               flight_level = new_flight_level))
 
+  # Wait for the altitude to increase.
+  expect_true(wait(aircraft_id, property = h_altitude, operator = `>`,
+       initial_value = flight_level * 100))
+
   # Check that the new altitude exceeds the original one.
   new_position <- aircraft_position(aircraft_id)
-  expect_true(new_position[aircraft_id, config_param("altitude")] > flight_level * 100)
+  expect_true(new_position[aircraft_id, h_altitude] > flight_level * 100)
 })

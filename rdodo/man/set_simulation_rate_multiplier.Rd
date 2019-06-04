@@ -2,7 +2,7 @@
 % Please edit documentation in R/set_simulation_rate_multiplier.R
 \name{set_simulation_rate_multiplier}
 \alias{set_simulation_rate_multiplier}
-\title{Send a "set rate multiplier" command}
+\title{Set the simulation rate multiplier.}
 \usage{
 set_simulation_rate_multiplier(multiplier)
 }
@@ -13,9 +13,6 @@ set_simulation_rate_multiplier(multiplier)
 \code{TRUE} if successful. Otherwise \code{FALSE} and an error is thrown.
 }
 \description{
-Set the simulation rate multiplier.
-}
-\details{
 Sets the simulation rate multiplier for the current simulation. By default
 this multiplier is equal to one (real-time operation). If set to another
 value, the simulation will run faster (or slower) than real-time, with a

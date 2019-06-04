@@ -21,7 +21,7 @@ validate_response <- function(response) {
         "Bluebird API request failed [%s]\nurl: %s\nmsg: %s",
         httr::status_code(response),
         response$url,
-        as.character(response)
+        httr::content(response)
       )
     )
   }

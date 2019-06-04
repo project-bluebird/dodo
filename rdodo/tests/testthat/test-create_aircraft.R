@@ -16,8 +16,17 @@ test_that("the create_aircraft function works", {
   flight_level <- 250
   speed <- 200
 
-
   expect_true(create_aircraft(aircraft_id = aircraft_id,
+                              type = type,
+                              latitude = latitude,
+                              longitude = longitude,
+                              heading = heading,
+                              flight_level = flight_level,
+                              speed = speed))
+
+  # Check for an error on attempt to create an aircraft with an aircraft_id
+  # identical to one that already exists.
+  expect_error(create_aircraft(aircraft_id = aircraft_id,
                               type = type,
                               latitude = latitude,
                               longitude = longitude,

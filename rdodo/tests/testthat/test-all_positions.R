@@ -13,7 +13,12 @@ test_that("the all_positions function works when no aircraft exist", {
   # Expect an empty data frame.
   expect_true(is.data.frame(result))
   expect_identical(object = nrow(result), expected = 0L)
-  expected <- c("altitude", "ground_speed", "latitude", "longitude", "vertical_speed")
+  expected <- c(config_param("aircraft_type"),
+                config_param("altitude"),
+                config_param("ground_speed"),
+                config_param("latitude"),
+                config_param("longitude"),
+                config_param("vertical_speed"))
   expect_identical(object = colnames(result), expected = expected)
 })
 
@@ -45,7 +50,12 @@ test_that("the all_positions function works when aircraft exist", {
   expect_true(is.data.frame(result))
   expect_identical(object = nrow(result), expected = 1L)
   expect_identical(object = rownames(result), expected = aircraft_id_1)
-  expected <- c("altitude", "ground_speed", "latitude", "longitude", "vertical_speed")
+  expected <- c(config_param("aircraft_type"),
+                config_param("altitude"),
+                config_param("ground_speed"),
+                config_param("latitude"),
+                config_param("longitude"),
+                config_param("vertical_speed"))
   expect_identical(object = colnames(result), expected = expected)
 
   expect_equal(object = result[aircraft_id_1, "altitude"],
@@ -55,8 +65,8 @@ test_that("the all_positions function works when aircraft exist", {
   expect_true(result[aircraft_id_1, "ground_speed"] > 150)
 
   expect_true(object = result[aircraft_id_1, "latitude"] > 0)
-  expect_identical(object = result[aircraft_id_1, "longitude"], expected = 0)
-  expect_identical(object = result[aircraft_id_1, "vertical_speed"], expected = 0)
+  expect_equal(object = result[aircraft_id_1, "longitude"], expected = 0)
+  expect_equal(object = result[aircraft_id_1, "vertical_speed"], expected = 0)
 
   # Create another aircraft.
   aircraft_id_2 <- "testAircraftPosition2"
@@ -85,8 +95,12 @@ test_that("the all_positions function works when aircraft exist", {
   expect_identical(object = nrow(result), expected = 2L)
   expect_identical(object = rownames(result),
                    expected = c(aircraft_id_1, aircraft_id_2))
-  expected <- c("altitude", "ground_speed", "latitude", "longitude",
-                "vertical_speed")
+  expected <- c(config_param("aircraft_type"),
+                config_param("altitude"),
+                config_param("ground_speed"),
+                config_param("latitude"),
+                config_param("longitude"),
+                config_param("vertical_speed"))
   expect_identical(object = colnames(result), expected = expected)
 
   expect_equal(object = result[aircraft_id_1, "altitude"],
@@ -96,8 +110,8 @@ test_that("the all_positions function works when aircraft exist", {
   expect_true(result[aircraft_id_1, "ground_speed"] > 150)
 
   expect_true(object = result[aircraft_id_1, "latitude"] > 0)
-  expect_identical(object = result[aircraft_id_1, "longitude"], expected = 0)
-  expect_identical(object = result[aircraft_id_1, "vertical_speed"], expected = 0)
+  expect_equal(object = result[aircraft_id_1, "longitude"], expected = 0)
+  expect_equal(object = result[aircraft_id_1, "vertical_speed"], expected = 0)
 
   expect_equal(object = result[aircraft_id_2, "altitude"],
                    expected = flight_level_2 * 100)
@@ -107,5 +121,5 @@ test_that("the all_positions function works when aircraft exist", {
 
   expect_true(object = result[aircraft_id_2, "latitude"] < 0)
   expect_equal(object = result[aircraft_id_2, "longitude"], expected = 0)
-  expect_identical(object = result[aircraft_id_2, "vertical_speed"], expected = 0)
+  expect_equal(object = result[aircraft_id_2, "vertical_speed"], expected = 0)
 })
