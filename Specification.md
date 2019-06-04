@@ -52,7 +52,7 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 **Function name:** `load_scenario`
 
 **Parameters:**
-- `scenario`: A string indicating name of scenario file on the BlueSky host (`<scenario>.scn`).
+- `scenario`: A string indicating name of scenario file on the simulator host (`<scenario>.scn`).
 - `multiplier`: An optional double. Simulation rate multiplier.
 
 **Return value:** `TRUE` if successful. Otherwise an exception is thrown.
@@ -65,11 +65,11 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 
 **Parameters:** 
 - `filename`: A string indicating path to scenario file on the local machine.
-- `scenario`: A string indicating name to store scenario under on the BlueSky host (`<scenario>.scn`).
+- `scenario`: A string indicating name to store scenario under on the simulator host (`<scenario>.scn`).
 
 **Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
-**Description:** Create scenario file on the BlueSky host. Once created, scenario can be loaded and started using the above `load_scenario` function. Any existing scenario with the same name will be overwritten.
+**Description:** Create scenario file on the simulator host. Once created, scenario can be loaded and started using the above `load_scenario` function. Any existing scenario with the same name will be overwritten.
 
 ## Reset the simulation
 
