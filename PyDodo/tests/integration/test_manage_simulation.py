@@ -1,12 +1,15 @@
 import pytest
+import os
 
 from pydodo import (
     create_aircraft,
     reset_simulation,
     load_scenario,
+    create_scenario,
     pause_simulation,
     resume_simulation,
     aircraft_position,
+    all_positions,
     set_simulation_rate_multiplier
 )
 from pydodo.utils import ping_bluebird
@@ -90,3 +93,27 @@ def test_load_fail():
 
     with pytest.raises(AssertionError):
         load_scenario("scenario/8.scn", 0)
+
+
+@pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
+@pytest.mark.skipif(not bluesky_sim, reason="Not using BlueSky")
+def test_create_scenario(rootdir):
+    """
+    Create scenario on the simulator host and load.
+    """
+    test_scenario = "dodo-test-scenario"
+
+    test_file = os.path.join(rootdir, test_scenario)
+
+
+    resp = reset_simulation()
+    assert resp == True
+
+    resp = create_scenario(filename=f"{test_file}.scn", scenario=test_scenario)
+    assert resp == True
+
+    resp = load_scenario(test_scenario)
+    assert resp == True
+
+    pos = all_positions()
+    assert len(pos.index) == 2

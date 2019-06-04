@@ -9,6 +9,7 @@ from .aircraft_control import (
 from .list_route import list_route
 from .create_aircraft import create_aircraft
 from .simulation_control import (
+    create_scenario,
     load_scenario,
     reset_simulation,
     pause_simulation,
