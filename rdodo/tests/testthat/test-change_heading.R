@@ -25,24 +25,29 @@ test_that("the change_heading function works", {
                               flight_level = flight_level,
                               speed = speed))
 
-  # Check the heading.
-  position <- aircraft_position(aircraft_id)
-
   # In the returned data frame aircraft_id is uppercase.
   aircraft_id <- toupper(aircraft_id)
 
-  expect_identical(object = position[aircraft_id, config_param("longitude")],
-                   expected = 0)
+  # Check the heading.
+  position <- aircraft_position(aircraft_id)
+  h_longitude <- config_param("longitude")
 
   # Test with an invalid heading.
   invalid_heading <- 400
   expect_error(change_heading(aircraft_id = aircraft_id, heading = invalid_heading))
 
+  # Confirm the longitude hasn't changed (implying no change of heading yet).
+  expect_equal(object = position[aircraft_id, h_longitude], expected = 0)
+
   # Give the command to change heading.
   new_heading <- 90
   expect_true(change_heading(aircraft_id = aircraft_id, heading = new_heading))
 
-  # Check that the heading has changed.
+  # Wait for the aircraft's longitude to change.
+  expect_true(wait(aircraft_id, property = h_longitude, operator = `>`,
+                   initial_value = 0))
+
+  # Check that the londitude has changed (implying a change of heading).
   new_position <- aircraft_position(aircraft_id)
-  expect_true(new_position[aircraft_id, config_param("longitude")] > 0)
+  expect_true(new_position[aircraft_id, h_longitude] > 0)
 })

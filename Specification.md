@@ -10,7 +10,8 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 
 ### Simulation commands
 
-- [Load Scenario](#load-scenario)
+- [Load Scenario](#load-scenario) 
+- [Create Scenario](#create-scenario) [TO DO]
 - [Reset Simulation](#reset-the-simulation)
 - [Pause Simulation](#pause-the-simulation)
 - [Resume Simulation](#resume-the-simulation)
@@ -30,14 +31,19 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 
 ### Distance measures
 
-- [Geodesic separation](#geodesic-separation)
-- [Geodesic distance](#geodesic-distance)
-- [Great-circle separation](#great-circle-separation)
-- [Great-circle distance](#great-circle-distance)
-- [Vertical separation](#vertical-separation)
-- [Vertical distance](#vertical-distance)
-- [Euclidean separation](#euclidean-separation)
-- [Euclidean distance](#euclidean-distance)
+- [Geodesic separation](#geodesic-separation) [TO DO]
+- [Geodesic distance](#geodesic-distance) [TO DO]
+- [Great-circle separation](#great-circle-separation) [TO DO]
+- [Great-circle distance](#great-circle-distance) [TO DO]
+- [Vertical separation](#vertical-separation) [TO DO]
+- [Vertical distance](#vertical-distance) [TO DO]
+- [Euclidean separation](#euclidean-separation) [TO DO]
+- [Euclidean distance](#euclidean-distance) [TO DO]
+
+### Bluebird commands
+
+- [Episode Log](#episode-log) [TO DO]
+- [Shutdown](#shutdown) [TO DO]
 
 # Commands
 
@@ -46,14 +52,24 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 **Function name:** `load_scenario`
 
 **Parameters:**
-- `filename`: A string indicating path to scenario file.
+- `scenario`: A string indicating name of scenario file on the simulator host (`<scenario>.scn`).
 - `multiplier`: An optional double. Simulation rate multiplier.
 
 **Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
 **Description:** Load a scenario file and begin the simulation.
 
-Currently, the path is relative to the simulator (e.g., BlueSky) root directory (e.g., `scenario/8.SCN`).
+## Create scenario
+
+**Function name:** `create_scenario`
+
+**Parameters:** 
+- `filename`: A string indicating path to scenario file on the local machine.
+- `scenario`: A string indicating name to store scenario under on the simulator host (`<scenario>.scn`).
+
+**Return value:** `TRUE` if successful. Otherwise an exception is thrown.
+
+**Description:** Create scenario file on the simulator host. Once created, scenario can be loaded and started using the above `load_scenario` function. Any existing scenario with the same name will be overwritten.
 
 ## Reset the simulation
 
@@ -350,3 +366,24 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 **Return value:** A double, euclidean distance between two points.
 
 **Description:** Get euclidean distance between two points' positions defined as [latitude, logitude, altitude].
+
+## Episode log
+
+**Function name:** `episode_log`
+
+**Parameters:** 
+- `filename`: A string indicating name of file to save episode log under.
+
+**Return value:** `TRUE` if successful. Otherwise an exception is thrown.
+
+**Description:** Get the episode log and save to file in the working directory.
+
+## Shutdown
+
+**Function name:** `shutdown`
+
+**Parameters:** None
+
+**Return value:** `TRUE` if successful. Otherwise an exception is thrown.
+
+**Description:** Shut down the BlueBird server.

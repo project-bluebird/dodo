@@ -24,28 +24,30 @@ test_that("the resume_simulation function works", {
                               flight_level = flight_level,
                               speed = speed))
 
-  position0 <- aircraft_position(aircraft_id)
-
   # In the returned data frame aircraft_id is uppercase.
   aircraft_id <- toupper(aircraft_id)
+
+  position0 <- aircraft_position(aircraft_id)
 
   expect_true(pause_simulation())
 
   position1 <- aircraft_position(aircraft_id)
-  expect_true(position1[aircraft_id, "latitude"] >
-                position0[aircraft_id, "latitude"])
+  h_latitude <- config_param("latitude")
 
-  # Check that the position has not changed since the last position call (as
+  # Check that the latitude increased since the first call to aircraft_position.
+  expect_true(position1[aircraft_id, h_latitude] >
+                position0[aircraft_id, h_latitude])
+
+  # Check that the latitude has not changed since the last position call (as
   # the simulation was paused).
   position2 <- aircraft_position(aircraft_id)
-  expect_identical(position1[aircraft_id, "latitude"],
-                   position2[aircraft_id, "latitude"])
+  expect_identical(position1[aircraft_id, h_latitude],
+                   position2[aircraft_id, h_latitude])
 
   expect_true(resume_simulation())
 
+  # Check that the latitude increased since the simulation resumed.
   position3 <- aircraft_position(aircraft_id)
-  expect_true(position3[aircraft_id, "latitude"] >
-                position2[aircraft_id, "latitude"])
-
-
+  expect_true(position3[aircraft_id, h_latitude] >
+                position2[aircraft_id, h_latitude])
 })
