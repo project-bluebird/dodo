@@ -1,5 +1,3 @@
-import requests
-
 from . import utils
 from .utils import post_request
 from .config_param import config_param
