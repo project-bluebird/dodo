@@ -25,14 +25,14 @@ test_that("the change_vertical_speed function works", {
                               flight_level = flight_level,
                               speed = speed))
 
-  # Check the vertical speed.
-  position <- aircraft_position(aircraft_id)
-
   # In the returned data frame aircraft_id is uppercase.
   aircraft_id <- toupper(aircraft_id)
 
-  expect_identical(position[aircraft_id, config_param("vertical_speed")],
-                   expected = 0)
+  # Check the vertical speed.
+  position <- aircraft_position(aircraft_id)
+  h_vspeed <- config_param("vertical_speed")
+
+  expect_equal(position[aircraft_id, h_vspeed], expected = 0)
 
   # Give the command to ascend.
   new_flight_level <- 450

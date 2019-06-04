@@ -16,6 +16,7 @@ default:
   endpoint_resume_simulation: "op"
   endpoint_set_simulation_rate_multiplier: "dtmult"
   endpoint_load_scenario: "ic"
+  endpoint_create_scenario: "scenario"
   endpoint_create_aircraft: "cre"
   endpoint_aircraft_position: "pos"
   endpoint_change_altitude: "alt"
@@ -26,8 +27,9 @@ default:
   endpoint_add_waypoint: "addwpt"
   endpoint_direct_to_waypoint: "direct"
   endpoint_list_route: "listroute"
-  endpoint_episode_info: "epinfo"
+  endpoint_episode_log: "eplog"
   endpoint_simulation_time: "time"
+  endpoint_shutdown: "shutdown"
   query_aircraft_id: "acid"
 
   # Column/element/attribute names

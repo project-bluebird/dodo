@@ -24,21 +24,22 @@ test_that("the pause_simulation function works", {
                               flight_level = flight_level,
                               speed = speed))
 
-  position0 <- aircraft_position(aircraft_id)
-
   # In the returned data frame aircraft_id is uppercase.
   aircraft_id <- toupper(aircraft_id)
+
+  position0 <- aircraft_position(aircraft_id)
 
   expect_true(pause_simulation())
 
   # Check that the position has changed since the last position call.
   position1 <- aircraft_position(aircraft_id)
-  expect_true(position1[aircraft_id, "latitude"] >
-                position0[aircraft_id, "latitude"])
+  h_latitude <- config_param("latitude")
+  expect_true(position1[aircraft_id, h_latitude] >
+                position0[aircraft_id, h_latitude])
 
   # Check that the position has not changed since the last position call (as
   # the simulation was paused).
   position2 <- aircraft_position(aircraft_id)
-  expect_identical(position2[aircraft_id, "latitude"],
-                   position1[aircraft_id, "latitude"])
+  expect_identical(position2[aircraft_id, h_latitude],
+                   position1[aircraft_id, h_latitude])
 })
