@@ -2,6 +2,8 @@ import pytest
 import os
 import time
 
+import pandas as pd
+
 from pydodo import (
     create_aircraft,
     reset_simulation,
@@ -11,7 +13,8 @@ from pydodo import (
     resume_simulation,
     aircraft_position,
     all_positions,
-    set_simulation_rate_multiplier
+    set_simulation_rate_multiplier,
+    list_route
 )
 from pydodo.utils import ping_bluebird
 from pydodo.config_param import config_param
@@ -101,6 +104,7 @@ def test_load_fail():
 def test_create_scenario(rootdir):
     """
     Create scenario on the simulator host and load.
+    Check two aircraft created succesfully with associated route.
     """
     test_scenario = "dodo-test-scenario"
 
@@ -119,4 +123,18 @@ def test_create_scenario(rootdir):
     time.sleep(1)
 
     pos = all_positions()
+    assert isinstance(pos, pd.DataFrame)
     assert len(pos.index) == 2
+
+    aircraft_ids = pos.index
+
+    # access route information for each aircraft
+    route1 = list_route(aircraft_ids[0])
+    route2 = list_route(aircraft_ids[1])
+
+    assert isinstance(route1, pd.DataFrame)
+    assert isinstance(route2, pd.DataFrame)
+    assert len(route1.index) == 3
+    assert len(route2.index) == 3
+    assert len(route1.columns) == 3
+    assert len(route2.columns) == 3
