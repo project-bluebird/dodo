@@ -16,6 +16,7 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 - [Pause Simulation](#pause-the-simulation)
 - [Resume Simulation](#resume-the-simulation)
 - [Set Simulation Rate Multiplier](#set-the-simulation-rate-multiplier)
+- [Episode Log](#episode-log) [TO DO]
 
 ### Aircraft commands
 
@@ -39,11 +40,6 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 - [Vertical distance](#vertical-distance) [TO DO]
 - [Euclidean separation](#euclidean-separation) [TO DO]
 - [Euclidean distance](#euclidean-distance) [TO DO]
-
-### Bluebird commands
-
-- [Episode Log](#episode-log) [TO DO]
-- [Shutdown](#shutdown) [TO DO]
 
 # Commands
 
@@ -377,12 +373,3 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 
 **Description:** Get the episode log and save to file in the working directory in a `logs` subdirectory.
 
-## Shutdown
-
-**Function name:** `shutdown`
-
-**Parameters:** None
-
-**Return value:** `TRUE` if successful. Otherwise an exception is thrown.
-
-**Description:** Shut down the BlueBird server.
