@@ -108,6 +108,16 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 
 **Description:** Sets the simulation rate multiplier for the current simulation. By default this multiplier is equal to one (real-time operation). If set to another value, the simulation will run faster (or slower) than real-time, with a fixed multiplier as provided. For example, a multiplier of 2 would cause the simulation to run twice as fast: 60 simulation minutes take 30 actual minutes.
 
+## Episode log
+
+**Function name:** `episode_log`
+
+**Parameters:** None
+
+**Return value:** A string, the relative path to the log file.
+
+**Description:** Get the episode log and save to file in the working directory in a `logs` subdirectory.
+
 ## Create aircraft
 
 **Function name:** `create_aircraft`
@@ -362,14 +372,4 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 **Return value:** A double, euclidean distance between two points.
 
 **Description:** Get euclidean distance between two points' positions defined as [latitude, logitude, altitude].
-
-## Episode log
-
-**Function name:** `episode_log`
-
-**Parameters:** None
-
-**Return value:** `TRUE` if successful. Otherwise an exception is thrown.
-
-**Description:** Get the episode log and save to file in the working directory in a `logs` subdirectory.
 
