@@ -114,7 +114,7 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 
 **Parameters:** None
 
-**Return value:** A string, the relative path to the log file.
+**Return value:** A string, the relative path to the log file. An exception is thrown if an error occurs.
 
 **Description:** Get the episode log and save to file in the working directory in a `logs` subdirectory.
 
