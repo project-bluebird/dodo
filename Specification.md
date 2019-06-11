@@ -277,7 +277,7 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 - `from_aircraft_id`: A string vector of aircraft IDs.
 - `to_aircraft_id`: An optional string vector of aircraft IDs. If not provided, `to_aircraft_id`=`from_aircraft_id`.
 
-**Return value:** A dataframe of doubles with `from_aircraft_id` aircraft IDs as row names and `to_aircraft_id` aircraft IDs as column names. The values are the geodesic distance in meters between the positions of the aircraft pair at each [`from_aircraft_id`, `to_aircraft_id`] index.
+**Return value:** A dataframe of doubles with `from_aircraft_id` as row names and `to_aircraft_id` as column names. The values are the geodesic distance in meters between the positions of the aircraft pair at each [`from_aircraft_id`, `to_aircraft_id`] index.
 
 **Description:** Get geodesic separation in meters between the positions of all `from_aircraft_id` and `to_aircraft_id` pairs of aircraft. 
 
@@ -303,7 +303,7 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 - `from_aircraft_id`: A string vector of aircraft IDs.
 - `to_aircraft_id`: An optional string vector of aircraft IDs. If not provided, `to_aircraft_id`=`from_aircraft_id`.
 
-**Return value:** A dataframe of doubles with `from_aircraft_id` aircraft IDs as row names and `to_aircraft_id` aircraft IDs as column names. The values are the great-circle distance in meters between the positions of the aircraft pair at each [`from_aircraft_id`, `to_aircraft_id`] index.
+**Return value:** A dataframe of doubles with `from_aircraft_id` as row names and `to_aircraft_id` as column names. The values are the great-circle distance in meters between the positions of the aircraft pair at each [`from_aircraft_id`, `to_aircraft_id`] index.
 
 **Description:** Get great-circle separation in meters between the positions of all `from_aircraft_id` and `to_aircraft_id` pairs of aircraft. 
 
@@ -329,7 +329,7 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 - `from_aircraft_id`: A string vector of aircraft IDs.
 - `to_aircraft_id`: An optional string vector of aircraft IDs. If not provided, `to_aircraft_id`=`from_aircraft_id`.
 
-**Return value:** A dataframe of doubles with `from_aircraft_id` aircraft IDs as row names and `to` aircraft IDs as column names. The values are the vertical distance in meters between the positions of the aircraft pair at each [`from_aircraft_id`, `to_aircraft_id`] index.
+**Return value:** A dataframe of doubles with `from_aircraft_id` as row names and `to` as column names. The values are the vertical distance in meters between the positions of the aircraft pair at each [`from_aircraft_id`, `to_aircraft_id`] index.
 
 **Description:** Get vertical separation in meters between the positions of all `from_aircraft_id` and `to_aircraft_id` pairs of aircraft. 
 
@@ -353,7 +353,7 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 - `from_aircraft_id`: A string vector of aircraft IDs.
 - `to_aircraft_id`: An optional string vector of aircraft IDs. If not provided, `to_aircraft_id`=`from_aircraft_id`.
 
-**Return value:** A dataframe of doubles with `from_aircraft_id` aircraft IDs as row names and `to_aircraft_id` aircraft IDs as column names. The values are the euclidean distance in meters between the positions of the aircraft pair at each [`from_aircraft_id`, `to_aircraft_id`] index.
+**Return value:** A dataframe of doubles with `from_aircraft_id` as row names and `to_aircraft_id` as column names. The values are the euclidean distance in meters between the positions of the aircraft pair at each [`from_aircraft_id`, `to_aircraft_id`] index.
 
 **Description:** Get euclidean separation in meters between the positions of all `from_aircraft_id` and `to_aircraft_id` pairs of aircraft. 
 
