@@ -16,6 +16,7 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 - [Pause Simulation](#pause-the-simulation)
 - [Resume Simulation](#resume-the-simulation)
 - [Set Simulation Rate Multiplier](#set-the-simulation-rate-multiplier)
+- [Episode Log](#episode-log) [TO DO]
 
 ### Aircraft commands
 
@@ -39,11 +40,6 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 - [Vertical distance](#vertical-distance) [TO DO]
 - [Euclidean separation](#euclidean-separation) [TO DO]
 - [Euclidean distance](#euclidean-distance) [TO DO]
-
-### Bluebird commands
-
-- [Episode Log](#episode-log) [TO DO]
-- [Shutdown](#shutdown) [TO DO]
 
 # Commands
 
@@ -111,6 +107,16 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 **Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
 **Description:** Sets the simulation rate multiplier for the current simulation. By default this multiplier is equal to one (real-time operation). If set to another value, the simulation will run faster (or slower) than real-time, with a fixed multiplier as provided. For example, a multiplier of 2 would cause the simulation to run twice as fast: 60 simulation minutes take 30 actual minutes.
+
+## Episode log
+
+**Function name:** `episode_log`
+
+**Parameters:** None
+
+**Return value:** A string, the relative path to the log file. An exception is thrown if an error occurs.
+
+**Description:** Get the episode log and save to file in the working directory in a `logs` subdirectory.
 
 ## Create aircraft
 
@@ -367,23 +373,3 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 
 **Description:** Get euclidean distance between two points' positions defined as [latitude, logitude, altitude].
 
-## Episode log
-
-**Function name:** `episode_log`
-
-**Parameters:** 
-- `filename`: A string indicating name of file to save episode log under.
-
-**Return value:** `TRUE` if successful. Otherwise an exception is thrown.
-
-**Description:** Get the episode log and save to file in the working directory.
-
-## Shutdown
-
-**Function name:** `shutdown`
-
-**Parameters:** None
-
-**Return value:** `TRUE` if successful. Otherwise an exception is thrown.
-
-**Description:** Shut down the BlueBird server.
