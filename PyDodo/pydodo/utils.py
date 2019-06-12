@@ -78,7 +78,7 @@ def _validate_id(aircraft_id):
 
 
 def _validate_id_list(aircraft_id):
-    """Validate string list of aircraft IDs.""""
+    """Validate string list of aircraft IDs."""
     if isinstance(aircraft_id, str):
         _validate_id(aircraft_id)
     elif isinstance(aircraft_id, list) and bool(aircraft_id):

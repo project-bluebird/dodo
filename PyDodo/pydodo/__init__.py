@@ -17,7 +17,7 @@ from .simulation_control import (
     set_simulation_rate_multiplier
 )
 from .episode_log import episode_log
-from .distannce_measures import (
+from .distance_measures import (
     geodesic_separation,
     geodesic_distance,
     great_circle_separation,

@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from geopy import distance
-from scipy.spatial import distance
+from scipy.spatial.distance import euclidean
 
 from . import request_position
 from . import utils
@@ -71,7 +71,7 @@ def euclidean_distance(from_lat, from_lon, from_alt, to_lat, to_lon, to_alt):
     from_cartesian = convert_lat_lon_to_cartesian(from_lat, from_lon, from_alt)
     to_cartesian = convert_lat_lon_to_cartesian(to_lat, to_lon, to_alt)
 
-    return distance.euclidean(from_cartesian, to_cartesian)
+    return euclidean(from_cartesian, to_cartesian)
 
 
 def get_distance(from_pos, to_pos, measure=None):
@@ -107,7 +107,7 @@ def get_distance(from_pos, to_pos, measure=None):
             from_pos['longitude'],
             from_pos['altitude'],
             to_pos['latitude'],
-            to_pos['longitude']
+            to_pos['longitude'],
             to_pos['altitude']
         )
 
