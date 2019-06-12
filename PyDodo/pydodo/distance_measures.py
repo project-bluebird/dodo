@@ -1,38 +1,39 @@
 import pandas as pd
+import numpy as np
 from geopy import distance
+from scipy.spatial import distance
 
 from . import request_position
 from . import utils
 
 
-def geodesic_distance(from_lat, from_long, to_lat, to_long):
+def geodesic_distance(from_lat, from_lon, to_lat, to_lon):
     """
-    Get geodesic distance between two points in metres.
-    """
-    utils._validate_latitude(from_lat)
-    utils._validate_longitude(from_long)
-    utils._validate_latitude(to_lat)
-    utils._validate_longitude(to_long)
-
-    return distance.geodesic((from_lat, from_long), (to_lat, to_long)).meters
-
-
-def great_circle_distance(from_lat, from_long, to_lat, to_long):
-    """
-    Get great-circle distance between two points in metres.
+    Get geodesic distance between two (lat, lon) points in metres.
     """
     utils._validate_latitude(from_lat)
-    utils._validate_longitude(from_long)
+    utils._validate_longitude(from_lon)
     utils._validate_latitude(to_lat)
-    utils._validate_longitude(to_long)
+    utils._validate_longitude(to_lon)
 
-    return distance.great_circle((from_lat, from_long), (to_lat, to_long)).meters
+    return distance.geodesic((from_lat, from_lon), (to_lat, to_lon)).meters
+
+
+def great_circle_distance(from_lat, from_lon, to_lat, to_lon):
+    """
+    Get great-circle distance between two (lat, lon) points in metres.
+    """
+    utils._validate_latitude(from_lat)
+    utils._validate_longitude(from_lon)
+    utils._validate_latitude(to_lat)
+    utils._validate_longitude(to_lon)
+
+    return distance.great_circle((from_lat, from_lon), (to_lat, to_lon)).meters
 
 
 def vertical_distance(from_alt, to_alt):
     """
-    Get vertical distance between two points.
-    Altitude (`from_alt` and `to_alt`) is given in metres.
+    Get vertical distance between two altitudes (provided in metres).
     """
     utils._validate_altitude(from_alt)
     utils._validate_altitude(to_alt)
@@ -40,18 +41,37 @@ def vertical_distance(from_alt, to_alt):
     return abs(from_alt - to_alt)
 
 
-def euclidean_distance(from_lat, from_long, from_alt, to_lat, to_long, to_alt):
+def convert_lat_lon_to_cartesian(lat, lon, alt = 0, R = 6378137.0):
     """
-    Get euclidean distance between two points in metres.
+    Calculates cartesian coordinates from lat, lon of a point on a sphere with radius R + alt.
+    R default is set to Earth radius in metres.
+    """
+    R = R + alt
+    lat_r = np.deg2rad(lat)
+    lon_r = np.deg2rad(lon)
+
+    x = R * np.cos(lat_r) * np.cos(lon_r)
+    y = R * np.cos(lat_r) * np.sin(lon_r)
+    z = R * np.sin(lat_r)
+
+    return (x,y,z)
+
+
+def euclidean_distance(from_lat, from_lon, from_alt, to_lat, to_lon, to_alt):
+    """
+    Get euclidean distance between two (lat, lon, alt) points in metres.
     """
     utils._validate_latitude(from_lat)
-    utils._validate_longitude(from_long)
+    utils._validate_longitude(from_lon)
     utils._validate_altitude(from_alt)
     utils._validate_latitude(to_lat)
-    utils._validate_longitude(to_long)
+    utils._validate_longitude(to_lon)
     utils._validate_altitude(to_alt)
 
-    pass
+    from_cartesian = convert_lat_lon_to_cartesian(from_lat, from_lon, from_alt)
+    to_cartesian = convert_lat_lon_to_cartesian(to_lat, to_lon, to_alt)
+
+    return distance.euclidean(from_cartesian, to_cartesian)
 
 
 def get_distance(from_pos, to_pos, measure=None):
@@ -113,13 +133,14 @@ def get_pos_df(from_aircraft_id, to_aircraft_id):
 
 def get_separation(from_aircraft_id, to_aircraft_id=None, measure=None):
     """
-    Get separation (geodesic, great circle, vertical or euclidean) betweel all pairs of aircraft.
+    Get separation (geodesic, great circle, vertical or euclidean) betweel all pairs of "from" and "to" aircraft.
 
     :param from_aircraft_id: A string or list of strings of aircraft IDs.
-    :param to_aircraft_id: A string or list of strings of aircraft IDs.
+    :param to_aircraft_id: An optional string or list of strings of aircraft IDs.
     :param measure: A string, one of ['geodesic', 'great_circle', 'vertical', 'euclidean'].
     :return : A dataframe with separation between all from_aircraft_id and to_aircraft_id pairs of aircraft.
     """
+    assert measure != None, 'Need to provide distance measure to compute.'
     if to_aircraft_id == None:
         to_aircraft_id = from_aircraft_id.copy()
     if not isinstance(from_aircraft_id, list): from_aircraft_id = [ from_aircraft_id ]
@@ -131,6 +152,8 @@ def get_separation(from_aircraft_id, to_aircraft_id=None, measure=None):
     for from_id in from_aircraft_id:
         distances = [
             get_distance(pos_df.loc[from_id], pos_df.loc[to_id], measure=measure)
+            if not (pos_df.loc[from_id].isnull().any() or pos_df.loc[to_id].isnull().any())
+            else np.nan
             for to_id in to_aircraft_id
         ]
         all_distances.append(distances)
@@ -167,4 +190,4 @@ def euclidean_separation(from_aircraft_id, to_aircraft_id=None):
     """
     Get euclidean separation in metres between the positions of all from_aircraft_id and to_aircraft_id pairs of aircraft.
     """
-    pass
+    return get_separation(from_aircraft_id, to_aircraft_id, measure='euclidean')

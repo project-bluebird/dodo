@@ -3,3 +3,4 @@ numpy
 requests
 pyyaml
 geopy>=1.13
+scipy
