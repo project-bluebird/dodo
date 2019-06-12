@@ -287,9 +287,9 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 
 **Parameters:**
 - `from_lat`: A double in the range [-90, 90]. The `from` point's latitude.
-- `from_long`: A double in the range [-180, 180). The `from` point's longitude.
+- `from_lon`: A double in the range [-180, 180). The `from` point's longitude.
 - `to_lat`: A double in the range [-90, 90]. The `to` point's latitude.
-- `to_long`: A double in the range [-180, 180). The `to` point's longitude.
+- `to_lon`: A double in the range [-180, 180). The `to` point's longitude.
 
 **Return value:** A double, geodesic distance between two points. 
 
@@ -313,9 +313,9 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 
 **Parameters:**
 - `from_lat`: A double in the range [-90, 90]. The `from` point's latitude.
-- `from_long`: A double in the range [-180, 180). The `from` point's longitude.
+- `from_lon`: A double in the range [-180, 180). The `from` point's longitude.
 - `to_lat`: A double in the range [-90, 90]. The `to` point's latitude.
-- `to_long`: A double in the range [-180, 180). The `to` point's longitude.
+- `to_lon`: A double in the range [-180, 180). The `to` point's longitude.
 
 **Return value:** A double, the great-circle distance between two points.
 
@@ -363,10 +363,10 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 
 **Parameters:**
 - `from_lat`: A double in the range [-90, 90]. The `from` point's latitude.
-- `from_long`: A double in the range [-180, 180). The `from` point's longitude.
+- `from_lon`: A double in the range [-180, 180). The `from` point's longitude.
 - `from_alt`: A non-negatige double. The `from` point's altitude in metres.
 - `to_lat`: A double in the range [-90, 90]. The `to` point's latitude.
-- `to_long`: A double in the range [-180, 180). The `to` point's longitude.
+- `to_lon`: A double in the range [-180, 180). The `to` point's longitude.
 - `to_alt`: A non-negatige double. The `to` point's altitude in metres.
 
 **Return value:** A double, euclidean distance between two points.
