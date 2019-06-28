@@ -16,6 +16,8 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 - [Pause Simulation](#pause-the-simulation)
 - [Resume Simulation](#resume-the-simulation)
 - [Set Simulation Rate Multiplier](#set-the-simulation-rate-multiplier)
+- [Simulation Step](#simulation-step) [TO DO]
+- [Simulator Mode](#set-simulator-mode) [TO DO]
 - [Episode Log](#episode-log) [TO DO]
 
 ### Aircraft commands
@@ -107,6 +109,26 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 **Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
 **Description:** Sets the simulation rate multiplier for the current simulation. By default this multiplier is equal to one (real-time operation). If set to another value, the simulation will run faster (or slower) than real-time, with a fixed multiplier as provided. For example, a multiplier of 2 would cause the simulation to run twice as fast: 60 simulation minutes take 30 actual minutes.
+
+## Simulation step
+
+**Function name:** `step`
+
+**Parameters:** None
+
+**Return value:** `TRUE` if successful. Otherwise an exception is thrown.
+
+**Description:** Step forward through the simulation. Step size is based on the [simulation rate multiplier](#set-the-simulation-rate-multiplier). Can only be used if simulator is in [agent mode](#set-simulator-mode). 
+
+## Set simulator mode
+
+**Function name:** `sim_mode`
+
+**Parameters:** A string. Available modes are `sandbox` (the default) and `agent`. 
+
+**Return value:** `TRUE` if successful. Otherwise an exception is thrown.
+
+**Description:** Set simulator mode (see [bluebird docs](https://github.com/alan-turing-institute/bluebird/blob/feature/core-60-step_command/docs/SimulatorModes.md)).
 
 ## Episode log
 
