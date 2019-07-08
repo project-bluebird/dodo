@@ -14,7 +14,9 @@ from pydodo import (
     aircraft_position,
     all_positions,
     set_simulation_rate_multiplier,
-    list_route
+    list_route,
+    set_simulator_mode,
+    simulation_step
 )
 from pydodo.utils import ping_bluebird
 from pydodo.config_param import config_param
@@ -31,6 +33,8 @@ def test_simulation_control():
     - Resume Simulation
     - Reset Simulation
     - Simulation time
+    - Simulator mode
+    - Simulation step
     """
     aircraft_id = "TST1001"
     type = "B744"
@@ -73,6 +77,23 @@ def test_simulation_control():
     assert resp == True
 
 
+    cmd = set_simulator_mode("agent")
+    assert cmd == True
+
+    pos4 = aircraft_position(aircraft_id)
+
+    time.sleep(1)
+
+    pos5 = aircraft_position(aircraft_id)
+    # using agent mode sets simulator on hold
+    assert pos4.loc[aircraft_id]["latitude"] == pos5.loc[aircraft_id]["latitude"]
+
+    cmd = simulation_step()
+    assert cmd == True
+
+    pos6 = aircraft_position(aircraft_id)
+    assert pos6.loc[aircraft_id]["latitude"] > pos5.loc[aircraft_id]["latitude"]
+
 @pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
 @pytest.mark.skipif(not bluesky_sim, reason="Not using BlueSky")
 def test_load_bluesky():
@@ -109,7 +130,6 @@ def test_create_scenario(rootdir):
     test_scenario = "dodo-test-scenario"
 
     test_file = os.path.join(rootdir, test_scenario)
-
 
     resp = reset_simulation()
     assert resp == True
