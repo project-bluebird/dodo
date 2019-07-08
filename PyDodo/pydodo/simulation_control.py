@@ -61,3 +61,14 @@ def set_simulation_rate_multiplier(multiplier):
 
     body = {"multiplier": multiplier}
     return post_request(config_param("endpoint_set_simulation_rate_multiplier"), body)
+
+
+def set_simulator_mode(mode):
+    assert mode == 'agent' or mode == 'sandbox', 'Invalid value {} for mode'.format(mode)
+
+    body = {"mode": mode}
+    return post_request(config_param("endpoint_simulator_mode"), body)
+
+
+def simulation_step():
+    return post_request(config_param("endpoint_simulation_step"))

@@ -14,7 +14,9 @@ from .simulation_control import (
     reset_simulation,
     pause_simulation,
     resume_simulation,
-    set_simulation_rate_multiplier
+    set_simulation_rate_multiplier,
+    set_simulator_mode,
+    simulation_step
 )
 from .episode_log import episode_log
 from .distance_measures import (
