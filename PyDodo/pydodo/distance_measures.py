@@ -33,23 +33,21 @@ def great_circle_distance(from_lat, from_lon, to_lat, to_lon):
 
 def vertical_distance(from_alt, to_alt):
     """
-    Get vertical distance between two altitudes (provided in feet).
+    Get vertical distance in metres between two altitudes (provided in metres).
     """
     utils._validate_altitude(from_alt)
     utils._validate_altitude(to_alt)
 
-    SCALE_FEET_TO_METRES = 0.3048
-
-    return abs(from_alt - to_alt) * SCALE_FEET_TO_METRES
+    return abs(from_alt - to_alt)
 
 
 def convert_lat_lon_to_cartesian(lat, lon, alt = 0, EARTH_RADIUS=6371000.0):
     """
     Calculates cartesian coordinates of a point from lat, lon and alt.
+    EARTH_RADIUS and alt are in metres.
     """
-    SCALE_FEET_TO_METRES = 0.3048
 
-    R = EARTH_RADIUS + alt*SCALE_FEET_TO_METRES
+    R = EARTH_RADIUS + alt
     lat_r = np.deg2rad(lat)
     lon_r = np.deg2rad(lon)
 
@@ -118,6 +116,7 @@ def get_distance(from_pos, to_pos, measure=None):
 def get_pos_df(from_aircraft_id, to_aircraft_id):
     """
     Get position for all unique aircraft listed in from_aircraft_id & to_aircraft_id.
+    Altitude is returned in feet by all_positions() so convert it to metres.
 
     :param from_aircraft_id: A list of strings of aircraft IDs.
     :param to_aircraft_id: A list of strings of aircraft IDs.
@@ -130,6 +129,9 @@ def get_pos_df(from_aircraft_id, to_aircraft_id):
 
     all_pos = request_position.all_positions()
     pos_df = all_pos.reindex(ids)
+
+    SCALE_FEET_TO_METRES = 0.3048
+    pos_df.loc[:, "altitude"] = SCALE_FEET_TO_METRES * pos_df["altitude"]
 
     return pos_df
 
