@@ -73,8 +73,10 @@ def test_separation():
 
     pos = vertical_separation(from_aircraft_id = aircraft_id, to_aircraft_id = [aircraft_id, aircraft_id_2])
     assert isinstance(pos, pd.DataFrame)
-    assert pos.loc[aircraft_id, aircraft_id_2] == 50*100*SCALE_FEET_TO_METRES
+    ## altitude is provided as flight_level, which must be converted to:
+    # feet (*100) and then to metres (*0.3048)
+    assert pos.loc[aircraft_id, aircraft_id_2] == abs(flight_level - flight_level_2)*100*SCALE_FEET_TO_METRES
 
     pos = euclidean_separation(from_aircraft_id = aircraft_id, to_aircraft_id = aircraft_id_2)
     assert isinstance(pos, pd.DataFrame)
-    assert pos.loc[aircraft_id, aircraft_id_2] == 50*100*SCALE_FEET_TO_METRES
+    assert pos.loc[aircraft_id, aircraft_id_2] == abs(flight_level - flight_level_2)*100*SCALE_FEET_TO_METRES
