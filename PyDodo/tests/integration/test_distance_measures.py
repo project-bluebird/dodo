@@ -67,9 +67,11 @@ def test_separation():
 
     pos = geodesic_separation(from_aircraft_id = [aircraft_id, aircraft_id_2], to_aircraft_id = [aircraft_id, aircraft_id_2])
     assert isinstance(pos, pd.DataFrame)
+    assert pos.loc[aircraft_id, aircraft_id_2] == 0
 
     pos = great_circle_separation(from_aircraft_id = [aircraft_id, aircraft_id_2], to_aircraft_id = aircraft_id)
     assert isinstance(pos, pd.DataFrame)
+    assert pos.loc[aircraft_id_2, aircraft_id] == 0
 
     pos = vertical_separation(from_aircraft_id = aircraft_id, to_aircraft_id = [aircraft_id, aircraft_id_2])
     assert isinstance(pos, pd.DataFrame)
