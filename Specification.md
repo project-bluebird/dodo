@@ -16,6 +16,8 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 - [Pause Simulation](#pause-the-simulation)
 - [Resume Simulation](#resume-the-simulation)
 - [Set Simulation Rate Multiplier](#set-the-simulation-rate-multiplier)
+- [Simulation Step](#simulation-step) [TO DO]
+- [Simulator Mode](#set-simulator-mode) [TO DO]
 - [Episode Log](#episode-log) [TO DO]
 
 ### Aircraft commands
@@ -107,6 +109,27 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 **Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
 **Description:** Sets the simulation rate multiplier for the current simulation. By default this multiplier is equal to one (real-time operation). If set to another value, the simulation will run faster (or slower) than real-time, with a fixed multiplier as provided. For example, a multiplier of 2 would cause the simulation to run twice as fast: 60 simulation minutes take 30 actual minutes.
+
+## Simulation step
+
+**Function name:** `step`
+
+**Parameters:** None
+
+**Return value:** `TRUE` if successful. Otherwise an exception is thrown.
+
+**Description:** Step forward through the simulation. Step size is based on the [simulation rate multiplier](#set-the-simulation-rate-multiplier). Can only be used if simulator is in [agent mode](#set-simulator-mode). 
+
+## Set simulator mode
+
+**Function name:** `sim_mode`
+
+**Parameters:** 
+- `mode`: A string. Available modes are `sandbox` (the default) and `agent`. 
+
+**Return value:** `TRUE` if successful. Otherwise an exception is thrown.
+
+**Description:** Set simulator mode (see [bluebird docs](https://github.com/alan-turing-institute/bluebird/blob/feature/core-60-step_command/docs/SimulatorModes.md)).
 
 ## Episode log
 
@@ -274,12 +297,12 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 **Function name:** `geodesic_separation`
 
 **Parameters:**
-- `from`: A string vector of aircraft IDs.
-- `to`: An optional string vector of aircraft IDs. If not provided, `to`=`from`.
+- `from_aircraft_id`: A string vector of aircraft IDs.
+- `to_aircraft_id`: An optional string vector of aircraft IDs. If not provided, `to_aircraft_id`=`from_aircraft_id`.
 
-**Return value:** A structured array of doubles with `from` aircraft IDs as row names and `to` aircraft IDs as column names. The values are the geodesic distance in metres between the positions of the aircraft pair at each [`from`, `to`] index.
+**Return value:** A dataframe of doubles with `from_aircraft_id` as row names and `to_aircraft_id` as column names. The values are the geodesic distance in metres between the positions of the aircraft pair at each [`from_aircraft_id`, `to_aircraft_id`] index.
 
-**Description:** Get geodesic separation in metres between the positions of all `from` and `to` pairs of aircraft. 
+**Description:** Get geodesic separation in metres between the positions of all `from_aircraft_id` and `to_aircraft_id` pairs of aircraft. 
 
 ## Geodesic distance
 
@@ -287,25 +310,25 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 
 **Parameters:**
 - `from_lat`: A double in the range [-90, 90]. The `from` point's latitude.
-- `from_long`: A double in the range [-180, 180). The `from` point's longitude.
+- `from_lon`: A double in the range [-180, 180). The `from` point's longitude.
 - `to_lat`: A double in the range [-90, 90]. The `to` point's latitude.
-- `to_long`: A double in the range [-180, 180). The `to` point's longitude.
+- `to_lon`: A double in the range [-180, 180). The `to` point's longitude.
 
 **Return value:** A double, geodesic distance between two points. 
 
-**Description:** Get geodesic distance between two points defined in terms of [latitude, longitude].
+**Description:** Get geodesic distance in metres between two points defined in terms of [latitude, longitude].
 
 ## Great-circle separation
 
 **Function name:** `great_circle_separation`
 
 **Parameters:**
-- `from`: A string vector of aircraft IDs.
-- `to`: An optional string vector of aircraft IDs. If not provided, `to`=`from`.
+- `from_aircraft_id`: A string vector of aircraft IDs.
+- `to_aircraft_id`: An optional string vector of aircraft IDs. If not provided, `to_aircraft_id`=`from_aircraft_id`.
 
-**Return value:** A structured array of doubles with `from` aircraft IDs as row names and `to` aircraft IDs as column names. The values are the great-circle distance in metres between the positions of the aircraft pair at each [`from`, `to`] index.
+**Return value:** A dataframe of doubles with `from_aircraft_id` as row names and `to_aircraft_id` as column names. The values are the great-circle distance in metres between the positions of the aircraft pair at each [`from_aircraft_id`, `to_aircraft_id`] index.
 
-**Description:** Get great-circle separation in metres between the positions of all `from` and `to` pairs of aircraft. 
+**Description:** Get great-circle separation in metres between the positions of all `from_aircraft_id` and `to_aircraft_id` pairs of aircraft. 
 
 ## Great-circle distance
 
@@ -313,25 +336,25 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 
 **Parameters:**
 - `from_lat`: A double in the range [-90, 90]. The `from` point's latitude.
-- `from_long`: A double in the range [-180, 180). The `from` point's longitude.
+- `from_lon`: A double in the range [-180, 180). The `from` point's longitude.
 - `to_lat`: A double in the range [-90, 90]. The `to` point's latitude.
-- `to_long`: A double in the range [-180, 180). The `to` point's longitude.
+- `to_lon`: A double in the range [-180, 180). The `to` point's longitude.
 
 **Return value:** A double, the great-circle distance between two points.
 
-**Description:** Get great-circle distance between two points' positions defined as [latitude, logitude].
+**Description:** Get great-circle distance in metres between two points' positions defined as [latitude, logitude].
 
 ## Vertical separation
 
 **Function name:** `vertical_separation`
 
 **Parameters:**
-- `from`: A string vector of aircraft IDs.
-- `to`: An optional string vector of aircraft IDs. If not provided, `to`=`from`.
+- `from_aircraft_id`: A string vector of aircraft IDs.
+- `to_aircraft_id`: An optional string vector of aircraft IDs. If not provided, `to_aircraft_id`=`from_aircraft_id`.
 
-**Return value:** A structured array of doubles with `from` aircraft IDs as row names and `to` aircraft IDs as column names. The values are the vertical distance in metres between the positions of the aircraft pair at each [`from`, `to`] index.
+**Return value:** A dataframe of doubles with `from_aircraft_id` as row names and `to` as column names. The values are the vertical distance in metres between the positions of the aircraft pair at each [`from_aircraft_id`, `to_aircraft_id`] index.
 
-**Description:** Get vertical separation in metres between the positions of all `from` and `to` pairs of aircraft. 
+**Description:** Get vertical separation in metres between the positions of all `from_aircraft_id` and `to_aircraft_id` pairs of aircraft. 
 
 ## Vertical distance
 
@@ -343,19 +366,19 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 
 **Return value:** A double, verticle distance between two points.
 
-**Description:** Get vertical distance between two points' positions defined in altitude.
+**Description:** Get vertical distance in metres between two points' positions defined in altitude.
 
 ## Euclidean separation
 
 **Function name:** `euclidean_separation`
 
 **Parameters:**
-- `from`: A string vector of aircraft IDs.
-- `to`: An optional string vector of aircraft IDs. If not provided, `to`=`from`.
+- `from_aircraft_id`: A string vector of aircraft IDs.
+- `to_aircraft_id`: An optional string vector of aircraft IDs. If not provided, `to_aircraft_id`=`from_aircraft_id`.
 
-**Return value:** A structured array of doubles with `from` aircraft IDs as row names and `to` aircraft IDs as column names. The values are the euclidean distance in metres between the positions of the aircraft pair at each [`from`, `to`] index.
+**Return value:** A dataframe of doubles with `from_aircraft_id` as row names and `to_aircraft_id` as column names. The values are the euclidean distance in metres between the positions of the aircraft pair at each [`from_aircraft_id`, `to_aircraft_id`] index.
 
-**Description:** Get euclidean separation in metres between the positions of all `from` and `to` pairs of aircraft. 
+**Description:** Get euclidean separation in metres between the positions of all `from_aircraft_id` and `to_aircraft_id` pairs of aircraft. 
 
 ## Euclidean distance
 
@@ -363,13 +386,13 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 
 **Parameters:**
 - `from_lat`: A double in the range [-90, 90]. The `from` point's latitude.
-- `from_long`: A double in the range [-180, 180). The `from` point's longitude.
+- `from_lon`: A double in the range [-180, 180). The `from` point's longitude.
 - `from_alt`: A non-negatige double. The `from` point's altitude in metres.
 - `to_lat`: A double in the range [-90, 90]. The `to` point's latitude.
-- `to_long`: A double in the range [-180, 180). The `to` point's longitude.
+- `to_lon`: A double in the range [-180, 180). The `to` point's longitude.
 - `to_alt`: A non-negatige double. The `to` point's altitude in metres.
 
 **Return value:** A double, euclidean distance between two points.
 
-**Description:** Get euclidean distance between two points' positions defined as [latitude, logitude, altitude].
+**Description:** Get euclidean distance in metres between two points' positions defined as [latitude, logitude, altitude].
 
