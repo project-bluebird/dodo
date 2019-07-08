@@ -33,20 +33,23 @@ def great_circle_distance(from_lat, from_lon, to_lat, to_lon):
 
 def vertical_distance(from_alt, to_alt):
     """
-    Get vertical distance between two altitudes (provided in metres).
+    Get vertical distance between two altitudes (provided in feet).
     """
     utils._validate_altitude(from_alt)
     utils._validate_altitude(to_alt)
 
-    return abs(from_alt - to_alt)
+    SCALE_FEET_TO_METRES = 0.3048
+
+    return abs(from_alt - to_alt) * SCALE_FEET_TO_METRES
 
 
-def convert_lat_lon_to_cartesian(lat, lon, alt = 0, R = 6378137.0):
+def convert_lat_lon_to_cartesian(lat, lon, alt = 0, EARTH_RADIUS=6371000.0):
     """
-    Calculates cartesian coordinates from lat, lon of a point on a sphere with radius R + alt.
-    R default is set to Earth radius in metres.
+    Calculates cartesian coordinates of a point from lat, lon and alt.
     """
-    R = R + alt
+    SCALE_FEET_TO_METRES = 0.3048
+
+    R = EARTH_RADIUS + alt*SCALE_FEET_TO_METRES
     lat_r = np.deg2rad(lat)
     lon_r = np.deg2rad(lon)
 

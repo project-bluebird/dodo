@@ -31,10 +31,12 @@ speed = 0
 aircraft_id_2 = "TST2002"
 type_2 = "C744"
 latitude_2 = 0
-longitude_2 = 5
+longitude_2 = 0
 heading_2 = 180
 flight_level_2 = 200
 speed_2 = 0
+
+SCALE_FEET_TO_METRES = 0.3048
 
 
 @pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
@@ -71,6 +73,8 @@ def test_separation():
 
     pos = vertical_separation(from_aircraft_id = aircraft_id, to_aircraft_id = [aircraft_id, aircraft_id_2])
     assert isinstance(pos, pd.DataFrame)
+    assert pos.loc[aircraft_id, aircraft_id_2] == 50*100*SCALE_FEET_TO_METRES
 
     pos = euclidean_separation(from_aircraft_id = aircraft_id, to_aircraft_id = aircraft_id_2)
     assert isinstance(pos, pd.DataFrame)
+    assert pos.loc[aircraft_id, aircraft_id_2] == 50*100*SCALE_FEET_TO_METRES
