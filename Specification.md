@@ -112,7 +112,7 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 
 ## Simulation step
 
-**Function name:** `step`
+**Function name:** `simulation_step`
 
 **Parameters:** None
 
@@ -122,7 +122,7 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 
 ## Set simulator mode
 
-**Function name:** `sim_mode`
+**Function name:** `set_simulator_mode`
 
 **Parameters:** 
 - `mode`: A string. Available modes are `sandbox` (the default) and `agent`. 
