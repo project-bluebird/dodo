@@ -124,7 +124,8 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 
 **Function name:** `sim_mode`
 
-**Parameters:** A string. Available modes are `sandbox` (the default) and `agent`. 
+**Parameters:** 
+- `mode`: A string. Available modes are `sandbox` (the default) and `agent`. 
 
 **Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
@@ -299,9 +300,9 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 - `from_aircraft_id`: A string vector of aircraft IDs.
 - `to_aircraft_id`: An optional string vector of aircraft IDs. If not provided, `to_aircraft_id`=`from_aircraft_id`.
 
-**Return value:** A dataframe of doubles with `from_aircraft_id` as row names and `to_aircraft_id` as column names. The values are the geodesic distance in meters between the positions of the aircraft pair at each [`from_aircraft_id`, `to_aircraft_id`] index.
+**Return value:** A dataframe of doubles with `from_aircraft_id` as row names and `to_aircraft_id` as column names. The values are the geodesic distance in metres between the positions of the aircraft pair at each [`from_aircraft_id`, `to_aircraft_id`] index.
 
-**Description:** Get geodesic separation in meters between the positions of all `from_aircraft_id` and `to_aircraft_id` pairs of aircraft. 
+**Description:** Get geodesic separation in metres between the positions of all `from_aircraft_id` and `to_aircraft_id` pairs of aircraft. 
 
 ## Geodesic distance
 
@@ -315,7 +316,7 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 
 **Return value:** A double, geodesic distance between two points. 
 
-**Description:** Get geodesic distance in meters between two points defined in terms of [latitude, longitude].
+**Description:** Get geodesic distance in metres between two points defined in terms of [latitude, longitude].
 
 ## Great-circle separation
 
@@ -325,9 +326,9 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 - `from_aircraft_id`: A string vector of aircraft IDs.
 - `to_aircraft_id`: An optional string vector of aircraft IDs. If not provided, `to_aircraft_id`=`from_aircraft_id`.
 
-**Return value:** A dataframe of doubles with `from_aircraft_id` as row names and `to_aircraft_id` as column names. The values are the great-circle distance in meters between the positions of the aircraft pair at each [`from_aircraft_id`, `to_aircraft_id`] index.
+**Return value:** A dataframe of doubles with `from_aircraft_id` as row names and `to_aircraft_id` as column names. The values are the great-circle distance in metres between the positions of the aircraft pair at each [`from_aircraft_id`, `to_aircraft_id`] index.
 
-**Description:** Get great-circle separation in meters between the positions of all `from_aircraft_id` and `to_aircraft_id` pairs of aircraft. 
+**Description:** Get great-circle separation in metres between the positions of all `from_aircraft_id` and `to_aircraft_id` pairs of aircraft. 
 
 ## Great-circle distance
 
@@ -341,7 +342,7 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 
 **Return value:** A double, the great-circle distance between two points.
 
-**Description:** Get great-circle distance in meters between two points' positions defined as [latitude, logitude].
+**Description:** Get great-circle distance in metres between two points' positions defined as [latitude, logitude].
 
 ## Vertical separation
 
@@ -351,9 +352,9 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 - `from_aircraft_id`: A string vector of aircraft IDs.
 - `to_aircraft_id`: An optional string vector of aircraft IDs. If not provided, `to_aircraft_id`=`from_aircraft_id`.
 
-**Return value:** A dataframe of doubles with `from_aircraft_id` as row names and `to` as column names. The values are the vertical distance in meters between the positions of the aircraft pair at each [`from_aircraft_id`, `to_aircraft_id`] index.
+**Return value:** A dataframe of doubles with `from_aircraft_id` as row names and `to` as column names. The values are the vertical distance in metres between the positions of the aircraft pair at each [`from_aircraft_id`, `to_aircraft_id`] index.
 
-**Description:** Get vertical separation in meters between the positions of all `from_aircraft_id` and `to_aircraft_id` pairs of aircraft. 
+**Description:** Get vertical separation in metres between the positions of all `from_aircraft_id` and `to_aircraft_id` pairs of aircraft. 
 
 ## Vertical distance
 
@@ -365,7 +366,7 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 
 **Return value:** A double, verticle distance between two points.
 
-**Description:** Get vertical distance in meters between two points' positions defined in altitude.
+**Description:** Get vertical distance in metres between two points' positions defined in altitude.
 
 ## Euclidean separation
 
@@ -375,9 +376,9 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 - `from_aircraft_id`: A string vector of aircraft IDs.
 - `to_aircraft_id`: An optional string vector of aircraft IDs. If not provided, `to_aircraft_id`=`from_aircraft_id`.
 
-**Return value:** A dataframe of doubles with `from_aircraft_id` as row names and `to_aircraft_id` as column names. The values are the euclidean distance in meters between the positions of the aircraft pair at each [`from_aircraft_id`, `to_aircraft_id`] index.
+**Return value:** A dataframe of doubles with `from_aircraft_id` as row names and `to_aircraft_id` as column names. The values are the euclidean distance in metres between the positions of the aircraft pair at each [`from_aircraft_id`, `to_aircraft_id`] index.
 
-**Description:** Get euclidean separation in meters between the positions of all `from_aircraft_id` and `to_aircraft_id` pairs of aircraft. 
+**Description:** Get euclidean separation in metres between the positions of all `from_aircraft_id` and `to_aircraft_id` pairs of aircraft. 
 
 ## Euclidean distance
 
@@ -393,5 +394,5 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 
 **Return value:** A double, euclidean distance between two points.
 
-**Description:** Get euclidean distance in meters between two points' positions defined as [latitude, logitude, altitude].
+**Description:** Get euclidean distance in metres between two points' positions defined as [latitude, logitude, altitude].
 
