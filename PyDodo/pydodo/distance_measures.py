@@ -145,7 +145,7 @@ def get_separation(from_aircraft_id, to_aircraft_id=None, measure=None):
     :param measure: A string, one of ['geodesic', 'great_circle', 'vertical', 'euclidean'].
     :return : A dataframe with separation between all from_aircraft_id and to_aircraft_id pairs of aircraft.
     """
-    assert measure != None, 'Need to provide distance measure to compute.'
+    assert measure in ['geodesic', 'great_circle', 'vertical', 'euclidean'], 'Invalid value {} for measure'.format(measure)
     if to_aircraft_id == None:
         to_aircraft_id = from_aircraft_id.copy()
     if not isinstance(from_aircraft_id, list): from_aircraft_id = [ from_aircraft_id ]
