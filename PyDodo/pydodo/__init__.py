@@ -18,5 +18,8 @@ from .simulation_control import (
 from .async_aircraft_control import (
     batch,
     async_change_altitude,
-    async_change_heading
+    async_change_heading,
+    async_change_speed,
+    async_change_vertical_speed,
+    async_direct_to_waypoint
 )
