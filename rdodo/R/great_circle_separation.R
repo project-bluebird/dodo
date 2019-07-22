@@ -1,6 +1,6 @@
-#' Geodesic separation
+#' Great circle separation
 #'
-#' Compute the geodesic separation in metres between the positions of pairs of
+#' Compute the great circle separation in metres between the positions of pairs of
 #' aircraft.
 #'
 #' @param from_aircraft_id
@@ -11,14 +11,14 @@
 #'
 #' @return
 #' A dataframe, with \code{from_aircraft_id} as row names and
-#' \code{to_aircraft_id} as column names, containing the geodesic distance in
+#' \code{to_aircraft_id} as column names, containing the great circle distance in
 #' metres between the positions of the corresponding pair of aircraft.
 #'
 #' @export
-geodesic_separation <- function(from_aircraft_id,
+great_circle_separation <- function(from_aircraft_id,
                                 to_aircraft_id = from_aircraft_id) {
 
   separation(from_aircraft_id = from_aircraft_id,
              to_aircraft_id = to_aircraft_id,
-             f_distance = geodesic_distance)
+             f_distance = great_circle_distance)
 }
