@@ -13,7 +13,7 @@
 #' A double in the range [-180, 180).
 #'
 #' @return
-#' A double, the gread circle distance between the two points.
+#' A double, the great circle distance between the two points.
 #'
 #' @import geosphere
 #' @export
