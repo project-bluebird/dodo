@@ -14,7 +14,6 @@
 #' \code{to_aircraft_id} as column names, containing the geodesic distance in
 #' metres between the positions of the corresponding pair of aircraft.
 #'
-#' @import geosphere
 #' @export
 geodesic_separation <- function(from_aircraft_id,
                                 to_aircraft_id = from_aircraft_id) {
