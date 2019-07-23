@@ -1,4 +1,5 @@
 import pytest
+import math
 import pandas as pd
 
 from pydodo import (
@@ -18,17 +19,17 @@ bb_resp = ping_bluebird()
 # TWO EXAMPLE AIRCRAFT
 aircraft_id = "TST1001"
 type = "B744"
-latitude = 0
-longitude = 0
+latitude = 51.507389
+longitude = 0.127806
 heading = 0
 flight_level = 250
 speed = 0
 
 aircraft_id_2 = "TST2002"
 type_2 = "C744"
-latitude_2 = 0
-longitude_2 = 0
-heading_2 = 180
+latitude_2 = 50.6083
+longitude_2 = -1.9608
+heading_2 = 0
 flight_level_2 = 200
 speed_2 = 0
 
@@ -36,7 +37,7 @@ SCALE_FEET_TO_METRES = 0.3048
 
 
 @pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
-def test_separation():
+def test_separation(expected_great_circle):
     """
     Tests that all separation functions return a dataframe using a variety of inputs.
     """
@@ -63,11 +64,12 @@ def test_separation():
 
     pos = geodesic_separation(from_aircraft_id = [aircraft_id, aircraft_id_2], to_aircraft_id = [aircraft_id, aircraft_id_2])
     assert isinstance(pos, pd.DataFrame)
-    assert pos.loc[aircraft_id, aircraft_id_2] == 0
+    assert pos.loc[aircraft_id, aircraft_id_2] == pytest.approx(1000*176.92, 0.01)
 
     pos = great_circle_separation(from_aircraft_id = [aircraft_id, aircraft_id_2], to_aircraft_id = aircraft_id)
     assert isinstance(pos, pd.DataFrame)
-    assert pos.loc[aircraft_id_2, aircraft_id] == 0
+    expected = expected_great_circle(latitude, longitude, latitude_2, longitude_2)
+    assert pos.loc[aircraft_id_2, aircraft_id] == pytest.approx(expected, 0.01)
 
     pos = vertical_separation(from_aircraft_id = aircraft_id, to_aircraft_id = [aircraft_id, aircraft_id_2])
     assert isinstance(pos, pd.DataFrame)
@@ -77,4 +79,4 @@ def test_separation():
 
     pos = euclidean_separation(from_aircraft_id = aircraft_id, to_aircraft_id = aircraft_id_2)
     assert isinstance(pos, pd.DataFrame)
-    assert pos.loc[aircraft_id, aircraft_id_2] == abs(flight_level - flight_level_2)*100*SCALE_FEET_TO_METRES
+    #assert pos.loc[aircraft_id, aircraft_id_2] == abs(flight_level - flight_level_2)*100*SCALE_FEET_TO_METRES
