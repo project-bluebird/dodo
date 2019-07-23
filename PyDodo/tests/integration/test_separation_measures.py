@@ -6,13 +6,9 @@ from pydodo import (
     all_positions,
     reset_simulation,
     create_aircraft,
-    geodesic_distance,
     geodesic_separation,
-    great_circle_distance,
     great_circle_separation,
-    vertical_distance,
     vertical_separation,
-    euclidean_distance,
     euclidean_separation
 )
 from pydodo.utils import ping_bluebird
