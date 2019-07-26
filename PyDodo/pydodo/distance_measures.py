@@ -3,8 +3,12 @@ import numpy as np
 from geopy import distance
 from scipy.spatial.distance import euclidean
 
+from .config_param import config_param
 from . import request_position
 from . import utils
+
+# Get Earth readius from the config file (in kilometres)
+EARTH_RADIUS = config_param('earth_radius_km')
 
 
 def geodesic_distance(from_lat, from_lon, to_lat, to_lon):
@@ -16,7 +20,10 @@ def geodesic_distance(from_lat, from_lon, to_lat, to_lon):
     utils._validate_latitude(to_lat)
     utils._validate_longitude(to_lon)
 
-    return distance.geodesic((from_lat, from_lon), (to_lat, to_lon)).meters
+    return distance.geodesic(
+        (from_lat, from_lon),
+        (to_lat, to_lon)
+        ).meters
 
 
 def great_circle_distance(from_lat, from_lon, to_lat, to_lon):
@@ -28,7 +35,11 @@ def great_circle_distance(from_lat, from_lon, to_lat, to_lon):
     utils._validate_latitude(to_lat)
     utils._validate_longitude(to_lon)
 
-    return distance.great_circle((from_lat, from_lon), (to_lat, to_lon)).meters
+    return distance.great_circle(
+        (from_lat, from_lon),
+        (to_lat, to_lon),
+        radius=EARTH_RADIUS
+        ).meters
 
 
 def vertical_distance(from_alt, to_alt):
@@ -41,13 +52,13 @@ def vertical_distance(from_alt, to_alt):
     return abs(from_alt - to_alt)
 
 
-def convert_lat_lon_to_cartesian(lat, lon, alt = 0, EARTH_RADIUS=6371000.0):
+def convert_lat_lon_to_cartesian(lat, lon, alt = 0):
     """
     Calculates cartesian coordinates of a point from lat, lon and alt.
-    EARTH_RADIUS and alt are in metres.
+    Note alt is in metres.
     """
 
-    R = EARTH_RADIUS + alt
+    R = EARTH_RADIUS*1000 + alt
     lat_r = np.deg2rad(lat)
     lon_r = np.deg2rad(lon)
 
