@@ -95,6 +95,7 @@ def _validate_flight_level(fl):
 
 
 def parse_alt(alt, fl):
+    assert alt is None or fl is None, "Either altitude or flight level should be specified, not both."
     if alt is not None:
         assert _validate_altitude(alt), "Invalid value {} for altitude".format(alt)
         alt = str(alt)

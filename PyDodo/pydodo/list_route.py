@@ -39,7 +39,7 @@ def process_listroute_response(response):
 
     wpt_order = route_dict.keys()
     df = df.reindex(wpt_order)
-    
+
     df.sim_t = json_data["sim_t"]
     df.aircraft_id = json_data["acid"]
 
@@ -90,6 +90,8 @@ def add_waypoint(
     ):
     """
     Add waypoint to aircraft route.
+    Can also optinally set altitude OR flight level and speed which should be
+    achieved at this waypoint.
     Currently this is only used for testing purposes.
     """
     utils._validate_id(aircraft_id)
@@ -97,9 +99,6 @@ def add_waypoint(
     body = {config_param("query_aircraft_id"): aircraft_id, "wpname": waypoint_name}
 
     if altitude != None or flight_level != None:
-        assert (
-            altitude is None or flight_level is None
-        ), "Only altitude or flight level should be provided, not both"
         alt = utils.parse_alt(altitude, flight_level)
         body["alt"] = alt
     if speed != None:
