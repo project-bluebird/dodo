@@ -12,8 +12,9 @@
 #' @export
 found_bluebird <- function() {
 
+  # Use the simulation time endpoint to check for a response from Bluebird.
   tryCatch({
-    !httr::http_error(bluebird_url())
+    !httr::http_error(simulation_time_url())
   },
   error=function(cond) {
     message(paste(cond))
