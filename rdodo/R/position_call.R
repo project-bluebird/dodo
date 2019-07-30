@@ -31,7 +31,7 @@ position_call <- function(aircraft_id = NULL) {
   query <- list(aircraft_id)
   names(query) <- config_param("query_aircraft_id")
 
-  response <- get_call(endpoint = endpoint, query = query)
+  response <- get_call(endpoint = endpoint, query = query, validate = FALSE)
 
   # Status code 404 indicates that the aircraft_id was not matched to an
   # aircraft in the simulation. In that case return a list containing an empty

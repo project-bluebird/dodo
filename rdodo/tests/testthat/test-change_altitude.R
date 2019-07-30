@@ -77,4 +77,10 @@ test_that("the change_altitude function's altitude/flight level guard clause wor
   expect_error(change_altitude(aircraft_id = aircraft_id,
                                altitude = new_altitude,
                                flight_level = new_flight_level))
+
+  # Give the command to ascend with neither a flight level nor an altitude.
+  expect_error(change_altitude(aircraft_id = aircraft_id,
+                               altitude = NULL,
+                               flight_level = NULL))
+
 })

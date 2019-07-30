@@ -2,6 +2,11 @@
 #'
 #' @param endpoint
 #' The Bluebird API endpoing to call.
+#' @param query
+#' A list of HTTP query parameters.
+#' @param validate
+#' A boolean flag. If \code{TRUE} (the default), the HTTP response will be
+#' validated before being returned.
 #'
 #' @return
 #' A \code{\link{response}} object, if successful. Otherwise an error is thrown.
@@ -14,7 +19,7 @@
 #'
 #' @import httr
 #' @export
-get_call <- function(endpoint, query = NULL) {
+get_call <- function(endpoint, query = NULL, validate = TRUE) {
 
   response <- tryCatch({
     httr::GET(url = construct_endpoint_url(endpoint = endpoint, query = query))
@@ -23,6 +28,7 @@ get_call <- function(endpoint, query = NULL) {
     stop(paste(conditionMessage(cond)))
   })
 
-  validate_response(response)
+  if (validate)
+    validate_response(response)
   response
 }
