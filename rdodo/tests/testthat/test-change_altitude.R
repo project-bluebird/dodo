@@ -51,7 +51,7 @@ test_that("the change_altitude function works", {
 
 test_that("the change_altitude function's altitude/flight level guard clause works", {
 
-  aircraft_id <- "test-change-altitude"
+  aircraft_id <- "test-change-altitude-guard"
   type <- "B744"
   latitude <- 0
   longitude <- 0

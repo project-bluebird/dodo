@@ -13,15 +13,8 @@
 #' @export
 simulation_time <- function() {
 
-  url <- simulation_time_url()
-  response <- tryCatch({
-    httr::GET(url)
-  },
-  error=function(cond) {
-    stop(paste(conditionMessage(cond)))
-  })
-
-  validate_response(response)
+  endpoint <- config_param("endpoint_simulation_time")
+  response <- get_call(endpoint)
 
   l <- jsonlite::fromJSON(httr::content(response, "text"), simplifyVector = FALSE)
 
@@ -33,10 +26,4 @@ simulation_time <- function() {
   tz <- toupper(substring(name, first = nchar(name) - 2, last = nchar(name)))
 
   as.POSIXct(l[[name]], tz = tz)
-}
-
-simulation_time_url <- function() {
-
-  endpoint <- config_param("endpoint_simulation_time")
-  construct_endpoint_url(endpoint = endpoint)
 }
