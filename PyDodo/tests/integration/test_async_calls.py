@@ -23,6 +23,7 @@ def test_async_request():
     heading = 0
     flight_level = 250
     speed = 200
+    vertical_speed = 0
 
     cmd = create_aircraft(aircraft_id = aircraft_id,
                           type = type,
@@ -60,3 +61,24 @@ def test_async_request():
     new_position = aircraft_position(aircraft_id)
     assert new_position.loc[aircraft_id]['altitude'] > flight_level * 100
     assert new_position.loc[aircraft_id]["longitude"] > 0
+
+    # send more commands - return to original values
+    more_commands = []
+    more_commands.append(async_change_altitude(aircraft_id = aircraft_id, flight_level = flight_level))
+    more_commands.append(async_change_heading(aircraft_id = aircraft_id, heading = heading))
+    more_commands.append(async_change_speed(aircraft_id = aircraft_id, speed = speed))
+    more_commands.append(async_change_vertical_speed(aircraft_id = aircraft_id, vertical_speed = vertical_speed))
+
+    results = batch(more_commands)
+    assert results[0] == True
+    assert results[1] == True
+    assert results[2] == True
+    assert results[3] == True
+
+    #check what happens if invalid command sent
+    commands_wrong = []
+    commands_wrong.append(async_change_speed(aircraft_id = aircraft_id, speed = -5))
+    commands_wrong.append(async_change_vertical_speed(aircraft_id = aircraft_id, vertical_speed = new_vertical_speed))
+    results = batch(commands_wrong)
+    assert isinstance(results[0], AssertionError)
+    assert results[1] == True

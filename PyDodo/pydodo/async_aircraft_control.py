@@ -20,6 +20,8 @@ def batch(commands):
         futures = [commands]
     else:
         futures = commands
+
+    asyncio.set_event_loop(asyncio.new_event_loop())
     loop = asyncio.get_event_loop()
     tasks = asyncio.gather(*futures, return_exceptions=True)
     results = loop.run_until_complete(tasks)
