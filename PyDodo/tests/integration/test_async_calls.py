@@ -43,7 +43,7 @@ def test_async_request():
     new_flight_level = 450
     new_heading = 90
     new_speed = 400
-    new_vertical_speed = 10
+    new_vertical_speed = 1
     commands.append(async_change_altitude(aircraft_id = aircraft_id, flight_level = new_flight_level))
     commands.append(async_change_heading(aircraft_id = aircraft_id, heading = new_heading))
     commands.append(async_change_speed(aircraft_id = aircraft_id, speed = new_speed))
@@ -67,18 +67,19 @@ def test_async_request():
     more_commands.append(async_change_altitude(aircraft_id = aircraft_id, flight_level = flight_level))
     more_commands.append(async_change_heading(aircraft_id = aircraft_id, heading = heading))
     more_commands.append(async_change_speed(aircraft_id = aircraft_id, speed = speed))
-    more_commands.append(async_change_vertical_speed(aircraft_id = aircraft_id, vertical_speed = vertical_speed))
 
     results = batch(more_commands)
+
     assert results[0] == True
     assert results[1] == True
     assert results[2] == True
-    assert results[3] == True
 
-    #check what happens if invalid command sent
+    # send an invalid and a valid command
     commands_wrong = []
     commands_wrong.append(async_change_speed(aircraft_id = aircraft_id, speed = -5))
     commands_wrong.append(async_change_vertical_speed(aircraft_id = aircraft_id, vertical_speed = new_vertical_speed))
+
     results = batch(commands_wrong)
+
     assert isinstance(results[0], AssertionError)
     assert results[1] == True
