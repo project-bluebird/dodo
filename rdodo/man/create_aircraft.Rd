@@ -26,11 +26,15 @@ For altitudes in excess of 6000ft a flight level should be specified instead.}
 \item{speed}{A non-negative double. The aircraft's speed in knots (KCAS).}
 }
 \value{
-A boolean, \code{TRUE} indicates success.
+\code{TRUE} if successful. Otherwise \code{FALSE} and an error is thrown.
 }
 \description{
 Either the \code{altitude} or \code{flight_level} argument must be given,
 but not both.
+}
+\details{
+If an aircraft with the given \code{aircraft_id} already exists an error is
+thrown.
 }
 \examples{
 \dontrun{

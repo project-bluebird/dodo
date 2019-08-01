@@ -1,7 +1,3 @@
-"""
-Test create_aircraft function raises error if incorrect inputs are provided
-"""
-
 import pytest
 
 from pydodo import create_aircraft
@@ -17,6 +13,7 @@ altitude = None
 flight_level = 250
 speed = 200
 
+
 @pytest.mark.parametrize(
     "acid,tp",
     [("", "B744"), ("TST1001", "")]
@@ -28,6 +25,7 @@ def test_input_aircraft_info(acid, tp):
     with pytest.raises(AssertionError):
         create_aircraft(acid, tp, latitude, longitude,
                         heading, speed, altitude, flight_level)
+
 
 @pytest.mark.parametrize("lat", [91, -90.1])
 def test_input_latitude(lat):
@@ -47,6 +45,7 @@ def test_input_longitude(lon):
         create_aircraft(aircraft_id, type, latitude, lon,
                         heading, speed, altitude, flight_level)
 
+
 @pytest.mark.parametrize("hdg", [-0.1, 360])
 def test_input_heading(hdg):
     """
@@ -55,6 +54,7 @@ def test_input_heading(hdg):
     with pytest.raises(AssertionError):
         create_aircraft(aircraft_id, type, latitude, longitude,
                         hdg, speed, altitude, flight_level)
+
 
 @pytest.mark.parametrize(
     "alt,fl",
@@ -67,6 +67,7 @@ def test_input_alt_fl(alt, fl):
     with pytest.raises(AssertionError):
         create_aircraft(aircraft_id, type, latitude, longitude,
                         heading, speed, alt, fl)
+
 
 @pytest.mark.parametrize("spd", [-0.1])
 def test_input_speed(spd):

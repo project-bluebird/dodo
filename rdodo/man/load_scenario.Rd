@@ -4,10 +4,13 @@
 \alias{load_scenario}
 \title{Load a scenario}
 \usage{
-load_scenario(filename)
+load_scenario(filename, multiplier = NULL)
 }
 \arguments{
-\item{filename}{A string indicating the relative path to a scenario file.}
+\item{filename}{The relative path to a scenario file.}
+
+\item{multiplier}{(Optional) A positive number specifying the simulation rate multiplier. If
+omitted, the rate multiplier will be 1.}
 }
 \value{
 \code{TRUE} if successful. Otherwise \code{FALSE} and an error is thrown.
