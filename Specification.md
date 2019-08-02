@@ -34,7 +34,7 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 - [Change Speed](#change-aircraft-speed)
 - [Change Vertical Speed](#change-aircraft-vertical-speed)
 - [Direct to Waypoint](#direct-aircaft-to-waypoint)
-- [Batch](#batch-commands)
+- [Batch](#batch)
 
 ### Distance measures
 
