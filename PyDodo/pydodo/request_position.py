@@ -113,7 +113,7 @@ def aircraft_position(aircraft_id):
         for aircraft in aircraft_id:
             utils._validate_id(aircraft)
         all_pos = all_positions()
-        pos_df = all_pos.ix(aircraft_id)  # filter requested IDs
+        pos_df = all_pos.reindex(aircraft_id)  # filter requested IDs
     else:
         raise AssertionError("Invalid input {} for aircraft id".format(aircraft_id))
     return normalise_positions_units(pos_df)

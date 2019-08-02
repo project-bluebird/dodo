@@ -10,12 +10,14 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 
 ### Simulation commands
 
-- [Load Scenario](#load-scenario) 
+- [Load Scenario](#load-scenario)
 - [Create Scenario](#create-scenario) [TO DO]
 - [Reset Simulation](#reset-the-simulation)
 - [Pause Simulation](#pause-the-simulation)
 - [Resume Simulation](#resume-the-simulation)
 - [Set Simulation Rate Multiplier](#set-the-simulation-rate-multiplier)
+- [Simulation Step](#simulation-step) [TO DO]
+- [Simulator Mode](#set-simulator-mode) [TO DO]
 - [Episode Log](#episode-log) [TO DO]
 
 ### Aircraft commands
@@ -23,12 +25,16 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 - [Create Aircraft](#create-aircraft)
 - [Get aircraft position](#get-aircraft-position)
 - [Get all aircraft positions](#get-all-aircraft-positions)
+- [List Route](#list-aircraft-route)
+
+### Aircraft control
+
 - [Change Altitude](#change-aircraft-altitude)
 - [Change Heading](#change-aircraft-heading)
 - [Change Speed](#change-aircraft-speed)
 - [Change Vertical Speed](#change-aircraft-vertical-speed)
-- [List Route](#list-aircraft-route)
 - [Direct to Waypoint](#direct-aircaft-to-waypoint)
+- [Batch](#batch-commands)
 
 ### Distance measures
 
@@ -59,7 +65,7 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 
 **Function name:** `create_scenario`
 
-**Parameters:** 
+**Parameters:**
 - `filename`: A string indicating path to scenario file on the local machine.
 - `scenario`: A string indicating name to store scenario under on the simulator host (`<scenario>.scn`).
 
@@ -107,6 +113,28 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 **Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
 **Description:** Sets the simulation rate multiplier for the current simulation. By default this multiplier is equal to one (real-time operation). If set to another value, the simulation will run faster (or slower) than real-time, with a fixed multiplier as provided. For example, a multiplier of 2 would cause the simulation to run twice as fast: 60 simulation minutes take 30 actual minutes.
+
+## Simulation step
+
+**Function name:** `simulation_step`
+
+**Parameters:** None
+
+**Return value:** `TRUE` if successful. Otherwise an exception is thrown.
+
+
+**Description:** Step forward through the simulation. Step size is based on the [simulation rate multiplier](#set-the-simulation-rate-multiplier). Can only be used if simulator is in [agent mode](#set-simulator-mode), otherwise an exception is thrown. 
+
+## Set simulator mode
+
+**Function name:** `set_simulator_mode`
+
+**Parameters:**
+- `mode`: A string. Available modes are `sandbox` (the default) and `agent`.
+
+**Return value:** `TRUE` if successful. Otherwise an exception is thrown.
+
+**Description:** Set simulator mode (see [bluebird docs](https://github.com/alan-turing-institute/bluebird/blob/master/docs/SimulatorModes.md) for description of simulator modes).
 
 ## Episode log
 
@@ -183,6 +211,28 @@ If the response from Bluebird contains an error status code, an exception is thr
 
 **Description:** Get position information for all aircraft currently in the simulation.
 
+## List aircraft route
+
+**Function name:** `list_route`
+
+**Parameters:**
+- `aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
+
+**Return value:** A  dataframe indexed by waypoint name with columns:
+- `requested_altitude`: A non-negatige double. The aircraft's requested altitude in feet at waypoint.
+- `requested_speed`: A non-negative double. The aircraft's requested speed at waypoint.
+- `current`: A boolean indicating whether the aircraft is currently heading toward this waypoint.
+
+This dataframe also contains metadata attributes named `aircraft_id` and `sim_t` containing the simulator time in seconds since the start of the scenario.
+
+If no aircraft exists with the given ID, or the ID is invalid, an exception is thrown.
+
+If the corresponding aircraft has no route information, an empty dataframe is returned and the `sim_t` metadata attribute is omitted.
+
+If any other error occurs (e.g. a failure to parse the route information), an exception is thrown.
+
+**Description:** Get a dataframe of waypoints on an aircraft's route.
+
 ## Change aircraft altitude
 
 **Function name:** `change_altitude`
@@ -235,29 +285,7 @@ Either the `altitude` or `flight_level` argument must be given, but not both.
 
 **Description:** Request change to aircraft speed.
 
-## List aircraft route
-
-**Function name:** `list_route`
-
-**Parameters:**
-- `aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
-
-**Return value:** A  dataframe indexed by waypoint name with columns:
-- `requested_altitude`: A non-negatige double. The aircraft's requested altitude in feet at waypoint.
-- `requested_speed`: A non-negative double. The aircraft's requested speed at waypoint.
-- `current`: A boolean indicating whether the aircraft is currently heading toward this waypoint.
-
-This dataframe also contains metadata attributes named `aircraft_id` and `sim_t` containing the simulator time in seconds since the start of the scenario.
-
-If no aircraft exists with the given ID, or the ID is invalid, an exception is thrown.
-
-If the corresponding aircraft has no route information, an empty dataframe is returned and the `sim_t` metadata attribute is omitted.
-
-If any other error occurs (e.g. a failure to parse the route information), an exception is thrown.
-
-**Description:** Get a dataframe of waypoints on an aircraft's route.
-
-## Direct aircaft to waypoint
+## Direct aircraft to waypoint
 
 **Function name:** `direct_to_waypoint`
 
@@ -269,17 +297,30 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 
 **Description:** Request aircraft to change heading toward the waypoint. The waypoint must exist on the aircraft route.
 
+## Batch
+
+**Function name:** `batch`
+
+**Parameters:**
+- A string of aircraft control commands. In PyDodo, these need an `async_` prefix (e.g., `batch([async_change_speed(...), async_change_altitude(...)]`)).
+
+**Return value:** `TRUE` if all commands were successful. Otherwise an exception is thrown. 
+
+**Description:** Send a batch of aircraft control commands and dispatch them asynchronously to Bluebird.
+
 ## Geodesic separation
 
 **Function name:** `geodesic_separation`
 
 **Parameters:**
-- `from`: A string vector of aircraft IDs.
-- `to`: An optional string vector of aircraft IDs. If not provided, `to`=`from`.
+- `from_aircraft_id`: A string vector of aircraft IDs.
+- `to_aircraft_id`: An optional string vector of aircraft IDs. If not provided, `to_aircraft_id`=`from_aircraft_id`.
+- `major_semiaxis`: A double. The major (equatorial) radius of the ellipsoid. The default value is for WGS84.
+- `flattening`: A double. Ellipsoid flattening. The default value is for WGS84.
 
-**Return value:** A structured array of doubles with `from` aircraft IDs as row names and `to` aircraft IDs as column names. The values are the geodesic distance in metres between the positions of the aircraft pair at each [`from`, `to`] index.
+**Return value:** A dataframe of doubles with `from_aircraft_id` as row names and `to_aircraft_id` as column names. The values are the geodesic distance in metres between the positions of the aircraft pair at each [`from_aircraft_id`, `to_aircraft_id`] index.
 
-**Description:** Get geodesic separation in metres between the positions of all `from` and `to` pairs of aircraft. 
+**Description:** Get geodesic separation in metres between the positions of all `from_aircraft_id` and `to_aircraft_id` pairs of aircraft.
 
 ## Geodesic distance
 
@@ -287,25 +328,28 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 
 **Parameters:**
 - `from_lat`: A double in the range [-90, 90]. The `from` point's latitude.
-- `from_long`: A double in the range [-180, 180). The `from` point's longitude.
+- `from_lon`: A double in the range [-180, 180). The `from` point's longitude.
 - `to_lat`: A double in the range [-90, 90]. The `to` point's latitude.
-- `to_long`: A double in the range [-180, 180). The `to` point's longitude.
+- `to_lon`: A double in the range [-180, 180). The `to` point's longitude.
+- `major_semiaxis`: A double. The major (equatorial) radius of the ellipsoid. The default value is for WGS84.
+- `flattening`: A double. Ellipsoid flattening. The default value is for WGS84.
 
-**Return value:** A double, geodesic distance between two points. 
+**Return value:** A double, geodesic distance between two points.
 
-**Description:** Get geodesic distance between two points defined in terms of [latitude, longitude].
+**Description:** Get geodesic distance in metres between two points defined in terms of [latitude, longitude].
 
 ## Great-circle separation
 
 **Function name:** `great_circle_separation`
 
 **Parameters:**
-- `from`: A string vector of aircraft IDs.
-- `to`: An optional string vector of aircraft IDs. If not provided, `to`=`from`.
+- `from_aircraft_id`: A string vector of aircraft IDs.
+- `to_aircraft_id`: An optional string vector of aircraft IDs. If not provided, `to_aircraft_id`=`from_aircraft_id`.
+- `radius`: A double. The radius of the earth in metres. The default value is 6378137 m.
 
-**Return value:** A structured array of doubles with `from` aircraft IDs as row names and `to` aircraft IDs as column names. The values are the great-circle distance in metres between the positions of the aircraft pair at each [`from`, `to`] index.
+**Return value:** A dataframe of doubles with `from_aircraft_id` as row names and `to_aircraft_id` as column names. The values are the great-circle distance in metres between the positions of the aircraft pair at each [`from_aircraft_id`, `to_aircraft_id`] index.
 
-**Description:** Get great-circle separation in metres between the positions of all `from` and `to` pairs of aircraft. 
+**Description:** Get great-circle separation in metres between the positions of all `from_aircraft_id` and `to_aircraft_id` pairs of aircraft.
 
 ## Great-circle distance
 
@@ -313,25 +357,26 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 
 **Parameters:**
 - `from_lat`: A double in the range [-90, 90]. The `from` point's latitude.
-- `from_long`: A double in the range [-180, 180). The `from` point's longitude.
+- `from_lon`: A double in the range [-180, 180). The `from` point's longitude.
 - `to_lat`: A double in the range [-90, 90]. The `to` point's latitude.
-- `to_long`: A double in the range [-180, 180). The `to` point's longitude.
+- `to_lon`: A double in the range [-180, 180). The `to` point's longitude.
+- `radius`: A double. The radius of the earth in metres. The default value is 6378137 m.
 
 **Return value:** A double, the great-circle distance between two points.
 
-**Description:** Get great-circle distance between two points' positions defined as [latitude, logitude].
+**Description:** Get great-circle distance in metres between two points' positions defined as [latitude, logitude].
 
 ## Vertical separation
 
 **Function name:** `vertical_separation`
 
 **Parameters:**
-- `from`: A string vector of aircraft IDs.
-- `to`: An optional string vector of aircraft IDs. If not provided, `to`=`from`.
+- `from_aircraft_id`: A string vector of aircraft IDs.
+- `to_aircraft_id`: An optional string vector of aircraft IDs. If not provided, `to_aircraft_id`=`from_aircraft_id`.
 
-**Return value:** A structured array of doubles with `from` aircraft IDs as row names and `to` aircraft IDs as column names. The values are the vertical distance in metres between the positions of the aircraft pair at each [`from`, `to`] index.
+**Return value:** A dataframe of doubles with `from_aircraft_id` as row names and `to` as column names. The values are the vertical distance in metres between the positions of the aircraft pair at each [`from_aircraft_id`, `to_aircraft_id`] index.
 
-**Description:** Get vertical separation in metres between the positions of all `from` and `to` pairs of aircraft. 
+**Description:** Get vertical separation in metres between the positions of all `from_aircraft_id` and `to_aircraft_id` pairs of aircraft.
 
 ## Vertical distance
 
@@ -343,19 +388,20 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 
 **Return value:** A double, verticle distance between two points.
 
-**Description:** Get vertical distance between two points' positions defined in altitude.
+**Description:** Get vertical distance in metres between two points' positions defined in altitude.
 
 ## Euclidean separation
 
 **Function name:** `euclidean_separation`
 
 **Parameters:**
-- `from`: A string vector of aircraft IDs.
-- `to`: An optional string vector of aircraft IDs. If not provided, `to`=`from`.
+- `from_aircraft_id`: A string vector of aircraft IDs.
+- `to_aircraft_id`: An optional string vector of aircraft IDs. If not provided, `to_aircraft_id`=`from_aircraft_id`.
+- `radius`: A double. The radius of the earth in metres. The default value is 6378137 m.
 
-**Return value:** A structured array of doubles with `from` aircraft IDs as row names and `to` aircraft IDs as column names. The values are the euclidean distance in metres between the positions of the aircraft pair at each [`from`, `to`] index.
+**Return value:** A dataframe of doubles with `from_aircraft_id` as row names and `to_aircraft_id` as column names. The values are the euclidean distance in metres between the positions of the aircraft pair at each [`from_aircraft_id`, `to_aircraft_id`] index.
 
-**Description:** Get euclidean separation in metres between the positions of all `from` and `to` pairs of aircraft. 
+**Description:** Get euclidean separation in metres between the positions of all `from_aircraft_id` and `to_aircraft_id` pairs of aircraft.
 
 ## Euclidean distance
 
@@ -363,13 +409,13 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 
 **Parameters:**
 - `from_lat`: A double in the range [-90, 90]. The `from` point's latitude.
-- `from_long`: A double in the range [-180, 180). The `from` point's longitude.
+- `from_lon`: A double in the range [-180, 180). The `from` point's longitude.
 - `from_alt`: A non-negatige double. The `from` point's altitude in metres.
 - `to_lat`: A double in the range [-90, 90]. The `to` point's latitude.
-- `to_long`: A double in the range [-180, 180). The `to` point's longitude.
+- `to_lon`: A double in the range [-180, 180). The `to` point's longitude.
 - `to_alt`: A non-negatige double. The `to` point's altitude in metres.
+- `radius`: A double. The radius of the earth in metres. The default value is 6378137 m.
 
 **Return value:** A double, euclidean distance between two points.
 
-**Description:** Get euclidean distance between two points' positions defined as [latitude, logitude, altitude].
-
+**Description:** Get euclidean distance in metres between two points' positions defined as [latitude, logitude, altitude].

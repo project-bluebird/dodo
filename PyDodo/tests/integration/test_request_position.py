@@ -1,4 +1,3 @@
-
 import pytest
 import pandas as pd
 import numpy as np
@@ -41,22 +40,26 @@ def test_no_positions():
 @pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
 def test_wrong_id():
     """
-    Expect dataframe with NAN if requested aircraft not in simulation.
+    Expect a row in a dataframe with NAN if requested aircraft not in simulation.
     """
     cmd = reset_simulation()
     assert cmd == True
 
-    pos_df = aircraft_position("TEST1")
-    assert pos_df.equals(
-        pd.DataFrame({
-            "type":np.nan,
-            "altitude":np.nan,
-            "ground_speed":np.nan,
-            "latitude":np.nan,
-            "longitude":np.nan,
-            "vertical_speed":np.nan
-            }, index=['TEST1'])
-    )
+    pos = aircraft_position(aircraft_id)
+    assert pos.loc[aircraft_id].isnull().all()
+
+    cmd = create_aircraft(aircraft_id = aircraft_id,
+                          type = type,
+                          latitude = latitude,
+                          longitude = longitude,
+                          heading = heading,
+                          flight_level = flight_level,
+                          speed = speed)
+    assert cmd == True
+
+    pos = aircraft_position([aircraft_id, aircraft_id_2])
+    assert len(pos.index) == 2
+    assert pos.loc[aircraft_id_2].isnull().all()
 
 
 @pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
@@ -145,7 +148,7 @@ def test_aircraft_position():
                           speed = speed_2)
     assert cmd == True
 
-    pos = aircraft_position('TST1001')
+    pos = aircraft_position(aircraft_id)
     assert isinstance(pos, pd.DataFrame)
     assert len(pos.index) == 1
     assert pos.loc[aircraft_id]['type'] == type
@@ -159,3 +162,6 @@ def test_aircraft_position():
 
     # check that dataframe has sim_t attribute
     assert isinstance(pos.sim_t, int)
+
+    pos = aircraft_position([aircraft_id, aircraft_id_2])
+    assert len(pos.index) == 2
