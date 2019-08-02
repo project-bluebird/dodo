@@ -10,7 +10,7 @@ matrix:
         - pip install -r PyDodo/requirements-dev.txt
       before_script:
         cd PyDodo
-        wget https://raw.githubusercontent.com/alan-turing-institute/dodo/master/config.yml
+        #wget https://raw.githubusercontent.com/alan-turing-institute/dodo/master/config.yml
       script:
         - pytest -v
     - language: r
