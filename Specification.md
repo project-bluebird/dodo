@@ -299,6 +299,8 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 **Parameters:**
 - `from_aircraft_id`: A string vector of aircraft IDs.
 - `to_aircraft_id`: An optional string vector of aircraft IDs. If not provided, `to_aircraft_id`=`from_aircraft_id`.
+- `major_semiaxis`: A double. The major (equatorial) radius of the ellipsoid. The default value is for WGS84.
+- `flattening`: A double. Ellipsoid flattening. The default value is for WGS84.
 
 **Return value:** A dataframe of doubles with `from_aircraft_id` as row names and `to_aircraft_id` as column names. The values are the geodesic distance in metres between the positions of the aircraft pair at each [`from_aircraft_id`, `to_aircraft_id`] index.
 
@@ -313,6 +315,8 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 - `from_lon`: A double in the range [-180, 180). The `from` point's longitude.
 - `to_lat`: A double in the range [-90, 90]. The `to` point's latitude.
 - `to_lon`: A double in the range [-180, 180). The `to` point's longitude.
+- `major_semiaxis`: A double. The major (equatorial) radius of the ellipsoid. The default value is for WGS84.
+- `flattening`: A double. Ellipsoid flattening. The default value is for WGS84.
 
 **Return value:** A double, geodesic distance between two points. 
 
@@ -325,6 +329,7 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 **Parameters:**
 - `from_aircraft_id`: A string vector of aircraft IDs.
 - `to_aircraft_id`: An optional string vector of aircraft IDs. If not provided, `to_aircraft_id`=`from_aircraft_id`.
+- `radius`: A double. The radius of the earth in metres. The default value is 6378137 m.
 
 **Return value:** A dataframe of doubles with `from_aircraft_id` as row names and `to_aircraft_id` as column names. The values are the great-circle distance in metres between the positions of the aircraft pair at each [`from_aircraft_id`, `to_aircraft_id`] index.
 
@@ -339,6 +344,7 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 - `from_lon`: A double in the range [-180, 180). The `from` point's longitude.
 - `to_lat`: A double in the range [-90, 90]. The `to` point's latitude.
 - `to_lon`: A double in the range [-180, 180). The `to` point's longitude.
+- `radius`: A double. The radius of the earth in metres. The default value is 6378137 m.
 
 **Return value:** A double, the great-circle distance between two points.
 
@@ -375,6 +381,7 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 **Parameters:**
 - `from_aircraft_id`: A string vector of aircraft IDs.
 - `to_aircraft_id`: An optional string vector of aircraft IDs. If not provided, `to_aircraft_id`=`from_aircraft_id`.
+- `radius`: A double. The radius of the earth in metres. The default value is 6378137 m.
 
 **Return value:** A dataframe of doubles with `from_aircraft_id` as row names and `to_aircraft_id` as column names. The values are the euclidean distance in metres between the positions of the aircraft pair at each [`from_aircraft_id`, `to_aircraft_id`] index.
 
@@ -391,6 +398,7 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 - `to_lat`: A double in the range [-90, 90]. The `to` point's latitude.
 - `to_lon`: A double in the range [-180, 180). The `to` point's longitude.
 - `to_alt`: A non-negatige double. The `to` point's altitude in metres.
+- `radius`: A double. The radius of the earth in metres. The default value is 6378137 m.
 
 **Return value:** A double, euclidean distance between two points.
 
