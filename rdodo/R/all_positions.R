@@ -10,15 +10,7 @@
 #' all_positions()
 #' }
 #'
-#' @import purrr
-#'
 #' @export
 all_positions <- function() {
-
-  parsed <- position_call(aircraft_id = "all")
-
-  # if (length(parsed) == 0)
-  #   return(process_parsed_position(parsed))
-
-  process_parsed_positions(parsed)
+  aircraft_position(aircraft_id = NULL)
 }
