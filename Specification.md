@@ -303,7 +303,7 @@ Either the `altitude` or `flight_level` argument must be given, but not both.
 **Parameters:**
 - A string of aircraft control commands. In PyDodo, these need an `async_` prefix (e.g., `batch([async_change_speed(...), async_change_altitude(...)]`)).
 
-**Return value:** A list of same length as the number of commands sent. For each command, the returned value is `TRUE` if successful or the Error raised.
+**Return value:** `TRUE` if all commands were successful. Otherwise an exception is thrown. 
 
 **Description:** Send a batch of aircraft control commands and dispatch them asynchronously to Bluebird.
 
