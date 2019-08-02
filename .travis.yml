@@ -7,9 +7,10 @@ matrix:
         - 3.7
       install:
         - pip install -r PyDodo/requirements.txt
-        - pip install -r PyDodo/requirements-dev.txt                         
+        - pip install -r PyDodo/requirements-dev.txt
       before_script:
         cd PyDodo
+        wget https://raw.githubusercontent.com/alan-turing-institute/dodo/master/config.yml
       script:
         - pytest -v
     - language: r
