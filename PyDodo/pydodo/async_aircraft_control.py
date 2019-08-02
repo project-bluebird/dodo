@@ -14,7 +14,7 @@ def batch(commands):
     Execute list of aircraft control commands asynchronously.
 
     :param commands: list of asynchronous aircraft control commands to execute
-    :returns: list of results (either True or Exception for each command)
+    :returns: True if all commands were executed otherwise throws an exception
     """
     if type(commands) != list:
         futures = [commands]
@@ -26,7 +26,11 @@ def batch(commands):
     tasks = asyncio.gather(*futures, return_exceptions=True)
     results = loop.run_until_complete(tasks)
     loop.close()
-    return results
+
+    if results.count(True) == len(futures):
+        return True
+    else:
+        raise Exception(";".join([str(resp) for resp in results if resp != True]))
 
 
 async def async_change_altitude(aircraft_id, altitude=None, flight_level=None, vertical_speed=None):

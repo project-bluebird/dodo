@@ -51,10 +51,7 @@ def test_async_request():
 
     results = batch(commands)
 
-    assert results[0] == True
-    assert results[1] == True
-    assert results[2] == True
-    assert results[3] == True
+    assert results == True
 
     time.sleep(1)
 
@@ -70,16 +67,12 @@ def test_async_request():
 
     results = batch(more_commands)
 
-    assert results[0] == True
-    assert results[1] == True
-    assert results[2] == True
+    assert results == True
 
     # send an invalid and a valid command
     commands_wrong = []
     commands_wrong.append(async_change_speed(aircraft_id = aircraft_id, speed = -5))
-    commands_wrong.append(async_change_vertical_speed(aircraft_id = aircraft_id, vertical_speed = new_vertical_speed))
+    commands_wrong.append(async_change_vertical_speed(aircraft_id = aircraft_id, vertical_speed = -5))
 
-    results = batch(commands_wrong)
-
-    assert isinstance(results[0], AssertionError)
-    assert results[1] == True
+    with pytest.raises(Exception):
+        results = batch(commands_wrong)
