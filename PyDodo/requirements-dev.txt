@@ -1,0 +1,4 @@
+# Required for testing
+
+pytest == 4.1.*
+pytest-docker-compose == 1.0.*

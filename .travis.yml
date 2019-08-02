@@ -7,6 +7,7 @@ matrix:
         - 3.7
       install:
         - pip install -r PyDodo/requirements.txt
+        - pip install -r Pydodo/requirements-dev.txt
       before_script:
         cd PyDodo
       script:
@@ -16,6 +17,9 @@ matrix:
         cd rdodo
       cache: packages
       warnings_as_errors: false
+sudo: required
+services:
+  - docker
 # safelist
 branches:
   only:
