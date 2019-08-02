@@ -302,7 +302,7 @@ Either the `altitude` or `flight_level` argument must be given, but not both.
 **Function name:** `batch`
 
 **Parameters:**
-- A string of aircraft control commands. In PyDodo, these need an `async_` prefix (e.g., `batch([async_change_speed(...), async_change_altitude(...)]`)).
+- A string of aircraft control commands. In PyDodo, these need an `async_` prefix. For example, `batch([async_change_speed(...), async_change_altitude(...)]`.
 
 **Return value:** `TRUE` if all commands were successful. Otherwise an exception is thrown. 
 
