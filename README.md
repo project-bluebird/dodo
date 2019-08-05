@@ -1,18 +1,10 @@
 # dodo
 
-Scaffold for ATC agents
+Scaffold for ATC agents.
+
+Read the [Specification](Specification.md) document.
 
 ## PyDodo
-
-### Testing
-
-```{bash}
-git clone https://github.com/alan-turing-institute/dodo.git
-cd dodo/PyDodo
-pytest -v
-```
-
-If BlueSky and BlueBird are not running, the integration tests are skipped.
 
 ### Install
 
