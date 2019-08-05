@@ -2,6 +2,7 @@ import os
 import math
 import pytest
 
+
 @pytest.fixture
 def rootdir():
     return os.path.dirname(os.path.abspath(__file__))
@@ -19,8 +20,7 @@ def great_circle(from_lat, from_lon, to_lat, to_lon):
 
     a = (math.sin(deg2rad(dlat)/2))**2 + math.cos(deg2rad(from_lat)) * math.cos(deg2rad(to_lat)) * (math.sin(deg2rad(dlon)/2))**2
     c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
-    #R = 6378137 # Radius of the earth
-    R = 6371009 # GeoPy assumed raius of the earth
+    R = 6378137 # default radius of the earth
     expected = R * c
     return expected
 

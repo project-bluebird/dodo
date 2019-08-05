@@ -21,6 +21,9 @@ def test_geodesic_distance():
   # Compare to the result calculated using ArcGIS (to within 1% error):
   assert result == pytest.approx(1000*176.92, 0.01)
 
+  result = geodesic_distance(0.123456789, 0.123456789, 0.123456789, 0.123456789)
+  assert result == 0
+
 
 @pytest.mark.parametrize(
     "from_lat,from_lon,to_lat,to_lon",
@@ -49,3 +52,24 @@ def test_vertical_distance(from_alt, to_alt):
     expected = abs(from_alt - to_alt)
 
     assert result == expected
+
+
+@pytest.mark.parametrize(
+    "from_lat,from_lon,to_lat,to_lon,from_alt,to_alt",
+    [(-91, -180, 90, -180, -1, 1),
+    (-90, -180, 90, -180.5, -1, 1),
+    (-90, -180, 90, 180, 1, -1)
+    ]
+)
+def test_wrong_inputs(from_lat,from_lon,to_lat,to_lon,from_alt,to_alt):
+     with pytest.raises(AssertionError):
+         geodesic_distance(from_lat, from_lon, to_lat, to_lon)
+
+     with pytest.raises(AssertionError):
+         great_circle_distance(from_lat, from_lon, to_lat, to_lon)
+
+     with pytest.raises(AssertionError):
+         euclidean_distance(from_lat, from_lon, from_alt, to_lat, to_lon, to_alt)
+
+     with pytest.raises(AssertionError):
+         vertical_distance(from_alt, to_alt)
