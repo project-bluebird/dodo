@@ -345,7 +345,7 @@ Either the `altitude` or `flight_level` argument must be given, but not both.
 **Parameters:**
 - `from_aircraft_id`: A string vector of aircraft IDs.
 - `to_aircraft_id`: An optional string vector of aircraft IDs. If not provided, `to_aircraft_id`=`from_aircraft_id`.
-- `radius`: A double. The radius of the earth in metres. The default value is 6378137 m.
+- `radius`: An optional double. The radius of the earth in metres. The default value is 6378137 m.
 
 **Return value:** A dataframe of doubles with `from_aircraft_id` as row names and `to_aircraft_id` as column names. The values are the great-circle distance in metres between the positions of the aircraft pair at each [`from_aircraft_id`, `to_aircraft_id`] index.
 
