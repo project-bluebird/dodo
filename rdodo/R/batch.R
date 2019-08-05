@@ -12,7 +12,8 @@
 #'
 #' @return
 #' A list of return values, one for each of the given function calls, if all are
-#' successful. Otherwise an error is thrown.
+#' successful. Otherwise an error is thrown containing the conconcated error
+#' messages from all of the failed function calls, separated by a semicolon.
 #'
 #' @examples
 #' \dontrun{
@@ -57,6 +58,20 @@ batch <- function(..., async = TRUE) {
   while(!all(is_resolved <- purrr::map_lgl(promises, .f = future::resolved)))
     message(paste("Waiting for", sum(is_resolved), "of", length(promises), "promises..."))
 
-  # Return the results in a list.
-  purrr::map(promises, .f = value)
+  # Get the values of the promises, or their error messages.
+  ret <- purrr::map(promises, .f = function(p) {
+    tryCatch({
+      future::value(p)
+    },
+    error=function(cond) {
+      paste(conditionMessage(cond))
+    })
+  })
+
+  # If any of the calls failed, throw an error containing the concatenated error
+  # messages, separated by a semicolon.
+  if (any(purrr::map_lgl(ret, .f = is.character)))
+    stop(paste(unlist(purrr::keep(ret, .p = is.character)), collapse = ";"))
+
+  ret
 }

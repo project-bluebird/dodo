@@ -14,7 +14,8 @@ dispatched asynchronously.}
 }
 \value{
 A list of return values, one for each of the given function calls, if all are
-successful. Otherwise an error is thrown.
+successful. Otherwise an error is thrown containing the conconcated error
+messages from all of the failed function calls, separated by a semicolon.
 }
 \description{
 This function mitigates the problem of unresponsiveness when submitting
