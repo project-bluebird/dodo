@@ -46,4 +46,3 @@ default:
   # Physical
   feet_altitude_upper_limit: 6000
   flight_level_lower_limit: 60
-  earth_radius_m: 6378137 

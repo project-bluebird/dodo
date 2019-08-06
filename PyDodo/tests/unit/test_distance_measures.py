@@ -1,5 +1,6 @@
 import pytest
 import math
+from geopy import distance
 
 from pydodo import (
     geodesic_distance,
@@ -43,7 +44,7 @@ def test_great_circle_distance(expected_great_circle,from_lat,from_lon,to_lat,to
 
 @pytest.mark.parametrize(
     "from_alt,to_alt",
-    [(0, 0), (150, 300)]
+    [(0.123456789, 0.123456789), (150, 300)]
 )
 def test_vertical_distance(from_alt, to_alt):
 
@@ -52,6 +53,16 @@ def test_vertical_distance(from_alt, to_alt):
     expected = abs(from_alt - to_alt)
 
     assert result == expected
+
+
+@pytest.mark.parametrize(
+    "from_lat,from_lon,to_lat,to_lon,from_alt,to_alt,expected",
+    [(45, 45, 45, 45, 1, 1, 0),
+    (21, 21, 21, 21, 1, 11, 10)]
+)
+def test_euclidean_distance(from_lat,from_lon,to_lat,to_lon,from_alt,to_alt,expected):
+    result = euclidean_distance(from_lat,from_lon,from_alt,to_lat,to_lon,to_alt)
+    assert result == pytest.approx(expected)
 
 
 @pytest.mark.parametrize(
@@ -73,3 +84,28 @@ def test_wrong_inputs(from_lat,from_lon,to_lat,to_lon,from_alt,to_alt):
 
      with pytest.raises(AssertionError):
          vertical_distance(from_alt, to_alt)
+
+
+@pytest.mark.parametrize(
+    "from_lat,from_lon,to_lat,to_lon",
+    [(51.507389, 0.127806, 50.6083, -1.9608),
+    (0, 0, 0, 0),
+    (89, 40, 89.1, 40)
+    ]
+)
+def test_optional_params(from_lat,from_lon,to_lat,to_lon):
+    """
+    Some distance functions take as optional params:
+    - radius/major_semiaxis (geodesic, great_circle, euclidean)
+    - flattening (geodesic)
+
+    Given all else is equal then:
+        geodesic_distance(..., flattening=0) == great_circle_distance(...)
+    """
+    new_r = 6378388
+    result = geodesic_distance(
+        from_lat,from_lon,to_lat,to_lon, major_semiaxis=new_r, flattening=0
+        )
+    assert result == pytest.approx(great_circle_distance(
+            from_lat,from_lon, to_lat,to_lon,radius=new_r)
+            )

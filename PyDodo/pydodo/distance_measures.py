@@ -7,39 +7,32 @@ from .config_param import config_param
 from . import request_position
 from . import utils
 
-# Get default value for Earth readius from the config file (in metres)
-EARTH_RADIUS = config_param('earth_radius_m')
+# Default for major (equatorial) radius and flattening are 'WGS-84' values.
+major_semiaxis, minor_semiaxis, ellipse_flattening = distance.ELLIPSOIDS['WGS-84']
+EARTH_RADIUS = major_semiaxis * 1000 # convert to metres
 
 
-def _validate_altitude(alt):
-    assert alt >= 0, "Invalid value {} for altitude".format(alt)
-
-
-def geodesic_distance(from_lat, from_lon, to_lat, to_lon, major_semiaxis=None, flattening=None):
+def geodesic_distance(from_lat, from_lon, to_lat, to_lon, major_semiaxis=EARTH_RADIUS, flattening=ellipse_flattening):
     """
     Get geodesic distance between two (lat, lon) points in metres.
-    Default for major_semiaxis and flattening are 'WGS-84' values (used if both None).
 
     :param major_semiaxis: Optional, the major (equatorial) radius of the ellipsoid in metres.
-    :param flattening: Optional, the ellipsoidal flattening.
+    :param ellipse_flattening: Optional, the ellipsoidal flattening.
     """
     utils._validate_latitude(from_lat)
     utils._validate_longitude(from_lon)
     utils._validate_latitude(to_lat)
     utils._validate_longitude(to_lon)
+    utils._validate_is_positive(major_semiaxis, 'major_semiaxis')
+    utils._validate_is_positive(flattening, 'flattening')
 
-    if major_semiaxis == None and flattening == None:
-        ellipsoid='WGS-84'
-    else:
-        # GeoPy uses major_semiaxis and flattening, minor_semiaxis value is ignored
-        # All values have to be provided but minor_semiaxis does not matter
-        major_km = major_semiaxis/1000 # convert to km
-        ellipsoid=(major_km, 6356.7, flattening)
-
+    # For GeoPy need to provide (major_semiaxis, minor_semiaxis, flattening)
+    # Only major_semiaxis and flattening values are used
+    # --> minor_semiaxis value is ignored so does not matter
     return distance.geodesic(
         (from_lat, from_lon),
         (to_lat, to_lon),
-        ellipsoid=ellipsoid
+        ellipsoid=(major_semiaxis/1000, minor_semiaxis, flattening) #convert to km
         ).meters
 
 
@@ -53,6 +46,7 @@ def great_circle_distance(from_lat, from_lon, to_lat, to_lon, radius=EARTH_RADIU
     utils._validate_longitude(from_lon)
     utils._validate_latitude(to_lat)
     utils._validate_longitude(to_lon)
+    utils._validate_is_positive(radius, 'radius')
 
     # convert radius to km
     earth_radius_km = radius/1000
@@ -68,8 +62,8 @@ def vertical_distance(from_alt, to_alt):
     """
     Get vertical distance in metres between two altitudes (provided in metres).
     """
-    _validate_altitude(from_alt)
-    _validate_altitude(to_alt)
+    utils._validate_is_positive(from_alt, 'altitude')
+    utils._validate_is_positive(to_alt, 'altitude')
 
     return abs(from_alt - to_alt)
 
@@ -82,7 +76,7 @@ def convert_lat_lon_to_cartesian(lat, lon, alt = 0, radius=EARTH_RADIUS):
     :param radius: Earth radius in metres.
     """
 
-    R = radius*1000 + alt
+    R = radius + alt
     lat_r = np.deg2rad(lat)
     lon_r = np.deg2rad(lon)
 
@@ -101,10 +95,11 @@ def euclidean_distance(from_lat, from_lon, from_alt, to_lat, to_lon, to_alt, rad
     """
     utils._validate_latitude(from_lat)
     utils._validate_longitude(from_lon)
-    _validate_altitude(from_alt)
+    utils._validate_is_positive(from_alt, 'altitude')
     utils._validate_latitude(to_lat)
     utils._validate_longitude(to_lon)
-    _validate_altitude(to_alt)
+    utils._validate_is_positive(to_alt, 'altitude')
+    utils._validate_is_positive(radius, 'radius')
 
     from_cartesian = convert_lat_lon_to_cartesian(from_lat, from_lon, from_alt, radius)
     to_cartesian = convert_lat_lon_to_cartesian(to_lat, to_lon, to_alt, radius)
@@ -112,7 +107,7 @@ def euclidean_distance(from_lat, from_lon, from_alt, to_lat, to_lon, to_alt, rad
     return euclidean(from_cartesian, to_cartesian)
 
 
-def get_distance(from_pos, to_pos, measure, radius=None, flattening=None):
+def get_distance(from_pos, to_pos, measure, radius=EARTH_RADIUS, flattening=ellipse_flattening):
     """
     Get distance (geodesic, great circle, vertical or euclidean) between the positions of a pair of aircraft.
 
@@ -180,7 +175,7 @@ def get_pos_df(from_aircraft_id, to_aircraft_id):
     return pos_df
 
 
-def get_separation(from_aircraft_id, to_aircraft_id, measure, radius=None, flattening=None):
+def get_separation(from_aircraft_id, to_aircraft_id, measure, radius=EARTH_RADIUS, flattening=ellipse_flattening):
     """
     Get separation (geodesic, great circle, vertical or euclidean) betweel all pairs of "from" and "to" aircraft.
 
@@ -218,7 +213,7 @@ def get_separation(from_aircraft_id, to_aircraft_id, measure, radius=None, flatt
     )
 
 
-def geodesic_separation(from_aircraft_id, to_aircraft_id=None, major_semiaxis=None, flattening=None):
+def geodesic_separation(from_aircraft_id, to_aircraft_id=None, major_semiaxis=EARTH_RADIUS, flattening=ellipse_flattening):
     """
     Get geodesic separation in metres between the positions of all from_aircraft_id and to_aircraft_id pairs of aircraft.
     """
