@@ -21,6 +21,7 @@ default:
   endpoint_create_scenario: "scenario"
   endpoint_create_aircraft: "cre"
   endpoint_aircraft_position: "pos"
+  endpoint_aircraft_flight_level: "alt"
   endpoint_change_altitude: "alt"
   endpoint_change_heading: "hdg"
   endpoint_change_speed: "spd"
