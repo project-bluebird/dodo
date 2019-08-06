@@ -1,6 +1,5 @@
 import pytest
 import math
-from geopy import distance
 
 from pydodo import (
     geodesic_distance,

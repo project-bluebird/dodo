@@ -26,13 +26,12 @@ def geodesic_distance(from_lat, from_lon, to_lat, to_lon, major_semiaxis=EARTH_R
     utils._validate_is_positive(major_semiaxis, 'major_semiaxis')
     utils._validate_is_positive(flattening, 'flattening')
 
-    # For GeoPy need to provide (major_semiaxis, minor_semiaxis, flattening)
-    # Only major_semiaxis and flattening values are used
-    # --> minor_semiaxis value is ignored so does not matter
+    # For GeoPy need to provide (major_semiaxis, minor_semiaxis, flattening) but
+    # only major_semiaxis & flattening vals are used --> ignore minor_semiaxis
     return distance.geodesic(
         (from_lat, from_lon),
         (to_lat, to_lon),
-        ellipsoid=(major_semiaxis/1000, minor_semiaxis, flattening) #convert to km
+        ellipsoid=(major_semiaxis/1000, minor_semiaxis, flattening) # convert to km
         ).meters
 
 
