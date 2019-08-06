@@ -26,6 +26,9 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 - [Get aircraft position](#get-aircraft-position)
 - [Get all aircraft positions](#get-all-aircraft-positions)
 - [List Route](#list-aircraft-route)
+- [Current flight level](#current-flight-level) [TO DO]
+- [Requested flight level](#requested-flight-level) [TO DO]
+- [Cleared flight level](#cleared-flight-level) [TO DO]
 
 ### Aircraft control
 
@@ -232,6 +235,39 @@ If the corresponding aircraft has no route information, an empty dataframe is re
 If any other error occurs (e.g. a failure to parse the route information), an exception is thrown.
 
 **Description:** Get a dataframe of waypoints on an aircraft's route.
+
+## Current flight level
+
+**Function name:** `current_flight_level`
+
+**Parameters:**
+- `aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
+
+**Return value:** A non-negative double. The aircraft's current flight level in meters. If an invalid ID is given, or the call to Bluebird fails, an exception is thrown.
+
+**Description:** Get the aircraft's current flight level (in meters).
+
+## Requested flight level
+
+**Function name:** `requested_flight_level`
+
+**Parameters:**
+- `aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
+
+**Return value:** A non-negative double. The aircraft's requested flight level in meters. If an invalid ID is given, or the call to Bluebird fails, an exception is thrown.
+
+**Description:** Get the aircraft's requested flight level (in meters). Can only be returned if the aircraft has a defined route. 
+
+## Cleared flight level
+
+**Function name:** `cleared_flight_level`
+
+**Parameters:**
+- `aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
+
+**Return value:** A non-negative double. The aircraft's cleared flight level in meters. If an invalid ID is given, or the call to Bluebird fails, an exception is thrown.
+
+**Description:** Get the aircraft's cleared flight level (in meters). The initial cleared flight level is set to the initial altitude when a scenario is loaded.
 
 ## Change aircraft altitude
 
