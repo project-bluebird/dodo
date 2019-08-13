@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-import pyproj
 from geopy import distance
 from scipy.spatial.distance import euclidean
 
@@ -65,7 +64,29 @@ def vertical_distance(from_alt, to_alt):
     return abs(from_alt - to_alt)
 
 
-def euclidean_distance(from_lat, from_lon, from_alt, to_lat, to_lon, to_alt, radius=_EARTH_RADIUS):
+def lla_to_ECEF(lat, lon, alt = 0, radius=_EARTH_RADIUS, f=_FLATTENING ):
+    """
+    Calculates ECEF coordinates of a point from lat, lon and alt.
+
+    :param alt: altitude in metres.
+    :param radius: Earth radius in metres (WGS84).
+    :param f: ellipsoidal flattening (WGS84).
+    :return:
+    """
+    lat_r = np.deg2rad(lat)
+    lon_r = np.deg2rad(lon)
+
+    e2 = 1 - (1 - f) * (1 - f)
+    N = radius / np.sqrt(1 - e2 * np.power(np.sin(lat_r), 2))
+
+    x = (N + alt) * np.cos(lat_r) * np.cos(lon_r)
+    y = (N + alt) * np.cos(lat_r) * np.sin(lon_r)
+    z = ((1-e2) * N + alt) * np.sin(lat_r)
+
+    return (x,y,z)
+
+
+def euclidean_distance(from_lat, from_lon, from_alt, to_lat, to_lon, to_alt, major_semiaxis=_EARTH_RADIUS, flattening=_FLATTENING):
     """
     Get euclidean distance between two (lat, lon, alt) points in metres.
 
@@ -77,13 +98,10 @@ def euclidean_distance(from_lat, from_lon, from_alt, to_lat, to_lon, to_alt, rad
     utils._validate_latitude(to_lat)
     utils._validate_longitude(to_lon)
     utils._validate_is_positive(to_alt, 'altitude')
-    utils._validate_is_positive(radius, 'radius')
+    utils._validate_is_positive( major_semiaxis, ' major_semiaxis')
 
-    ecef = pyproj.Proj(proj='geocent', ellps='WGS84', datum='WGS84')
-    lla = pyproj.Proj(proj='latlong', ellps='WGS84', datum='WGS84')
-
-    from_ECEF = pyproj.transform(lla, ecef, from_lon, from_lat, from_alt)
-    to_ECEF = pyproj.transform(lla, ecef, to_lon, to_lat, to_alt)
+    from_ECEF = lla_to_ECEF(from_lat, from_lon, from_alt,  major_semiaxis, flattening)
+    to_ECEF = lla_to_ECEF(to_lat, to_lon, to_alt,  major_semiaxis, flattening)
 
     return euclidean(from_ECEF, to_ECEF)
 
@@ -129,7 +147,8 @@ def get_distance(from_pos, to_pos, measure, radius=_EARTH_RADIUS, flattening=_FL
             to_pos['latitude'],
             to_pos['longitude'],
             to_pos['altitude'],
-            radius=radius
+             major_semiaxis=radius,
+             flattening=flattening
         )
 
 
@@ -215,8 +234,8 @@ def vertical_separation(from_aircraft_id, to_aircraft_id=None):
     return get_separation(from_aircraft_id, to_aircraft_id, measure='vertical')
 
 
-def euclidean_separation(from_aircraft_id, to_aircraft_id=None, radius=_EARTH_RADIUS):
+def euclidean_separation(from_aircraft_id, to_aircraft_id=None,  major_semiaxis=_EARTH_RADIUS, flattening=_FLATTENING):
     """
     Get euclidean separation in metres between the positions of all from_aircraft_id and to_aircraft_id pairs of aircraft.
     """
-    return get_separation(from_aircraft_id, to_aircraft_id, measure='euclidean', radius=radius)
+    return get_separation(from_aircraft_id, to_aircraft_id, measure='euclidean',  radius=major_semiaxis, flattening=flattening)

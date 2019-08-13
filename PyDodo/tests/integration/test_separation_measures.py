@@ -1,5 +1,6 @@
 import pytest
 import math
+import pyproj
 import pandas as pd
 from scipy.spatial.distance import euclidean
 
@@ -38,7 +39,7 @@ SCALE_FEET_TO_METRES = 0.3048
 
 
 @pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
-def test_separation(expected_great_circle, lla_to_ECEF):
+def test_separation(expected_great_circle):
     """
     Tests that all separation functions return a dataframe using a variety of inputs.
     """
@@ -63,24 +64,28 @@ def test_separation(expected_great_circle, lla_to_ECEF):
                           speed = speed_2)
     assert cmd == True
 
-    pos = geodesic_separation(from_aircraft_id = [aircraft_id, aircraft_id_2], to_aircraft_id = [aircraft_id, aircraft_id_2])
-    assert isinstance(pos, pd.DataFrame)
-    assert pos.loc[aircraft_id, aircraft_id_2] == pytest.approx(1000*176.92, 0.01)
+    pos1 = geodesic_separation(from_aircraft_id = [aircraft_id, aircraft_id_2], to_aircraft_id = [aircraft_id, aircraft_id_2])
+    assert isinstance(pos1, pd.DataFrame)
+    assert pos1.loc[aircraft_id, aircraft_id_2] == pytest.approx(1000*176.92, 0.01)
 
-    pos = great_circle_separation(from_aircraft_id = [aircraft_id, aircraft_id_2], to_aircraft_id = aircraft_id)
-    assert isinstance(pos, pd.DataFrame)
+    pos2 = great_circle_separation(from_aircraft_id = [aircraft_id, aircraft_id_2], to_aircraft_id = aircraft_id)
+    assert isinstance(pos2, pd.DataFrame)
     expected = expected_great_circle(latitude, longitude, latitude_2, longitude_2)
-    assert pos.loc[aircraft_id_2, aircraft_id] == pytest.approx(expected, 0.01)
+    assert pos2.loc[aircraft_id_2, aircraft_id] == pytest.approx(expected, 0.01)
 
-    pos = vertical_separation(from_aircraft_id = aircraft_id, to_aircraft_id = [aircraft_id, aircraft_id_2])
-    assert isinstance(pos, pd.DataFrame)
+    pos3 = vertical_separation(from_aircraft_id = aircraft_id, to_aircraft_id = [aircraft_id, aircraft_id_2])
+    assert isinstance(pos3, pd.DataFrame)
     ## altitude is provided as flight_level, which must be converted to:
     # feet (*100) and then to metres (*0.3048)
-    assert pos.loc[aircraft_id, aircraft_id_2] == abs(flight_level - flight_level_2)*100*SCALE_FEET_TO_METRES
+    assert pos3.loc[aircraft_id, aircraft_id_2] == abs(flight_level - flight_level_2)*100*SCALE_FEET_TO_METRES
 
-    pos = euclidean_separation(from_aircraft_id = aircraft_id, to_aircraft_id = aircraft_id_2)
-    assert isinstance(pos, pd.DataFrame)
+    pos4 = euclidean_separation(from_aircraft_id = aircraft_id, to_aircraft_id = aircraft_id_2)
+    assert isinstance(pos4, pd.DataFrame)
 
-    from_ECEF = lla_to_ECEF(latitude, longitude, flight_level*100*SCALE_FEET_TO_METRES)
-    to_ECEF = lla_to_ECEF(latitude_2, longitude_2, flight_level_2*100*SCALE_FEET_TO_METRES)
-    assert pos.loc[aircraft_id, aircraft_id_2] == pytest.approx(euclidean(from_ECEF, to_ECEF), 0.01)
+    ecef = pyproj.Proj(proj='geocent', ellps='WGS84', datum='WGS84')
+    lla = pyproj.Proj(proj='latlong', ellps='WGS84', datum='WGS84')
+
+    from_ECEF = pyproj.transform(lla, ecef, longitude, latitude, flight_level*100*SCALE_FEET_TO_METRES)
+    to_ECEF = pyproj.transform(lla, ecef, longitude_2, latitude_2, flight_level_2*100*SCALE_FEET_TO_METRES)
+
+    assert pos4.loc[aircraft_id, aircraft_id_2] == pytest.approx(euclidean(from_ECEF, to_ECEF), 0.01)

@@ -21,6 +21,10 @@ def test_geodesic_distance():
   # Compare to the result calculated using ArcGIS (to within 1% error):
   assert result == pytest.approx(1000*176.92, 0.01)
 
+  assert result == pytest.approx(
+      euclidean_distance(from_lat,from_lon,0,to_lat,to_lon,0), 0.01
+      )
+
   result = geodesic_distance(0.123456789, 0.123456789, 0.123456789, 0.123456789)
   assert result == 0
 
@@ -102,10 +106,21 @@ def test_optional_params(from_lat,from_lon,to_lat,to_lon):
     Given all else is equal then:
         geodesic_distance(..., flattening=0) == great_circle_distance(...)
     """
-    new_r = 6378388
-    result = geodesic_distance(
-        from_lat,from_lon,to_lat,to_lon, major_semiaxis=new_r, flattening=0
+    r = 6378388
+    f = 0
+
+    result1 = geodesic_distance(
+        from_lat,from_lon,to_lat,to_lon, major_semiaxis=r, flattening=f
         )
-    assert result == pytest.approx(great_circle_distance(
-            from_lat,from_lon, to_lat,to_lon,radius=new_r)
-            )
+    assert result1 == pytest.approx(
+        great_circle_distance(from_lat,from_lon, to_lat,to_lon,radius=r)
+        )
+
+    result2 = euclidean_distance(from_lat,from_lon,0,to_lat,to_lon,0,  major_semiaxis=r, flattening=f)
+    assert result2 == pytest.approx(
+        geodesic_distance(from_lat,from_lon, to_lat,to_lon, major_semiaxis=r, flattening=f), 0.01
+        )
+
+    assert result2 == pytest.approx(
+        great_circle_distance(from_lat,from_lon, to_lat,to_lon, radius=r), 0.01
+        )
