@@ -57,11 +57,12 @@ def test_vertical_distance(from_alt, to_alt):
 @pytest.mark.parametrize(
     "from_lat,from_lon,to_lat,to_lon,from_alt,to_alt,expected",
     [(45, 45, 45, 45, 1, 1, 0),
-    (21, 21, 21, 21, 1, 11, 10)]
+    (21, 21, 21, 21, 1, 11, 10),
+    (51.507389, 0.127806,50.6083, -1.9608, 50, 50, 1000*176.92)]
 )
 def test_euclidean_distance(from_lat,from_lon,to_lat,to_lon,from_alt,to_alt,expected):
     result = euclidean_distance(from_lat,from_lon,from_alt,to_lat,to_lon,to_alt)
-    assert result == pytest.approx(expected)
+    assert result == pytest.approx(expected, 0.01)
 
 
 @pytest.mark.parametrize(

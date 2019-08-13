@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import pyproj
 from geopy import distance
 from scipy.spatial.distance import euclidean
 
@@ -8,11 +9,11 @@ from . import request_position
 from . import utils
 
 # Default for major (equatorial) radius and flattening are 'WGS-84' values.
-major_semiaxis, minor_semiaxis, ellipse_flattening = distance.ELLIPSOIDS['WGS-84']
-EARTH_RADIUS = major_semiaxis * 1000 # convert to metres
+major_semiaxis, minor_semiaxis, _FLATTENING = distance.ELLIPSOIDS['WGS-84']
+_EARTH_RADIUS = major_semiaxis * 1000 # convert to metres
 
 
-def geodesic_distance(from_lat, from_lon, to_lat, to_lon, major_semiaxis=EARTH_RADIUS, flattening=ellipse_flattening):
+def geodesic_distance(from_lat, from_lon, to_lat, to_lon, major_semiaxis=_EARTH_RADIUS, flattening=_FLATTENING ):
     """
     Get geodesic distance between two (lat, lon) points in metres.
 
@@ -35,7 +36,7 @@ def geodesic_distance(from_lat, from_lon, to_lat, to_lon, major_semiaxis=EARTH_R
         ).meters
 
 
-def great_circle_distance(from_lat, from_lon, to_lat, to_lon, radius=EARTH_RADIUS):
+def great_circle_distance(from_lat, from_lon, to_lat, to_lon, radius=_EARTH_RADIUS):
     """
     Get great-circle distance between two (lat, lon) points in metres.
 
@@ -47,13 +48,10 @@ def great_circle_distance(from_lat, from_lon, to_lat, to_lon, radius=EARTH_RADIU
     utils._validate_longitude(to_lon)
     utils._validate_is_positive(radius, 'radius')
 
-    # convert radius to km
-    earth_radius_km = radius/1000
-
     return distance.great_circle(
         (from_lat, from_lon),
         (to_lat, to_lon),
-        radius=earth_radius_km
+        radius=radius/1000 # convert to km
         ).meters
 
 
@@ -67,26 +65,49 @@ def vertical_distance(from_alt, to_alt):
     return abs(from_alt - to_alt)
 
 
-def convert_lat_lon_to_cartesian(lat, lon, alt = 0, radius=EARTH_RADIUS):
-    """
-    Calculates cartesian coordinates of a point from lat, lon and alt.
+# def convert_lat_lon_to_cartesian(lat, lon, alt = 0, radius=_EARTH_RADIUS):
+#     """
+#     Calculates spherical cartesian coordinates of a point from lat, lon and alt.
+#
+#     :param alt: altitude in metres.
+#     :param radius: Earth radius in metres (WGS84).
+#     :return:
+#     """
+#
+#     R = radius + alt
+#     lat_r = np.deg2rad(lat)
+#     lon_r = np.deg2rad(lon)
+#
+#     x = R * np.cos(lat_r) * np.cos(lon_r)
+#     y = R * np.cos(lat_r) * np.sin(lon_r)
+#     z = R * np.sin(lat_r)
+#
+#     return (x,y,z)
+#
+#
+# def lla_to_ECEF(lat, lon, alt = 0, radius=_EARTH_RADIUS, f=_FLATTENING ):
+#     """
+#     Calculates ECEF coordinates of a point from lat, lon and alt.
+#       
+#     :param alt: altitude in metres.
+#     :param radius: Earth radius in metres (WGS84).
+#     :param f: ellipsoidal flattening (WGS84).
+#     :return:
+#     """
+#     lat_r = np.deg2rad(lat)
+#     lon_r = np.deg2rad(lon)
+#
+#     e2 = 1 - (1 - f) * (1 - f)
+#     N = radius / np.sqrt(1 - e2 * np.power(np.sin(lat_r), 2))
+#
+#     x = (N + alt) * np.cos(lat_r) * np.cos(lon_r)
+#     y = (N + alt) * np.cos(lat_r) * np.sin(lon_r)
+#     z = ((1-e2) * N + alt) * np.sin(lat_r)
+#
+#     return (x,y,z)
 
-    :param alt: altitude in metres.
-    :param radius: Earth radius in metres.
-    """
 
-    R = radius + alt
-    lat_r = np.deg2rad(lat)
-    lon_r = np.deg2rad(lon)
-
-    x = R * np.cos(lat_r) * np.cos(lon_r)
-    y = R * np.cos(lat_r) * np.sin(lon_r)
-    z = R * np.sin(lat_r)
-
-    return (x,y,z)
-
-
-def euclidean_distance(from_lat, from_lon, from_alt, to_lat, to_lon, to_alt, radius=EARTH_RADIUS):
+def euclidean_distance(from_lat, from_lon, from_alt, to_lat, to_lon, to_alt, radius=_EARTH_RADIUS):
     """
     Get euclidean distance between two (lat, lon, alt) points in metres.
 
@@ -100,13 +121,16 @@ def euclidean_distance(from_lat, from_lon, from_alt, to_lat, to_lon, to_alt, rad
     utils._validate_is_positive(to_alt, 'altitude')
     utils._validate_is_positive(radius, 'radius')
 
-    from_cartesian = convert_lat_lon_to_cartesian(from_lat, from_lon, from_alt, radius)
-    to_cartesian = convert_lat_lon_to_cartesian(to_lat, to_lon, to_alt, radius)
+    ecef = pyproj.Proj(proj='geocent', ellps='WGS84', datum='WGS84')
+    lla = pyproj.Proj(proj='latlong', ellps='WGS84', datum='WGS84')
+
+    from_cartesian = pyproj.transform(lla, ecef, from_lon, from_lat, from_alt)
+    to_cartesian = pyproj.transform(lla, ecef, to_lon, to_lat, to_alt)
 
     return euclidean(from_cartesian, to_cartesian)
 
 
-def get_distance(from_pos, to_pos, measure, radius=EARTH_RADIUS, flattening=ellipse_flattening):
+def get_distance(from_pos, to_pos, measure, radius=_EARTH_RADIUS, flattening=_FLATTENING):
     """
     Get distance (geodesic, great circle, vertical or euclidean) between the positions of a pair of aircraft.
 
@@ -174,7 +198,7 @@ def get_pos_df(from_aircraft_id, to_aircraft_id):
     return pos_df
 
 
-def get_separation(from_aircraft_id, to_aircraft_id, measure, radius=EARTH_RADIUS, flattening=ellipse_flattening):
+def get_separation(from_aircraft_id, to_aircraft_id, measure, radius=_EARTH_RADIUS, flattening=_FLATTENING):
     """
     Get separation (geodesic, great circle, vertical or euclidean) betweel all pairs of "from" and "to" aircraft.
 
@@ -212,14 +236,14 @@ def get_separation(from_aircraft_id, to_aircraft_id, measure, radius=EARTH_RADIU
     )
 
 
-def geodesic_separation(from_aircraft_id, to_aircraft_id=None, major_semiaxis=EARTH_RADIUS, flattening=ellipse_flattening):
+def geodesic_separation(from_aircraft_id, to_aircraft_id=None, major_semiaxis=_EARTH_RADIUS, flattening=_FLATTENING):
     """
     Get geodesic separation in metres between the positions of all from_aircraft_id and to_aircraft_id pairs of aircraft.
     """
     return get_separation(from_aircraft_id, to_aircraft_id, measure='geodesic', radius=major_semiaxis, flattening=flattening)
 
 
-def great_circle_separation(from_aircraft_id, to_aircraft_id=None, radius=EARTH_RADIUS):
+def great_circle_separation(from_aircraft_id, to_aircraft_id=None, radius=_EARTH_RADIUS):
     """
     Get great circle separation in metres between the positions of all from_aircraft_id and to_aircraft_id pairs of aircraft.
     """
@@ -233,7 +257,7 @@ def vertical_separation(from_aircraft_id, to_aircraft_id=None):
     return get_separation(from_aircraft_id, to_aircraft_id, measure='vertical')
 
 
-def euclidean_separation(from_aircraft_id, to_aircraft_id=None, radius=EARTH_RADIUS):
+def euclidean_separation(from_aircraft_id, to_aircraft_id=None, radius=_EARTH_RADIUS):
     """
     Get euclidean separation in metres between the positions of all from_aircraft_id and to_aircraft_id pairs of aircraft.
     """
