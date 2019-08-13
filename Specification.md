@@ -433,7 +433,7 @@ Either the `altitude` or `flight_level` argument must be given, but not both.
 **Parameters:**
 - `from_aircraft_id`: A string vector of aircraft IDs.
 - `to_aircraft_id`: An optional string vector of aircraft IDs. If not provided, `to_aircraft_id`=`from_aircraft_id`.
-- `radius`: An optional double. The radius of the earth in metres. The default value is 6378137 m.
+- `major_semiaxis`: An optional double. The major (equatorial) radius of the ellipsoid. The default value is for WGS84.
 - `flattening`: An optional double. Ellipsoid flattening. The default value is for WGS84.
 
 **Return value:** A dataframe of doubles with `from_aircraft_id` as row names and `to_aircraft_id` as column names. The values are the euclidean distance in metres between the positions of the aircraft pair at each [`from_aircraft_id`, `to_aircraft_id`] index.
@@ -451,7 +451,7 @@ Either the `altitude` or `flight_level` argument must be given, but not both.
 - `to_lat`: A double in the range [-90, 90]. The `to` point's latitude.
 - `to_lon`: A double in the range [-180, 180). The `to` point's longitude.
 - `to_alt`: A non-negatige double. The `to` point's altitude in metres.
-- `radius`: An optional double. The radius of the earth in metres. The default value is 6378137 m.
+- `major_semiaxis`: An optional double. The major (equatorial) radius of the ellipsoid. The default value is for WGS84.
 - `flattening`: An optional double. Ellipsoid flattening. The default value is for WGS84.
 
 **Return value:** A double, euclidean distance between two points.
