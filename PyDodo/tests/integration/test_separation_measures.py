@@ -1,6 +1,7 @@
 import pytest
 import math
 import pandas as pd
+from scipy.spatial.distance import euclidean
 
 from pydodo import (
     aircraft_position,
@@ -37,7 +38,7 @@ SCALE_FEET_TO_METRES = 0.3048
 
 
 @pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
-def test_separation(expected_great_circle):
+def test_separation(expected_great_circle, lla_to_ECEF):
     """
     Tests that all separation functions return a dataframe using a variety of inputs.
     """
@@ -79,4 +80,7 @@ def test_separation(expected_great_circle):
 
     pos = euclidean_separation(from_aircraft_id = aircraft_id, to_aircraft_id = aircraft_id_2)
     assert isinstance(pos, pd.DataFrame)
-    #assert pos.loc[aircraft_id, aircraft_id_2] == abs(flight_level - flight_level_2)*100*SCALE_FEET_TO_METRES
+
+    from_ECEF = lla_to_ECEF(latitude, longitude, flight_level*100*SCALE_FEET_TO_METRES)
+    to_ECEF = lla_to_ECEF(latitude_2, longitude_2, flight_level_2*100*SCALE_FEET_TO_METRES)
+    assert pos.loc[aircraft_id, aircraft_id_2] == pytest.approx(euclidean(from_ECEF, to_ECEF), 0.01)

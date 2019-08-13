@@ -65,48 +65,6 @@ def vertical_distance(from_alt, to_alt):
     return abs(from_alt - to_alt)
 
 
-# def convert_lat_lon_to_cartesian(lat, lon, alt = 0, radius=_EARTH_RADIUS):
-#     """
-#     Calculates spherical cartesian coordinates of a point from lat, lon and alt.
-#
-#     :param alt: altitude in metres.
-#     :param radius: Earth radius in metres (WGS84).
-#     :return:
-#     """
-#
-#     R = radius + alt
-#     lat_r = np.deg2rad(lat)
-#     lon_r = np.deg2rad(lon)
-#
-#     x = R * np.cos(lat_r) * np.cos(lon_r)
-#     y = R * np.cos(lat_r) * np.sin(lon_r)
-#     z = R * np.sin(lat_r)
-#
-#     return (x,y,z)
-#
-#
-# def lla_to_ECEF(lat, lon, alt = 0, radius=_EARTH_RADIUS, f=_FLATTENING ):
-#     """
-#     Calculates ECEF coordinates of a point from lat, lon and alt.
-#       
-#     :param alt: altitude in metres.
-#     :param radius: Earth radius in metres (WGS84).
-#     :param f: ellipsoidal flattening (WGS84).
-#     :return:
-#     """
-#     lat_r = np.deg2rad(lat)
-#     lon_r = np.deg2rad(lon)
-#
-#     e2 = 1 - (1 - f) * (1 - f)
-#     N = radius / np.sqrt(1 - e2 * np.power(np.sin(lat_r), 2))
-#
-#     x = (N + alt) * np.cos(lat_r) * np.cos(lon_r)
-#     y = (N + alt) * np.cos(lat_r) * np.sin(lon_r)
-#     z = ((1-e2) * N + alt) * np.sin(lat_r)
-#
-#     return (x,y,z)
-
-
 def euclidean_distance(from_lat, from_lon, from_alt, to_lat, to_lon, to_alt, radius=_EARTH_RADIUS):
     """
     Get euclidean distance between two (lat, lon, alt) points in metres.
@@ -124,10 +82,10 @@ def euclidean_distance(from_lat, from_lon, from_alt, to_lat, to_lon, to_alt, rad
     ecef = pyproj.Proj(proj='geocent', ellps='WGS84', datum='WGS84')
     lla = pyproj.Proj(proj='latlong', ellps='WGS84', datum='WGS84')
 
-    from_cartesian = pyproj.transform(lla, ecef, from_lon, from_lat, from_alt)
-    to_cartesian = pyproj.transform(lla, ecef, to_lon, to_lat, to_alt)
+    from_ECEF = pyproj.transform(lla, ecef, from_lon, from_lat, from_alt)
+    to_ECEF = pyproj.transform(lla, ecef, to_lon, to_lat, to_alt)
 
-    return euclidean(from_cartesian, to_cartesian)
+    return euclidean(from_ECEF, to_ECEF)
 
 
 def get_distance(from_pos, to_pos, measure, radius=_EARTH_RADIUS, flattening=_FLATTENING):
