@@ -437,7 +437,7 @@ Either the `altitude` or `flight_level` argument must be given, but not both.
 
 **Return value:** A dataframe of doubles with `from_aircraft_id` as row names and `to_aircraft_id` as column names. The values are the euclidean distance in metres between the positions of the aircraft pair at each [`from_aircraft_id`, `to_aircraft_id`] index.
 
-**Description:** Get euclidean separation in metres between the positions of all `from_aircraft_id` and `to_aircraft_id` pairs of aircraft.
+**Description:** Get euclidean separation in metres between the positions of all `from_aircraft_id` and `to_aircraft_id` pairs of aircraft. The aircraft positions are converted to [ECEF](https://en.wikipedia.org/wiki/ECEF) coordinates to calculate separation.
 
 ## Euclidean distance
 
@@ -454,4 +454,4 @@ Either the `altitude` or `flight_level` argument must be given, but not both.
 
 **Return value:** A double, euclidean distance between two points.
 
-**Description:** Get euclidean distance in metres between two points' positions defined as [latitude, logitude, altitude].
+**Description:** Get euclidean distance in metres between two points' positions defined as [latitude, logitude, altitude]. The points are converted to [ECEF](https://en.wikipedia.org/wiki/ECEF) coordinates to calculate distance.
