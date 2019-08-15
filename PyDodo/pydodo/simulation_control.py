@@ -1,21 +1,37 @@
-import requests
-
 from . import utils
 from .utils import post_request
 from .config_param import config_param
 
 
-def load_scenario(filename, multiplier=1.0):
+def create_scenario(filename, scenario):
     """
-    Load scenario from file and start the simulation.
+    Create scenario file on the simulator host.
 
-    :param filename : A string, path to scenario file
+    :param filename: A string, path to scenario file on local machine.
+    :param scenario: A string, name of file to store scenario under on the simulator host.
     :return :
     """
-    utils._validate_string(filename, "file path")
+    utils._validate_string(filename, "filename")
+    utils._validate_string(scenario, "scenario")
+
+    content = [line.rstrip('\n') for line in open(filename)]
+
+    body = {"scn_name": scenario, "content": content}
+    return post_request(config_param("endpoint_create_scenario"), body)
+
+
+def load_scenario(scenario, multiplier=1.0):
+    """
+    Load scenario and start the simulation.
+    The scenario must exist on the simulator host.
+
+    :param scenario : A string, the name of the scenario.
+    :return :
+    """
+    utils._validate_string(scenario, "scenario")
     utils._validate_multiplier(multiplier)
 
-    body = {"filename": filename, "multiplier": multiplier}
+    body = {"filename": scenario, "multiplier": multiplier}
     return post_request(config_param("endpoint_load_scenario"), body)
 
 
@@ -45,3 +61,14 @@ def set_simulation_rate_multiplier(multiplier):
 
     body = {"multiplier": multiplier}
     return post_request(config_param("endpoint_set_simulation_rate_multiplier"), body)
+
+
+def set_simulator_mode(mode):
+    assert mode == 'agent' or mode == 'sandbox', 'Invalid value {} for mode'.format(mode)
+
+    body = {"mode": mode}
+    return post_request(config_param("endpoint_simulator_mode"), body)
+
+
+def simulation_step():
+    return post_request(config_param("endpoint_simulation_step"))
