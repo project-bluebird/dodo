@@ -119,3 +119,4 @@ def _validate_multiplier(dtmult):
 
 def _validate_is_positive(val, measure):
     assert val >= 0, "Invalid value {} for {}".format(val, measure)
+

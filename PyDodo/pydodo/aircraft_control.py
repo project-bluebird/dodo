@@ -7,6 +7,7 @@ def change_altitude(aircraft_id, altitude=None, flight_level=None, vertical_spee
     """
     Change aircraft altitude.
     """
+
     utils._validate_id(aircraft_id)
     assert (
         altitude is None or flight_level is None

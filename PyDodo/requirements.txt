@@ -5,3 +5,5 @@ pyyaml
 geopy>=1.13
 scipy
 pyproj
+aiohttp
+asyncio
