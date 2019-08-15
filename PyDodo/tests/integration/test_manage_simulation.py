@@ -100,7 +100,13 @@ def test_load_bluesky():
     Check that can load BlueSky scenario files (if using BlueSky) and specify
     the sim rate multiplier.
     """
+    resp = reset_simulation()
+    assert resp == True
+    
     resp = load_scenario("scenario/8.scn")
+    assert resp == True
+
+    resp = reset_simulation()
     assert resp == True
 
     resp = load_scenario("scenario/8.scn", 1.5)
