@@ -43,3 +43,8 @@ script:
   - "if [ \"$TRAVIS_OS_NAME\" = \"linux\" ]; then docker-compose up -d; sleep 20; docker-compose down; fi"
   # Run full integration tests
   - "if [ \"$TRAVIS_OS_NAME\" = \"linux\" ]; then docker-compose up -d; sleep 20; cd $DODO_HOME/PyDodo/ && pytest -vs tests/ && cd - ; docker-compose down; fi"
+
+# Finally test R packages
+language: "r"
+cache: "packages"
+warnings_are_errors: false
