@@ -5,12 +5,6 @@ PyDodo
 .. image:: https://travis-ci.com/alan-turing-institute/dodo.svg?branch=master
     :target: https://travis-ci.com/alan-turing-institute/dodo
 
-|
-
-.. image:: _static/dodo-bird.png
-
-|
-
 .. The toc directive (below) is necessary to populate the side bar in the html
    documentation. If you don't want it to show up on the html page, use
    the :hidden: directive. For a complete reference on the table of contents
