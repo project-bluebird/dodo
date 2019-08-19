@@ -27,6 +27,5 @@ Contributing to Dodo
 ====================
 
 We welcome developers! Simply fork it into your own private repository and
-submit a pull request when ready. You can contribute by adding new dataset-reading
-methods, new feature extraction methods or new classification algorithms.
-Please create an issue if you have any questions or problems with the code.
+submit a pull request when ready. Please create an issue if you have any questions
+or problems with the code.

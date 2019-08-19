@@ -15,6 +15,5 @@
 
 Example usage::
 
-    import pydodo
-
-    pydodo.reset_simulation()
+    >>> import pydodo
+    >>> pydodo.reset_simulation()
