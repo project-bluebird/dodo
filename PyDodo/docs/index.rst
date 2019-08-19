@@ -11,49 +11,22 @@ PyDodo
 
 |
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-
-   modules
-
-.. pydodo documentation master file, created by
-   sphinx-quickstart on Fri Aug 16 17:57:37 2019.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
-Welcome to pydodo's documentation!
-==================================
+.. The toc directive (below) is necessary to populate the side bar in the html
+   documentation. If you don't want it to show up on the html page, use
+   the :hidden: directive. For a complete reference on the table of contents
+   see: http://www.sphinx-doc.org/en/stable/markup/toctree.html
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Contents:
 
-.. automodule:: pydodo.aircraft_control
-   :members:
+   install
+   API
 
-.. automodule:: pydodo.config_param
-   :members:
+Contributing to Dodo
+====================
 
-.. automodule:: pydodo.create_aircraft
-   :members:
-
-.. automodule:: pydodo.list_route
-   :members:
-
-.. automodule:: pydodo.request_position
-   :members:
-
-.. automodule:: pydodo.simulation_control
-   :members:
-
-.. automodule:: pydodo.utils
-   :members:
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+We welcome developers! Simply fork it into your own private repository and
+submit a pull request when ready. You can contribute by adding new dataset-reading
+methods, new feature extraction methods or new classification algorithms.
+Please create an issue if you have any questions or problems with the code.
