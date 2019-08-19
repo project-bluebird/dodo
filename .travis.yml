@@ -3,7 +3,7 @@ branches:
   only:
   - "master"
   - "develop"
-  - "issue/68/CI"
+  - "issue/69/CI"
 
 os:
   - "linux"
