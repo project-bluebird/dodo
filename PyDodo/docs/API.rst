@@ -8,43 +8,43 @@
    contain the root `toctree` directive.
 
 `pydodo.aircraft_control`
-========================
+=========================
 
 .. automodule:: pydodo.aircraft_control
    :members:
 
-config_param
-============
+`pydodo.config_param`
+=====================
 
 .. automodule:: pydodo.config_param
    :members:
 
-create_aircraft
-===============
+`pydodo.create_aircraft`
+========================
 
 .. automodule:: pydodo.create_aircraft
    :members:
 
-list_route
-==========
+`pydodo.list_route`
+===================
 
 .. automodule:: pydodo.list_route
    :members:
 
-request_position
-================
+`pydodo.request_position`
+=========================
 
 .. automodule:: pydodo.request_position
    :members:
 
-simulation_control
-==================
+`pydodo.simulation_control`
+===========================
 
 .. automodule:: pydodo.simulation_control
    :members:
 
-utils
-=====
+`pydodo.utils`
+==============
 
 .. automodule:: pydodo.utils
    :members:
