@@ -6,6 +6,29 @@ from .config_param import config_param
 def change_altitude(aircraft_id, altitude=None, flight_level=None, vertical_speed=None):
     """
     Change aircraft altitude.
+
+    Parameters
+    ----------
+    aircraft_id : str
+        A string aircraft identifier. For the BlueSky simulator, this has to be
+        at least three characters.
+    altitude : double, default=None
+        A double in the range [0, 6000]. The requested altitude in feet. For
+        altitudes in excess of 6000ft a flight level should be specified
+        instead.
+    flight_level : int, default=None
+        An integer of 60 or more. The requested flight level.
+    vertical_speed : double, default=None [optional]
+
+    Returns
+    -------
+    True : boolean
+        TRUE if successful. Otherwise an exception is thrown.
+
+    Examples
+    --------
+    >>> pydodo.aircraft_control.change_altitude('BA1', ...)
+    >>>
     """
 
     utils._validate_id(aircraft_id)
