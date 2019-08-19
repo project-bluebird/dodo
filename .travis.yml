@@ -21,6 +21,7 @@ before_install:
   - "if [ \"$TRAVIS_OS_NAME\" = \"osx\" ]; then wget https://repo.continuum.io/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O miniconda.sh; fi"
   - "echo $PWD"
   - "git pull --all"
+  - "export DODO_HOME=$PWD"
 
 install:
   - "bash miniconda.sh -b -p $HOME/miniconda"
@@ -32,21 +33,13 @@ install:
   - "source $HOME/miniconda/etc/profile.d/conda.sh"
   - "export QT_QPA_PLATFORM='offscreen'"
   - "conda create -n p36 python=3.6"
-  - "conda create -n p37 python=3.7"
 
 script:
   - "conda activate p36"
-  - "pip install -r PyDodo/requirements.txt"
-  - "cd PyDodo/ && pytest -vs tests/ && cd -"
+  - "python --version"
+  - "pip install -r $DODO_HOME/PyDodo/requirements.txt"
+  - "cd $DODO_HOME/PyDodo/ && pytest -vs tests/ && cd -"
   # Test docker on Linux only as docker not yet supported on macOS within travis
   - "if [ \"$TRAVIS_OS_NAME\" = \"linux\" ]; then docker-compose up -d; sleep 20; docker-compose down; fi"
   # Run full integration tests
-  - "if [ \"$TRAVIS_OS_NAME\" = \"linux\" ]; then docker-compose up -d; sleep 20; cd PyDodo/ && pytest -vs tests/ && cd - ; docker-compose down; fi"
-  # Test on Python 3.7
-  - "conda activate p37"
-  - "pip install -r PyDodo/requirements.txt"
-  - "cd PyDodo/ && pytest -vs tests/ && cd -"
-  # Test docker on Linux only as docker not yet supported on macOS within travis
-  - "if [ \"$TRAVIS_OS_NAME\" = \"linux\" ]; then docker-compose up -d; sleep 20; docker-compose down; fi"
-  # Run full integration tests
-  - "if [ \"$TRAVIS_OS_NAME\" = \"linux\" ]; then docker-compose up -d; sleep 20; cd PyDodo/ && pytest -vs tests/ && cd - ; docker-compose down; fi"
+  - "if [ \"$TRAVIS_OS_NAME\" = \"linux\" ]; then docker-compose up -d; sleep 20; cd $DODO_HOME/PyDodo/ && pytest -vs tests/ && cd - ; docker-compose down; fi"
