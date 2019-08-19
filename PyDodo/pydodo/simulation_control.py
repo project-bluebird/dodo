@@ -25,8 +25,22 @@ def load_scenario(scenario, multiplier=1.0):
     Load scenario and start the simulation.
     The scenario must exist on the simulator host.
 
-    :param scenario : A string, the name of the scenario.
-    :return :
+    Parameters
+    ----------
+    filename : str
+        A string that contains the path to where the scenario file is located
+    multiplier : double
+        ...
+
+    Returns
+    -------
+        ...
+
+    Examples
+    --------
+    >>> pydodo.create_aircraft.load_scenario()
+    >>>
+
     """
     utils._validate_string(scenario, "scenario")
     utils._validate_multiplier(multiplier)
