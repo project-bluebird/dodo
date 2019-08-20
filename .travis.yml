@@ -13,7 +13,10 @@ compiler:
   - "gcc"
   - "clang"
 
+language: "r"
+
 sudo: "require"
+warnings_are_errors: false
 
 before_install:
   - "if [ \"$TRAVIS_OS_NAME\" = \"linux\" ]; then sudo apt-get update -qq; sudo apt-get install libx11-xcb1; fi"
@@ -39,8 +42,7 @@ script:
   - "python --version"
   - "pip install -r $DODO_HOME/PyDodo/requirements.txt"
   - "bash $DODO_HOME/PyDodo/tests/travis.sh"
-
-# Finally test R packages
-language: "r"
-cache: "packages"
-warnings_are_errors: false
+  - "conda install r-base"
+  - "conda install r-config"
+  - "conda install -c conda-forge r-future"
+  - "R CMD check --no-build-vignettes --no-manual $DODO_HOME/rdodo"
