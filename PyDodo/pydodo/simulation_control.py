@@ -7,9 +7,26 @@ def create_scenario(filename, scenario):
     """
     Create scenario file on the simulator host.
 
-    :param filename: A string, path to scenario file on local machine.
-    :param scenario: A string, name of file to store scenario under on the simulator host.
-    :return :
+    Parameters
+    ----------
+    filename : str
+        A string that contains the path to where the scenario file is located
+    scenario : str
+        A name of file to store scenario under on the simulator host
+
+    Returns
+    -------
+        ...
+
+    Notes
+    -----
+    The scenario must exist on the simulator host.
+
+    Examples
+    --------
+    >>> pydodo.create_aircraft.load_scenario()
+    >>>
+
     """
     utils._validate_string(filename, "filename")
     utils._validate_string(scenario, "scenario")
@@ -23,7 +40,6 @@ def create_scenario(filename, scenario):
 def load_scenario(scenario, multiplier=1.0):
     """
     Load scenario and start the simulation.
-    The scenario must exist on the simulator host.
 
     Parameters
     ----------
@@ -35,6 +51,10 @@ def load_scenario(scenario, multiplier=1.0):
     Returns
     -------
         ...
+
+    Notes
+    -----
+    The scenario must exist on the simulator host.
 
     Examples
     --------

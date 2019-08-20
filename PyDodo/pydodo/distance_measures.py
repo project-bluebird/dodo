@@ -12,13 +12,39 @@ major_semiaxis, minor_semiaxis, _FLATTENING = distance.ELLIPSOIDS['WGS-84']
 _EARTH_RADIUS = major_semiaxis * 1000 # convert to metres
 
 
-def geodesic_distance(from_lat, from_lon, to_lat, to_lon, major_semiaxis=_EARTH_RADIUS, flattening=_FLATTENING ):
+def geodesic_distance(from_lat, from_lon, to_lat, to_lon, major_semiaxis=_EARTH_RADIUS, flattening=_FLATTENING):
     """
     Get geodesic distance between two (lat, lon) points in metres.
 
-    :param major_semiaxis: Optional, the major (equatorial) radius of the ellipsoid in metres.
-    :param ellipse_flattening: Optional, the ellipsoidal flattening.
+    Parameters
+    ----------
+    from_lat : double
+        A double in the range ``[-90, 90]``. The `from` point's latitude.
+    from_lon : double
+        A double in the range ``[-180, 180]``. The `from` point's longitude.
+    to_lat : double
+        A double in the range ``[-90, 90]``. The `to` point's latitude.
+    to_lon : double
+        A double in the range ``[-180, 180]``. The `to` point's longitude.
+    major_semiaxis : double
+        An optional double. The major (equatorial) radius of the ellipsoid. The
+        default value is for WGS84.
+    flattening : double
+        An optional double. Ellipsoid flattening. The default value is for
+        WGS84.
+
+    Returns
+    -------
+    geodesic_distance : double
+        A double, geodesic distance between two points.
+
+    Examples
+    --------
+    >>> pydodo.create_aircraft.load_scenario()
+    >>>
+
     """
+
     utils._validate_latitude(from_lat)
     utils._validate_longitude(from_lon)
     utils._validate_latitude(to_lat)
@@ -39,7 +65,30 @@ def great_circle_distance(from_lat, from_lon, to_lat, to_lon, radius=_EARTH_RADI
     """
     Get great-circle distance between two (lat, lon) points in metres.
 
-    :param radius: Earth radius in metres.
+    Parameters
+    ----------
+    from_lat : double
+        A double in the range ``[-90, 90]``. The `from` point's latitude.
+    from_lon : double
+        A double in the range ``[-180, 180]``. The `from` point's longitude.
+    to_lat : double
+        A double in the range ``[-90, 90]``. The `to` point's latitude.
+    to_lon : double
+        A double in the range ``[-180, 180]``. The `to` point's longitude.
+    radius : double
+        An optional double. The radius of the earth in metres. The default value
+        is 6378137 m.
+
+    Returns
+    -------
+    great_circle_distance : double
+        A double, the great-circle distance between two points.
+
+    Examples
+    --------
+    >>> pydodo.create_aircraft.load_scenario()
+    >>>
+
     """
     utils._validate_latitude(from_lat)
     utils._validate_longitude(from_lon)
@@ -57,6 +106,24 @@ def great_circle_distance(from_lat, from_lon, to_lat, to_lon, radius=_EARTH_RADI
 def vertical_distance(from_alt, to_alt):
     """
     Get vertical distance in metres between two altitudes (provided in metres).
+
+    Parameters
+    ----------
+    from_alt : double
+        A non-negatige double. The `from` point's altitude in metres.
+    to_alt : double
+        A non-negatige double. The `to` point's altitude in metres.
+
+    Returns
+    -------
+    vertical_distance : double
+        A double, verticle distance between two points.
+
+    Examples
+    --------
+    >>> pydodo.create_aircraft.load_scenario()
+    >>>
+
     """
     utils._validate_is_positive(from_alt, 'altitude')
     utils._validate_is_positive(to_alt, 'altitude')
@@ -88,9 +155,40 @@ def lla_to_ECEF(lat, lon, alt = 0, radius=_EARTH_RADIUS, f=_FLATTENING ):
 
 def euclidean_distance(from_lat, from_lon, from_alt, to_lat, to_lon, to_alt, major_semiaxis=_EARTH_RADIUS, flattening=_FLATTENING):
     """
-    Get euclidean distance between two (lat, lon, alt) points in metres.
+    Get euclidean distance between two (lat, lon, alt) points in metres. The
+    points are converted to ECEF coordinates to calculate distance.
 
-    :param radius: Earth radius in metres.
+    Parameters
+    ----------
+    from_lat : double
+        A double in the range ``[-90, 90]``. The `from` point's latitude.
+    from_lon : double
+        A double in the range ``[-180, 180]``. The `from` point's longitude.
+    from_alt : double
+        A non-negatige double. The from point's altitude in metres.
+    to_lat : double
+         A double in the range ``[-90, 90]``. The `to` point's latitude.
+    to_lon : double
+        A double in the range ``[-180, 180]``. The `to` point's longitude.
+    to_alt : double
+        A non-negatige double. The `to` point's altitude in metres.
+    major_semiaxis : double
+        An optional double. The major (equatorial) radius of the ellipsoid. The
+        default value is for WGS84.
+    flattening : double
+        An optional double. Ellipsoid flattening. The default value is for
+        WGS84.
+
+    Returns
+    -------
+    euclidean_distance : double
+        A double, euclidean distance between two points.
+
+    Examples
+    --------
+    >>> pydodo.create_aircraft.load_scenario()
+    >>>
+
     """
     utils._validate_latitude(from_lat)
     utils._validate_longitude(from_lon)
@@ -110,12 +208,25 @@ def get_distance(from_pos, to_pos, measure, radius=_EARTH_RADIUS, flattening=_FL
     """
     Get distance (geodesic, great circle, vertical or euclidean) between the positions of a pair of aircraft.
 
-    :param from_pos: A pandas Series holding the from aircraft position data.
-    :param to_pos: A pandas Series holding the to aircraft position data.
-    :param measure: A string, one of ['geodesic', 'great_circle', 'vertical', 'euclidean'].
+    Parameters
+    ----------
+    from_pos : pandas.Series
+        A pandas Series holding the from aircraft position data.
+    to_pos : pandas.Series
+        A pandas Series holding the to aircraft position data.
+    measure : str
+        A string, one of ``['geodesic', 'great_circle', 'vertical', 'euclidean']``.
+    radius : double
+        Earth radius/major_semiaxis in metres.
+    flattening : double
+        An optional double. Ellipsoid flattening. The default value is for
+        WGS84. param passed to geodesic_distance.
 
-    :param radius: Earth radius/major_semiaxis in metres.
-    :param flattening: param passed to geodesic_distance.
+    Examples
+    --------
+    >>> pydodo.create_aircraft.load_scenario()
+    >>>
+
     """
     if measure == 'geodesic':
         return geodesic_distance(
@@ -147,8 +258,8 @@ def get_distance(from_pos, to_pos, measure, radius=_EARTH_RADIUS, flattening=_FL
             to_pos['latitude'],
             to_pos['longitude'],
             to_pos['altitude'],
-             major_semiaxis=radius,
-             flattening=flattening
+            major_semiaxis=radius,
+            flattening=flattening
         )
 
 
@@ -157,10 +268,25 @@ def get_pos_df(from_aircraft_id, to_aircraft_id):
     Get position for all unique aircraft listed in from_aircraft_id & to_aircraft_id.
     Altitude is returned in feet by all_positions() so convert it to metres.
 
-    :param from_aircraft_id: A list of strings of aircraft IDs.
-    :param to_aircraft_id: A list of strings of aircraft IDs.
-    :returm: A dataframe of current positions (aircraft_id are row indexes), NaN if requested aircraft ID does not exist.
+    Parameters
+    ----------
+    from_aircraft_id : str
+        A list of strings of aircraft IDs.
+    to_aircraft_id : str
+        A list of strings of aircraft IDs.
+
+    Returns
+    -------
+    pos_df : pandas.DataFrame
+       A dataframe of current positions (aircraft_id are row indexes), NaN if requested aircraft ID does not exist.
+
+    Examples
+    --------
+    >>> pydodo.create_aircraft.load_scenario()
+    >>>
+
     """
+
     utils._validate_id_list(from_aircraft_id)
     utils._validate_id_list(to_aircraft_id)
 
@@ -179,14 +305,29 @@ def get_separation(from_aircraft_id, to_aircraft_id, measure, radius=_EARTH_RADI
     """
     Get separation (geodesic, great circle, vertical or euclidean) betweel all pairs of "from" and "to" aircraft.
 
-    :param from_aircraft_id: A string or list of strings of aircraft IDs.
-    :param to_aircraft_id: An optional string or list of strings of aircraft IDs.
-    :param measure: A string, one of ['geodesic', 'great_circle', 'vertical', 'euclidean'].
+    Parameters
+    ----------
+    from_aircraft_id : str
+        A string or list of strings of aircraft IDs.
+    to_aircraft_id : str
+       An optional string or list of strings of aircraft IDs.
+    measure : str
+        A string, one of ``['geodesic', 'great_circle', 'vertical', 'euclidean']``.
+    radius : double
+        Earth radius/major_semiaxis in metres.
+    flattening : double
+        param passed to geodesic_distance.
 
-    :param radius: Earth radius/major_semiaxis in metres.
-    :param radius: param passed to geodesic_distance.
+    Returns
+    -------
+    sep_df : pandas.DataFrame
+       A dataframe with separation between all from_aircraft_id and to_aircraft_id pairs of aircraft.
 
-    :return : A dataframe with separation between all from_aircraft_id and to_aircraft_id pairs of aircraft.
+    Examples
+    --------
+    >>> pydodo.create_aircraft.load_scenario()
+    >>>
+
     """
     assert measure in ['geodesic', 'great_circle', 'vertical', 'euclidean'], 'Invalid value {} for measure'.format(measure)
     if to_aircraft_id == None:

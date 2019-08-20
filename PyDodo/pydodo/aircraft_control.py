@@ -65,6 +65,7 @@ def change_heading(aircraft_id, heading):
     >>> pydodo.aircraft_control.change_heading('BA1', ...)
     >>>
     """
+
     utils._validate_id(aircraft_id)
     utils._validate_heading(heading)
 
@@ -94,6 +95,7 @@ def change_speed(aircraft_id, speed):
     >>> pydodo.aircraft_control.change_speed('BA1', ...)
     >>>
     """
+
     utils._validate_id(aircraft_id)
     utils._validate_speed(speed)
 
@@ -123,6 +125,7 @@ def change_vertical_speed(aircraft_id, vertical_speed):
     >>> pydodo.aircraft_control.change_vertical_speed('BA1', ...)
     >>>
     """
+
     utils._validate_id(aircraft_id)
     utils._validate_speed(vertical_speed)
 
@@ -155,6 +158,7 @@ def direct_to_waypoint(aircraft_id, waypoint_name):
     >>> pydodo.aircraft_control.direct_to_waypoint('BA1', ...)
     >>>
     """
+
     utils._validate_id(aircraft_id)
     utils._validate_string(waypoint_name, "waypoint name")
 
@@ -182,4 +186,5 @@ def batch(async_commands):
     ``NotImplemented``
 
     """
+
     return NotImplementedError
