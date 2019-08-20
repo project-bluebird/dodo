@@ -38,11 +38,7 @@ script:
   - "conda activate p36"
   - "python --version"
   - "pip install -r $DODO_HOME/PyDodo/requirements.txt"
-  - "cd $DODO_HOME/PyDodo/ && pytest -vs tests/ && cd -"
-  # Test docker on Linux only as docker not yet supported on macOS within travis
-  - "if [ \"$TRAVIS_OS_NAME\" = \"linux\" ]; then docker-compose up -d; sleep 20; docker-compose down; fi"
-  # Run full integration tests
-  - "if [ \"$TRAVIS_OS_NAME\" = \"linux\" ]; then docker-compose up -d; sleep 20; cd $DODO_HOME/PyDodo/; pytest -vs tests/; cd - ; docker-compose down; fi"
+  - "bash $DODO_HOME/PyDodo/tests/travis.sh"
 
 # Finally test R packages
 language: "r"
