@@ -3,7 +3,6 @@ branches:
   only:
   - "master"
   - "develop"
-  - "issue/69/CI"
 
 os:
   - "linux"
@@ -13,9 +12,8 @@ compiler:
   - "gcc"
   - "clang"
 
-language: "r"
-
 sudo: "require"
+
 warnings_are_errors: false
 
 before_install:
