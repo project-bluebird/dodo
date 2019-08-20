@@ -13,6 +13,12 @@
 .. automodule:: pydodo.aircraft_control
    :members:
 
+`pydodo.async_aircraft_control`
+===============================
+
+.. automodule:: pydodo.async_aircraft_control
+   :members:
+
 `pydodo.config_param`
 =====================
 
@@ -23,6 +29,24 @@
 ========================
 
 .. automodule:: pydodo.create_aircraft
+   :members:
+
+`pydodo.distance_measures`
+==========================
+
+.. automodule:: pydodo.distance_measures
+   :members:
+
+`pydodo.episode_log`
+====================
+
+.. automodule:: pydodo.episode_log
+   :members:
+
+`pydodo.get_flight_level`
+=========================
+
+.. automodule:: pydodo.get_flight_level
    :members:
 
 `pydodo.list_route`
@@ -49,10 +73,3 @@
 .. automodule:: pydodo.utils
    :members:
 
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
