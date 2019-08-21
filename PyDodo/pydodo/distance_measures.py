@@ -135,11 +135,31 @@ def lla_to_ECEF(lat, lon, alt = 0, radius=_EARTH_RADIUS, f=_FLATTENING ):
     """
     Calculates ECEF coordinates of a point from lat, lon and alt.
 
-    :param alt: altitude in metres.
-    :param radius: Earth radius in metres (WGS84).
-    :param f: ellipsoidal flattening (WGS84).
-    :return:
+    Parameters
+    ----------
+
+    lat : double
+
+    lon : double
+
+    alt : int
+        Altitude in meters
+    radius : double
+        Earth radius in metres (WGS84).
+    f : double
+        Ellipsoidal flattening (WGS84).
+
+    Returns
+    -------
+    ....
+
+    Examples
+    --------
+    >>> pydodo.distance_measures.lla_to_ECEF()
+    >>>
+
     """
+
     lat_r = np.deg2rad(lat)
     lon_r = np.deg2rad(lon)
 
@@ -357,6 +377,34 @@ def get_separation(from_aircraft_id, to_aircraft_id, measure, radius=_EARTH_RADI
 def geodesic_separation(from_aircraft_id, to_aircraft_id=None, major_semiaxis=_EARTH_RADIUS, flattening=_FLATTENING):
     """
     Get geodesic separation in metres between the positions of all from_aircraft_id and to_aircraft_id pairs of aircraft.
+
+    Parameters
+    ----------
+
+    from_aircraft_id : str
+        A string vector of aircraft IDs.
+    to_aircraft_id : str
+        An optional string vector of aircraft IDs. If not provided, ``to_aircraft_id=from_aircraft_id``
+    major_semiaxis : double
+        An optional double. The major (equatorial) radius of the ellipsoid. The
+        default value is for WGS84.
+    flattening : double
+        An optional double. Ellipsoid flattening. The default value is for
+        WGS84.
+
+    Returns
+    -------
+
+    df : pandas.DataFrame
+        A dataframe of doubles with from_aircraft_id as row names and
+        to_aircraft_id as column names. The values are the geodesic distance in
+        metres between the positions of the aircraft pair at each
+        ``[from_aircraft_id, to_aircraft_id]`` index.
+
+    Examples
+    --------
+    >>> pydodo.distance_measures.geodesic_separation()
+    >>>
     """
     return get_separation(from_aircraft_id, to_aircraft_id, measure='geodesic', radius=major_semiaxis, flattening=flattening)
 
@@ -364,6 +412,31 @@ def geodesic_separation(from_aircraft_id, to_aircraft_id=None, major_semiaxis=_E
 def great_circle_separation(from_aircraft_id, to_aircraft_id=None, radius=_EARTH_RADIUS):
     """
     Get great circle separation in metres between the positions of all from_aircraft_id and to_aircraft_id pairs of aircraft.
+
+    Parameters
+    ----------
+
+    from_aircraft_id : str
+        A string vector of aircraft IDs.
+    to_aircraft_id : str
+        An optional string vector of aircraft IDs. If not provided, ``to_aircraft_id=from_aircraft_id``
+    radius : double
+        An optional double. The radius of the earth in metres. The default value
+        is 6378137 m.
+
+    Returns
+    -------
+
+    df : pandas.DataFrame, dtype=double
+        A dataframe of doubles with `from_aircraft_id` as row names and
+        `to_aircraft_id` as column names. The values are the great circle distance in
+        metres between the positions of the aircraft pair at each
+        ``[from_aircraft_id, to_aircraft_id]`` index.
+
+    Examples
+    --------
+    >>> pydodo.distance_measures.geodesic_separation()
+    >>>
     """
     return get_separation(from_aircraft_id, to_aircraft_id, measure='great_circle', radius=radius)
 
@@ -371,12 +444,64 @@ def great_circle_separation(from_aircraft_id, to_aircraft_id=None, radius=_EARTH
 def vertical_separation(from_aircraft_id, to_aircraft_id=None):
     """
     Get vertical separation in metres between the positions of all from_aircraft_id and to_aircraft_id pairs of aircraft.
+
+    Parameters
+    ----------
+
+    from_aircraft_id : str
+        A string vector of aircraft IDs.
+    to_aircraft_id : str
+        An optional string vector of aircraft IDs. If not provided, ``to_aircraft_id=from_aircraft_id``
+
+    Returns
+    -------
+
+    df : pandas.DataFrame, dtype=double
+        A dataframe of doubles with from_aircraft_id as row names and
+        to_aircraft_id as column names. The values are the vertical distance in
+        metres between the positions of the aircraft pair at each
+        ``[from_aircraft_id, to_aircraft_id]`` index.
+
+    Examples
+    --------
+    >>> pydodo.distance_measures.geodesic_separation()
+    >>>
     """
     return get_separation(from_aircraft_id, to_aircraft_id, measure='vertical')
 
 
 def euclidean_separation(from_aircraft_id, to_aircraft_id=None,  major_semiaxis=_EARTH_RADIUS, flattening=_FLATTENING):
     """
-    Get euclidean separation in metres between the positions of all from_aircraft_id and to_aircraft_id pairs of aircraft.
+    Get euclidean separation in metres between the positions of all
+    from_aircraft_id and to_aircraft_id pairs of aircraft. The aircraft
+    positions are converted to ECEF coordinates to calculate separation.
+
+    Parameters
+    ----------
+
+    from_aircraft_id : str
+        A string vector of aircraft IDs.
+    to_aircraft_id : str
+        An optional string vector of aircraft IDs. If not provided, ``to_aircraft_id=from_aircraft_id``
+    major_semiaxis : double
+        An optional double. The major (equatorial) radius of the ellipsoid. The
+        default value is for WGS84.
+    flattening : double
+        An optional double. Ellipsoid flattening. The default value is for
+        WGS84.
+
+    Returns
+    -------
+
+    df : pandas.DataFrame
+        A dataframe of doubles with `from_aircraft_id` as row names and
+        `to_aircraft_id` as column names. The values are the euclidean distance in
+        metres between the positions of the aircraft pair at each
+        ``[from_aircraft_id, to_aircraft_id]`` index.
+
+    Examples
+    --------
+    >>> pydodo.distance_measures.geodesic_separation()
+    >>>
     """
     return get_separation(from_aircraft_id, to_aircraft_id, measure='euclidean',  radius=major_semiaxis, flattening=flattening)
