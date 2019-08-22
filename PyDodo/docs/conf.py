@@ -37,7 +37,9 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.viewcode',
     'sphinx.ext.githubpages',
-    'numpydoc'
+    'numpydoc',
+    'sphinx_autorun',
+    'sphinx_copybutton'
 ]
 
 autodoc_default_flags = ['members']

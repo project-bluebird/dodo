@@ -11,3 +11,4 @@ pyyaml>=5.1
 sphinx==1.8
 sphinx_rtd_theme>=0.4.3
 numpydoc==0.7
+sphinx-autorun
