@@ -11,11 +11,11 @@ PyDodo
    see: http://www.sphinx-doc.org/en/stable/markup/toctree.html
 
 .. toctree::
-   :maxdepth: 1
-   :caption: Contents:
+   :hidden:
+   :maxdepth: 2
 
    install
-   API
+   API </apidoc/modules>
 
 Contributing to Dodo
 ====================
