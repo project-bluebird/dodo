@@ -10,45 +10,54 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 
 ### Simulation commands
 
-- [Load Scenario](#load-scenario)
-- [Create Scenario](#create-scenario) [TO DO]
-- [Reset Simulation](#reset-the-simulation)
-- [Pause Simulation](#pause-the-simulation)
-- [Resume Simulation](#resume-the-simulation)
-- [Set Simulation Rate Multiplier](#set-the-simulation-rate-multiplier)
-- [Simulation Step](#simulation-step) [TO DO]
-- [Simulator Mode](#set-simulator-mode) [TO DO]
-- [Episode Log](#episode-log) [TO DO]
+| Function  	                                                        | `Python    `| `R `    |
+|---	                                                                |---        |---	|
+| [Load Scenario](#load-scenario)                                       |   ✔   	|       |
+| [Create Scenario](#create-scenario)                                   |   ✔ 	    |       |
+| [Reset Simulation](#reset-the-simulation)                             |   ✔       |       |
+| [Reset Simulation](#reset-the-simulation)                             |   ✔       |       |
+| [Pause Simulation](#pause-the-simulation)                             |   ✔       |       |
+| [Resume Simulation](#resume-the-simulation)                           |   ✔       |       |
+| [Set Simulation Rate Multiplier](#set-the-simulation-rate-multiplier) |   ✔       |       |
+| [Simulation Step](#simulation-step)                                   |   ✔       |       |
+| [Simulator Mode](#set-simulator-mode)                                 |   ✔       |       |
+| [Episode Log](#episode-log)                                           |   ✔       |       |
 
 ### Aircraft commands
 
-- [Create Aircraft](#create-aircraft)
-- [Get aircraft position](#get-aircraft-position)
-- [Get all aircraft positions](#get-all-aircraft-positions)
-- [List Route](#list-aircraft-route)
-- [Current flight level](#current-flight-level) [TO DO]
-- [Requested flight level](#requested-flight-level) [TO DO]
-- [Cleared flight level](#cleared-flight-level) [TO DO]
+| Function  	                                                        | `Python    `| `R `    |
+|---	                                                                |---        |---	|
+| [Create Aircraft](#create-aircraft)                                   |   ✔       |       |
+| [Get aircraft position](#get-aircraft-position)                       |   ✔       |       |
+| [Get all aircraft positions](#get-all-aircraft-positions)             |   ✔       |       |
+| [List Route](#list-aircraft-route)                                    |   ✔       |       |
+| [Current flight level](#current-flight-level)                         |   ✔       |       |
+| [Requested flight level](#requested-flight-level)                     |   ✔       |       |
+| [Cleared flight level](#cleared-flight-level)                         |   ✔       |       |
 
 ### Aircraft control
 
-- [Change Altitude](#change-aircraft-altitude)
-- [Change Heading](#change-aircraft-heading)
-- [Change Speed](#change-aircraft-speed)
-- [Change Vertical Speed](#change-aircraft-vertical-speed)
-- [Direct to Waypoint](#direct-aircaft-to-waypoint)
-- [Batch](#batch)
+| Function  	                                                        | `Python    `| `R `    |
+|---	                                                                |---        |---	|
+| [Change Altitude](#change-aircraft-altitude)                          |   ✔       |       |
+| [Change Heading](#change-aircraft-heading)                            |   ✔       |       |
+| [Change Speed](#change-aircraft-speed)                                |   ✔       |       |
+| [Change Vertical Speed](#change-aircraft-vertical-speed)              |   ✔       |       |
+| [Direct to Waypoint](#direct-aircaft-to-waypoint)                     |   ✔       |       |
+| [Batch](#batch)                                                       |   ✔       |       |
 
 ### Distance measures
 
-- [Geodesic separation](#geodesic-separation) [TO DO]
-- [Geodesic distance](#geodesic-distance) [TO DO]
-- [Great-circle separation](#great-circle-separation) [TO DO]
-- [Great-circle distance](#great-circle-distance) [TO DO]
-- [Vertical separation](#vertical-separation) [TO DO]
-- [Vertical distance](#vertical-distance) [TO DO]
-- [Euclidean separation](#euclidean-separation) [TO DO]
-- [Euclidean distance](#euclidean-distance) [TO DO]
+| Function  	                                                        | `Python    `| `R `    |
+|---	                                                                |---        |---	|
+| [Geodesic separation](#geodesic-separation)                           | ✔          |       |
+| [Geodesic distance](#geodesic-distance)                               |  ✔         |       |
+| [Great-circle separation](#great-circle-separation)                   |   ✔        |       |
+| [Great-circle distance](#great-circle-distance)                       |    ✔       |       |
+| [Vertical separation](#vertical-separation)                           |     ✔      |       |
+| [Vertical distance](#vertical-distance)                               |      ✔     |       |
+| [Euclidean separation](#euclidean-separation)                         |       ✔    |       |
+| [Euclidean distance](#euclidean-distance)                             |        ✔   |       |
 
 # Commands
 
@@ -126,7 +135,7 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 **Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
 
-**Description:** Step forward through the simulation. Step size is based on the [simulation rate multiplier](#set-the-simulation-rate-multiplier). Can only be used if simulator is in [agent mode](#set-simulator-mode), otherwise an exception is thrown. 
+**Description:** Step forward through the simulation. Step size is based on the [simulation rate multiplier](#set-the-simulation-rate-multiplier). Can only be used if simulator is in [agent mode](#set-simulator-mode), otherwise an exception is thrown.
 
 ## Set simulator mode
 
@@ -256,7 +265,7 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 
 **Return value:** A non-negative double. The aircraft's requested flight level in meters. If an invalid ID is given, or the call to Bluebird fails, an exception is thrown.
 
-**Description:** Get the aircraft's requested flight level (in meters). Can only be returned if the aircraft has a defined route. 
+**Description:** Get the aircraft's requested flight level (in meters). Can only be returned if the aircraft has a defined route.
 
 ## Cleared flight level
 
@@ -340,7 +349,7 @@ Either the `altitude` or `flight_level` argument must be given, but not both.
 **Parameters:**
 - A list of aircraft control commands. In PyDodo, these need an `async_` prefix. For example, `batch([async_change_speed(...), async_change_altitude(...)]`.
 
-**Return value:** `TRUE` if all commands were successful. Otherwise an exception is thrown. 
+**Return value:** `TRUE` if all commands were successful. Otherwise an exception is thrown.
 
 **Description:** Send a batch of aircraft control commands and dispatch them asynchronously to Bluebird.
 
