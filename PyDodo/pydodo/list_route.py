@@ -60,9 +60,9 @@ def list_route(aircraft_id):
     -------
     df : pandas.DataFrame
         A  dataframe indexed by waypoint name with columns:
-        - ``requested_altitude``: A non-negatige double. The aircraft's requested altitude in feet at waypoint.
-        - ``requested_speed``: A non-negative double. The aircraft's requested speed at waypoint.
-        - ``current``: A boolean indicating whether the aircraft is currently heading toward this waypoint.
+    | - ``requested_altitude``: A non-negatige double. The aircraft's requested altitude in feet at waypoint.
+    | - ``requested_speed``: A non-negative double. The aircraft's requested speed at waypoint.
+    | - ``current``: A boolean indicating whether the aircraft is currently heading toward this waypoint.
 
     Notes
     -----
