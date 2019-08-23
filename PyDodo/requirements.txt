@@ -1,10 +1,14 @@
-pandas>=0.21
 numpy
-requests
-pyyaml>=5.1
 geopy>=1.13
 scipy
 pyproj
 aiohttp
 asyncio
 pytest==4.1.*
+pandas>=0.25.0
+requests>=2.22.0
+pyyaml>=5.1
+sphinx==1.8
+sphinx_rtd_theme>=0.4.3
+numpydoc==0.7
+sphinx-autorun

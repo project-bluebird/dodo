@@ -7,9 +7,27 @@ def create_scenario(filename, scenario):
     """
     Create scenario file on the simulator host.
 
-    :param filename: A string, path to scenario file on local machine.
-    :param scenario: A string, name of file to store scenario under on the simulator host.
-    :return :
+    Parameters
+    ----------
+    filename : str
+        A string indicating path to scenario file on the local machine.
+    scenario : str
+        A string indicating name to store scenario under on the simulator host
+        (<scenario>.scn).
+
+    Returns
+    -------
+    TRUE if successful. Otherwise an exception is thrown.
+
+    Notes
+    -----
+    The scenario must exist on the simulator host.
+
+    Examples
+    --------
+    >>> pydodo.create_aircraft.load_scenario()
+    >>>
+
     """
     utils._validate_string(filename, "filename")
     utils._validate_string(scenario, "scenario")
@@ -23,10 +41,28 @@ def create_scenario(filename, scenario):
 def load_scenario(scenario, multiplier=1.0):
     """
     Load scenario and start the simulation.
+
+    Parameters
+    ----------
+    filename : str
+        A string indicating name of scenario file on the simulator host
+        (<scenario>.scn).
+    multiplier : double
+        An optional double. Simulation rate multiplier.
+
+    Returns
+    -------
+    TRUE if successful. Otherwise an exception is thrown.
+
+    Notes
+    -----
     The scenario must exist on the simulator host.
 
-    :param scenario : A string, the name of the scenario.
-    :return :
+    Examples
+    --------
+    >>> pydodo.create_aircraft.load_scenario()
+    >>>
+
     """
     utils._validate_string(scenario, "scenario")
     utils._validate_multiplier(multiplier)
@@ -37,7 +73,16 @@ def load_scenario(scenario, multiplier=1.0):
 
 def reset_simulation():
     """
-    Reset the simulation.
+    Reset simulation to the start of the currently running scenario.
+
+    Parameters
+    ----------
+    NONE
+
+    Returns
+    -------
+    TRUE if successful. Otherwise an exception is thrown.
+
     """
     return post_request(config_param("endpoint_reset_simulation"))
 
@@ -45,18 +90,51 @@ def reset_simulation():
 def pause_simulation():
     """
     Pause the simulation.
+
+    Parameters
+    ----------
+    NONE
+
+    Returns
+    -------
+    TRUE if successful. Otherwise an exception is thrown.
     """
     return post_request(config_param("endpoint_pause_simulation"))
 
 
 def resume_simulation():
     """
-    Resume the simulation.
+    Resume the simulation after a pause
+
+    Parameters
+    ----------
+    NONE
+
+    Returns
+    -------
+    TRUE if successful. Otherwise an exception is thrown.
     """
     return post_request(config_param("endpoint_resume_simulation"))
 
 
 def set_simulation_rate_multiplier(multiplier):
+    """
+    Sets the simulation rate multiplier for the current simulation. By default
+    this multiplier is equal to one (real-time operation). If set to another
+    value, the simulation will run faster (or slower) than real-time, with a
+    fixed multiplier as provided. For example, a multiplier of 2 would cause the
+    simulation to run twice as fast: 60 simulation minutes take 30 actual
+    minutes.
+
+    Parameters
+    ----------
+    multiplier : double
+        A positive double.
+
+    Returns
+    -------
+    TRUE if successful. Otherwise an exception is thrown.
+    """
     utils._validate_multiplier(multiplier)
 
     body = {"multiplier": multiplier}
@@ -64,6 +142,22 @@ def set_simulation_rate_multiplier(multiplier):
 
 
 def set_simulator_mode(mode):
+    """
+    Set simulator mode (see bluebird docs for description of simulator modes).
+
+    Parameters
+    ----------
+    mode : str
+        A string. Available modes are sandbox (the default) and agent.
+
+    Returns
+    -------
+    TRUE if successful. Otherwise an exception is thrown.
+
+    Notes
+    -----
+    Bluebird docs found at: https://github.com/alan-turing-institute/bluebird
+    """
     assert mode == 'agent' or mode == 'sandbox', 'Invalid value {} for mode'.format(mode)
 
     body = {"mode": mode}
@@ -71,4 +165,17 @@ def set_simulator_mode(mode):
 
 
 def simulation_step():
+    """
+    Step forward through the simulation. Step size is based on the simulation
+    rate multiplier. Can only be used if simulator is in agent mode, otherwise
+    an exception is thrown.
+
+    Parameters
+    ----------
+    NONE
+
+    Returns
+    -------
+    TRUE if successful. Otherwise an exception is thrown.
+    """
     return post_request(config_param("endpoint_simulation_step"))
