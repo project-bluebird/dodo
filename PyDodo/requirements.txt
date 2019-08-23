@@ -1,9 +1,10 @@
 pandas>=0.21
 numpy
 requests
-pyyaml
+pyyaml>=5.1
 geopy>=1.13
 scipy
 pyproj
 aiohttp
 asyncio
+pytest==4.1.*

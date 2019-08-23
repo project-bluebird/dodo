@@ -2,6 +2,7 @@ Package: rdodo
 Type: Package
 Title: Scaffold for ATC agents
 Version: 0.1.0
+Author: Alan Turing Institute
 Authors@R: c(
     person("Timothy", "Hobson", email = "thobson@turing.ac.uk", role = c("aut", "cre")),
     person("Gabasova", "Evelina", email = "egabasova@turing.ac.uk", role = c("aut")),
