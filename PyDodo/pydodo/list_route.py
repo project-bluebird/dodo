@@ -49,6 +49,39 @@ def process_listroute_response(response):
 def list_route(aircraft_id):
     """
     Dataframe of waypoints on an aircraft's route.
+
+    Parameters
+    ----------
+    aircraft_id : str
+        A string aircraft identifier. For the BlueSky simulator, this has to be
+        at least three characters.
+
+    Returns
+    -------
+    df : pandas.DataFrame
+        A  dataframe indexed by waypoint name with columns:
+        - ``requested_altitude``: A non-negatige double. The aircraft's requested altitude in feet at waypoint.
+        - ``requested_speed``: A non-negative double. The aircraft's requested speed at waypoint.
+        - ``current``: A boolean indicating whether the aircraft is currently heading toward this waypoint.
+
+    Notes
+    -----
+    This dataframe also contains metadata attributes named `aircraft_id` and
+    `sim_t` containing the simulator time in seconds since the start of the
+    scenario.
+
+    If no aircraft exists with the given ID, or the ID is invalid, an exception
+    is thrown.
+
+    If the corresponding aircraft has no route information, an empty dataframe
+    is returned and the `sim_t` metadata attribute is omitted.
+
+    If any other error occurs (e.g. a failure to parse the route information),
+    an exception is thrown.
+
+    Examples
+    --------
+
     """
     utils._validate_id(aircraft_id)
 
