@@ -9,9 +9,18 @@ from .config_param import config_param
 
 def episode_log():
     """
-    Get the episode log and save to file in the working directory in a logs subdirectory.
+    Get the episode log and save to file in the working directory in a ``logs`` subdirectory.
 
-    :return :
+    Parameters
+    ----------
+    NONE
+
+    Returns
+    -------
+    log : str
+        A string, the relative path to the log file. An exception is thrown if
+        an error occurs.
+
     """
     endpoint = config_param("endpoint_episode_log")
     url = utils.construct_endpoint_url(endpoint)
