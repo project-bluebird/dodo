@@ -153,6 +153,10 @@ def lla_to_ECEF(lat, lon, alt = 0, radius=_EARTH_RADIUS, f=_FLATTENING ):
     -------
     ....
 
+    Notes
+    -----
+    https://en.wikipedia.org/wiki/ECEF
+
     Examples
     --------
     >>> pydodo.distance_measures.lla_to_ECEF()
@@ -203,6 +207,10 @@ def euclidean_distance(from_lat, from_lon, from_alt, to_lat, to_lon, to_alt, maj
     -------
     euclidean_distance : double
         A double, euclidean distance between two points.
+
+    Notes
+    -----
+    https://en.wikipedia.org/wiki/ECEF
 
     Examples
     --------
@@ -498,6 +506,10 @@ def euclidean_separation(from_aircraft_id, to_aircraft_id=None,  major_semiaxis=
         `to_aircraft_id` as column names. The values are the euclidean distance in
         metres between the positions of the aircraft pair at each
         ``[from_aircraft_id, to_aircraft_id]`` index.
+
+    Notes
+    -----
+    https://en.wikipedia.org/wiki/ECEF
 
     Examples
     --------

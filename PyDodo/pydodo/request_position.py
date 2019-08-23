@@ -26,9 +26,9 @@ def format_pos_info(aircraft_pos):
 
     Examples:
     >>> pydodo.request_position.format_pos_info()
-    >>> ...
-
+    >>>
     """
+
     position_formatted = {
         "type": aircraft_pos["actype"],
         "altitude": aircraft_pos["alt"],
@@ -54,9 +54,9 @@ def process_pos_response(response):
 
     Examples:
     >>> pydodo.request_position.process_pos_response()
-    >>> ...
-
+    >>>
     """
+
     json_data = json.loads(response.text)
     pos_dict = {
         aircraft: format_pos_info(json_data[aircraft])
@@ -83,9 +83,9 @@ def normalise_positions_units(df):
 
     Examples:
     >>> pydodo.request_position.process_pos_response()
-    >>> ...
-
+    >>>
     """
+
     SCALE_METRES_TO_FEET = 3.280839895
 
     # Bluesky returns altitude in metres, not feet.
@@ -110,8 +110,7 @@ def null_pos_df(aircraft_id=None):
 
     Examples:
     >>> pydodo.request_position.process_pos_response()
-    >>> ...
-
+    >>>
     """
 
     null_dict = {
@@ -143,12 +142,12 @@ def all_positions():
     -------
     all_pos_df : pandas.DataFrame
         Dataframe indexed by **uppercase** aircraft ID with columns:
-        - ``type``: A string ICAO aircraft type designator.
-        - ``altitude``: A non-negatige double. The aircraft's altitude in feet.
-        - ``ground_speed``: A non-negative double. The aircraft's ground speed in knots.
-        - ``latitude``: A double in the range ``[-90, 90]``. The aircraft's latitude.
-        - ``longitude``: A double in the range ``[-180, 180]``. The aircraft's longitude.
-        - ``vertical_speed``: A double. The aircraft's vertical speed in feet/min (units according to BlueSky docs).
+    | - ``type``: A string ICAO aircraft type designator.
+    | - ``altitude``: A non-negatige double. The aircraft's altitude in feet.
+    | - ``ground_speed``: A non-negative double. The aircraft's ground speed in knots.
+    | - ``latitude``: A double in the range ``[-90, 90]``. The aircraft's latitude.
+    | - ``longitude``: A double in the range ``[-180, 180]``. The aircraft's longitude.
+    | - ``vertical_speed``: A double. The aircraft's vertical speed in feet/min (units according to BlueSky docs).
 
     Notes
     -----
@@ -162,8 +161,7 @@ def all_positions():
 
     Examples:
     >>> pydodo.request_position.process_pos_response()
-    >>> ...
-
+    >>>
     """
 
     resp = requests.get(url, params={config_param("query_aircraft_id"): "all"})
@@ -190,12 +188,12 @@ def get_position(aircraft_id):
     -------
     pos_df : pandas.DataFrame
         Dataframe indexed by **uppercase** aircraft ID with columns:
-        - ``type``: A string ICAO aircraft type designator.
-        - ``altitude``: A non-negatige double. The aircraft's altitude in feet.
-        - ``ground_speed``: A non-negative double. The aircraft's ground speed in knots.
-        - ``latitude``: A double in the range ``[-90, 90]``. The aircraft's latitude.
-        - ``longitude``: A double in the range ``[-180, 180]``. The aircraft's longitude.
-        - ``vertical_speed``: A double. The aircraft's vertical speed in feet/min (units according to BlueSky docs).
+    | - ``type``: A string ICAO aircraft type designator.
+    | - ``altitude``: A non-negatige double. The aircraft's altitude in feet.
+    | - ``ground_speed``: A non-negative double. The aircraft's ground speed in knots.
+    | - ``latitude``: A double in the range ``[-90, 90]``. The aircraft's latitude.
+    | - ``longitude``: A double in the range ``[-180, 180]``. The aircraft's longitude.
+    | - ``vertical_speed``: A double. The aircraft's vertical speed in feet/min (units according to BlueSky docs).
 
     Notes
     -----
@@ -210,8 +208,7 @@ def get_position(aircraft_id):
 
     Examples:
     >>> pydodo.request_position.process_pos_response()
-    >>> ...
-
+    >>>
     """
 
     resp = requests.get(url, params={config_param("query_aircraft_id"): aircraft_id})
@@ -240,8 +237,7 @@ def aircraft_position(aircraft_id):
 
     Examples:
     >>> pydodo.request_position.aircraft_position()
-    >>> ...
-
+    >>>
     """
 
     if type(aircraft_id) == str:
