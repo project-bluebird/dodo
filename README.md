@@ -1,5 +1,7 @@
 # dodo
 
+[![Build Status](https://travis-ci.com/alan-turing-institute/dodo.svg?branch=master)](https://travis-ci.com/alan-turing-institute/dodo)
+
 Scaffold for ATC agents.
 
 Read the [Specification](Specification.md) document.
