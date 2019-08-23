@@ -12,7 +12,7 @@ def test_flight_level():
     cmd = reset_simulation()
     assert cmd == True
 
-    resp = load_scenario("scenario/8.scn")
+    resp = load_scenario("scenario/8.SCN")
     assert resp == True
 
     assert current_flight_level("SCN1001") == 6096

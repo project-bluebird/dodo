@@ -102,14 +102,14 @@ def test_load_bluesky():
     """
     resp = reset_simulation()
     assert resp == True
-    
-    resp = load_scenario("scenario/8.scn")
+
+    resp = load_scenario("scenario/8.SCN")
     assert resp == True
 
     resp = reset_simulation()
     assert resp == True
 
-    resp = load_scenario("scenario/8.scn", 1.5)
+    resp = load_scenario("scenario/8.SCN", 1.5)
     assert resp == True
 
 
@@ -122,4 +122,4 @@ def test_load_fail():
         load_scenario("")
 
     with pytest.raises(AssertionError):
-        load_scenario("scenario/8.scn", 0)
+        load_scenario("scenario/8.SCN", 0)
