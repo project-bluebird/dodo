@@ -11,6 +11,7 @@ if [ $TRAVIS_OS_NAME = "linux" ]; then
     sudo apt-get install pandoc
     pip install --upgrade jupyter
     pip install nbconvert
+    pip install -r PyDodo/requirements.txt
     jupyter nbconvert --ExecutePreprocessor.kernel_name=python --ExecutePreprocessor.timeout=600 --to html --execute notebooks/Python-example-notebook.ipynb
     jupyter nbconvert --ExecutePreprocessor.kernel_name=ir --ExecutePreprocessor.timeout=600 --to html --execute notebooks/R-example-notebook.ipynb
 fi
