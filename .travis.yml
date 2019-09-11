@@ -2,7 +2,7 @@
 branches:
   only:
   - "master"
-  - "develop"
+  - "issue/66/example-notebooks"
 
 os:
   - "linux"
@@ -39,11 +39,13 @@ script:
   - "conda activate p36"
   - "python --version"
   - "pip install -r $DODO_HOME/PyDodo/requirements.txt"
-  - "bash $DODO_HOME/PyDodo/tests/travis.sh"
+  - "bash $DODO_HOME/PyDodo/tests/.travis.sh"
   - "conda install r-base"
   - "conda install r-essentials"
   - "conda install r-devtools"
   - "conda install r-config"
   - "conda install r-testthat"
   - "conda install -c conda-forge r-future"
+  - "conda install -c r r-irkernel"
   - "R CMD check --no-build-vignettes --no-manual $DODO_HOME/rdodo"
+  - "bash $DODO_HOME/notebooks/.travis.sh"
