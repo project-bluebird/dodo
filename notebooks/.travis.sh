@@ -16,6 +16,7 @@ if [ $TRAVIS_OS_NAME = "linux" ]; then
     pip install PyDodo/
     docker-compose up -d
     sleep 20
+    python -c "import pydodo;pydodo.simulation_control.create_scenario('notebooks/demo_scenario.scn', 'away')"
     jupyter nbconvert --ExecutePreprocessor.kernel_name=python --ExecutePreprocessor.timeout=600 --to html --execute notebooks/Python-example-notebook.ipynb
     jupyter nbconvert --ExecutePreprocessor.kernel_name=ir --ExecutePreprocessor.timeout=600 --to html --execute notebooks/R-example-notebook.ipynb
     docker-compose down
