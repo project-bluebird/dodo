@@ -14,7 +14,8 @@ def test_async_request():
     """
     Tests async_request() function
     """
-    reset_simulation()
+    resp = reset_simulation()
+    assert resp == True
 
     aircraft_id = "TST1001"
     type = "B744"
@@ -40,7 +41,7 @@ def test_async_request():
     assert position.loc[aircraft_id]["longitude"] == 0
 
     commands = []
-    new_flight_level = 450
+    new_flight_level = 400
     new_heading = 90
     new_speed = 400
     new_vertical_speed = 1

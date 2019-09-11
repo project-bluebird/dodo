@@ -91,7 +91,7 @@ def _check_altitude(alt):
 
 
 def _check_flight_level(fl):
-    return fl >= config_param("flight_level_lower_limit")
+    return fl >= config_param("flight_level_lower_limit") and fl <= config_param("flight_level_upper_limit")
 
 
 def parse_alt(alt, fl):
@@ -119,4 +119,3 @@ def _validate_multiplier(dtmult):
 
 def _validate_is_positive(val, measure):
     assert val >= 0, "Invalid value {} for {}".format(val, measure)
-

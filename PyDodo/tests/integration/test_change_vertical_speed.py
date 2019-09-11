@@ -39,7 +39,7 @@ def test_change_vertical_speed():
     assert position.loc[aircraft_id]['vertical_speed'] == 0
 
     # Give command to ascend
-    new_flight_level = 450
+    new_flight_level = 400
     cmd = change_altitude(aircraft_id = aircraft_id,
                           flight_level = new_flight_level)
 
