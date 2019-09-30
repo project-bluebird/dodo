@@ -46,5 +46,5 @@ default:
 
   # Physical
   feet_altitude_upper_limit: 6000
-  flight_level_lower_limit: 150
+  flight_level_lower_limit: 60
   flight_level_upper_limit: 400
