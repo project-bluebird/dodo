@@ -82,7 +82,7 @@ def normalise_positions_units(df):
     pos_df : pandas.DataFrame
 
     Examples:
-    >>> pydodo.request_position.process_pos_response()
+    >>> pydodo.request_position.normalise_positions_units()
     >>>
     """
 
@@ -109,7 +109,7 @@ def null_pos_df(aircraft_id=None):
     pos_df : pandas.DataFrame
 
     Examples:
-    >>> pydodo.request_position.process_pos_response()
+    >>> pydodo.request_position.null_pos_df()
     >>>
     """
 
@@ -160,7 +160,7 @@ def all_positions():
     thrown.
 
     Examples:
-    >>> pydodo.request_position.process_pos_response()
+    >>> pydodo.all_positions()
     >>>
     """
 
@@ -207,7 +207,7 @@ def get_position(aircraft_id):
     thrown.
 
     Examples:
-    >>> pydodo.request_position.process_pos_response()
+    >>> pydodo.request_position.get_position()
     >>>
     """
 
@@ -236,7 +236,7 @@ def aircraft_position(aircraft_id):
         Dataframe with position data, ``NaN`` if aircraft_id does not exist
 
     Examples:
-    >>> pydodo.request_position.aircraft_position()
+    >>> pydodo.aircraft_position()
     >>>
     """
 

@@ -40,7 +40,7 @@ def geodesic_distance(from_lat, from_lon, to_lat, to_lon, major_semiaxis=_EARTH_
 
     Examples
     --------
-    >>> pydodo.create_aircraft.load_scenario()
+    >>> pydodo.geodesic_distance()
     >>>
 
     """
@@ -86,7 +86,7 @@ def great_circle_distance(from_lat, from_lon, to_lat, to_lon, radius=_EARTH_RADI
 
     Examples
     --------
-    >>> pydodo.create_aircraft.load_scenario()
+    >>> pydodo.great_circle_distance()
     >>>
 
     """
@@ -121,7 +121,7 @@ def vertical_distance(from_alt, to_alt):
 
     Examples
     --------
-    >>> pydodo.create_aircraft.load_scenario()
+    >>> pydodo.vertical_distance()
     >>>
 
     """
@@ -214,7 +214,7 @@ def euclidean_distance(from_lat, from_lon, from_alt, to_lat, to_lon, to_alt, maj
 
     Examples
     --------
-    >>> pydodo.create_aircraft.load_scenario()
+    >>> pydodo.euclidean_distance()
     >>>
 
     """
@@ -252,7 +252,7 @@ def get_distance(from_pos, to_pos, measure, radius=_EARTH_RADIUS, flattening=_FL
 
     Examples
     --------
-    >>> pydodo.create_aircraft.load_scenario()
+    >>> pydodo.distance_measures.get_distance()
     >>>
 
     """
@@ -310,7 +310,7 @@ def get_pos_df(from_aircraft_id, to_aircraft_id):
 
     Examples
     --------
-    >>> pydodo.create_aircraft.load_scenario()
+    >>> pydodo.distance_measures.get_pos_df()
     >>>
 
     """
@@ -353,7 +353,7 @@ def get_separation(from_aircraft_id, to_aircraft_id, measure, radius=_EARTH_RADI
 
     Examples
     --------
-    >>> pydodo.create_aircraft.load_scenario()
+    >>> pydodo.get_separation()
     >>>
 
     """
@@ -411,7 +411,7 @@ def geodesic_separation(from_aircraft_id, to_aircraft_id=None, major_semiaxis=_E
 
     Examples
     --------
-    >>> pydodo.distance_measures.geodesic_separation()
+    >>> pydodo.geodesic_separation()
     >>>
     """
     return get_separation(from_aircraft_id, to_aircraft_id, measure='geodesic', radius=major_semiaxis, flattening=flattening)
@@ -443,7 +443,7 @@ def great_circle_separation(from_aircraft_id, to_aircraft_id=None, radius=_EARTH
 
     Examples
     --------
-    >>> pydodo.distance_measures.geodesic_separation()
+    >>> pydodo.great_circle_separation()
     >>>
     """
     return get_separation(from_aircraft_id, to_aircraft_id, measure='great_circle', radius=radius)
@@ -472,7 +472,7 @@ def vertical_separation(from_aircraft_id, to_aircraft_id=None):
 
     Examples
     --------
-    >>> pydodo.distance_measures.geodesic_separation()
+    >>> pydodo.vertical_separation()
     >>>
     """
     return get_separation(from_aircraft_id, to_aircraft_id, measure='vertical')
@@ -513,7 +513,7 @@ def euclidean_separation(from_aircraft_id, to_aircraft_id=None,  major_semiaxis=
 
     Examples
     --------
-    >>> pydodo.distance_measures.geodesic_separation()
+    >>> pydodo.euclidean_separation()
     >>>
     """
     return get_separation(from_aircraft_id, to_aircraft_id, measure='euclidean',  radius=major_semiaxis, flattening=flattening)

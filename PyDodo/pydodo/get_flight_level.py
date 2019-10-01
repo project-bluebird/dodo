@@ -36,7 +36,7 @@ def requested_flight_level(aircraft_id):
 
     Examples
     --------
-    >>> pydodo.get_flight_level.requested_flight_level()
+    >>> pydodo.requested_flight_level()
     >>>
     """
 
@@ -63,7 +63,7 @@ def cleared_flight_level(aircraft_id):
 
     Examples
     --------
-    >>> pydodo.get_flight_level.cleared_flight_level()
+    >>> pydodo.cleared_flight_level()
     >>>
     """
 
@@ -89,7 +89,7 @@ def current_flight_level(aircraft_id):
 
     Examples
     --------
-    >>> pydodo.get_flight_level.current_flight_level()
+    >>> pydodo.current_flight_level()
     >>>
     """
 

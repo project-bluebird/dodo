@@ -57,7 +57,7 @@ def create_aircraft(
 
     Examples
     --------
-    >>> pydodo.create_aircraft.create_aircraft('BA1', ...)
+    >>> pydodo.create_aircraft('BA1', ...)
     >>>
 
     """

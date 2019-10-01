@@ -66,7 +66,7 @@ async def async_change_altitude(aircraft_id, altitude=None, flight_level=None, v
 
     Examples
     --------
-    >>> pydodo.aircraft_control.change_altitude('BA1', ...)
+    >>> pydodo.async_change_altitude('BA1', ...)
     >>>
     """
 
@@ -104,7 +104,7 @@ async def async_change_heading(aircraft_id, heading):
 
     Examples
     --------
-    >>> pydodo.aircraft_control.change_heading('BA1', ...)
+    >>> pydodo.async_change_heading('BA1', ...)
     >>>
     """
 
@@ -137,7 +137,7 @@ async def async_change_speed(aircraft_id, speed):
 
     Examples
     --------
-    >>> pydodo.aircraft_control.change_speed('BA1', ...)
+    >>> pydodo.async_change_speed('BA1', ...)
     >>>
     """
 
@@ -170,7 +170,7 @@ async def async_change_vertical_speed(aircraft_id, vertical_speed):
 
     Examples
     --------
-    >>> pydodo.aircraft_control.change_vertical_speed('BA1', ...)
+    >>> pydodo.async_change_vertical_speed('BA1', ...)
     >>>
     """
 
@@ -206,7 +206,7 @@ async def async_direct_to_waypoint(aircraft_id, waypoint_name):
 
     Examples
     --------
-    >>> pydodo.aircraft_control.direct_to_waypoint('BA1', ...)
+    >>> pydodo.async_direct_to_waypoint('BA1', ...)
     >>>
     """
 

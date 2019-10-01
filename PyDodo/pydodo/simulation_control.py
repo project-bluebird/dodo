@@ -25,7 +25,7 @@ def create_scenario(filename, scenario):
 
     Examples
     --------
-    >>> pydodo.create_aircraft.load_scenario()
+    >>> pydodo.create_scenario()
     >>>
 
     """
@@ -60,7 +60,7 @@ def load_scenario(scenario, multiplier=1.0):
 
     Examples
     --------
-    >>> pydodo.create_aircraft.load_scenario()
+    >>> pydodo.load_scenario()
     >>>
 
     """

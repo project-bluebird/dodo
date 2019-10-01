@@ -26,7 +26,7 @@ def change_altitude(aircraft_id, altitude=None, flight_level=None, vertical_spee
 
     Examples
     --------
-    >>> pydodo.aircraft_control.change_altitude('BA1', ...)
+    >>> pydodo.change_altitude('BA1', ...)
     >>>
     """
 
@@ -62,7 +62,7 @@ def change_heading(aircraft_id, heading):
 
     Examples
     --------
-    >>> pydodo.aircraft_control.change_heading('BA1', ...)
+    >>> pydodo.change_heading('BA1', ...)
     >>>
     """
 
@@ -92,7 +92,7 @@ def change_speed(aircraft_id, speed):
 
     Examples
     --------
-    >>> pydodo.aircraft_control.change_speed('BA1', ...)
+    >>> pydodo.change_speed('BA1', ...)
     >>>
     """
 
@@ -122,7 +122,7 @@ def change_vertical_speed(aircraft_id, vertical_speed):
 
     Examples
     --------
-    >>> pydodo.aircraft_control.change_vertical_speed('BA1', ...)
+    >>> pydodo.change_vertical_speed('BA1', ...)
     >>>
     """
 
@@ -155,7 +155,7 @@ def direct_to_waypoint(aircraft_id, waypoint_name):
 
     Examples
     --------
-    >>> pydodo.aircraft_control.direct_to_waypoint('BA1', ...)
+    >>> pydodo.direct_to_waypoint('BA1', ...)
     >>>
     """
 
@@ -164,5 +164,3 @@ def direct_to_waypoint(aircraft_id, waypoint_name):
 
     body = {config_param("query_aircraft_id"): aircraft_id, "waypoint": waypoint_name}
     return post_request(config_param("endpoint_direct_to_waypoint"), body)
-
-
