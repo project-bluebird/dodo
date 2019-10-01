@@ -9,9 +9,9 @@ endpoint = config_param("endpoint_metrics")
 url = construct_endpoint_url(endpoint)
 
 
-def aircraft_separation(from_aircraft_id, to_aircraft_id):
+def loss_of_separation(from_aircraft_id, to_aircraft_id):
     """
-    Get aircraft separation score between two aircraft.
+    Get loss of separation score between two aircraft.
 
     Parameters
     ----------
@@ -23,11 +23,11 @@ def aircraft_separation(from_aircraft_id, to_aircraft_id):
     Returns
     -------
     double
-        A separation score between two aircraft.
+        A loss of separation score between two aircraft.
 
     Examples
     --------
-    >>> pydodo.aircraft_separation('BAW123', 'BAW456')
+    >>> pydodo.loss_of_separation('BAW123', 'BAW456')
     >>>
     """
     utils._validate_id(from_aircraft_id)

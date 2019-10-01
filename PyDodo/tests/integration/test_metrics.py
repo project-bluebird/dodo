@@ -5,7 +5,7 @@ from pydodo import (
     all_positions,
     reset_simulation,
     create_aircraft,
-    aircraft_separation
+    loss_of_separation
 )
 from pydodo.utils import ping_bluebird
 
@@ -29,9 +29,9 @@ speed_2 = 0
 
 
 @pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
-def test_aircraft_separation():
+def test_loss_of_separation():
     """
-    Tests aircraft_separation returns separation score.
+    Tests loss_of_separation returns correct separation score.
     """
     cmd = reset_simulation()
     assert cmd == True
@@ -54,11 +54,11 @@ def test_aircraft_separation():
                           speed = speed_2)
     assert cmd == True
 
-    score1 = aircraft_separation(aircraft_id, aircraft_id_2)
+    score1 = loss_of_separation(aircraft_id, aircraft_id_2)
     assert score1 == 0
 
-    score2 = aircraft_separation(aircraft_id, aircraft_id)
+    score2 = loss_of_separation(aircraft_id, aircraft_id)
     assert score2 == -1
 
-    score3 = aircraft_separation(aircraft_id_2, aircraft_id_2)
+    score3 = loss_of_separation(aircraft_id_2, aircraft_id_2)
     assert score3 == -1

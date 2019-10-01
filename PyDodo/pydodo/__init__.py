@@ -44,5 +44,5 @@ from .async_aircraft_control import (
 )
 
 from .metrics import (
-    aircraft_separation
+    loss_of_separation
 )

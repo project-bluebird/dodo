@@ -476,10 +476,10 @@ Either the `altitude` or `flight_level` argument must be given, but not both.
 
 ## Aircraft separation
 
-**Function name:** `aircraft_separation`
+**Function name:** `loss_of_separation`
 
 **Parameters:**
 - `from_aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
 - `to_aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
 
-**Return value:** A double, the separation score between `from_aircraft_id` and `to_aircraft_id`.
+**Return value:** A double, the loss of separation score between `from_aircraft_id` and `to_aircraft_id`.
