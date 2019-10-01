@@ -166,25 +166,3 @@ def direct_to_waypoint(aircraft_id, waypoint_name):
     return post_request(config_param("endpoint_direct_to_waypoint"), body)
 
 
-def batch(async_commands):
-    """
-    Send a batch of aircraft control commands and dispatch them asynchronously
-    to Bluebird.
-
-    Parameters
-    ----------
-    async_commands : list
-        A list of aircraft control commands. In PyDodo, these need an ``async_``
-        prefix. For example, ``batch([async_change_speed(...), async_change_altitude(...)]``.
-
-    Returns
-    -------
-    TRUE if successful. Otherwise an exception is thrown.
-
-    Notes
-    -----
-    ``NotImplemented``
-
-    """
-
-    return NotImplementedError
