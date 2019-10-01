@@ -33,6 +33,7 @@ default:
   endpoint_episode_log: "eplog"
   endpoint_simulation_time: "time"
   endpoint_shutdown: "shutdown"
+  endpoint_metrics: "metric"
   query_aircraft_id: "acid"
 
   # Column/element/attribute names

@@ -59,6 +59,13 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 | [Euclidean separation](#euclidean-separation)                         |       ✔    |       |
 | [Euclidean distance](#euclidean-distance)                             |        ✔   |       |
 
+### Metrics
+
+| Function  	                                                        | `Python    `| `R `    |
+|---	                                                                |---        |---	|
+| [Aircraft separation](#aircraft-separation)                         |       |       |
+
+
 # Commands
 
 ## Load scenario
@@ -466,3 +473,13 @@ Either the `altitude` or `flight_level` argument must be given, but not both.
 **Return value:** A double, euclidean distance between two points.
 
 **Description:** Get euclidean distance in metres between two points' positions defined as [latitude, logitude, altitude]. The points are converted to [ECEF](https://en.wikipedia.org/wiki/ECEF) coordinates to calculate distance.
+
+## Aircraft separation
+
+**Function name:** `aircraft_separation`
+
+**Parameters:**
+- `from_aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
+- `to_aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
+
+**Return value:** A double, the separation score between `from_aircraft_id` and `to_aircraft_id`.
