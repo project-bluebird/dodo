@@ -40,9 +40,7 @@ def geodesic_distance(from_lat, from_lon, to_lat, to_lon, major_semiaxis=_EARTH_
 
     Examples
     --------
-    >>> pydodo.geodesic_distance()
-    >>>
-
+    >>> >>> pydodo.geodesic_distance(from_lat = 51.5 , from_lon = 0.12, to_lat = 50.6, to_lon = -1.9)
     """
 
     utils._validate_latitude(from_lat)
@@ -86,9 +84,7 @@ def great_circle_distance(from_lat, from_lon, to_lat, to_lon, radius=_EARTH_RADI
 
     Examples
     --------
-    >>> pydodo.great_circle_distance()
-    >>>
-
+    >>> pydodo.great_circle_distance(from_lat = 51.5 , from_lon = 0.12, to_lat = 50.6, to_lon = -1.9)
     """
     utils._validate_latitude(from_lat)
     utils._validate_longitude(from_lon)
@@ -121,9 +117,7 @@ def vertical_distance(from_alt, to_alt):
 
     Examples
     --------
-    >>> pydodo.vertical_distance()
-    >>>
-
+    >>> pydodo.vertical_distance(from_alt = 200, to_alt = 350)
     """
     utils._validate_is_positive(from_alt, 'altitude')
     utils._validate_is_positive(to_alt, 'altitude')
@@ -159,9 +153,7 @@ def lla_to_ECEF(lat, lon, alt = 0, radius=_EARTH_RADIUS, f=_FLATTENING ):
 
     Examples
     --------
-    >>> pydodo.distance_measures.lla_to_ECEF()
-    >>>
-
+    >>> pydodo.distance_measures.lla_to_ECEF(lat = 51.5 , lon = 0.12, alt = 200)
     """
 
     lat_r = np.deg2rad(lat)
@@ -214,9 +206,7 @@ def euclidean_distance(from_lat, from_lon, from_alt, to_lat, to_lon, to_alt, maj
 
     Examples
     --------
-    >>> pydodo.euclidean_distance()
-    >>>
-
+    >>> pydodo.euclidean_distance(from_lat = 51.5 , from_lon = 0.12, from_alt = 200, to_lat = 50.6, to_lon = -1.9, to_alt = 350)
     """
     utils._validate_latitude(from_lat)
     utils._validate_longitude(from_lon)
@@ -249,12 +239,6 @@ def get_distance(from_pos, to_pos, measure, radius=_EARTH_RADIUS, flattening=_FL
     flattening : double
         An optional double. Ellipsoid flattening. The default value is for
         WGS84. param passed to geodesic_distance.
-
-    Examples
-    --------
-    >>> pydodo.distance_measures.get_distance()
-    >>>
-
     """
     if measure == 'geodesic':
         return geodesic_distance(
@@ -310,9 +294,7 @@ def get_pos_df(from_aircraft_id, to_aircraft_id):
 
     Examples
     --------
-    >>> pydodo.distance_measures.get_pos_df()
-    >>>
-
+    >>> pydodo.distance_measures.get_pos_df(from_aircraft_id = ["BAW123"], to_aircraft_id = ["KLM456"])
     """
 
     utils._validate_id_list(from_aircraft_id)
@@ -331,7 +313,7 @@ def get_pos_df(from_aircraft_id, to_aircraft_id):
 
 def get_separation(from_aircraft_id, to_aircraft_id, measure, radius=_EARTH_RADIUS, flattening=_FLATTENING):
     """
-    Get separation (geodesic, great circle, vertical or euclidean) betweel all pairs of "from" and "to" aircraft.
+    Get separation (geodesic, great circle, vertical or euclidean) between all pairs of "from" and "to" aircraft.
 
     Parameters
     ----------
@@ -353,9 +335,8 @@ def get_separation(from_aircraft_id, to_aircraft_id, measure, radius=_EARTH_RADI
 
     Examples
     --------
-    >>> pydodo.get_separation()
-    >>>
-
+    >>> pydodo.distance_measures.get_separation(from_aircraft_id = "BAW123", to_aircraft_id = "KLM456", measure = "euclidean")
+    >>> pydodo.distance_measures.get_separation(from_aircraft_id = ["BAW123", "KLM456"], measure = "great_circle")
     """
     assert measure in ['geodesic', 'great_circle', 'vertical', 'euclidean'], 'Invalid value {} for measure'.format(measure)
     if to_aircraft_id == None:
@@ -411,8 +392,8 @@ def geodesic_separation(from_aircraft_id, to_aircraft_id=None, major_semiaxis=_E
 
     Examples
     --------
-    >>> pydodo.geodesic_separation()
-    >>>
+    >>> pydodo.geodesic_separation(from_aircraft_id = "BAW123", to_aircraft_id = "KLM456")
+    >>> pydodo.geodesic_separation(from_aircraft_id = ["BAW123", "KLM456"])
     """
     return get_separation(from_aircraft_id, to_aircraft_id, measure='geodesic', radius=major_semiaxis, flattening=flattening)
 
@@ -443,8 +424,8 @@ def great_circle_separation(from_aircraft_id, to_aircraft_id=None, radius=_EARTH
 
     Examples
     --------
-    >>> pydodo.great_circle_separation()
-    >>>
+    >>> pydodo.great_circle_separation(from_aircraft_id = "BAW123", to_aircraft_id = "KLM456")
+    >>> pydodo.great_circle_separation(from_aircraft_id = ["BAW123", "KLM456"])
     """
     return get_separation(from_aircraft_id, to_aircraft_id, measure='great_circle', radius=radius)
 
@@ -472,8 +453,8 @@ def vertical_separation(from_aircraft_id, to_aircraft_id=None):
 
     Examples
     --------
-    >>> pydodo.vertical_separation()
-    >>>
+    >>> pydodo.vertical_separation(from_aircraft_id = "BAW123", to_aircraft_id = "KLM456")
+    >>> pydodo.vertical_separation(from_aircraft_id = ["BAW123", "KLM456"])
     """
     return get_separation(from_aircraft_id, to_aircraft_id, measure='vertical')
 
@@ -513,7 +494,7 @@ def euclidean_separation(from_aircraft_id, to_aircraft_id=None,  major_semiaxis=
 
     Examples
     --------
-    >>> pydodo.euclidean_separation()
-    >>>
+    >>> pydodo.euclidean_separation(from_aircraft_id = "BAW123", to_aircraft_id = "KLM456")
+    >>> pydodo.euclidean_separation(from_aircraft_id = ["BAW123", "KLM456"])
     """
     return get_separation(from_aircraft_id, to_aircraft_id, measure='euclidean',  radius=major_semiaxis, flattening=flattening)
