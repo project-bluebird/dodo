@@ -37,7 +37,7 @@ def format_pos_info(aircraft_pos):
     -------
     position_formatted : dict
         Dictionary of formatted aircraft position information with keys:
-        
+
         ``"type"``
         A string ICAO aircraft type designator.
         ``"altitude"``
@@ -210,6 +210,9 @@ def get_position(aircraft_id):
 
     Notes
     -----
+    This dataframe also contains a metadata attribute named `sim_t` containing
+    the simulator time in seconds since the start of the scenario.
+
     If the given aircraft ID does not exist in the simulation, the returned
     dataframe is a row of missing values.
 
