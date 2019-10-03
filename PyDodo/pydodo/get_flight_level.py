@@ -29,7 +29,7 @@ def get_flight_level(aircraft_id):
         ``"fl_cleared"``
             The aircraft's cleared flight level in meters.
 
-    Examples:
+    Examples
     --------
     >>> pydodo.get_flight_level.get_flight_level("BAW123")
     """

@@ -25,13 +25,15 @@ def batch(commands):
     TRUE if all commands were executed. Otherwise an exception is thrown.
 
     Examples
-    -------
-    >>> batch(
-        async_change_heading("BAW123", heading = 350),
-        async_change_altitude("BAW123", flight_level = 450),
-        async_change_heading("KLM456", heading = 10),
-        async_change_altitude("KLM456", flight_level = 250)
-    )
+    --------
+    ::
+
+        batch(
+            async_change_heading("BAW123", heading = 350),
+            async_change_altitude("BAW123", flight_level = 450),
+            async_change_heading("KLM456", heading = 10),
+            async_change_altitude("KLM456", flight_level = 250)
+            )
     """
 
     if type(commands) != list:

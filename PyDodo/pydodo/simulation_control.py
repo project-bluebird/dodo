@@ -139,7 +139,7 @@ def set_simulation_rate_multiplier(multiplier):
     TRUE if successful. Otherwise an exception is thrown.
 
     Examples
-    -------
+    --------
     >>> pydodo.set_simulation_rate_multiplier(2)
     >>> pydodo.set_simulation_rate_multiplier(0.5)
     """
@@ -167,7 +167,7 @@ def set_simulator_mode(mode):
     Bluebird docs found at: https://github.com/alan-turing-institute/bluebird
 
     Examples
-    -------
+    --------
     >>> pydodo.set_simulator_mode("agent")
     >>> pydodo.set_simulator_mode("sandbox")
     """
@@ -192,7 +192,7 @@ def simulation_step():
     TRUE if successful. Otherwise an exception is thrown.
 
     Examples
-    -------
+    --------
     >>> pydodo.simulation_step()
     """
     return post_request(config_param("endpoint_simulation_step"))

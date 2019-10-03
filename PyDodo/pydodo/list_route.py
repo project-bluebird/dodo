@@ -26,7 +26,7 @@ def format_wpt_info(waypoint):
                 Whether aircraft is currently headed to this waypoint.
 
     Returns
-    ----------
+    -------
     wpt_formatted : dict
         Dictionary of formatted waypoint information with keys:
             ``"requested_altitutde"``
