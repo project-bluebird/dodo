@@ -277,10 +277,10 @@ def get_pos_df(from_aircraft_id, to_aircraft_id):
 
     Parameters
     ----------
-    from_aircraft_id : str
+    from_aircraft_id : [str]
         A list of strings of aircraft IDs.
-    to_aircraft_id : str
-        A list of strings of aircraft IDs.
+    to_aircraft_id : [str]
+       A list of strings of aircraft IDs.
 
     Returns
     -------
@@ -313,10 +313,10 @@ def get_separation(from_aircraft_id, to_aircraft_id, measure, radius=_EARTH_RADI
 
     Parameters
     ----------
-    from_aircraft_id : str
+    from_aircraft_id : str, [str]
         A string or list of strings of aircraft IDs.
-    to_aircraft_id : str
-       An optional string or list of strings of aircraft IDs.
+    to_aircraft_id : str, [str], optional
+       An optional string or list of strings of aircraft IDs. If not provided, ``to_aircraft_id=from_aircraft_id``
     measure : str
         A string, one of ``['geodesic', 'great_circle', 'vertical', 'euclidean']``.
     radius : double, optional
@@ -365,10 +365,10 @@ def geodesic_separation(from_aircraft_id, to_aircraft_id=None, major_semiaxis=_E
 
     Parameters
     ----------
-    from_aircraft_id : str
-        A string vector of aircraft IDs.
-    to_aircraft_id : str
-        An optional string vector of aircraft IDs. If not provided, ``to_aircraft_id=from_aircraft_id``
+    from_aircraft_id : str, [str]
+        A string or list of strings of aircraft IDs.
+    to_aircraft_id : str, [str], optional
+       An optional string or list of strings of aircraft IDs. If not provided, ``to_aircraft_id=from_aircraft_id``
     major_semiaxis : double, optional
         The major (equatorial) radius of the ellipsoid. The default value is for WGS84.
     flattening : double, optional
@@ -396,10 +396,10 @@ def great_circle_separation(from_aircraft_id, to_aircraft_id=None, radius=_EARTH
 
     Parameters
     ----------
-    from_aircraft_id : str
-        A string vector of aircraft IDs.
-    to_aircraft_id : str
-        An optional string vector of aircraft IDs. If not provided, ``to_aircraft_id=from_aircraft_id``
+    from_aircraft_id : str, [str]
+        A string or list of strings of aircraft IDs.
+    to_aircraft_id : str, [str], optional
+       An optional string or list of strings of aircraft IDs. If not provided, ``to_aircraft_id=from_aircraft_id``
     radius : doubl, optional
         The radius of the earth in metres. The default value for WGS84.
 
@@ -425,10 +425,10 @@ def vertical_separation(from_aircraft_id, to_aircraft_id=None):
 
     Parameters
     ----------
-    from_aircraft_id : str
-        A string vector of aircraft IDs.
-    to_aircraft_id : str
-        An optional string vector of aircraft IDs. If not provided, ``to_aircraft_id=from_aircraft_id``
+    from_aircraft_id : str, [str]
+        A string or list of strings of aircraft IDs.
+    to_aircraft_id : str, [str], optional
+       An optional string or list of strings of aircraft IDs. If not provided, ``to_aircraft_id=from_aircraft_id``
 
     Returns
     -------
@@ -454,10 +454,10 @@ def euclidean_separation(from_aircraft_id, to_aircraft_id=None,  major_semiaxis=
 
     Parameters
     ----------
-    from_aircraft_id : str
-        A string vector of aircraft IDs.
-    to_aircraft_id : str
-        An optional string vector of aircraft IDs. If not provided, ``to_aircraft_id=from_aircraft_id``
+    from_aircraft_id : str, [str]
+        A string or list of strings of aircraft IDs.
+    to_aircraft_id : str, [str], optional
+       An optional string or list of strings of aircraft IDs. If not provided, ``to_aircraft_id=from_aircraft_id``
     major_semiaxis : double, optional
         The major (equatorial) radius of the ellipsoid. The default value is for WGS84.
     flattening : double, optional

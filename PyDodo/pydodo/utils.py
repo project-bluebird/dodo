@@ -15,11 +15,11 @@ def post_request(endpoint, body=None):
         A dictionary.
 
     Returns
-    ----------
+    -------
     TRUE if successful. Otherwise an exception is thrown.
 
     Examples
-    ----------
+    --------
     >>> endpoint = pydodo.config_param.config_param("endpoint_create_aircraft")
     >>> body = {"acid"="BAW123", "type"="B744", "lat"=0, "lon"=0, "hdg"=0, "alt"=20000, "spd"=240}
     >>> pydodo.utils.post_request(endpoint = endpoint, body = body)
@@ -41,12 +41,12 @@ def construct_endpoint_url(endpoint):
         The Bluebird API endpoing to call.
 
     Returns
-    ----------
+    -------
     str
         BlueBird endpoint URL.
 
     Examples
-    ----------
+    --------
     >>> pydodo.utils.construct_endpoint_url(endpoint = "ic")
     """
     return "{0}/{1}/{2}/{3}".format(
@@ -66,12 +66,12 @@ def get_bluebird_url():
     NONE
 
     Returns
-    ----------
+    -------
     str
         BlueBird URL.
 
     Examples
-    ----------
+    --------
     >>> pydodo.utils.get_bluebird_url()
     """
     return "http://{}:{}".format(config_param("host"), config_param("port"))
@@ -86,12 +86,12 @@ def ping_bluebird():
     NONE
 
     Returns
-    ----------
+    -------
     boolean
         TRUE indicates that a request to the BlueBird URL was successful.
 
     Examples
-    ----------
+    --------
     >>> pydodo.utils.ping_bluebird()
     """
     endpoint = config_param("endpoint_aircraft_position")
