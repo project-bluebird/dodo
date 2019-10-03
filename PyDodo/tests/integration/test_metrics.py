@@ -1,5 +1,7 @@
 import pytest
 
+import numpy as np
+
 from pydodo import (
     aircraft_position,
     all_positions,
@@ -62,3 +64,7 @@ def test_loss_of_separation():
 
     score3 = loss_of_separation(aircraft_id_2, aircraft_id_2)
     assert score3 == -1
+
+    new_aircraft_id = "TST3003"
+    score4 = loss_of_separation(aircraft_id, new_aircraft_id)
+    assert np.isnan(score4)

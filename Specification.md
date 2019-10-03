@@ -490,4 +490,4 @@ If any of the given aircraft IDs does not exist in the simulation, the returned 
 - `from_aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
 - `to_aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
 
-**Return value:** A double, the loss of separation score between `from_aircraft_id` and `to_aircraft_id`.
+**Return value:** A double, the loss of separation score between `from_aircraft_id` and `to_aircraft_id`. If any of the given aircraft IDs does not exist in the simulation, returns missing value.
