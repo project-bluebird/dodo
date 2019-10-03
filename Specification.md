@@ -365,6 +365,8 @@ Either the `altitude` or `flight_level` argument must be given, but not both.
 
 **Return value:** A dataframe of doubles with `from_aircraft_id` as row names and `to_aircraft_id` as column names. The values are the geodesic distance in metres between the positions of the aircraft pair at each [`from_aircraft_id`, `to_aircraft_id`] index.
 
+If any of the given aircraft IDs does not exist in the simulation, the returned dataframe contains a row or column of missing values for that ID.
+
 **Description:** Get geodesic separation in metres between the positions of all `from_aircraft_id` and `to_aircraft_id` pairs of aircraft.
 
 ## Geodesic distance
@@ -394,6 +396,8 @@ Either the `altitude` or `flight_level` argument must be given, but not both.
 
 **Return value:** A dataframe of doubles with `from_aircraft_id` as row names and `to_aircraft_id` as column names. The values are the great-circle distance in metres between the positions of the aircraft pair at each [`from_aircraft_id`, `to_aircraft_id`] index.
 
+If any of the given aircraft IDs does not exist in the simulation, the returned dataframe contains a row or column of missing values for that ID.
+
 **Description:** Get great-circle separation in metres between the positions of all `from_aircraft_id` and `to_aircraft_id` pairs of aircraft.
 
 ## Great-circle distance
@@ -421,6 +425,8 @@ Either the `altitude` or `flight_level` argument must be given, but not both.
 
 **Return value:** A dataframe of doubles with `from_aircraft_id` as row names and `to` as column names. The values are the vertical distance in metres between the positions of the aircraft pair at each [`from_aircraft_id`, `to_aircraft_id`] index.
 
+If any of the given aircraft IDs does not exist in the simulation, the returned dataframe contains a row or column of missing values for that ID.
+
 **Description:** Get vertical separation in metres between the positions of all `from_aircraft_id` and `to_aircraft_id` pairs of aircraft.
 
 ## Vertical distance
@@ -446,6 +452,8 @@ Either the `altitude` or `flight_level` argument must be given, but not both.
 - `flattening`: An optional double. Ellipsoid flattening. The default value is for WGS84.
 
 **Return value:** A dataframe of doubles with `from_aircraft_id` as row names and `to_aircraft_id` as column names. The values are the euclidean distance in metres between the positions of the aircraft pair at each [`from_aircraft_id`, `to_aircraft_id`] index.
+
+If any of the given aircraft IDs does not exist in the simulation, the returned dataframe contains a row or column of missing values for that ID.
 
 **Description:** Get euclidean separation in metres between the positions of all `from_aircraft_id` and `to_aircraft_id` pairs of aircraft. The aircraft positions are converted to [ECEF](https://en.wikipedia.org/wiki/ECEF) coordinates to calculate separation.
 
