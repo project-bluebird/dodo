@@ -5,7 +5,24 @@ from .config_param import config_param
 
 def post_request(endpoint, body=None):
     """
-    Common format for POST requests to BlueBird.
+    Make a POST requests to the BlueBird API.
+
+    Parameters
+    ----------
+    endpoint : str
+        The Bluebird API endpoing to call.
+    body : str
+        A dictionary.
+
+    Returns
+    ----------
+    TRUE if successful. Otherwise an exception is thrown.
+
+    Examples
+    ----------
+    >>> endpoint = pydodo.config_param.config_param("endpoint_create_aircraft")
+    >>> body = {"acid"="BAW123", "type"="B744", "lat"=0, "lon"=0, "hdg"=0, "alt"=20000, "spd"=240}
+    >>> pydodo.utils.post_request(endpoint = endpoint, body = body)
     """
     url = construct_endpoint_url(endpoint)
     resp = requests.post(url, json=body)
@@ -15,6 +32,23 @@ def post_request(endpoint, body=None):
 
 
 def construct_endpoint_url(endpoint):
+    """
+    Construct a BlueBird endpoint URL.
+
+    Parameters
+    ----------
+    endpoint : str
+        The Bluebird API endpoing to call.
+
+    Returns
+    ----------
+    str
+        BlueBird endpoint URL.
+
+    Examples
+    ----------
+    >>> pydodo.utils.construct_endpoint_url(endpoint = "ic")
+    """
     return "{0}/{1}/{2}/{3}".format(
         get_bluebird_url(),
         config_param("api_path"),
@@ -24,10 +58,42 @@ def construct_endpoint_url(endpoint):
 
 
 def get_bluebird_url():
+    """
+    Get the URL of the BlueBird API.
+
+    Parameters
+    ----------
+    NONE
+
+    Returns
+    ----------
+    str
+        BlueBird URL.
+
+    Examples
+    ----------
+    >>> pydodo.utils.get_bluebird_url()
+    """
     return "http://{}:{}".format(config_param("host"), config_param("port"))
 
 
 def ping_bluebird():
+    """
+    Check communication with BlueBird.
+
+    Parameters
+    ----------
+    NONE
+
+    Returns
+    ----------
+    boolean
+        TRUE indicates that a request to the BlueBird URL was successful.
+
+    Examples
+    ----------
+    >>> pydodo.utils.ping_bluebird()
+    """
     endpoint = config_param("endpoint_aircraft_position")
 
     url = construct_endpoint_url(endpoint)
@@ -63,12 +129,12 @@ def _validate_speed(spd):
 
 
 def _validate_string(input, param):
-    """Validate that input is a non-empty string"""
+    #Validate that input for param is a non-empty string
     assert input and type(input) == str, "Invalid input {} for {}".format(input, param)
 
 
 def _validate_id(aircraft_id):
-    """Validate aircraft_id is non-empty string (and length >= 3 if using bluesky)"""
+    #Validate aircraft_id is non-empty string (and length >= 3 if using BlueSky)
     if config_param("simulator") == config_param("bluesky_simulator"):
         assert (
             isinstance(aircraft_id, str) and len(aircraft_id) >= 3
@@ -78,7 +144,7 @@ def _validate_id(aircraft_id):
 
 
 def _validate_id_list(aircraft_id):
-    """Validate string list of aircraft IDs."""
+    #Validate string list of aircraft IDs.
     if isinstance(aircraft_id, str):
         _validate_id(aircraft_id)
     elif isinstance(aircraft_id, list) and bool(aircraft_id):
@@ -95,18 +161,13 @@ def _check_flight_level(fl):
 
 
 def parse_alt(alt, fl):
-    """
-    In ATC, up to certain distance use altitude and above use flight level.
-
-    For functions that accept EITHER altitude or flight level:
-    - check only one is provided, not both
-    - check the provided value is within prescribed limits
-    """
+    # Check only altitude or flight level is given & values are within limits
     assert alt is None or fl is None, "Either altitude or flight level should be specified, not both."
     if alt is not None:
         assert _check_altitude(alt), "Invalid value {} for altitude".format(alt)
         alt = str(alt)
     else:
+        # return flight level in correct string format
         assert fl is not None, "Must specify a valid altitude or a flight level"
         assert _check_flight_level(fl), "Invalid value {} for flight_level".format(fl)
         alt = "FL{}".format(fl)
@@ -118,4 +179,5 @@ def _validate_multiplier(dtmult):
 
 
 def _validate_is_positive(val, measure):
+    #Validate that input val for measure is non negative.
     assert val >= 0, "Invalid value {} for {}".format(val, measure)
