@@ -26,17 +26,15 @@ def geodesic_distance(from_lat, from_lon, to_lat, to_lon, major_semiaxis=_EARTH_
         A double in the range ``[-90, 90]``. The `to` point's latitude.
     to_lon : double
         A double in the range ``[-180, 180]``. The `to` point's longitude.
-    major_semiaxis : double
-        An optional double. The major (equatorial) radius of the ellipsoid. The
-        default value is for WGS84.
-    flattening : double
-        An optional double. Ellipsoid flattening. The default value is for
-        WGS84.
+    major_semiaxis : double, optional
+        The major (equatorial) radius of the ellipsoid. The default value is for WGS84.
+    flattening : double, optional
+        Ellipsoid flattening. The default value is for WGS84.
 
     Returns
     -------
     geodesic_distance : double
-        A double, geodesic distance between two points.
+        The geodesic distance between two points.
 
     Examples
     --------
@@ -73,14 +71,13 @@ def great_circle_distance(from_lat, from_lon, to_lat, to_lon, radius=_EARTH_RADI
         A double in the range ``[-90, 90]``. The `to` point's latitude.
     to_lon : double
         A double in the range ``[-180, 180]``. The `to` point's longitude.
-    radius : double
-        An optional double. The radius of the earth in metres. The default value
-        is 6378137 m.
+    radius : double, optional
+        The radius of the earth in metres. The default value is for WGS84.
 
     Returns
     -------
     great_circle_distance : double
-        A double, the great-circle distance between two points.
+        The great-circle distance between two points.
 
     Examples
     --------
@@ -113,7 +110,7 @@ def vertical_distance(from_alt, to_alt):
     Returns
     -------
     vertical_distance : double
-        A double, verticle distance between two points.
+        The verticle distance between two points.
 
     Examples
     --------
@@ -138,14 +135,15 @@ def lla_to_ECEF(lat, lon, alt = 0, radius=_EARTH_RADIUS, f=_FLATTENING ):
 
     alt : int
         Altitude in meters
-    radius : double
+    radius : double, optional
         Earth radius in metres (WGS84).
-    f : double
+    f : double, optional
         Ellipsoidal flattening (WGS84).
 
     Returns
     -------
-    ....
+    (double, double, double)
+        The (x, y, z) ECEF coordinates.
 
     Notes
     -----
@@ -188,17 +186,15 @@ def euclidean_distance(from_lat, from_lon, from_alt, to_lat, to_lon, to_alt, maj
         A double in the range ``[-180, 180]``. The `to` point's longitude.
     to_alt : double
         A non-negatige double. The `to` point's altitude in metres.
-    major_semiaxis : double
-        An optional double. The major (equatorial) radius of the ellipsoid. The
-        default value is for WGS84.
-    flattening : double
-        An optional double. Ellipsoid flattening. The default value is for
-        WGS84.
+    major_semiaxis : double, optional
+        The major (equatorial) radius of the ellipsoid. The default value is for WGS84.
+    flattening : double, optional
+        Ellipsoid flattening. The default value is for WGS84.
 
     Returns
     -------
     euclidean_distance : double
-        A double, euclidean distance between two points.
+        The euclidean distance between two points.
 
     Notes
     -----
@@ -234,10 +230,10 @@ def get_distance(from_pos, to_pos, measure, radius=_EARTH_RADIUS, flattening=_FL
         A pandas Series holding the to aircraft position data.
     measure : str
         A string, one of ``['geodesic', 'great_circle', 'vertical', 'euclidean']``.
-    radius : double
-        Earth radius/major_semiaxis in metres.
-    flattening : double
-        An optional double. Ellipsoid flattening. The default value is for
+    radius : double, optional
+        Earth radius/major_semiaxis in metres. The default valus is for WGS84.
+    flattening : double, optional
+        Ellipsoid flattening. The default value is for
         WGS84. param passed to geodesic_distance.
     """
     if measure == 'geodesic':
@@ -278,7 +274,6 @@ def get_distance(from_pos, to_pos, measure, radius=_EARTH_RADIUS, flattening=_FL
 def get_pos_df(from_aircraft_id, to_aircraft_id):
     """
     Get position for all unique aircraft listed in from_aircraft_id & to_aircraft_id.
-    Altitude is returned in feet by all_positions() so convert it to metres.
 
     Parameters
     ----------
@@ -290,7 +285,8 @@ def get_pos_df(from_aircraft_id, to_aircraft_id):
     Returns
     -------
     pos_df : pandas.DataFrame
-       A dataframe of current positions (aircraft_id are row indexes), NaN if requested aircraft ID does not exist.
+       A dataframe of current positions (aircraft_id are row indexes) with
+       altitude in metres. All row values are NaN if requested aircraft ID does not exist.
 
     Examples
     --------
@@ -323,10 +319,10 @@ def get_separation(from_aircraft_id, to_aircraft_id, measure, radius=_EARTH_RADI
        An optional string or list of strings of aircraft IDs.
     measure : str
         A string, one of ``['geodesic', 'great_circle', 'vertical', 'euclidean']``.
-    radius : double
-        Earth radius/major_semiaxis in metres.
-    flattening : double
-        param passed to geodesic_distance.
+    radius : double, optional
+        Earth radius/major_semiaxis in metres. The default valus is for WGS84.
+    flattening : double, optional
+        Ellipsoid flattening. The default value is for WGS84. Used with ``measure='geodesic_distance'``.
 
     Returns
     -------
@@ -369,21 +365,17 @@ def geodesic_separation(from_aircraft_id, to_aircraft_id=None, major_semiaxis=_E
 
     Parameters
     ----------
-
     from_aircraft_id : str
         A string vector of aircraft IDs.
     to_aircraft_id : str
         An optional string vector of aircraft IDs. If not provided, ``to_aircraft_id=from_aircraft_id``
-    major_semiaxis : double
-        An optional double. The major (equatorial) radius of the ellipsoid. The
-        default value is for WGS84.
-    flattening : double
-        An optional double. Ellipsoid flattening. The default value is for
-        WGS84.
+    major_semiaxis : double, optional
+        The major (equatorial) radius of the ellipsoid. The default value is for WGS84.
+    flattening : double, optional
+        Ellipsoid flattening. The default value is for WGS84.
 
     Returns
     -------
-
     df : pandas.DataFrame
         A dataframe of doubles with from_aircraft_id as row names and
         to_aircraft_id as column names. The values are the geodesic distance in
@@ -404,18 +396,15 @@ def great_circle_separation(from_aircraft_id, to_aircraft_id=None, radius=_EARTH
 
     Parameters
     ----------
-
     from_aircraft_id : str
         A string vector of aircraft IDs.
     to_aircraft_id : str
         An optional string vector of aircraft IDs. If not provided, ``to_aircraft_id=from_aircraft_id``
-    radius : double
-        An optional double. The radius of the earth in metres. The default value
-        is 6378137 m.
+    radius : doubl, optional
+        The radius of the earth in metres. The default value for WGS84.
 
     Returns
     -------
-
     df : pandas.DataFrame, dtype=double
         A dataframe of doubles with `from_aircraft_id` as row names and
         `to_aircraft_id` as column names. The values are the great circle distance in
@@ -436,7 +425,6 @@ def vertical_separation(from_aircraft_id, to_aircraft_id=None):
 
     Parameters
     ----------
-
     from_aircraft_id : str
         A string vector of aircraft IDs.
     to_aircraft_id : str
@@ -444,7 +432,6 @@ def vertical_separation(from_aircraft_id, to_aircraft_id=None):
 
     Returns
     -------
-
     df : pandas.DataFrame, dtype=double
         A dataframe of doubles with from_aircraft_id as row names and
         to_aircraft_id as column names. The values are the vertical distance in
@@ -467,21 +454,17 @@ def euclidean_separation(from_aircraft_id, to_aircraft_id=None,  major_semiaxis=
 
     Parameters
     ----------
-
     from_aircraft_id : str
         A string vector of aircraft IDs.
     to_aircraft_id : str
         An optional string vector of aircraft IDs. If not provided, ``to_aircraft_id=from_aircraft_id``
-    major_semiaxis : double
-        An optional double. The major (equatorial) radius of the ellipsoid. The
-        default value is for WGS84.
-    flattening : double
-        An optional double. Ellipsoid flattening. The default value is for
-        WGS84.
+    major_semiaxis : double, optional
+        The major (equatorial) radius of the ellipsoid. The default value is for WGS84.
+    flattening : double, optional
+        Ellipsoid flattening. The default value is for WGS84.
 
     Returns
     -------
-
     df : pandas.DataFrame
         A dataframe of doubles with `from_aircraft_id` as row names and
         `to_aircraft_id` as column names. The values are the euclidean distance in
