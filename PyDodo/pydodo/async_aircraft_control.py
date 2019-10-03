@@ -24,6 +24,14 @@ def batch(commands):
     -------
     TRUE if all commands were executed. Otherwise an exception is thrown.
 
+    Examples
+    -------
+    >>> batch(
+        async_change_heading("BAW123", heading = 350),
+        async_change_altitude("BAW123", flight_level = 450),
+        async_change_heading("KLM456", heading = 10),
+        async_change_altitude("KLM456", flight_level = 250)
+    )
     """
 
     if type(commands) != list:
@@ -45,7 +53,7 @@ def batch(commands):
 
 async def async_change_altitude(aircraft_id, altitude=None, flight_level=None, vertical_speed=None):
     """
-    Change aircraft altitude.
+    Request an aircraft to change altitude.
 
     Parameters
     ----------
@@ -66,8 +74,8 @@ async def async_change_altitude(aircraft_id, altitude=None, flight_level=None, v
 
     Examples
     --------
-    >>> pydodo.async_change_altitude('BA1', ...)
-    >>>
+    >>> pydodo.async_change_altitude("BAW123", flight_level = 450)
+    >>> pydodo.async_change_altitude("BAW123", altitude = 5000)
     """
 
     utils._validate_id(aircraft_id)
@@ -88,7 +96,7 @@ async def async_change_altitude(aircraft_id, altitude=None, flight_level=None, v
 
 async def async_change_heading(aircraft_id, heading):
     """
-    Change aircraft heading.
+    Request an aircraft to change heading.
 
     Parameters
     ----------
@@ -104,8 +112,7 @@ async def async_change_heading(aircraft_id, heading):
 
     Examples
     --------
-    >>> pydodo.async_change_heading('BA1', ...)
-    >>>
+    >>> pydodo.change_heading("BAW123", heading = 90)
     """
 
     utils._validate_id(aircraft_id)
@@ -120,40 +127,7 @@ async def async_change_heading(aircraft_id, heading):
 
 async def async_change_speed(aircraft_id, speed):
     """
-    Change aircraft speed.
-
-    Parameters
-    ----------
-    aircraft_id : str
-        A string aircraft identifier. For the BlueSky simulator, this has to be
-        at least three characters.
-    speed : double
-        A non-negative double. The requested calibrated air speed in knots
-        (KCAS).
-
-    Returns
-    -------
-    TRUE if successful. Otherwise an exception is thrown.
-
-    Examples
-    --------
-    >>> pydodo.async_change_speed('BA1', ...)
-    >>>
-    """
-
-    utils._validate_id(aircraft_id)
-    utils._validate_speed(speed)
-
-    body = {config_param("query_aircraft_id"): aircraft_id, "spd": speed}
-    async with aiohttp.ClientSession(raise_for_status=True) as session:
-        url = construct_endpoint_url(config_param("endpoint_change_speed"))
-        async with session.post(url, json=body) as response:
-            return True
-
-
-async def async_change_vertical_speed(aircraft_id, vertical_speed):
-    """
-    Change aircraft vertical speed.
+    Request an aircraft to change vertical speed.
 
     Parameters
     ----------
@@ -170,8 +144,39 @@ async def async_change_vertical_speed(aircraft_id, vertical_speed):
 
     Examples
     --------
-    >>> pydodo.async_change_vertical_speed('BA1', ...)
-    >>>
+    >>> pydodo.async_change_speed("BAW123", vertical_speed = 10)
+    """
+
+    utils._validate_id(aircraft_id)
+    utils._validate_speed(speed)
+
+    body = {config_param("query_aircraft_id"): aircraft_id, "spd": speed}
+    async with aiohttp.ClientSession(raise_for_status=True) as session:
+        url = construct_endpoint_url(config_param("endpoint_change_speed"))
+        async with session.post(url, json=body) as response:
+            return True
+
+
+async def async_change_vertical_speed(aircraft_id, vertical_speed):
+    """
+    Request an aircraft to change vertical speed.
+
+    Parameters
+    ----------
+    aircraft_id : str
+        A string aircraft identifier. For the BlueSky simulator, this has to be
+        at least three characters.
+    vertical_speed : double
+        A double. The requested vertical speed in feet/min (units according to
+        BlueSky docs).
+
+    Returns
+    -------
+    TRUE if successful. Otherwise an exception is thrown.
+
+    Examples
+    --------
+    >>> pydodo.async_change_vertical_speed("BAW123", vertical_speed = 10)
     """
 
     utils._validate_id(aircraft_id)
@@ -186,7 +191,7 @@ async def async_change_vertical_speed(aircraft_id, vertical_speed):
 
 async def async_direct_to_waypoint(aircraft_id, waypoint_name):
     """
-    Change aircraft heading toward a waypoint.
+    Request aircraft to change heading toward a waypoint.
 
     Parameters
     ----------
@@ -206,8 +211,7 @@ async def async_direct_to_waypoint(aircraft_id, waypoint_name):
 
     Examples
     --------
-    >>> pydodo.async_direct_to_waypoint('BA1', ...)
-    >>>
+    >>> pydodo.async_direct_to_waypoint("BAW123",  waypoint_name = "TESTWPT")
     """
 
     utils._validate_id(aircraft_id)

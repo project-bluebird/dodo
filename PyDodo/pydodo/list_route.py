@@ -48,7 +48,8 @@ def process_listroute_response(response):
 
 def list_route(aircraft_id):
     """
-    Dataframe of waypoints on an aircraft's route.
+    Get the route information of an aircraft as a data frame whose row names are
+    waypoint names.
 
     Parameters
     ----------
@@ -81,7 +82,7 @@ def list_route(aircraft_id):
 
     Examples
     --------
-
+    >>> pydodo.list_route("BAW123")
     """
     utils._validate_id(aircraft_id)
 

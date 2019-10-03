@@ -9,7 +9,30 @@ url = utils.construct_endpoint_url(endpoint)
 
 
 def get_flight_level(aircraft_id):
-    # TODO: Update docstrings
+    """
+    Get a dictionary with the aircraft's current, requested and cleared flight levels.
+
+    Parameters
+    ----------
+    aircraft_id : str
+        A string aircraft identifier. For the BlueSky simulator, this has to be
+        at least three characters.
+
+    Returns
+    -------
+    dict
+        Flight level dictionary with keys:
+        ``"fl_current"``
+            The aircraft's current flight level in meters.
+        ``"fl_requested"``
+            The aircraft's requested flight level in meters.
+        ``"fl_cleared"``
+            The aircraft's cleared flight level in meters.
+
+    Examples:
+    --------
+    >>> pydodo.get_flight_level.get_flight_level("BAW123")
+    """
     utils._validate_id(aircraft_id)
     resp = requests.get(url, params={config_param("query_aircraft_id"): aircraft_id})
     resp.raise_for_status()
@@ -36,8 +59,7 @@ def requested_flight_level(aircraft_id):
 
     Examples
     --------
-    >>> pydodo.requested_flight_level()
-    >>>
+    >>> pydodo.requested_flight_level("BAW123")
     """
 
     return get_flight_level(aircraft_id)['fl_requested']
@@ -63,8 +85,7 @@ def cleared_flight_level(aircraft_id):
 
     Examples
     --------
-    >>> pydodo.cleared_flight_level()
-    >>>
+    >>> pydodo.cleared_flight_level("BAW123")
     """
 
     return get_flight_level(aircraft_id)['fl_cleared']
@@ -89,8 +110,7 @@ def current_flight_level(aircraft_id):
 
     Examples
     --------
-    >>> pydodo.current_flight_level()
-    >>>
+    >>> pydodo.current_flight_level("BAW123")
     """
 
     return get_flight_level(aircraft_id)['fl_current']

@@ -19,15 +19,9 @@ def create_scenario(filename, scenario):
     -------
     TRUE if successful. Otherwise an exception is thrown.
 
-    Notes
-    -----
-    The scenario must exist on the simulator host.
-
     Examples
     --------
-    >>> pydodo.create_scenario()
-    >>>
-
+    >>> pydodo.create_scenario(filename = "~/Documents/test_scenario.scn", scenario = "test")
     """
     utils._validate_string(filename, "filename")
     utils._validate_string(scenario, "scenario")
@@ -40,7 +34,7 @@ def create_scenario(filename, scenario):
 
 def load_scenario(scenario, multiplier=1.0):
     """
-    Load scenario and start the simulation.
+    Load a scenario and start the simulation.
 
     Parameters
     ----------
@@ -60,9 +54,7 @@ def load_scenario(scenario, multiplier=1.0):
 
     Examples
     --------
-    >>> pydodo.load_scenario()
-    >>>
-
+    >>> pydodo.load_scenario("test")
     """
     utils._validate_string(scenario, "scenario")
     utils._validate_multiplier(multiplier)
@@ -83,6 +75,9 @@ def reset_simulation():
     -------
     TRUE if successful. Otherwise an exception is thrown.
 
+    Examples
+    --------
+    >>> pydodo.reset_simulation()
     """
     return post_request(config_param("endpoint_reset_simulation"))
 
@@ -98,6 +93,10 @@ def pause_simulation():
     Returns
     -------
     TRUE if successful. Otherwise an exception is thrown.
+
+    Examples
+    --------
+    >>> pydodo.pause_simulation()
     """
     return post_request(config_param("endpoint_pause_simulation"))
 
@@ -113,6 +112,10 @@ def resume_simulation():
     Returns
     -------
     TRUE if successful. Otherwise an exception is thrown.
+
+    Examples
+    --------
+    >>> pydodo.resume_simulation()
     """
     return post_request(config_param("endpoint_resume_simulation"))
 
@@ -134,6 +137,11 @@ def set_simulation_rate_multiplier(multiplier):
     Returns
     -------
     TRUE if successful. Otherwise an exception is thrown.
+
+    Examples
+    -------
+    >>> pydodo.set_simulation_rate_multiplier(2)
+    >>> pydodo.set_simulation_rate_multiplier(0.5)
     """
     utils._validate_multiplier(multiplier)
 
@@ -157,6 +165,11 @@ def set_simulator_mode(mode):
     Notes
     -----
     Bluebird docs found at: https://github.com/alan-turing-institute/bluebird
+
+    Examples
+    -------
+    >>> pydodo.set_simulator_mode("agent")
+    >>> pydodo.set_simulator_mode("sandbox")
     """
     assert mode == 'agent' or mode == 'sandbox', 'Invalid value {} for mode'.format(mode)
 
@@ -177,5 +190,9 @@ def simulation_step():
     Returns
     -------
     TRUE if successful. Otherwise an exception is thrown.
+
+    Examples
+    -------
+    >>> pydodo.simulation_step()
     """
     return post_request(config_param("endpoint_simulation_step"))

@@ -52,14 +52,11 @@ def create_aircraft(
 
     Notes
     -----
-
     Either the altitude or flight_level argument must be given, but not both.
 
     Examples
     --------
-    >>> pydodo.create_aircraft('BA1', ...)
-    >>>
-
+    >>> pydodo.create_aircraft("BAW123", "B744", 0, 0, 0, flight_level = 250, speed = 200)
     """
 
     utils._validate_id(aircraft_id)
