@@ -21,11 +21,11 @@ def geodesic_distance(from_lat, from_lon, to_lat, to_lon, major_semiaxis=_EARTH_
     from_lat : double
         A double in the range ``[-90, 90]``. The `from` point's latitude.
     from_lon : double
-        A double in the range ``[-180, 180]``. The `from` point's longitude.
+        A double in the range ``[-180, 180)``. The `from` point's longitude.
     to_lat : double
         A double in the range ``[-90, 90]``. The `to` point's latitude.
     to_lon : double
-        A double in the range ``[-180, 180]``. The `to` point's longitude.
+        A double in the range ``[-180, 180)``. The `to` point's longitude.
     major_semiaxis : double, optional
         The major (equatorial) radius of the ellipsoid. The default value is for WGS84.
     flattening : double, optional
@@ -66,11 +66,11 @@ def great_circle_distance(from_lat, from_lon, to_lat, to_lon, radius=_EARTH_RADI
     from_lat : double
         A double in the range ``[-90, 90]``. The `from` point's latitude.
     from_lon : double
-        A double in the range ``[-180, 180]``. The `from` point's longitude.
+        A double in the range ``[-180, 180)``. The `from` point's longitude.
     to_lat : double
         A double in the range ``[-90, 90]``. The `to` point's latitude.
     to_lon : double
-        A double in the range ``[-180, 180]``. The `to` point's longitude.
+        A double in the range ``[-180, 180)``. The `to` point's longitude.
     radius : double, optional
         The radius of the earth in metres. The default value is for WGS84.
 
@@ -177,13 +177,13 @@ def euclidean_distance(from_lat, from_lon, from_alt, to_lat, to_lon, to_alt, maj
     from_lat : double
         A double in the range ``[-90, 90]``. The `from` point's latitude.
     from_lon : double
-        A double in the range ``[-180, 180]``. The `from` point's longitude.
+        A double in the range ``[-180, 180)``. The `from` point's longitude.
     from_alt : double
         A non-negatige double. The from point's altitude in metres.
     to_lat : double
          A double in the range ``[-90, 90]``. The `to` point's latitude.
     to_lon : double
-        A double in the range ``[-180, 180]``. The `to` point's longitude.
+        A double in the range ``[-180, 180)``. The `to` point's longitude.
     to_alt : double
         A non-negatige double. The `to` point's altitude in metres.
     major_semiaxis : double, optional

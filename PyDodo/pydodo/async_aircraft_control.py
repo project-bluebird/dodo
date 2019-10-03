@@ -104,7 +104,7 @@ async def async_change_heading(aircraft_id, heading):
         A string aircraft identifier. For the BlueSky simulator, this has to be
         at least three characters.
     heading : double
-        A double in the range ``[0, 360]``. The requested heading in degrees.
+        A double in the range ``[0, 360)``. The requested heading in degrees.
 
     Returns
     -------

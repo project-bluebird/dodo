@@ -27,9 +27,9 @@ def create_aircraft(
     latitude : double
         A double in the range ``[-90, 90]``. The aircraft's initial latitude.
     longitude : double
-        A double in the range ``[-180, 180]``. The aircraft's initial longitude.
+        A double in the range ``[-180, 180)``. The aircraft's initial longitude.
     heading : double
-        A double in the range ``[0, 360]``. The aircraft's initial heading in
+        A double in the range ``[0, 360)``. The aircraft's initial heading in
         degrees.
     altitude : double
         A double in the range ``[0, 6000]``. The aircraft's initial altitude in
