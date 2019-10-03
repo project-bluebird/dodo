@@ -12,12 +12,13 @@ url = utils.construct_endpoint_url(endpoint)
 
 def format_wpt_info(waypoint):
     """
-    Format waypoint dictionary returned by BlueBird.
+    Format waypoint dictionary returned by BlueBird API.
 
     Parameters
     ----------
     waypoint : dict
         Dictionary of waypoint information returned by BlueBird with keys:
+        
             ``"req_alt"``
                 The aircraft's requested altitude at waypoint (in feet or flight levels).
             ``"req_spd"``
@@ -29,6 +30,7 @@ def format_wpt_info(waypoint):
     -------
     wpt_formatted : dict
         Dictionary of formatted waypoint information with keys:
+
             ``"requested_altitutde"``
                 The aircraft's requested altitude at waypoint in feet.
             ``"requested_speed"``
