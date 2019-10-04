@@ -1,3 +1,4 @@
+import os
 import pytest
 import time
 
@@ -9,6 +10,14 @@ from pydodo.utils import ping_bluebird
 # test if can connect to BlueBird
 bb_resp = ping_bluebird()
 
+
+@pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
+def test_bluesky_response():
+    """Test that bluesky is running and responding before any other tests are run"""
+    resp = reset_simulation()
+    assert resp == True
+
+@pytest.mark.skipif(os.environ.get('TRAVIS') == 'true', reason="Skipping this test on Travis CI")
 @pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
 def test_async_request():
     """

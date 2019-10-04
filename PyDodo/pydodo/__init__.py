@@ -42,3 +42,7 @@ from .async_aircraft_control import (
     async_change_vertical_speed,
     async_direct_to_waypoint
 )
+
+from .metrics import (
+    loss_of_separation
+)

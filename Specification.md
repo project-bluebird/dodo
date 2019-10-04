@@ -59,6 +59,13 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 | [Euclidean separation](#euclidean-separation)                         |       ✔    |       |
 | [Euclidean distance](#euclidean-distance)                             |        ✔   |       |
 
+### Metrics
+
+| Function  	                                                        | `Python    `| `R `    |
+|---	                                                                |---        |---	|
+| [Aircraft separation](#aircraft-separation)                         |       |       |
+
+
 # Commands
 
 ## Load scenario
@@ -474,3 +481,13 @@ If any of the given aircraft IDs does not exist in the simulation, the returned 
 **Return value:** A double, euclidean distance between two points.
 
 **Description:** Get euclidean distance in metres between two points' positions defined as [latitude, logitude, altitude]. The points are converted to [ECEF](https://en.wikipedia.org/wiki/ECEF) coordinates to calculate distance.
+
+## Aircraft separation
+
+**Function name:** `loss_of_separation`
+
+**Parameters:**
+- `from_aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
+- `to_aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
+
+**Return value:** A double, the loss of separation score between `from_aircraft_id` and `to_aircraft_id`. If any of the given aircraft IDs does not exist in the simulation, returns missing value.
