@@ -25,7 +25,13 @@ def loss_of_separation(from_aircraft_id, to_aircraft_id):
     Returns
     -------
     double
-        A loss of separation score between two aircraft.
+        A loss of separation score between two aircraft (NaN if one of the
+        aircraft IDs does not exist in the simulation).
+
+    Notes
+    -----
+    If an invalid ID is given, or the call to Bluebird fails, an exception is
+    thrown.
 
     Examples
     --------
