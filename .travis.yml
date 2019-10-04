@@ -49,3 +49,5 @@ script:
   - "conda install -c r r-irkernel"
   - "R CMD check --no-build-vignettes --no-manual $DODO_HOME/rdodo"
   - "bash $DODO_HOME/notebooks/.travis.sh"
+
+env: TRAVIS=true

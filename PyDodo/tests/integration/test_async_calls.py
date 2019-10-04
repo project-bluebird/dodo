@@ -1,3 +1,4 @@
+import os
 import pytest
 import time
 
@@ -16,7 +17,7 @@ def test_bluesky_response():
     resp = reset_simulation()
     assert resp == True
 
-
+@pytest.mark.skipif(os.environ.get('TRAVIS') == 'true', reason="Skipping this test on Travis CI")
 @pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
 def test_async_request():
     """
