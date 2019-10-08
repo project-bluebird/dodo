@@ -20,17 +20,17 @@ def format_pos_info(aircraft_pos):
     aircraft_pos : dict
         Dictionary of aircraft position information returned by BlueBird with keys:
 
-            ``"actype"``
+        ``"actype"``
             A string ICAO aircraft type designator.
-            ``"alt"``
+        ``"alt"``
             The aircraft's altitude in metres.
-            ``"gs"``
+        ``"gs"``
             The aircraft's ground speed in knots.
-            ``"lat"``
+        ``"lat"``
             The aircraft's latitude.
-            ``"lon"``
+        ``"lon"``
             The aircraft's longitude.
-            ``"vs"``
+        ``"vs"``
             The aircraft's vertical speed in feet/min.
 
     Returns
@@ -39,17 +39,17 @@ def format_pos_info(aircraft_pos):
         Dictionary of formatted aircraft position information with keys:
 
         ``"type"``
-        A string ICAO aircraft type designator.
+            A string ICAO aircraft type designator.
         ``"altitude"``
-        The aircraft's altitude in metres.
+            The aircraft's altitude in metres.
         ``"ground_speed"``
-        The aircraft's ground speed in knots.
+            The aircraft's ground speed in knots.
         ``"latitude"``
-        The aircraft's latitude.
+            The aircraft's latitude.
         ``"longitude"``
-        The aircraft's longitude.
+            The aircraft's longitude.
         ``"vertical_speed"``
-        The aircraft's vertical speed in feet/min.
+            The aircraft's vertical speed in feet/min.
     """
 
     position_formatted = {
