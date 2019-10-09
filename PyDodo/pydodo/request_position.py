@@ -57,13 +57,19 @@ def process_pos_response(response):
     This dataframe also contains a metadata attribute named `sim_t` containing
     the simulator time in seconds since the start of the scenario.
     """
+    if not bool(response):
+        return pd.DataFrame({col: [] for col in _POS_COL_MAP.keys()})
     pos_dict = {
-        aircraft: {col : response[aircraft][name] for col, name in _POS_COL_MAP.items()}
-        for aircraft in response.keys()
-        if aircraft != "sim_t"
+         aircraft : {col :
+            (response[aircraft][name] if bool(response[aircraft]) else np.nan)
+            for col, name in _POS_COL_MAP.items()
+            }
+         for aircraft in response.keys()
+         if aircraft != "sim_t"
     }
     pos_df = pd.DataFrame.from_dict(pos_dict, orient="index")
-    pos_df.sim_t = response["sim_t"]
+    if "sim_t" in response.keys():
+        pos_df.sim_t = response["sim_t"]
     return normalise_positions_units(pos_df)
 
 
@@ -145,10 +151,7 @@ def all_positions():
     >>> pydodo.all_positions()
     """
     pos = position_call()
-    if bool(pos):
-        return process_pos_response(pos)
-    else:
-        return pd.DataFrame({col: [] for col in _POS_COL_MAP.keys()})
+    return process_pos_response(pos)
 
 
 def aircraft_position(aircraft_id):
@@ -191,13 +194,7 @@ def aircraft_position(aircraft_id):
     if type(aircraft_id) == str:
         utils._validate_id(aircraft_id)
         pos = position_call(aircraft_id)
-        if bool(pos[aircraft_id]):
-            return process_pos_response(pos)
-        else:
-            return pd.DataFrame(
-                {key: np.nan for key in _POS_COL_MAP.keys()},
-                index=[aircraft_id]
-            )
+        return process_pos_response(pos)
     elif type(aircraft_id) == list and bool(aircraft_id):
         for aircraft in aircraft_id:
             utils._validate_id(aircraft)
