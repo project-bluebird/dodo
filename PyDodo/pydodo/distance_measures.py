@@ -329,6 +329,11 @@ def get_separation(from_aircraft_id, to_aircraft_id, measure, radius=_EARTH_RADI
     sep_df : pandas.DataFrame
        A dataframe with separation between all from_aircraft_id and to_aircraft_id pairs of aircraft.
 
+    Notes
+    -----
+    If any of the given aircraft IDs does not exist in the simulation, the
+    returned dataframe contains a row or column of missing values for that ID.
+
     Examples
     --------
     >>> pydodo.distance_measures.get_separation(from_aircraft_id = "BAW123", to_aircraft_id = "KLM456", measure = "euclidean")
@@ -382,6 +387,11 @@ def geodesic_separation(from_aircraft_id, to_aircraft_id=None, major_semiaxis=_E
         metres between the positions of the aircraft pair at each
         ``[from_aircraft_id, to_aircraft_id]`` index.
 
+    Notes
+    -----
+    If any of the given aircraft IDs does not exist in the simulation, the
+    returned dataframe contains a row or column of missing values for that ID.
+
     Examples
     --------
     >>> pydodo.geodesic_separation(from_aircraft_id = "BAW123", to_aircraft_id = "KLM456")
@@ -411,6 +421,11 @@ def great_circle_separation(from_aircraft_id, to_aircraft_id=None, radius=_EARTH
         metres between the positions of the aircraft pair at each
         ``[from_aircraft_id, to_aircraft_id]`` index.
 
+    Notes
+    -----
+    If any of the given aircraft IDs does not exist in the simulation, the
+    returned dataframe contains a row or column of missing values for that ID.
+
     Examples
     --------
     >>> pydodo.great_circle_separation(from_aircraft_id = "BAW123", to_aircraft_id = "KLM456")
@@ -437,6 +452,11 @@ def vertical_separation(from_aircraft_id, to_aircraft_id=None):
         to_aircraft_id as column names. The values are the vertical distance in
         metres between the positions of the aircraft pair at each
         ``[from_aircraft_id, to_aircraft_id]`` index.
+
+    Notes
+    -----
+    If any of the given aircraft IDs does not exist in the simulation, the
+    returned dataframe contains a row or column of missing values for that ID.
 
     Examples
     --------
@@ -474,6 +494,9 @@ def euclidean_separation(from_aircraft_id, to_aircraft_id=None,  major_semiaxis=
     Notes
     -----
     https://en.wikipedia.org/wiki/ECEF
+
+    If any of the given aircraft IDs does not exist in the simulation, the
+    returned dataframe contains a row or column of missing values for that ID.
 
     Examples
     --------
