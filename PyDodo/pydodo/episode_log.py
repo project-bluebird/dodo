@@ -21,6 +21,9 @@ def episode_log():
         A string, the relative path to the log file. An exception is thrown if
         an error occurs.
 
+    Examples
+    --------
+    >>> pydodo.episode_log()
     """
     endpoint = config_param("endpoint_episode_log")
     url = utils.construct_endpoint_url(endpoint)

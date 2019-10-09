@@ -12,7 +12,31 @@ url = utils.construct_endpoint_url(endpoint)
 
 def format_wpt_info(waypoint):
     """
-    Format waypoint dictionary returned by bluebird.
+    Format waypoint dictionary returned by BlueBird API.
+
+    Parameters
+    ----------
+    waypoint : dict
+        Dictionary of waypoint information returned by BlueBird with keys:
+        
+            ``"req_alt"``
+                The aircraft's requested altitude at waypoint (in feet or flight levels).
+            ``"req_spd"``
+                The aircraft's requested speed at waypoint.
+            ``"is_current"``
+                Whether aircraft is currently headed to this waypoint.
+
+    Returns
+    -------
+    wpt_formatted : dict
+        Dictionary of formatted waypoint information with keys:
+
+            ``"requested_altitutde"``
+                The aircraft's requested altitude at waypoint in feet.
+            ``"requested_speed"``
+                The aircraft's requested speed at waypoint.
+            ``"current"``
+                Whether aircraft is currently headed to this waypoint.
     """
     wpt_formatted = {
         "requested_altitude": waypoint["req_alt"],
@@ -30,8 +54,26 @@ def format_wpt_info(waypoint):
 
 def process_listroute_response(response):
     """
-    Process response from LISTROUTE request.
-    Return dataframe with sim_t and aircraft_id attributes.
+    Process JSON response from BlueBird LISTROUTE endpoint request and return
+    the route information of an aircraft as a data frame.
+
+    Parameters
+    ----------
+    response : JSON <dict>
+
+    Returns
+    -------
+    df : pandas.DataFrame
+            A  dataframe indexed by waypoint name with columns:
+        | - ``requested_altitude``: A non-negatige double. The aircraft's requested altitude in feet at waypoint.
+        | - ``requested_speed``: A non-negative double. The aircraft's requested speed at waypoint.
+        | - ``current``: A boolean indicating whether the aircraft is currently heading toward this waypoint.
+
+    Notes
+    -----
+    This dataframe also contains metadata attributes named `aircraft_id` and
+    `sim_t` containing the simulator time in seconds since the start of the
+    scenario.
     """
     json_data = json.loads(response.text)
     route_dict = {wpt["wpt_name"]: format_wpt_info(wpt) for wpt in json_data["route"]}
@@ -48,7 +90,8 @@ def process_listroute_response(response):
 
 def list_route(aircraft_id):
     """
-    Dataframe of waypoints on an aircraft's route.
+    Get the route information of an aircraft as a data frame whose row names are
+    waypoint names.
 
     Parameters
     ----------
@@ -81,7 +124,7 @@ def list_route(aircraft_id):
 
     Examples
     --------
-
+    >>> pydodo.list_route("BAW123")
     """
     utils._validate_id(aircraft_id)
 
@@ -104,7 +147,25 @@ def list_route(aircraft_id):
 def define_waypoint(waypoint_name, latitude, longitude, waypoint_type=None):
     """
     Define a custom waypoint in the simulation.
-    Currently this is only used for testing purposes.
+
+    Parameters
+    ----------
+    waypoint_name : str
+        A waypoint identifier.
+    latitude : double
+        A double in the range ``[-90, 90]``. The waypoint's latitude.
+    longitude : double
+        A double in the range ``[-180, 180]``. The waypoint's longitude.
+    waypoint_type : str, optional
+        Custom string which can be used to tag waypoints.
+
+    Returns
+    -------
+    TRUE if successful. Otherwise an exception is thrown.
+
+    Notes
+    -----
+    This function is only used for testing purposes.
     """
     utils._validate_string(waypoint_name, "waypoint name")
     utils._validate_latitude(latitude)
@@ -122,10 +183,36 @@ def add_waypoint(
     aircraft_id, waypoint_name=None, altitude=None, flight_level=None, speed=None
     ):
     """
-    Add waypoint to aircraft route.
-    Can also optinally set altitude OR flight level and speed which should be
-    achieved at this waypoint.
-    Currently this is only used for testing purposes.
+    Add waypoint to aircraft route. Can also optinally set altitude OR flight level
+    and speed which should be achieved by this waypoint.
+
+    Parameters
+    ----------
+    aircraft_id : str
+        A string aircraft identifier. For the BlueSky simulator, this has to be
+        at least three characters.
+    waypoint_name : str
+        A waypoint identifier.
+    altitude : double, optional
+        A double in the range ``[0, 6000]``. The altitude in feet the aircraft
+        should achieve by this waypoint. For altitudes in excess of 6000ft a
+        flight level should be specified instead.
+    flight_level : int, optional
+        An integer of 60 or more. The flight level the aircraft should achieve
+        by this waypoint.
+    speed : double, optional
+        A non-negative double. The calibrated air speed in knots (KCAS) that the
+        aircraft should achieve by this waypoint.
+
+    Returns
+    -------
+    TRUE if successful. Otherwise an exception is thrown.
+
+    Notes
+    -----
+    This function is only used for testing purposes.
+
+    Either the altitude or flight_level argument must be given, but not both.
     """
     utils._validate_id(aircraft_id)
     utils._validate_string(waypoint_name, "waypoint_name")
