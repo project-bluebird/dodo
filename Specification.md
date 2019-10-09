@@ -63,7 +63,7 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 
 | Function  	                                                        | `Python    `| `R `    |
 |---	                                                                |---        |---	|
-| [Aircraft separation](#aircraft-separation)                         |       |       |
+| [Loss of separation](#loss-of-separation)                         |  ✔    |       |
 
 
 # Commands
@@ -482,7 +482,7 @@ If any of the given aircraft IDs does not exist in the simulation, the returned 
 
 **Description:** Get euclidean distance in metres between two points' positions defined as [latitude, logitude, altitude]. The points are converted to [ECEF](https://en.wikipedia.org/wiki/ECEF) coordinates to calculate distance.
 
-## Aircraft separation
+## Loss of separation
 
 **Function name:** `loss_of_separation`
 
