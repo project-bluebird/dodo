@@ -10,60 +10,16 @@ from . import utils
 endpoint = config_param("endpoint_aircraft_position")
 url = construct_endpoint_url(endpoint)
 
-_POS_COL_NAMES = ["type", "altitude", "ground_speed", "latitude", "longitude",
-"vertical_speed"]
+# map between our pos column names and pos names used by bluebird
+_POS_COL_MAP = {
+    "type" : "actype",
+    "altitude" : "alt",
+    "ground_speed" : "gs",
+    "latitude" : "lat",
+    "longitude" : "lon",
+    "vertical_speed" : "vs"
+}
 _SCALE_METRES_TO_FEET = 3.280839895
-
-
-def format_pos_info(aircraft_pos):
-    """
-    Format aircraft position dictionary returned by BlueBird API.
-
-    Parameters
-    ----------
-    aircraft_pos : dict
-        Dictionary of aircraft position information returned by BlueBird with keys:
-
-        ``"actype"``
-            A string ICAO aircraft type designator.
-        ``"alt"``
-            The aircraft's altitude in metres.
-        ``"gs"``
-            The aircraft's ground speed in knots.
-        ``"lat"``
-            The aircraft's latitude.
-        ``"lon"``
-            The aircraft's longitude.
-        ``"vs"``
-            The aircraft's vertical speed in feet/min.
-
-    Returns
-    -------
-    dict
-        Dictionary of formatted aircraft position information with keys:
-
-        ``"type"``
-            A string ICAO aircraft type designator.
-        ``"altitude"``
-            The aircraft's altitude in metres.
-        ``"ground_speed"``
-            The aircraft's ground speed in knots.
-        ``"latitude"``
-            The aircraft's latitude.
-        ``"longitude"``
-            The aircraft's longitude.
-        ``"vertical_speed"``
-            The aircraft's vertical speed in feet/min.
-    """
-
-    return {
-        "type": aircraft_pos["actype"],
-        "altitude": aircraft_pos["alt"],
-        "ground_speed": aircraft_pos["gs"],
-        "latitude": aircraft_pos["lat"],
-        "longitude": aircraft_pos["lon"],
-        "vertical_speed": aircraft_pos["vs"],
-    }
 
 
 def normalise_positions_units(df):
@@ -101,15 +57,13 @@ def process_pos_response(response):
     This dataframe also contains a metadata attribute named `sim_t` containing
     the simulator time in seconds since the start of the scenario.
     """
-
-    json_data = json.loads(response.text)
     pos_dict = {
-        aircraft: format_pos_info(json_data[aircraft])
-        for aircraft in json_data.keys()
+        aircraft: {col : response[aircraft][name] for col, name in _POS_COL_MAP.items()}
+        for aircraft in response.keys()
         if aircraft != "sim_t"
     }
     pos_df = pd.DataFrame.from_dict(pos_dict, orient="index")
-    pos_df.sim_t = json_data["sim_t"]
+    pos_df.sim_t = response["sim_t"]
     return normalise_positions_units(pos_df)
 
 
@@ -124,24 +78,16 @@ def position_call(aircraft_id = None):
 
     Returns
     -------
-    pandas.DataFrame
-        Dataframe indexed by **uppercase** aircraft ID with columns:
-    | - ``type``: A string ICAO aircraft type designator.
-    | - ``altitude``: A non-negatige double. The aircraft's altitude in feet.
-    | - ``ground_speed``: A non-negative double. The aircraft's ground speed in knots.
-    | - ``latitude``: A double in the range ``[-90, 90]``. The aircraft's latitude.
-    | - ``longitude``: A double in the range ``[-180, 180]``. The aircraft's longitude.
-    | - ``vertical_speed``: A double. The aircraft's vertical speed in feet/min (units according to BlueSky docs).
+    dict of {str : dict}
+        A dictionary with aircraft IDs as keys and aircraft position information
+        contained in a dictionary. If aircraft ID is not found, position dictionary
+        is empty. If there are no aircraft found in the simulation, an empty
+        dictionary is returned.
 
     Notes
     -----
-    This dataframe also contains a metadata attribute named `sim_t` containing
-    the simulator time in seconds since the start of the scenario.
-
-    If no aircraft exists an empty data frame is returned.
-
-    If the given aircraft ID does not exist in the simulation, dataframe with a
-    row of missing values is returned.
+    If no aircraft ID is provided, returns position information for all aircraft
+    in simulation.
 
     If the response from Bluebird contains an error status code, an exception is
     thrown.
@@ -156,14 +102,11 @@ def position_call(aircraft_id = None):
         aircraft_id = "all"
     resp = requests.get(url, params={config_param("query_aircraft_id"): aircraft_id})
     if resp.status_code == 200:
-        return process_pos_response(resp)
+        return json.loads(resp.text)
     elif resp.status_code == config_param("status_code_aircraft_id_not_found"):
-        return pd.DataFrame(
-            {key: np.nan for key in _POS_COL_NAMES},
-            index=[aircraft_id]
-        )
+        return {aircraft_id : {}}
     elif resp.status_code == config_param("status_code_no_aircraft_found"):
-        return pd.DataFrame({col: [] for col in _POS_COL_NAMES})
+        return {}
     else:
         raise requests.HTTPError(resp.text)
 
@@ -178,7 +121,7 @@ def all_positions():
 
     Returns
     -------
-    all_pos_df : pandas.DataFrame
+    pandas.DataFrame
         Dataframe indexed by **uppercase** aircraft ID with columns:
     | - ``type``: A string ICAO aircraft type designator.
     | - ``altitude``: A non-negatige double. The aircraft's altitude in feet.
@@ -201,8 +144,11 @@ def all_positions():
     ---------
     >>> pydodo.all_positions()
     """
-
-    return position_call()
+    pos = position_call()
+    if bool(pos):
+        return process_pos_response(pos)
+    else:
+        return pd.DataFrame({col: [] for col in _POS_COL_MAP.keys()})
 
 
 def aircraft_position(aircraft_id):
@@ -244,11 +190,18 @@ def aircraft_position(aircraft_id):
 
     if type(aircraft_id) == str:
         utils._validate_id(aircraft_id)
-        return position_call(aircraft_id)
+        pos = position_call(aircraft_id)
+        if bool(pos[aircraft_id]):
+            return process_pos_response(pos)
+        else:
+            return pd.DataFrame(
+                {key: np.nan for key in _POS_COL_MAP.keys()},
+                index=[aircraft_id]
+            )
     elif type(aircraft_id) == list and bool(aircraft_id):
         for aircraft in aircraft_id:
             utils._validate_id(aircraft)
-        all_pos = position_call() # get all aircraft in simulation
+        all_pos = all_positions() # get all aircraft in simulation
         return all_pos.reindex(aircraft_id)  # filter requested IDs
     else:
         raise AssertionError("Invalid input {} for aircraft id".format(aircraft_id))
