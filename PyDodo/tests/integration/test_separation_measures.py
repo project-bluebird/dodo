@@ -92,6 +92,7 @@ def test_separation(expected_great_circle):
     assert pos4.loc[aircraft_id, aircraft_id_2] == pytest.approx(euclidean(from_ECEF, to_ECEF), 0.01)
 
 
+@pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
 def test_wrong_id():
     """
     Test separation functions when one of provided IDs does not exist in simulation.
