@@ -2,6 +2,7 @@ import pytest
 import math
 import pyproj
 import pandas as pd
+import numpy as np
 from scipy.spatial.distance import euclidean
 
 from pydodo import (
@@ -89,3 +90,36 @@ def test_separation(expected_great_circle):
     to_ECEF = pyproj.transform(lla, ecef, longitude_2, latitude_2, flight_level_2*100*SCALE_FEET_TO_METRES)
 
     assert pos4.loc[aircraft_id, aircraft_id_2] == pytest.approx(euclidean(from_ECEF, to_ECEF), 0.01)
+
+
+def test_wrong_id():
+    """
+    Test separation functions when one of provided IDs does not exist in simulation.
+    """
+    cmd = reset_simulation()
+    assert cmd == True
+
+    cmd = create_aircraft(aircraft_id = aircraft_id,
+                          type = type,
+                          latitude = latitude,
+                          longitude = longitude,
+                          heading = heading,
+                          flight_level = flight_level,
+                          speed = speed)
+    assert cmd == True
+
+    pos1 = geodesic_separation(from_aircraft_id = [aircraft_id, aircraft_id_2], to_aircraft_id = [aircraft_id, aircraft_id_2])
+    assert isinstance(pos1, pd.DataFrame)
+    assert np.isnan(pos1.loc[aircraft_id, aircraft_id_2])
+
+    pos2 = great_circle_separation(from_aircraft_id = [aircraft_id, aircraft_id_2], to_aircraft_id = aircraft_id)
+    assert isinstance(pos2, pd.DataFrame)
+    assert np.isnan(pos2.loc[aircraft_id_2, aircraft_id])
+
+    pos3 = vertical_separation(from_aircraft_id = aircraft_id, to_aircraft_id = [aircraft_id, aircraft_id_2])
+    assert isinstance(pos3, pd.DataFrame)
+    assert np.isnan(pos3.loc[aircraft_id, aircraft_id_2])
+
+    pos4 = euclidean_separation(from_aircraft_id = aircraft_id, to_aircraft_id = aircraft_id_2)
+    assert isinstance(pos4, pd.DataFrame)
+    assert np.isnan(pos4.loc[aircraft_id, aircraft_id_2])
