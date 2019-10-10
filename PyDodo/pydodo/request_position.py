@@ -32,47 +32,6 @@ def normalise_positions_units(df):
     return df
 
 
-def process_pos_response(response):
-    """
-    Process JSON response from BlueBird POS enndpoint request and return the
-    aircraft position information as a data frame.
-
-    Parameters
-    ----------
-    response : JSON <dict>
-
-    Returns
-    -------
-    pos_df : pandas.DataFrame
-        Dataframe indexed by **uppercase** aircraft ID with columns:
-    | - ``type``: A string ICAO aircraft type designator.
-    | - ``altitude``: A non-negatige double. The aircraft's altitude in feet.
-    | - ``ground_speed``: A non-negative double. The aircraft's ground speed in knots.
-    | - ``latitude``: A double in the range ``[-90, 90]``. The aircraft's latitude.
-    | - ``longitude``: A double in the range ``[-180, 180]``. The aircraft's longitude.
-    | - ``vertical_speed``: A double. The aircraft's vertical speed in feet/min (units according to BlueSky docs).
-
-    Notes
-    -----
-    This dataframe also contains a metadata attribute named `sim_t` containing
-    the simulator time in seconds since the start of the scenario.
-    """
-    if not bool(response):
-        return pd.DataFrame({col: [] for col in _POS_COL_MAP.keys()})
-    pos_dict = {
-         aircraft : {col :
-            (response[aircraft][name] if bool(response[aircraft]) else np.nan)
-            for col, name in _POS_COL_MAP.items()
-            }
-         for aircraft in response.keys()
-         if aircraft != "sim_t"
-    }
-    pos_df = pd.DataFrame.from_dict(pos_dict, orient="index")
-    if "sim_t" in response.keys():
-        pos_df.sim_t = response["sim_t"]
-    return normalise_positions_units(pos_df)
-
-
 def position_call(aircraft_id = None):
     """
     Make a call to the BlueBird aircraft position (POS) endpoint.
@@ -115,6 +74,56 @@ def position_call(aircraft_id = None):
         return {}
     else:
         raise requests.HTTPError(resp.text)
+
+
+def process_pos_response(response):
+    """
+    Process JSON response from BlueBird POS enndpoint request and return the
+    aircraft position information as a data frame.
+
+    Parameters
+    ----------
+    response : JSON <dict>
+        BlueBird response returned by position_call().
+
+    Returns
+    -------
+    pos_df : pandas.DataFrame
+        Dataframe indexed by **uppercase** aircraft ID with columns:
+    | - ``type``: A string ICAO aircraft type designator.
+    | - ``altitude``: A non-negatige double. The aircraft's altitude in feet.
+    | - ``ground_speed``: A non-negative double. The aircraft's ground speed in knots.
+    | - ``latitude``: A double in the range ``[-90, 90]``. The aircraft's latitude.
+    | - ``longitude``: A double in the range ``[-180, 180]``. The aircraft's longitude.
+    | - ``vertical_speed``: A double. The aircraft's vertical speed in feet/min (units according to BlueSky docs).
+
+    Notes
+    -----
+    This dataframe also contains a metadata attribute named `sim_t` containing
+    the simulator time in seconds since the start of the scenario.
+
+    If response is empty, an empty data frame is returned.
+
+    If response doesn't contain position information for an aircraft ID, the
+    returned dataframe contains a row of missing values for that ID.
+    """
+    if not bool(response):
+        return pd.DataFrame({col: [] for col in _POS_COL_MAP.keys()})
+
+    pos_dict = {
+         aircraft : {col_name :
+            (response[aircraft][bb_name] if bool(response[aircraft]) else np.nan)
+            for col_name, bb_name in _POS_COL_MAP.items()
+            }
+         for aircraft in response.keys()
+         if aircraft != "sim_t"
+    }
+    pos_df = pd.DataFrame.from_dict(pos_dict, orient="index")
+
+    if "sim_t" in response.keys():
+        pos_df.sim_t = response["sim_t"]
+
+    return normalise_positions_units(pos_df)
 
 
 def all_positions():
@@ -191,14 +200,13 @@ def aircraft_position(aircraft_id):
     >>> pydodo.aircraft_position("BAW123")
     """
 
+    utils._validate_id_list(aircraft_id)
+
     if type(aircraft_id) == str:
-        utils._validate_id(aircraft_id)
         pos = position_call(aircraft_id)
         return process_pos_response(pos)
-    elif type(aircraft_id) == list and bool(aircraft_id):
-        for aircraft in aircraft_id:
-            utils._validate_id(aircraft)
-        all_pos = all_positions() # get all aircraft in simulation
-        return all_pos.reindex(aircraft_id)  # filter requested IDs
+    elif type(aircraft_id) == list:
+        all_pos_df = all_positions() # get all aircraft in simulation
+        return all_pos_df.reindex(aircraft_id)  # filter requested IDs
     else:
         raise AssertionError("Invalid input {} for aircraft id".format(aircraft_id))
