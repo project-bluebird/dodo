@@ -32,7 +32,7 @@ def test_create_scenario(rootdir):
     resp = reset_simulation()
     assert resp == True
 
-    resp = create_scenario(filename=f"{test_file}.scn", scenario=test_scenario)
+    resp = create_scenario(filename="{}.scn".format(test_file), scenario=test_scenario)
     assert resp == True
 
     resp = load_scenario(test_scenario)
