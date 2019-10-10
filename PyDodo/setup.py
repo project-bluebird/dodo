@@ -1,4 +1,5 @@
 import os
+import wget
 from setuptools import setup, find_packages
 from setuptools.command.develop import develop as _develop
 from setuptools.command.install import install as _install
@@ -14,15 +15,13 @@ def get_config(dir=None):
     (using either wget or curl).
     """
     print("Getting the config file")
-    config = (
+    config_url = (
         "https://raw.githubusercontent.com/alan-turing-institute/dodo/master/config.yml"
     )
-    cmd = ["wget", config, "2>/dev/null", "||", " curl", "-O", config]
     if dir == None:
-        call(cmd)
+        wget.download(config_url)
     else:
-        # call(["wget", config], cwd=dir)
-        call(cmd, cwd=dir)
+        wget.download(config_url, dir)
 
 
 class develop(_develop):
