@@ -9,14 +9,20 @@ with open("requirements.txt", "r") as f:
 
 
 def get_config(dir=None):
+    """
+    Downloads config file from GitHub and saves it in dir
+    (using either wget or curl).
+    """
     print("Getting the config file")
     config = (
         "https://raw.githubusercontent.com/alan-turing-institute/dodo/master/config.yml"
     )
+    cmd = ["wget", config, "2>/dev/null", "||", " curl", "-O", config]
     if dir == None:
-        call(["wget", config])
+        call(cmd)
     else:
-        call(["wget", config], cwd=dir)
+        # call(["wget", config], cwd=dir)
+        call(cmd, cwd=dir)
 
 
 class develop(_develop):
