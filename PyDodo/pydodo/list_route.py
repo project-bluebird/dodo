@@ -10,9 +10,44 @@ endpoint = config_param("endpoint_list_route")
 url = utils.construct_endpoint_url(endpoint)
 
 
+def route_call(aircraft_id):
+    """
+    Make a call to the BlueBird LISTROUTE endpoint.
+
+    Parameters
+    ----------
+    aircraft_id: str
+        A string aircraft identifier. For the BlueSky simulator, this has to be
+        at least three characters.
+
+    Returns
+    -------
+    dict :
+        A dictionary with keys:
+
+            ``"acid"``
+                A string aircraft identifier.
+
+            ``"route"``
+                A dictionary with waypoint names as keys and related waypoint
+                information contained in a dictionary. If the aircraft does not
+                have a route, the route dictionary is empty.
+    """
+    resp = requests.get(url, params={config_param("query_aircraft_id"): aircraft_id})
+    if resp.status_code == 200:
+        return json.loads(resp.text)
+    elif (
+        resp.status_code == 500
+        and config_param("err_msg_aircraft_has_no_route") in resp.text
+    ):
+        return {"acid": aircraft_id, "route": {}}
+    else:
+        raise requests.HTTPError(resp.text)
+
+
 def format_wpt_info(waypoint):
     """
-    Format waypoint dictionary returned by BlueBird API.
+    Format route dictionary of waypoints returned by BlueBird API.
 
     Parameters
     ----------
@@ -50,22 +85,6 @@ def format_wpt_info(waypoint):
         wpt_formatted["requested_altitude"] = int(alt[2:]) * 100
 
     return wpt_formatted
-
-
-def route_call(aircraft_id):
-    """
-    Make a call to the BlueBird LISTROUTE endpoint.
-    """
-    resp = requests.get(url, params={config_param("query_aircraft_id"): aircraft_id})
-    if resp.status_code == 200:
-        return json.loads(resp.text)
-    elif (
-        resp.status_code == 500
-        and config_param("err_msg_aircraft_has_no_route") in resp.text
-    ):
-        return {"acid": aircraft_id, "route": {}}
-    else:
-        raise requests.HTTPError(resp.text)
 
 
 def process_listroute_response(response):

@@ -11,18 +11,6 @@ endpoint = config_param("endpoint_aircraft_position")
 url = construct_endpoint_url(endpoint)
 
 
-def normalise_positions_units(df):
-    """
-    Normalise units of measurement in the positions data.
-    """
-    _SCALE_METRES_TO_FEET = 3.280839895
-
-    # Bluesky returns altitude in metres, not feet.
-    if config_param("simulator") == config_param("bluesky_simulator"):
-        df.loc[:, "altitude"] = (_SCALE_METRES_TO_FEET * df["altitude"]).round(2)
-    return df
-
-
 def position_call(aircraft_id=None):
     """
     Make a call to the BlueBird aircraft position (POS) endpoint.
@@ -65,6 +53,18 @@ def position_call(aircraft_id=None):
         return {}
     else:
         raise requests.HTTPError(resp.text)
+
+
+def normalise_positions_units(df):
+    """
+    Normalise units of measurement in the positions data.
+    """
+    _SCALE_METRES_TO_FEET = 3.280839895
+
+    # Bluesky returns altitude in metres, not feet.
+    if config_param("simulator") == config_param("bluesky_simulator"):
+        df.loc[:, "altitude"] = (_SCALE_METRES_TO_FEET * df["altitude"]).round(2)
+    return df
 
 
 def process_pos_response(response):
