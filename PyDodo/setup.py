@@ -10,10 +10,7 @@ with open("requirements.txt", "r") as f:
 
 
 def get_config(dir=None):
-    """
-    Downloads config file from GitHub and saves it in dir
-    (using either wget or curl).
-    """
+    """Downloads config file from GitHub and saves it in dir."""
     print("Getting the config file")
     config_url = (
         "https://raw.githubusercontent.com/alan-turing-institute/dodo/master/config.yml"
