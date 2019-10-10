@@ -39,7 +39,7 @@ def episode_log():
     if not os.path.exists(directory):
         os.makedirs(directory)
 
-    with open(file_path, 'w') as f:
+    with open(file_path, "w") as f:
         f.writelines(ep_log)
 
     return file_path

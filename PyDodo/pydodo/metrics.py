@@ -44,11 +44,12 @@ def loss_of_separation(from_aircraft_id, to_aircraft_id):
         url,
         params={
             "name": "aircraft_separation",
-            "args":f'{from_aircraft_id},{to_aircraft_id}'
-        })
+            "args": f"{from_aircraft_id},{to_aircraft_id}",
+        },
+    )
     if resp.status_code == 200:
         json_data = json.loads(resp.text)
-        score = json_data['aircraft_separation']
+        score = json_data["aircraft_separation"]
     elif resp.status_code == config_param("status_code_no_aircraft_found"):
         score = np.nan
     else:

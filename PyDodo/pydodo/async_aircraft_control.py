@@ -53,7 +53,9 @@ def batch(commands):
         raise Exception(";".join([str(resp) for resp in results if resp != True]))
 
 
-async def async_change_altitude(aircraft_id, altitude=None, flight_level=None, vertical_speed=None):
+async def async_change_altitude(
+    aircraft_id, altitude=None, flight_level=None, vertical_speed=None
+):
     """
     Request an aircraft to change altitude.
 

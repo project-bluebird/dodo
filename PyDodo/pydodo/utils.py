@@ -134,17 +134,19 @@ def _validate_speed(spd):
 
 def _validate_string(input, param_name):
     """Assert input is a non-empty string."""
-    assert input and type(input) == str, "Invalid input {} for {}".format(input, param_name)
+    assert input and isinstance(input, str), "Invalid input {} for {}".format(
+        input, param_name
+    )
 
 
 def _validate_id(aircraft_id):
     """Assert aircraft_id is non-empty string (and length >= 3 if using BlueSky)."""
+    _validate_string(aircraft_id, "aircraft ID")
     if config_param("simulator") == config_param("bluesky_simulator"):
         assert (
-            isinstance(aircraft_id, str) and len(aircraft_id) >= 3
-        ), "Invalid input {} for aircraft ID".format(aircraft_id)
-    else:
-        _validate_string(aircraft_id, "aircraft ID")
+            len(aircraft_id) >= 3,
+            "Invalid input {} for aircraft ID".format(aircraft_id),
+        )
 
 
 def _validate_id_list(aircraft_id):
@@ -152,9 +154,12 @@ def _validate_id_list(aircraft_id):
     Assert each aircraft_id in a list is non-empty string (and length >= 3
     if using BlueSky).
     """
+    assert isinstance(aircraft_id, str) or (
+        isinstance(aircraft_id, list) and bool(aircraft_id)
+    ), "Invalid input {} for aircraft ID".format(aircraft_id)
     if isinstance(aircraft_id, str):
         _validate_id(aircraft_id)
-    elif isinstance(aircraft_id, list) and bool(aircraft_id):
+    elif isinstance(aircraft_id, list):
         for aircraft in aircraft_id:
             _validate_id(aircraft)
 
@@ -172,7 +177,9 @@ def _check_flight_level(fl):
     Assert fl (flight level) is in the range [lower_limit, upper limit]
     specified in the config.
     """
-    return fl >= config_param("flight_level_lower_limit") and fl <= config_param("flight_level_upper_limit")
+    return fl >= config_param("flight_level_lower_limit") and fl <= config_param(
+        "flight_level_upper_limit"
+    )
 
 
 def parse_alt(alt, fl):
@@ -181,7 +188,9 @@ def parse_alt(alt, fl):
     both. Assert the provided value is a double in the correct range. Return the
     argument that is not None (if fl, return as string starting with "FL").
     """
-    assert alt is None or fl is None, "Either altitude or flight level should be specified, not both."
+    assert (
+        alt is None or fl is None
+    ), "Either altitude or flight level should be specified, not both."
     if alt is not None:
         assert _check_altitude(alt), "Invalid value {} for altitude".format(alt)
         alt = str(alt)

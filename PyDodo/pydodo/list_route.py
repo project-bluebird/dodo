@@ -10,15 +10,50 @@ endpoint = config_param("endpoint_list_route")
 url = utils.construct_endpoint_url(endpoint)
 
 
+def route_call(aircraft_id):
+    """
+    Make a call to the BlueBird LISTROUTE endpoint.
+
+    Parameters
+    ----------
+    aircraft_id: str
+        A string aircraft identifier. For the BlueSky simulator, this has to be
+        at least three characters.
+
+    Returns
+    -------
+    dict :
+        A dictionary with keys:
+
+            ``"acid"``
+                A string aircraft identifier.
+
+            ``"route"``
+                A dictionary with waypoint names as keys and related waypoint
+                information contained in a dictionary. If the aircraft does not
+                have a route, the route dictionary is empty.
+    """
+    resp = requests.get(url, params={config_param("query_aircraft_id"): aircraft_id})
+    if resp.status_code == 200:
+        return json.loads(resp.text)
+    elif (
+        resp.status_code == 500
+        and config_param("err_msg_aircraft_has_no_route") in resp.text
+    ):
+        return {"acid": aircraft_id, "route": {}}
+    else:
+        raise requests.HTTPError(resp.text)
+
+
 def format_wpt_info(waypoint):
     """
-    Format waypoint dictionary returned by BlueBird API.
+    Format route dictionary of waypoints returned by BlueBird API.
 
     Parameters
     ----------
     waypoint : dict
         Dictionary of waypoint information returned by BlueBird with keys:
-        
+
             ``"req_alt"``
                 The aircraft's requested altitude at waypoint (in feet or flight levels).
             ``"req_spd"``
@@ -60,6 +95,7 @@ def process_listroute_response(response):
     Parameters
     ----------
     response : JSON <dict>
+        BlueBird response returned by route_call().
 
     Returns
     -------
@@ -75,15 +111,19 @@ def process_listroute_response(response):
     `sim_t` containing the simulator time in seconds since the start of the
     scenario.
     """
-    json_data = json.loads(response.text)
-    route_dict = {wpt["wpt_name"]: format_wpt_info(wpt) for wpt in json_data["route"]}
-    df = pd.DataFrame.from_dict(route_dict, orient="index")
-
-    wpt_order = route_dict.keys()
-    df = df.reindex(wpt_order)
-
-    df.sim_t = json_data["sim_t"]
-    df.aircraft_id = json_data["acid"]
+    if not bool(response["route"]):
+        df = pd.DataFrame(
+            {"requested_altitude": [], "requested_speed": [], "current": []}
+        )
+    else:
+        route_dict = {
+            wpt["wpt_name"]: format_wpt_info(wpt) for wpt in response["route"]
+        }
+        df = pd.DataFrame.from_dict(route_dict, orient="index")
+        wpt_order = route_dict.keys()
+        df = df.reindex(wpt_order)
+        df.sim_t = response["sim_t"]
+    df.aircraft_id = response["acid"]
 
     return df
 
@@ -126,22 +166,11 @@ def list_route(aircraft_id):
     --------
     >>> pydodo.list_route("BAW123")
     """
+
     utils._validate_id(aircraft_id)
 
-    resp = requests.get(url, params={config_param("query_aircraft_id"): aircraft_id})
-    if resp.status_code == 200:
-        return process_listroute_response(resp)
-    elif (
-        resp.status_code == 500
-        and config_param("err_msg_aircraft_has_no_route") in resp.text
-    ):
-        df = pd.DataFrame(
-            {"requested_altitude": [], "requested_speed": [], "current": []}
-        )
-        df.aircraft_id = aircraft_id
-        return df
-    else:
-        raise requests.HTTPError(resp.text)
+    route = route_call(aircraft_id)
+    return process_listroute_response(route)
 
 
 def define_waypoint(waypoint_name, latitude, longitude, waypoint_type=None):
@@ -181,7 +210,7 @@ def define_waypoint(waypoint_name, latitude, longitude, waypoint_type=None):
 
 def add_waypoint(
     aircraft_id, waypoint_name=None, altitude=None, flight_level=None, speed=None
-    ):
+):
     """
     Add waypoint to aircraft route. Can also optinally set altitude OR flight level
     and speed which should be achieved by this waypoint.

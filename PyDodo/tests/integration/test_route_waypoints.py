@@ -8,7 +8,7 @@ from pydodo import (
     create_aircraft,
     aircraft_position,
     list_route,
-    direct_to_waypoint
+    direct_to_waypoint,
 )
 from pydodo.utils import ping_bluebird
 from pydodo.list_route import define_waypoint, add_waypoint
@@ -18,7 +18,10 @@ bb_resp = ping_bluebird()
 
 
 @pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
-def test_direct_to_waypoint():
+def test_route_waypoints():
+    """
+    Test add_waypoint(), direct_to_waypoint() and list_route()
+    """
     cmd = reset_simulation()
     assert cmd == True
 
@@ -37,10 +40,9 @@ def test_direct_to_waypoint():
         longitude=longitude,
         heading=heading,
         flight_level=flight_level,
-        speed=speed
+        speed=speed,
     )
     assert cmd == True
-
 
     position = aircraft_position(aircraft_id)
 
@@ -78,10 +80,17 @@ def test_direct_to_waypoint():
 
     wpt_alt = 6000
     wpt_spd = 50
-    cmd = add_waypoint(aircraft_id=aircraft_id, waypoint_name=wpt_name, altitude=wpt_alt, speed=wpt_spd)
+    cmd = add_waypoint(
+        aircraft_id=aircraft_id, waypoint_name=wpt_name, altitude=wpt_alt, speed=wpt_spd
+    )
     assert cmd == True
 
-    cmd = add_waypoint(aircraft_id=aircraft_id, waypoint_name=wpt_name_2, altitude=wpt_alt, speed=wpt_spd)
+    cmd = add_waypoint(
+        aircraft_id=aircraft_id,
+        waypoint_name=wpt_name_2,
+        altitude=wpt_alt,
+        speed=wpt_spd,
+    )
     assert cmd == True
 
     # Give the command to head to waypoint.
@@ -107,7 +116,7 @@ def test_direct_to_waypoint():
     assert route.loc[wpt_name_upper]["requested_altitude"] == wpt_alt
     assert route.loc[wpt_name_upper]["requested_speed"] == wpt_spd
     assert route.loc[wpt_name_upper]["current"] == True
-    
+
     assert route.loc[wpt_name_2_upper]["requested_altitude"] == wpt_alt
     assert route.loc[wpt_name_2_upper]["requested_speed"] == wpt_spd
     assert route.sim_t > 1

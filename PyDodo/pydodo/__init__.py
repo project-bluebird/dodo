@@ -2,14 +2,14 @@ from .request_position import aircraft_position, all_positions
 from .get_flight_level import (
     requested_flight_level,
     cleared_flight_level,
-    current_flight_level
+    current_flight_level,
 )
 from .aircraft_control import (
     change_altitude,
     change_heading,
     change_speed,
     change_vertical_speed,
-    direct_to_waypoint
+    direct_to_waypoint,
 )
 from .list_route import list_route
 from .create_aircraft import create_aircraft
@@ -21,7 +21,7 @@ from .simulation_control import (
     resume_simulation,
     set_simulation_rate_multiplier,
     set_simulator_mode,
-    simulation_step
+    simulation_step,
 )
 from .episode_log import episode_log
 from .distance_measures import (
@@ -32,7 +32,7 @@ from .distance_measures import (
     vertical_separation,
     vertical_distance,
     euclidean_separation,
-    euclidean_distance
+    euclidean_distance,
 )
 from .async_aircraft_control import (
     batch,
@@ -40,9 +40,7 @@ from .async_aircraft_control import (
     async_change_heading,
     async_change_speed,
     async_change_vertical_speed,
-    async_direct_to_waypoint
+    async_direct_to_waypoint,
 )
 
-from .metrics import (
-    loss_of_separation
-)
+from .metrics import loss_of_separation

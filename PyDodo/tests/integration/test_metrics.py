@@ -7,7 +7,7 @@ from pydodo import (
     all_positions,
     reset_simulation,
     create_aircraft,
-    loss_of_separation
+    loss_of_separation,
 )
 from pydodo.utils import ping_bluebird
 
@@ -38,22 +38,26 @@ def test_loss_of_separation():
     cmd = reset_simulation()
     assert cmd == True
 
-    cmd = create_aircraft(aircraft_id = aircraft_id,
-                          type = type,
-                          latitude = latitude,
-                          longitude = longitude,
-                          heading = heading,
-                          flight_level = flight_level,
-                          speed = speed)
+    cmd = create_aircraft(
+        aircraft_id=aircraft_id,
+        type=type,
+        latitude=latitude,
+        longitude=longitude,
+        heading=heading,
+        flight_level=flight_level,
+        speed=speed,
+    )
     assert cmd == True
 
-    cmd = create_aircraft(aircraft_id = aircraft_id_2,
-                          type = type_2,
-                          latitude = latitude_2,
-                          longitude = longitude_2,
-                          heading = heading_2,
-                          flight_level = flight_level_2,
-                          speed = speed_2)
+    cmd = create_aircraft(
+        aircraft_id=aircraft_id_2,
+        type=type_2,
+        latitude=latitude_2,
+        longitude=longitude_2,
+        heading=heading_2,
+        flight_level=flight_level_2,
+        speed=speed_2,
+    )
     assert cmd == True
 
     score1 = loss_of_separation(aircraft_id, aircraft_id_2)

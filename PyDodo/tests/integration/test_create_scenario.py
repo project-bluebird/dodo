@@ -9,7 +9,7 @@ from pydodo import (
     load_scenario,
     create_scenario,
     all_positions,
-    list_route
+    list_route,
 )
 from pydodo.utils import ping_bluebird
 from pydodo.config_param import config_param
