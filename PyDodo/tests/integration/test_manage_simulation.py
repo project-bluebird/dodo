@@ -15,7 +15,7 @@ from pydodo import (
     set_simulation_rate_multiplier,
     list_route,
     set_simulator_mode,
-    simulation_step
+    simulation_step,
 )
 from pydodo.utils import ping_bluebird
 from pydodo.config_param import config_param

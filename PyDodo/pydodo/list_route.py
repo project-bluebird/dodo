@@ -63,7 +63,7 @@ def route_call(aircraft_id):
         resp.status_code == 500
         and config_param("err_msg_aircraft_has_no_route") in resp.text
     ):
-        return {"acid" : aircraft_id, "route": {}}
+        return {"acid": aircraft_id, "route": {}}
     else:
         raise requests.HTTPError(resp.text)
 
@@ -98,8 +98,7 @@ def process_listroute_response(response):
         )
     else:
         route_dict = {
-            wpt["wpt_name"]: format_wpt_info(wpt)
-            for wpt in response["route"]
+            wpt["wpt_name"]: format_wpt_info(wpt) for wpt in response["route"]
         }
         df = pd.DataFrame.from_dict(route_dict, orient="index")
         wpt_order = route_dict.keys()

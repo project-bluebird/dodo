@@ -8,11 +8,18 @@ from . import request_position
 from . import utils
 
 # Default for major (equatorial) radius and flattening are 'WGS-84' values.
-major_semiaxis, minor_semiaxis, _FLATTENING = distance.ELLIPSOIDS['WGS-84']
-_EARTH_RADIUS = major_semiaxis * 1000 # convert to metres
+major_semiaxis, minor_semiaxis, _FLATTENING = distance.ELLIPSOIDS["WGS-84"]
+_EARTH_RADIUS = major_semiaxis * 1000  # convert to metres
 
 
-def geodesic_distance(from_lat, from_lon, to_lat, to_lon, major_semiaxis=_EARTH_RADIUS, flattening=_FLATTENING):
+def geodesic_distance(
+    from_lat,
+    from_lon,
+    to_lat,
+    to_lon,
+    major_semiaxis=_EARTH_RADIUS,
+    flattening=_FLATTENING,
+):
     """
     Get geodesic distance between two (lat, lon) points in metres.
 
@@ -45,16 +52,16 @@ def geodesic_distance(from_lat, from_lon, to_lat, to_lon, major_semiaxis=_EARTH_
     utils._validate_longitude(from_lon)
     utils._validate_latitude(to_lat)
     utils._validate_longitude(to_lon)
-    utils._validate_is_positive(major_semiaxis, 'major_semiaxis')
-    utils._validate_is_positive(flattening, 'flattening')
+    utils._validate_is_positive(major_semiaxis, "major_semiaxis")
+    utils._validate_is_positive(flattening, "flattening")
 
     # For GeoPy need to provide (major_semiaxis, minor_semiaxis, flattening) but
     # only major_semiaxis & flattening vals are used --> ignore minor_semiaxis
     return distance.geodesic(
         (from_lat, from_lon),
         (to_lat, to_lon),
-        ellipsoid=(major_semiaxis/1000, minor_semiaxis, flattening) # convert to km
-        ).meters
+        ellipsoid=(major_semiaxis / 1000, minor_semiaxis, flattening),  # convert to km
+    ).meters
 
 
 def great_circle_distance(from_lat, from_lon, to_lat, to_lon, radius=_EARTH_RADIUS):
@@ -87,13 +94,11 @@ def great_circle_distance(from_lat, from_lon, to_lat, to_lon, radius=_EARTH_RADI
     utils._validate_longitude(from_lon)
     utils._validate_latitude(to_lat)
     utils._validate_longitude(to_lon)
-    utils._validate_is_positive(radius, 'radius')
+    utils._validate_is_positive(radius, "radius")
 
     return distance.great_circle(
-        (from_lat, from_lon),
-        (to_lat, to_lon),
-        radius=radius/1000 # convert to km
-        ).meters
+        (from_lat, from_lon), (to_lat, to_lon), radius=radius / 1000  # convert to km
+    ).meters
 
 
 def vertical_distance(from_alt, to_alt):
@@ -116,13 +121,13 @@ def vertical_distance(from_alt, to_alt):
     --------
     >>> pydodo.vertical_distance(from_alt = 200, to_alt = 350)
     """
-    utils._validate_is_positive(from_alt, 'altitude')
-    utils._validate_is_positive(to_alt, 'altitude')
+    utils._validate_is_positive(from_alt, "altitude")
+    utils._validate_is_positive(to_alt, "altitude")
 
     return abs(from_alt - to_alt)
 
 
-def lla_to_ECEF(lat, lon, alt = 0, radius=_EARTH_RADIUS, f=_FLATTENING ):
+def lla_to_ECEF(lat, lon, alt=0, radius=_EARTH_RADIUS, f=_FLATTENING):
     """
     Calculates ECEF coordinates of a point from lat, lon and alt.
 
@@ -162,12 +167,21 @@ def lla_to_ECEF(lat, lon, alt = 0, radius=_EARTH_RADIUS, f=_FLATTENING ):
 
     x = (N + alt) * np.cos(lat_r) * np.cos(lon_r)
     y = (N + alt) * np.cos(lat_r) * np.sin(lon_r)
-    z = ((1-e2) * N + alt) * np.sin(lat_r)
+    z = ((1 - e2) * N + alt) * np.sin(lat_r)
 
-    return (x,y,z)
+    return (x, y, z)
 
 
-def euclidean_distance(from_lat, from_lon, from_alt, to_lat, to_lon, to_alt, major_semiaxis=_EARTH_RADIUS, flattening=_FLATTENING):
+def euclidean_distance(
+    from_lat,
+    from_lon,
+    from_alt,
+    to_lat,
+    to_lon,
+    to_alt,
+    major_semiaxis=_EARTH_RADIUS,
+    flattening=_FLATTENING,
+):
     """
     Get euclidean distance between two (lat, lon, alt) points in metres. The
     points are converted to ECEF coordinates to calculate distance.
@@ -206,19 +220,21 @@ def euclidean_distance(from_lat, from_lon, from_alt, to_lat, to_lon, to_alt, maj
     """
     utils._validate_latitude(from_lat)
     utils._validate_longitude(from_lon)
-    utils._validate_is_positive(from_alt, 'altitude')
+    utils._validate_is_positive(from_alt, "altitude")
     utils._validate_latitude(to_lat)
     utils._validate_longitude(to_lon)
-    utils._validate_is_positive(to_alt, 'altitude')
-    utils._validate_is_positive( major_semiaxis, ' major_semiaxis')
+    utils._validate_is_positive(to_alt, "altitude")
+    utils._validate_is_positive(major_semiaxis, " major_semiaxis")
 
-    from_ECEF = lla_to_ECEF(from_lat, from_lon, from_alt,  major_semiaxis, flattening)
-    to_ECEF = lla_to_ECEF(to_lat, to_lon, to_alt,  major_semiaxis, flattening)
+    from_ECEF = lla_to_ECEF(from_lat, from_lon, from_alt, major_semiaxis, flattening)
+    to_ECEF = lla_to_ECEF(to_lat, to_lon, to_alt, major_semiaxis, flattening)
 
     return euclidean(from_ECEF, to_ECEF)
 
 
-def get_distance(from_pos, to_pos, measure, radius=_EARTH_RADIUS, flattening=_FLATTENING):
+def get_distance(
+    from_pos, to_pos, measure, radius=_EARTH_RADIUS, flattening=_FLATTENING
+):
     """
     Get distance (geodesic, great circle, vertical or euclidean) between the positions of a pair of aircraft.
 
@@ -236,38 +252,35 @@ def get_distance(from_pos, to_pos, measure, radius=_EARTH_RADIUS, flattening=_FL
         Ellipsoid flattening. The default value is for
         WGS84. param passed to geodesic_distance.
     """
-    if measure == 'geodesic':
+    if measure == "geodesic":
         return geodesic_distance(
-            from_pos['latitude'],
-            from_pos['longitude'],
-            to_pos['latitude'],
-            to_pos['longitude'],
+            from_pos["latitude"],
+            from_pos["longitude"],
+            to_pos["latitude"],
+            to_pos["longitude"],
             major_semiaxis=radius,
-            flattening=flattening
+            flattening=flattening,
         )
-    elif measure == 'great_circle':
+    elif measure == "great_circle":
         return great_circle_distance(
-            from_pos['latitude'],
-            from_pos['longitude'],
-            to_pos['latitude'],
-            to_pos['longitude'],
-            radius=radius
+            from_pos["latitude"],
+            from_pos["longitude"],
+            to_pos["latitude"],
+            to_pos["longitude"],
+            radius=radius,
         )
-    elif measure == 'vertical':
-        return vertical_distance(
-            from_pos['altitude'],
-            to_pos['altitude']
-        )
-    elif measure == 'euclidean':
+    elif measure == "vertical":
+        return vertical_distance(from_pos["altitude"], to_pos["altitude"])
+    elif measure == "euclidean":
         return euclidean_distance(
-            from_pos['latitude'],
-            from_pos['longitude'],
-            from_pos['altitude'],
-            to_pos['latitude'],
-            to_pos['longitude'],
-            to_pos['altitude'],
+            from_pos["latitude"],
+            from_pos["longitude"],
+            from_pos["altitude"],
+            to_pos["latitude"],
+            to_pos["longitude"],
+            to_pos["altitude"],
             major_semiaxis=radius,
-            flattening=flattening
+            flattening=flattening,
         )
 
 
@@ -307,7 +320,13 @@ def get_pos_df(from_aircraft_id, to_aircraft_id):
     return pos_df
 
 
-def get_separation(from_aircraft_id, to_aircraft_id, measure, radius=_EARTH_RADIUS, flattening=_FLATTENING):
+def get_separation(
+    from_aircraft_id,
+    to_aircraft_id,
+    measure,
+    radius=_EARTH_RADIUS,
+    flattening=_FLATTENING,
+):
     """
     Get separation (geodesic, great circle, vertical or euclidean) between all pairs of "from" and "to" aircraft.
 
@@ -339,32 +358,48 @@ def get_separation(from_aircraft_id, to_aircraft_id, measure, radius=_EARTH_RADI
     >>> pydodo.distance_measures.get_separation(from_aircraft_id = "BAW123", to_aircraft_id = "KLM456", measure = "euclidean")
     >>> pydodo.distance_measures.get_separation(from_aircraft_id = ["BAW123", "KLM456"], measure = "great_circle")
     """
-    assert measure in ['geodesic', 'great_circle', 'vertical', 'euclidean'], 'Invalid value {} for measure'.format(measure)
+    assert measure in [
+        "geodesic",
+        "great_circle",
+        "vertical",
+        "euclidean",
+    ], "Invalid value {} for measure".format(measure)
     if to_aircraft_id == None:
         to_aircraft_id = from_aircraft_id.copy()
-    if not isinstance(from_aircraft_id, list): from_aircraft_id = [ from_aircraft_id ]
-    if not isinstance(to_aircraft_id, list): to_aircraft_id = [ to_aircraft_id ]
+    if not isinstance(from_aircraft_id, list):
+        from_aircraft_id = [from_aircraft_id]
+    if not isinstance(to_aircraft_id, list):
+        to_aircraft_id = [to_aircraft_id]
 
     pos_df = get_pos_df(from_aircraft_id, to_aircraft_id)
 
     all_distances = []
     for from_id in from_aircraft_id:
         distances = [
-            get_distance(pos_df.loc[from_id], pos_df.loc[to_id], measure=measure, radius=radius, flattening=flattening)
-            if not (pos_df.loc[from_id].isnull().any() or pos_df.loc[to_id].isnull().any())
+            get_distance(
+                pos_df.loc[from_id],
+                pos_df.loc[to_id],
+                measure=measure,
+                radius=radius,
+                flattening=flattening,
+            )
+            if not (
+                pos_df.loc[from_id].isnull().any() or pos_df.loc[to_id].isnull().any()
+            )
             else np.nan
             for to_id in to_aircraft_id
         ]
         all_distances.append(distances)
 
-    return pd.DataFrame(
-        all_distances,
-        columns = to_aircraft_id,
-        index = from_aircraft_id
-    )
+    return pd.DataFrame(all_distances, columns=to_aircraft_id, index=from_aircraft_id)
 
 
-def geodesic_separation(from_aircraft_id, to_aircraft_id=None, major_semiaxis=_EARTH_RADIUS, flattening=_FLATTENING):
+def geodesic_separation(
+    from_aircraft_id,
+    to_aircraft_id=None,
+    major_semiaxis=_EARTH_RADIUS,
+    flattening=_FLATTENING,
+):
     """
     Get geodesic separation in metres between the positions of all from_aircraft_id and to_aircraft_id pairs of aircraft.
 
@@ -397,10 +432,18 @@ def geodesic_separation(from_aircraft_id, to_aircraft_id=None, major_semiaxis=_E
     >>> pydodo.geodesic_separation(from_aircraft_id = "BAW123", to_aircraft_id = "KLM456")
     >>> pydodo.geodesic_separation(from_aircraft_id = ["BAW123", "KLM456"])
     """
-    return get_separation(from_aircraft_id, to_aircraft_id, measure='geodesic', radius=major_semiaxis, flattening=flattening)
+    return get_separation(
+        from_aircraft_id,
+        to_aircraft_id,
+        measure="geodesic",
+        radius=major_semiaxis,
+        flattening=flattening,
+    )
 
 
-def great_circle_separation(from_aircraft_id, to_aircraft_id=None, radius=_EARTH_RADIUS):
+def great_circle_separation(
+    from_aircraft_id, to_aircraft_id=None, radius=_EARTH_RADIUS
+):
     """
     Get great circle separation in metres between the positions of all from_aircraft_id and to_aircraft_id pairs of aircraft.
 
@@ -431,7 +474,9 @@ def great_circle_separation(from_aircraft_id, to_aircraft_id=None, radius=_EARTH
     >>> pydodo.great_circle_separation(from_aircraft_id = "BAW123", to_aircraft_id = "KLM456")
     >>> pydodo.great_circle_separation(from_aircraft_id = ["BAW123", "KLM456"])
     """
-    return get_separation(from_aircraft_id, to_aircraft_id, measure='great_circle', radius=radius)
+    return get_separation(
+        from_aircraft_id, to_aircraft_id, measure="great_circle", radius=radius
+    )
 
 
 def vertical_separation(from_aircraft_id, to_aircraft_id=None):
@@ -463,10 +508,15 @@ def vertical_separation(from_aircraft_id, to_aircraft_id=None):
     >>> pydodo.vertical_separation(from_aircraft_id = "BAW123", to_aircraft_id = "KLM456")
     >>> pydodo.vertical_separation(from_aircraft_id = ["BAW123", "KLM456"])
     """
-    return get_separation(from_aircraft_id, to_aircraft_id, measure='vertical')
+    return get_separation(from_aircraft_id, to_aircraft_id, measure="vertical")
 
 
-def euclidean_separation(from_aircraft_id, to_aircraft_id=None,  major_semiaxis=_EARTH_RADIUS, flattening=_FLATTENING):
+def euclidean_separation(
+    from_aircraft_id,
+    to_aircraft_id=None,
+    major_semiaxis=_EARTH_RADIUS,
+    flattening=_FLATTENING,
+):
     """
     Get euclidean separation in metres between the positions of all
     from_aircraft_id and to_aircraft_id pairs of aircraft. The aircraft
@@ -503,4 +553,10 @@ def euclidean_separation(from_aircraft_id, to_aircraft_id=None,  major_semiaxis=
     >>> pydodo.euclidean_separation(from_aircraft_id = "BAW123", to_aircraft_id = "KLM456")
     >>> pydodo.euclidean_separation(from_aircraft_id = ["BAW123", "KLM456"])
     """
-    return get_separation(from_aircraft_id, to_aircraft_id, measure='euclidean',  radius=major_semiaxis, flattening=flattening)
+    return get_separation(
+        from_aircraft_id,
+        to_aircraft_id,
+        measure="euclidean",
+        radius=major_semiaxis,
+        flattening=flattening,
+    )

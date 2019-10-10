@@ -7,7 +7,7 @@ import numpy as np
 from geopy import distance
 from pydodo.config_param import config_param
 
-major_semiaxis, _, _ = distance.ELLIPSOIDS['WGS-84']
+major_semiaxis, _, _ = distance.ELLIPSOIDS["WGS-84"]
 _EARTH_RADIUS = major_semiaxis * 1000
 
 
@@ -26,8 +26,10 @@ def great_circle(from_lat, from_lon, to_lat, to_lon):
     dlat = from_lat - to_lat
     dlon = from_lon - to_lon
 
-    a = (math.sin(deg2rad(dlat)/2))**2 + math.cos(deg2rad(from_lat)) * math.cos(deg2rad(to_lat)) * (math.sin(deg2rad(dlon)/2))**2
-    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
+    a = (math.sin(deg2rad(dlat) / 2)) ** 2 + math.cos(deg2rad(from_lat)) * math.cos(
+        deg2rad(to_lat)
+    ) * (math.sin(deg2rad(dlon) / 2)) ** 2
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
     expected = _EARTH_RADIUS * c
     return expected
 

@@ -11,8 +11,8 @@ def create_aircraft(
     heading,
     speed,
     altitude=None,
-    flight_level=None
-    ):
+    flight_level=None,
+):
 
     """
     Create new aircraft

@@ -26,7 +26,7 @@ def create_scenario(filename, scenario):
     utils._validate_string(filename, "filename")
     utils._validate_string(scenario, "scenario")
 
-    content = [line.rstrip('\n') for line in open(filename)]
+    content = [line.rstrip("\n") for line in open(filename)]
 
     body = {"scn_name": scenario, "content": content}
     return post_request(config_param("endpoint_create_scenario"), body)
@@ -171,7 +171,9 @@ def set_simulator_mode(mode):
     >>> pydodo.set_simulator_mode("agent")
     >>> pydodo.set_simulator_mode("sandbox")
     """
-    assert mode == 'agent' or mode == 'sandbox', 'Invalid value {} for mode'.format(mode)
+    assert mode == "agent" or mode == "sandbox", "Invalid value {} for mode".format(
+        mode
+    )
 
     body = {"mode": mode}
     return post_request(config_param("endpoint_simulator_mode"), body)

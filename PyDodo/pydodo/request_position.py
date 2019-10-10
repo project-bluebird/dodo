@@ -203,7 +203,6 @@ def aircraft_position(aircraft_id):
     ---------
     >>> pydodo.aircraft_position("BAW123")
     """
-
     utils._validate_id_list(aircraft_id)
 
     if type(aircraft_id) == str:
@@ -212,5 +211,3 @@ def aircraft_position(aircraft_id):
     elif type(aircraft_id) == list:
         all_pos_df = all_positions()  # get all aircraft in simulation
         return all_pos_df.reindex(aircraft_id)  # filter requested IDs
-    else:
-        raise AssertionError("Invalid input {} for aircraft id".format(aircraft_id))
