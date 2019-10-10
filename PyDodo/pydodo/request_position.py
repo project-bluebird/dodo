@@ -10,29 +10,20 @@ from . import utils
 endpoint = config_param("endpoint_aircraft_position")
 url = construct_endpoint_url(endpoint)
 
-# map between our pos column names and pos names used by bluebird
-_POS_COL_MAP = {
-    "type" : "actype",
-    "altitude" : "alt",
-    "ground_speed" : "gs",
-    "latitude" : "lat",
-    "longitude" : "lon",
-    "vertical_speed" : "vs"
-}
-_SCALE_METRES_TO_FEET = 3.280839895
-
 
 def normalise_positions_units(df):
     """
     Normalise units of measurement in the positions data.
     """
+    _SCALE_METRES_TO_FEET = 3.280839895
+
     # Bluesky returns altitude in metres, not feet.
     if config_param("simulator") == config_param("bluesky_simulator"):
         df.loc[:, "altitude"] = (_SCALE_METRES_TO_FEET * df["altitude"]).round(2)
     return df
 
 
-def position_call(aircraft_id = None):
+def position_call(aircraft_id=None):
     """
     Make a call to the BlueBird aircraft position (POS) endpoint.
 
@@ -69,7 +60,7 @@ def position_call(aircraft_id = None):
     if resp.status_code == 200:
         return json.loads(resp.text)
     elif resp.status_code == config_param("status_code_aircraft_id_not_found"):
-        return {aircraft_id : {}}
+        return {aircraft_id: {}}
     elif resp.status_code == config_param("status_code_no_aircraft_found"):
         return {}
     else:
@@ -107,21 +98,34 @@ def process_pos_response(response):
     If response doesn't contain position information for an aircraft ID, the
     returned dataframe contains a row of missing values for that ID.
     """
+    # map between BlueBird pos names and our pos column names
+    _POS_COL_MAP = {
+        "actype": "type",
+        "alt": "altitude",
+        "gs": "ground_speed",
+        "lat": "latitude",
+        "lon": "longitude",
+        "vs": "vertical_speed",
+    }
+
     if not bool(response):
-        return pd.DataFrame({col: [] for col in _POS_COL_MAP.keys()})
+        return pd.DataFrame({col: [] for col in _POS_COL_MAP.values()})
+
+    sim_t = response.pop("sim_t", None)
 
     pos_dict = {
-         aircraft : {col_name :
-            (response[aircraft][bb_name] if bool(response[aircraft]) else np.nan)
-            for col_name, bb_name in _POS_COL_MAP.items()
-            }
-         for aircraft in response.keys()
-         if aircraft != "sim_t"
+        aircraft: (
+            response[aircraft]
+            if bool(response[aircraft])
+            else {col: np.nan for col in _POS_COL_MAP.values()}
+        )
+        for aircraft in response.keys()
     }
     pos_df = pd.DataFrame.from_dict(pos_dict, orient="index")
+    pos_df = pos_df.rename(columns=_POS_COL_MAP)
 
-    if "sim_t" in response.keys():
-        pos_df.sim_t = response["sim_t"]
+    if sim_t is not None:
+        pos_df.sim_t = sim_t
 
     return normalise_positions_units(pos_df)
 
@@ -206,7 +210,7 @@ def aircraft_position(aircraft_id):
         pos = position_call(aircraft_id)
         return process_pos_response(pos)
     elif type(aircraft_id) == list:
-        all_pos_df = all_positions() # get all aircraft in simulation
+        all_pos_df = all_positions()  # get all aircraft in simulation
         return all_pos_df.reindex(aircraft_id)  # filter requested IDs
     else:
         raise AssertionError("Invalid input {} for aircraft id".format(aircraft_id))
