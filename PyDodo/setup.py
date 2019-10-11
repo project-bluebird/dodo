@@ -1,9 +1,9 @@
 import os
 import wget
-from setuptools import setup, find_packages
+
+from setuptools import setup
 from setuptools.command.develop import develop as _develop
 from setuptools.command.install import install as _install
-from subprocess import call
 
 with open("requirements.txt", "r") as f:
     REQUIRED_PACKAGES = f.read().splitlines()
@@ -47,7 +47,6 @@ setup(
     author="Radka Jersakova and Ruairidh MacLeod",
     install_requires=REQUIRED_PACKAGES,
     packages=["pydodo"],
-    # packages = find_packages(exclude=['*test']),
     url="https://github.com/alan-turing-institute/dodo/PyDoDo",
     cmdclass={"install": install, "develop": develop},
 )
