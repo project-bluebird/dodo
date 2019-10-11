@@ -69,35 +69,35 @@ def test_separation(expected_great_circle):
     )
     assert cmd == True
 
-    pos1 = geodesic_separation(
+    separation1 = geodesic_separation(
         from_aircraft_id=[aircraft_id, aircraft_id_2],
         to_aircraft_id=[aircraft_id, aircraft_id_2],
     )
-    assert isinstance(pos1, pd.DataFrame)
-    assert pos1.loc[aircraft_id, aircraft_id_2] == pytest.approx(1000 * 176.92, 0.01)
+    assert isinstance(separation1, pd.DataFrame)
+    assert separation1.loc[aircraft_id, aircraft_id_2] == pytest.approx(1000 * 176.92, 0.01)
 
-    pos2 = great_circle_separation(
+    separation2 = great_circle_separation(
         from_aircraft_id=[aircraft_id, aircraft_id_2], to_aircraft_id=aircraft_id
     )
-    assert isinstance(pos2, pd.DataFrame)
+    assert isinstance(separation2, pd.DataFrame)
     expected = expected_great_circle(latitude, longitude, latitude_2, longitude_2)
-    assert pos2.loc[aircraft_id_2, aircraft_id] == pytest.approx(expected, 0.01)
+    assert separation2.loc[aircraft_id_2, aircraft_id] == pytest.approx(expected, 0.01)
 
-    pos3 = vertical_separation(
+    separation3 = vertical_separation(
         from_aircraft_id=aircraft_id, to_aircraft_id=[aircraft_id, aircraft_id_2]
     )
-    assert isinstance(pos3, pd.DataFrame)
+    assert isinstance(separation3, pd.DataFrame)
     ## altitude is provided as flight_level, which must be converted to:
     # feet (*100) and then to metres (*0.3048)
     assert (
-        pos3.loc[aircraft_id, aircraft_id_2]
+        separation3.loc[aircraft_id, aircraft_id_2]
         == abs(flight_level - flight_level_2) * 100 * SCALE_FEET_TO_METRES
     )
 
-    pos4 = euclidean_separation(
+    separation4 = euclidean_separation(
         from_aircraft_id=aircraft_id, to_aircraft_id=aircraft_id_2
     )
-    assert isinstance(pos4, pd.DataFrame)
+    assert isinstance(separation4, pd.DataFrame)
 
     ecef = pyproj.Proj(proj="geocent", ellps="WGS84", datum="WGS84")
     lla = pyproj.Proj(proj="latlong", ellps="WGS84", datum="WGS84")
@@ -109,13 +109,13 @@ def test_separation(expected_great_circle):
         lla, ecef, longitude_2, latitude_2, flight_level_2 * 100 * SCALE_FEET_TO_METRES
     )
 
-    assert pos4.loc[aircraft_id, aircraft_id_2] == pytest.approx(
+    assert separation4.loc[aircraft_id, aircraft_id_2] == pytest.approx(
         euclidean(from_ECEF, to_ECEF), 0.01
     )
 
-    pos5 = euclidean_separation(from_aircraft_id=aircraft_id_2)
-    assert isinstance(pos5, pd.DataFrame)
-    assert pos5.loc[aircraft_id_2, aircraft_id_2] == 0
+    separation5 = euclidean_separation(from_aircraft_id=aircraft_id_2)
+    assert isinstance(separation5, pd.DataFrame)
+    assert separation5.loc[aircraft_id_2, aircraft_id_2] == 0
 
 
 @pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
@@ -125,6 +125,10 @@ def test_wrong_id():
     """
     cmd = reset_simulation()
     assert cmd == True
+
+    separation0 = euclidean_separation(from_aircraft_id=aircraft_id)
+    assert isinstance(separation0, pd.DataFrame)
+    assert np.isnan(separation0.loc[aircraft_id, aircraft_id])
 
     cmd = create_aircraft(
         aircraft_id=aircraft_id,
@@ -137,27 +141,27 @@ def test_wrong_id():
     )
     assert cmd == True
 
-    pos1 = geodesic_separation(
+    separation1 = geodesic_separation(
         from_aircraft_id=[aircraft_id, aircraft_id_2],
         to_aircraft_id=[aircraft_id, aircraft_id_2],
     )
-    assert isinstance(pos1, pd.DataFrame)
-    assert np.isnan(pos1.loc[aircraft_id, aircraft_id_2])
+    assert isinstance(separation1, pd.DataFrame)
+    assert np.isnan(separation1.loc[aircraft_id, aircraft_id_2])
 
-    pos2 = great_circle_separation(
+    separation2 = great_circle_separation(
         from_aircraft_id=[aircraft_id, aircraft_id_2], to_aircraft_id=aircraft_id
     )
-    assert isinstance(pos2, pd.DataFrame)
-    assert np.isnan(pos2.loc[aircraft_id_2, aircraft_id])
+    assert isinstance(separation2, pd.DataFrame)
+    assert np.isnan(separation2.loc[aircraft_id_2, aircraft_id])
 
-    pos3 = vertical_separation(
+    separation3 = vertical_separation(
         from_aircraft_id=aircraft_id, to_aircraft_id=[aircraft_id, aircraft_id_2]
     )
-    assert isinstance(pos3, pd.DataFrame)
-    assert np.isnan(pos3.loc[aircraft_id, aircraft_id_2])
+    assert isinstance(separation3, pd.DataFrame)
+    assert np.isnan(separation3.loc[aircraft_id, aircraft_id_2])
 
-    pos4 = euclidean_separation(
+    separation4 = euclidean_separation(
         from_aircraft_id=aircraft_id, to_aircraft_id=aircraft_id_2
     )
-    assert isinstance(pos4, pd.DataFrame)
-    assert np.isnan(pos4.loc[aircraft_id, aircraft_id_2])
+    assert isinstance(separation4, pd.DataFrame)
+    assert np.isnan(separation4.loc[aircraft_id, aircraft_id_2])
