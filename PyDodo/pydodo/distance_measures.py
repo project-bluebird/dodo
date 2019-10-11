@@ -4,7 +4,7 @@ from geopy import distance
 from scipy.spatial.distance import euclidean
 
 from .config_param import config_param
-from . import request_position
+from .request_position import aircraft_position
 from . import utils
 
 # Default for major (equatorial) radius and flattening are 'WGS-84' values.
@@ -12,14 +12,7 @@ major_semiaxis, minor_semiaxis, _FLATTENING = distance.ELLIPSOIDS["WGS-84"]
 _EARTH_RADIUS = major_semiaxis * 1000  # convert to metres
 
 
-def geodesic_distance(
-    from_lat,
-    from_lon,
-    to_lat,
-    to_lon,
-    major_semiaxis=_EARTH_RADIUS,
-    flattening=_FLATTENING,
-):
+def geodesic_distance(from_lat, from_lon, to_lat, to_lon, **kwargs):
     """
     Get geodesic distance between two (lat, lon) points in metres.
 
@@ -33,10 +26,11 @@ def geodesic_distance(
         A double in the range ``[-90, 90]``. The `to` point's latitude.
     to_lon : double
         A double in the range ``[-180, 180)``. The `to` point's longitude.
-    major_semiaxis : double, optional
-        The major (equatorial) radius of the ellipsoid. The default value is for WGS84.
-    flattening : double, optional
-        Ellipsoid flattening. The default value is for WGS84.
+    **kwargs:
+        major_semiaxis : double, optional
+            The major (equatorial) radius of the ellipsoid. The default value is for WGS84.
+        flattening : double, optional
+            Ellipsoid flattening. The default value is for WGS84.
 
     Returns
     -------
@@ -47,6 +41,10 @@ def geodesic_distance(
     --------
     >>> >>> pydodo.geodesic_distance(from_lat = 51.5 , from_lon = 0.12, to_lat = 50.6, to_lon = -1.9)
     """
+    major_semiaxis = (
+        _EARTH_RADIUS if "major_semiaxis" not in kwargs else kwargs["major_semiaxis"]
+    )
+    flattening = _FLATTENING if "flattening" not in kwargs else kwargs["flattening"]
 
     utils._validate_latitude(from_lat)
     utils._validate_longitude(from_lon)
@@ -64,7 +62,7 @@ def geodesic_distance(
     ).meters
 
 
-def great_circle_distance(from_lat, from_lon, to_lat, to_lon, radius=_EARTH_RADIUS):
+def great_circle_distance(from_lat, from_lon, to_lat, to_lon, **kwargs):
     """
     Get great-circle distance between two (lat, lon) points in metres.
 
@@ -78,8 +76,9 @@ def great_circle_distance(from_lat, from_lon, to_lat, to_lon, radius=_EARTH_RADI
         A double in the range ``[-90, 90]``. The `to` point's latitude.
     to_lon : double
         A double in the range ``[-180, 180)``. The `to` point's longitude.
-    radius : double, optional
-        The radius of the earth in metres. The default value is for WGS84.
+    **kwargs
+        radius : double, optional
+            The radius of the earth in metres. The default value is for WGS84.
 
     Returns
     -------
@@ -90,6 +89,8 @@ def great_circle_distance(from_lat, from_lon, to_lat, to_lon, radius=_EARTH_RADI
     --------
     >>> pydodo.great_circle_distance(from_lat = 51.5 , from_lon = 0.12, to_lat = 50.6, to_lon = -1.9)
     """
+    radius = _EARTH_RADIUS if "radius" not in kwargs else kwargs["radius"]
+
     utils._validate_latitude(from_lat)
     utils._validate_longitude(from_lon)
     utils._validate_latitude(to_lat)
@@ -101,7 +102,7 @@ def great_circle_distance(from_lat, from_lon, to_lat, to_lon, radius=_EARTH_RADI
     ).meters
 
 
-def vertical_distance(from_alt, to_alt):
+def vertical_distance(from_alt, to_alt, **kwargs):
     """
     Get vertical distance in metres between two altitudes (provided in metres).
 
@@ -172,16 +173,7 @@ def lla_to_ECEF(lat, lon, alt=0, radius=_EARTH_RADIUS, f=_FLATTENING):
     return (x, y, z)
 
 
-def euclidean_distance(
-    from_lat,
-    from_lon,
-    from_alt,
-    to_lat,
-    to_lon,
-    to_alt,
-    major_semiaxis=_EARTH_RADIUS,
-    flattening=_FLATTENING,
-):
+def euclidean_distance(from_lat, from_lon, from_alt, to_lat, to_lon, to_alt, **kwargs):
     """
     Get euclidean distance between two (lat, lon, alt) points in metres. The
     points are converted to ECEF coordinates to calculate distance.
@@ -200,10 +192,11 @@ def euclidean_distance(
         A double in the range ``[-180, 180)``. The `to` point's longitude.
     to_alt : double
         A non-negatige double. The `to` point's altitude in metres.
-    major_semiaxis : double, optional
-        The major (equatorial) radius of the ellipsoid. The default value is for WGS84.
-    flattening : double, optional
-        Ellipsoid flattening. The default value is for WGS84.
+    **kwargs:
+        major_semiaxis : double, optional
+            The major (equatorial) radius of the ellipsoid. The default value is for WGS84.
+        flattening : double, optional
+            Ellipsoid flattening. The default value is for WGS84.
 
     Returns
     -------
@@ -218,6 +211,11 @@ def euclidean_distance(
     --------
     >>> pydodo.euclidean_distance(from_lat = 51.5 , from_lon = 0.12, from_alt = 200, to_lat = 50.6, to_lon = -1.9, to_alt = 350)
     """
+    major_semiaxis = (
+        _EARTH_RADIUS if "major_semiaxis" not in kwargs else kwargs["major_semiaxis"]
+    )
+    flattening = _FLATTENING if "flattening" not in kwargs else kwargs["flattening"]
+
     utils._validate_latitude(from_lat)
     utils._validate_longitude(from_lon)
     utils._validate_is_positive(from_alt, "altitude")
@@ -230,58 +228,6 @@ def euclidean_distance(
     to_ECEF = lla_to_ECEF(to_lat, to_lon, to_alt, major_semiaxis, flattening)
 
     return euclidean(from_ECEF, to_ECEF)
-
-
-def get_distance(
-    from_pos, to_pos, measure, radius=_EARTH_RADIUS, flattening=_FLATTENING
-):
-    """
-    Get distance (geodesic, great circle, vertical or euclidean) between the positions of a pair of aircraft.
-
-    Parameters
-    ----------
-    from_pos : pandas.Series
-        A pandas Series holding the from aircraft position data.
-    to_pos : pandas.Series
-        A pandas Series holding the to aircraft position data.
-    measure : str
-        A string, one of ``['geodesic', 'great_circle', 'vertical', 'euclidean']``.
-    radius : double, optional
-        Earth radius/major_semiaxis in metres. The default valus is for WGS84.
-    flattening : double, optional
-        Ellipsoid flattening. The default value is for
-        WGS84. param passed to geodesic_distance.
-    """
-    if measure == "geodesic":
-        return geodesic_distance(
-            from_pos["latitude"],
-            from_pos["longitude"],
-            to_pos["latitude"],
-            to_pos["longitude"],
-            major_semiaxis=radius,
-            flattening=flattening,
-        )
-    elif measure == "great_circle":
-        return great_circle_distance(
-            from_pos["latitude"],
-            from_pos["longitude"],
-            to_pos["latitude"],
-            to_pos["longitude"],
-            radius=radius,
-        )
-    elif measure == "vertical":
-        return vertical_distance(from_pos["altitude"], to_pos["altitude"])
-    elif measure == "euclidean":
-        return euclidean_distance(
-            from_pos["latitude"],
-            from_pos["longitude"],
-            from_pos["altitude"],
-            to_pos["latitude"],
-            to_pos["longitude"],
-            to_pos["altitude"],
-            major_semiaxis=radius,
-            flattening=flattening,
-        )
 
 
 def get_pos_df(from_aircraft_id, to_aircraft_id):
@@ -310,23 +256,13 @@ def get_pos_df(from_aircraft_id, to_aircraft_id):
     utils._validate_id_list(to_aircraft_id)
 
     ids = list(set(from_aircraft_id + to_aircraft_id))
-
-    all_pos = request_position.all_positions()
-    pos_df = all_pos.reindex(ids)
-
+    pos_df = aircraft_position(ids)
     SCALE_FEET_TO_METRES = 0.3048
     pos_df.loc[:, "altitude"] = SCALE_FEET_TO_METRES * pos_df["altitude"]
-
     return pos_df
 
 
-def get_separation(
-    from_aircraft_id,
-    to_aircraft_id,
-    measure,
-    radius=_EARTH_RADIUS,
-    flattening=_FLATTENING,
-):
+def get_separation(from_aircraft_id, to_aircraft_id, distance_f, **kwargs):
     """
     Get separation (geodesic, great circle, vertical or euclidean) between all pairs of "from" and "to" aircraft.
 
@@ -336,12 +272,15 @@ def get_separation(
         A string or list of strings of aircraft IDs.
     to_aircraft_id : str, [str], optional
        An optional string or list of strings of aircraft IDs. If not provided, ``to_aircraft_id=from_aircraft_id``
-    measure : str
-        A string, one of ``['geodesic', 'great_circle', 'vertical', 'euclidean']``.
-    radius : double, optional
-        Earth radius/major_semiaxis in metres. The default valus is for WGS84.
-    flattening : double, optional
-        Ellipsoid flattening. The default value is for WGS84. Used with ``measure='geodesic_distance'``.
+    distance_f : function
+        One of ``[geodesic_distance, great_circle_distance, vertical_distance, euclidean_distance]``.
+    **kwargs:
+        major_semiaxis : double, optional
+            The major (equatorial) radius of the ellipsoid. The default value is for WGS84.
+        radius : double, optional
+            Earth radius/major_semiaxis in metres. The default valus is for WGS84.
+        flattening : double, optional
+            Ellipsoid flattening. The default value is for WGS84.
 
     Returns
     -------
@@ -358,12 +297,12 @@ def get_separation(
     >>> pydodo.distance_measures.get_separation(from_aircraft_id = "BAW123", to_aircraft_id = "KLM456", measure = "euclidean")
     >>> pydodo.distance_measures.get_separation(from_aircraft_id = ["BAW123", "KLM456"], measure = "great_circle")
     """
-    assert measure in [
-        "geodesic",
-        "great_circle",
-        "vertical",
-        "euclidean",
-    ], "Invalid value {} for measure".format(measure)
+    major_semiaxis = (
+        _EARTH_RADIUS if "major_semiaxis" not in kwargs else kwargs["major_semiaxis"]
+    )
+    radius = _EARTH_RADIUS if "radius" not in kwargs else kwargs["radius"]
+    flattening = _FLATTENING if "flattening" not in kwargs else kwargs["flattening"]
+
     if not isinstance(from_aircraft_id, list):
         from_aircraft_id = [from_aircraft_id]
     if to_aircraft_id == None:
@@ -376,10 +315,14 @@ def get_separation(
     all_distances = []
     for from_id in from_aircraft_id:
         distances = [
-            get_distance(
-                pos_df.loc[from_id],
-                pos_df.loc[to_id],
-                measure=measure,
+            distance_f(
+                from_lat=pos_df.loc[from_id]["latitude"],
+                from_lon=pos_df.loc[from_id]["longitude"],
+                from_alt=pos_df.loc[from_id]["altitude"],
+                to_lat=pos_df.loc[to_id]["latitude"],
+                to_lon=pos_df.loc[to_id]["longitude"],
+                to_alt=pos_df.loc[to_id]["altitude"],
+                major_semiaxis=major_semiaxis,
                 radius=radius,
                 flattening=flattening,
             )
@@ -435,8 +378,8 @@ def geodesic_separation(
     return get_separation(
         from_aircraft_id,
         to_aircraft_id,
-        measure="geodesic",
-        radius=major_semiaxis,
+        distance_f=geodesic_distance,
+        major_semiaxis=major_semiaxis,
         flattening=flattening,
     )
 
@@ -475,7 +418,10 @@ def great_circle_separation(
     >>> pydodo.great_circle_separation(from_aircraft_id = ["BAW123", "KLM456"])
     """
     return get_separation(
-        from_aircraft_id, to_aircraft_id, measure="great_circle", radius=radius
+        from_aircraft_id,
+        to_aircraft_id,
+        distance_f=great_circle_distance,
+        radius=radius,
     )
 
 
@@ -508,7 +454,9 @@ def vertical_separation(from_aircraft_id, to_aircraft_id=None):
     >>> pydodo.vertical_separation(from_aircraft_id = "BAW123", to_aircraft_id = "KLM456")
     >>> pydodo.vertical_separation(from_aircraft_id = ["BAW123", "KLM456"])
     """
-    return get_separation(from_aircraft_id, to_aircraft_id, measure="vertical")
+    return get_separation(
+        from_aircraft_id, to_aircraft_id, distance_f=vertical_distance
+    )
 
 
 def euclidean_separation(
@@ -556,7 +504,7 @@ def euclidean_separation(
     return get_separation(
         from_aircraft_id,
         to_aircraft_id,
-        measure="euclidean",
-        radius=major_semiaxis,
+        distance_f=euclidean_distance,
+        major_semiaxis=major_semiaxis,
         flattening=flattening,
     )
