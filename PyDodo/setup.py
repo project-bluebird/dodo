@@ -1,9 +1,9 @@
 import os
 import wget
-from setuptools import setup, find_packages
+
+from setuptools import setup
 from setuptools.command.develop import develop as _develop
 from setuptools.command.install import install as _install
-from subprocess import call
 
 with open("requirements.txt", "r") as f:
     REQUIRED_PACKAGES = f.read().splitlines()
@@ -16,9 +16,9 @@ def get_config(dir=None):
         "https://raw.githubusercontent.com/alan-turing-institute/dodo/master/config.yml"
     )
     if dir == None:
-        wget.download(config_url)
-    else:
-        wget.download(config_url, dir)
+        this_dir, this_filename = os.path.split(os.path.abspath(__file__))
+        dir = os.path.join(this_dir, "pydodo")
+    wget.download(config_url, dir)
 
 
 class develop(_develop):
@@ -47,7 +47,6 @@ setup(
     author="Radka Jersakova and Ruairidh MacLeod",
     install_requires=REQUIRED_PACKAGES,
     packages=["pydodo"],
-    # packages = find_packages(exclude=['*test']),
     url="https://github.com/alan-turing-institute/dodo/PyDoDo",
     cmdclass={"install": install, "develop": develop},
 )
