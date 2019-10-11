@@ -16,9 +16,9 @@ def get_config(dir=None):
         "https://raw.githubusercontent.com/alan-turing-institute/dodo/master/config.yml"
     )
     if dir == None:
-        wget.download(config_url)
-    else:
-        wget.download(config_url, dir)
+        this_dir, this_filename = os.path.split(os.path.abspath(__file__))
+        dir = os.path.join(this_dir, "pydodo")
+    wget.download(config_url, dir)
 
 
 class develop(_develop):
