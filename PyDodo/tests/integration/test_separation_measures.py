@@ -113,6 +113,10 @@ def test_separation(expected_great_circle):
         euclidean(from_ECEF, to_ECEF), 0.01
     )
 
+    pos5 = euclidean_separation(from_aircraft_id=aircraft_id_2)
+    assert isinstance(pos5, pd.DataFrame)
+    assert pos5.loc[aircraft_id_2, aircraft_id_2] == 0
+
 
 @pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
 def test_wrong_id():

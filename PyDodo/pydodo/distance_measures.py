@@ -364,10 +364,10 @@ def get_separation(
         "vertical",
         "euclidean",
     ], "Invalid value {} for measure".format(measure)
-    if to_aircraft_id == None:
-        to_aircraft_id = from_aircraft_id.copy()
     if not isinstance(from_aircraft_id, list):
         from_aircraft_id = [from_aircraft_id]
+    if to_aircraft_id == None:
+        to_aircraft_id = from_aircraft_id.copy()
     if not isinstance(to_aircraft_id, list):
         to_aircraft_id = [to_aircraft_id]
 

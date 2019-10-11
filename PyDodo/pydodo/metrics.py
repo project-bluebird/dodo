@@ -44,7 +44,7 @@ def loss_of_separation(from_aircraft_id, to_aircraft_id):
         url,
         params={
             "name": "aircraft_separation",
-            "args": f"{from_aircraft_id},{to_aircraft_id}",
+            "args": "{},{}".format(from_aircraft_id, to_aircraft_id),
         },
     )
     if resp.status_code == 200:

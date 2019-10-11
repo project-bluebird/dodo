@@ -1,4 +1,5 @@
 import os
+import wget
 from setuptools import setup, find_packages
 from setuptools.command.develop import develop as _develop
 from setuptools.command.install import install as _install
@@ -9,14 +10,15 @@ with open("requirements.txt", "r") as f:
 
 
 def get_config(dir=None):
+    """Downloads config file from GitHub and saves it in dir."""
     print("Getting the config file")
-    config = (
+    config_url = (
         "https://raw.githubusercontent.com/alan-turing-institute/dodo/master/config.yml"
     )
     if dir == None:
-        call(["wget", config])
+        wget.download(config_url)
     else:
-        call(["wget", config], cwd=dir)
+        wget.download(config_url, dir)
 
 
 class develop(_develop):
