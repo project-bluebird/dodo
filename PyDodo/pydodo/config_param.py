@@ -5,9 +5,9 @@ import yaml
 def find_config():
     """
     Return the default config file location. Normally this is the package
-    installation directory, expect when install in develop mode or using pytest.
+    installation directory, except when install in develop mode or using pytest.
     If in develop mode, the config file is in the package source root. If using
-    pytest, the config file is in the project root.
+    pytest, the config file is in the dodo project root.
     """
     config_filename = "config.yml"
     this_dir = dirname(abspath(__file__))
