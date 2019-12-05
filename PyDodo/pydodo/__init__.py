@@ -43,4 +43,4 @@ from .async_aircraft_control import (
     async_direct_to_waypoint,
 )
 
-from .metrics import loss_of_separation
+from .metrics import loss_of_separation, sector_exit

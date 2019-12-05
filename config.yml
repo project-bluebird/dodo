@@ -46,7 +46,7 @@ default:
   simulator_time: "sim_t"
 
   # Metrics
-  aircraft_separation: "aircraft_separation"
+  loss_of_separation: "aircraft_separation"
   sector_exit: "sector_exit"
 
   # Physical

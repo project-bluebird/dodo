@@ -32,7 +32,7 @@ def metrics_call(metric, args):
     if resp.status_code == 200:
         json_data = json.loads(resp.text)
         score = json_data[metric]
-    elif resp.status_code == config_param("status_code_no_aircraft_found")
+    elif resp.status_code == config_param("status_code_no_aircraft_found"):
         score = np.nan
     else:
         raise requests.HTTPError(resp.text)
