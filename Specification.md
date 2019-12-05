@@ -64,6 +64,7 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 | Function  	                                                        | `Python    `| `R `    |
 |---	                                                                |---        |---	|
 | [Loss of separation](#loss-of-separation)                         |  ✔    |       |
+| [Sector exit](#sector-exit)                         |  ✔    |       |
 
 
 # Commands
@@ -491,3 +492,12 @@ If any of the given aircraft IDs does not exist in the simulation, the returned 
 - `to_aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
 
 **Return value:** A double, the loss of separation score between `from_aircraft_id` and `to_aircraft_id`. If any of the given aircraft IDs does not exist in the simulation, returns missing value.
+
+## Sector exit
+
+**Function name:** `sector_exit`
+
+**Parameters:**
+- `aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
+
+**Return value:** A double, the sector exit score for `aircraft_id`. If the aircraft does not exist in the simulation or has not exited the sector yet, returns missing value. 
