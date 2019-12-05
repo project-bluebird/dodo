@@ -2,10 +2,10 @@
 import gym
 import itertools
 
-from episode_log import episode_log
-from metrics import loss_of_separation
-from request_position import all_positions
-from simulation_control import simulation_step, reset_simulation
+from .episode_log import episode_log
+from .metrics import loss_of_separation
+from .request_position import all_positions
+from .simulation_control import simulation_step, reset_simulation
 
 
 class SimurghEnv(gym.Env):
