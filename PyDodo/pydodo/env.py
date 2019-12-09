@@ -27,6 +27,9 @@ class SimurghEnv(gym.Env):
 
     def step(self, action):
         """
+        Step forward the agent (take agent selected action), which is not
+        necessarily the same as stepping forward the simulation.
+
         :param action:
         :return: obs (object), reward (float), done (bool), info (dict)
         """
@@ -35,6 +38,7 @@ class SimurghEnv(gym.Env):
         # NOTE: this requires knowing what altitude to request of which aircraft
         # --> probably need to determine some ACTION_MAPPING
 
+        # NOTE: below is not required - could run in 'sandbox' mode
         simulation_step()
 
         aircraft_ids = all_positions().index
