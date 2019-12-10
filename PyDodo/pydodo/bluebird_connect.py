@@ -1,14 +1,36 @@
+import sys
 import requests
 
 from .config_param import config_param
 
 _BB_HOST = config_param("host")
 _BB_PORT = config_param("port")
-_BB_API_PATH = config_param("api_path")
 _BB_API_VERSION = config_param("api_version")
 
 
-def bluebird_config(host, port, version):
+def bluebird_config(
+    host=config_param("host"),
+    port=config_param("port"),
+    version=config_param("api_version")
+    ):
+    """
+    Set BlueBird host, port and version parameters.
+    Default values are taken from the config file.
+
+    Parameters
+    ----------
+    host : str
+        BlueBird host (e.g., 'localhost' or '0.0.0.0').
+    port : int
+        BlueBird port (e.g., 5001).
+    version : str
+        BlueBird version (e.g., 'v1' or 'v2')
+    """
+
+    this_module = sys.modules[__name__]
+    setattr(this_module, "_BB_HOST", host)
+    setattr(this_module, "_BB_PORT", port)
+    setattr(this_module, "_BB_API_VERSION", version)
     return True
 
 
@@ -32,7 +54,7 @@ def construct_endpoint_url(endpoint):
     """
     return "{0}/{1}/{2}/{3}".format(
         get_bluebird_url(),
-        _BB_API_PATH,
+        config_param("api_path"),
         _BB_API_VERSION,
         endpoint,
     )

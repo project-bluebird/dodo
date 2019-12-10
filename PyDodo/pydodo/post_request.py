@@ -2,6 +2,7 @@ import requests
 
 from .bluebird_connect import construct_endpoint_url
 
+
 def post_request(endpoint, body=None):
     """
     Make a POST requests to the BlueBird API.
