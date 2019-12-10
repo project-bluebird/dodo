@@ -2,7 +2,7 @@ import pytest
 
 from pydodo import reset_simulation, load_scenario
 from pydodo import current_flight_level, cleared_flight_level, requested_flight_level
-from pydodo.utils import ping_bluebird
+from pydodo.bluebird_connect import ping_bluebird
 
 bb_resp = ping_bluebird()
 

@@ -5,7 +5,7 @@ import aiohttp
 from concurrent.futures import ThreadPoolExecutor
 
 from . import utils
-from .utils import construct_endpoint_url
+from .bluebird_connect import construct_endpoint_url
 from .config_param import config_param
 
 

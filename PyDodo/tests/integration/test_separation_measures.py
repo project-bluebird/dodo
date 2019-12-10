@@ -15,7 +15,7 @@ from pydodo import (
     vertical_separation,
     euclidean_separation,
 )
-from pydodo.utils import ping_bluebird
+from pydodo.bluebird_connect import ping_bluebird
 
 bb_resp = ping_bluebird()
 

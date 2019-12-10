@@ -2,7 +2,7 @@ import pytest
 import os
 
 from pydodo import episode_log
-from pydodo.utils import ping_bluebird
+from pydodo.bluebird_connect import ping_bluebird
 
 bb_resp = ping_bluebird()
 

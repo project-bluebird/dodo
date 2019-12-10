@@ -6,7 +6,7 @@ import json
 from requests.exceptions import HTTPError
 
 from pydodo import aircraft_position, all_positions
-from pydodo.utils import ping_bluebird, construct_endpoint_url
+from pydodo.bluebird_connect import ping_bluebird, construct_endpoint_url
 
 
 @pytest.mark.parametrize("aircraft_id", [123, "", [], ["TEST", 123]])

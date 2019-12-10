@@ -3,7 +3,8 @@ import json
 import os
 
 from . import utils
-from .utils import post_request
+from .bluebird_connect import construct_endpoint_url
+from .post_request import post_request
 from .config_param import config_param
 
 
@@ -26,7 +27,7 @@ def episode_log():
     >>> pydodo.episode_log()
     """
     endpoint = config_param("endpoint_episode_log")
-    url = utils.construct_endpoint_url(endpoint)
+    url = construct_endpoint_url(endpoint)
 
     resp = requests.get(url)
     resp.raise_for_status()

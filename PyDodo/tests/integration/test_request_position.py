@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 
 from pydodo import aircraft_position, all_positions, reset_simulation, create_aircraft
-from pydodo.utils import ping_bluebird
+from pydodo.bluebird_connect import ping_bluebird
 
 bb_resp = ping_bluebird()
 
