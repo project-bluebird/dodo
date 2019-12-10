@@ -1,7 +1,7 @@
 import pytest
 
 from pydodo import create_aircraft
-from pydodo.utils import ping_bluebird
+from pydodo.bluebird_connect import ping_bluebird
 
 # Valid input parameter values
 aircraft_id = "TST1001"

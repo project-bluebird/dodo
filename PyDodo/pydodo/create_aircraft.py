@@ -1,5 +1,5 @@
 from . import utils
-from .utils import post_request
+from .post_request import post_request
 from .config_param import config_param
 
 

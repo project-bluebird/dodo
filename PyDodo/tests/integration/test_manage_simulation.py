@@ -17,7 +17,7 @@ from pydodo import (
     set_simulator_mode,
     simulation_step,
 )
-from pydodo.utils import ping_bluebird
+from pydodo.bluebird_connect import ping_bluebird
 from pydodo.config_param import config_param
 
 bb_resp = ping_bluebird()

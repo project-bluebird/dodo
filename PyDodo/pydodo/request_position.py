@@ -3,9 +3,9 @@ import json
 import numpy as np
 import pandas as pd
 
-from .config_param import config_param
-from .utils import construct_endpoint_url
 from . import utils
+from .config_param import config_param
+from .bluebird_connect import construct_endpoint_url
 
 endpoint = config_param("endpoint_aircraft_position")
 url = construct_endpoint_url(endpoint)

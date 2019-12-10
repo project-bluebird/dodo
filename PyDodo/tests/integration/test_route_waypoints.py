@@ -10,7 +10,7 @@ from pydodo import (
     list_route,
     direct_to_waypoint,
 )
-from pydodo.utils import ping_bluebird
+from pydodo.bluebird_connect import ping_bluebird
 from pydodo.list_route import define_waypoint, add_waypoint
 
 # test if can connect to BlueBird

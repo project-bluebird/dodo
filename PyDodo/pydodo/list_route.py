@@ -3,11 +3,12 @@ import json
 import pandas as pd
 
 from . import utils
-from .utils import post_request
+from .post_request import post_request
 from .config_param import config_param
+from .bluebird_connect import construct_endpoint_url
 
 endpoint = config_param("endpoint_list_route")
-url = utils.construct_endpoint_url(endpoint)
+url = construct_endpoint_url(endpoint)
 
 
 def route_call(aircraft_id):

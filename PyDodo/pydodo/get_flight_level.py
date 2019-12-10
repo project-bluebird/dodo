@@ -1,11 +1,12 @@
 import requests
 import json
 
-from .config_param import config_param
 from . import utils
+from .config_param import config_param
+from .bluebird_connect import construct_endpoint_url
 
 endpoint = config_param("endpoint_aircraft_flight_level")
-url = utils.construct_endpoint_url(endpoint)
+url = construct_endpoint_url(endpoint)
 
 
 def get_flight_level(aircraft_id):
@@ -22,7 +23,7 @@ def get_flight_level(aircraft_id):
     -------
     dict
         Flight level dictionary with keys:
-        
+
         ``"fl_current"``
             The aircraft's current flight level in meters.
         ``"fl_requested"``

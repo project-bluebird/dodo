@@ -44,3 +44,4 @@ from .async_aircraft_control import (
 )
 
 from .metrics import loss_of_separation, sector_exit
+from .bluebird_connect import bluebird_config
