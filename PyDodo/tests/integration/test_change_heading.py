@@ -2,7 +2,7 @@ import pytest
 import time
 
 from pydodo import change_heading, reset_simulation, create_aircraft, aircraft_position
-from pydodo.utils import ping_bluebird
+from pydodo.bluebird_connect import ping_bluebird
 
 # test if can connect to BlueBird
 bb_resp = ping_bluebird()

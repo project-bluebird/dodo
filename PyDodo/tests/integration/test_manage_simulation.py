@@ -1,4 +1,8 @@
 import pytest
+import os
+import time
+
+import pandas as pd
 
 from pydodo import (
     create_aircraft,
@@ -7,9 +11,13 @@ from pydodo import (
     pause_simulation,
     resume_simulation,
     aircraft_position,
-    set_simulation_rate_multiplier
+    all_positions,
+    set_simulation_rate_multiplier,
+    list_route,
+    set_simulator_mode,
+    simulation_step,
 )
-from pydodo.utils import ping_bluebird
+from pydodo.bluebird_connect import ping_bluebird
 from pydodo.config_param import config_param
 
 bb_resp = ping_bluebird()
@@ -24,6 +32,8 @@ def test_simulation_control():
     - Resume Simulation
     - Reset Simulation
     - Simulation time
+    - Simulator mode
+    - Simulation step
     """
     aircraft_id = "TST1001"
     type = "B744"
@@ -65,18 +75,41 @@ def test_simulation_control():
     resp = set_simulation_rate_multiplier(1.5)
     assert resp == True
 
+    cmd = set_simulator_mode("agent")
+    assert cmd == True
+
+    pos4 = aircraft_position(aircraft_id)
+
+    time.sleep(1)
+
+    pos5 = aircraft_position(aircraft_id)
+    # using agent mode sets simulator on hold
+    assert pos4.loc[aircraft_id]["latitude"] == pos5.loc[aircraft_id]["latitude"]
+
+    cmd = simulation_step()
+    assert cmd == True
+
+    pos6 = aircraft_position(aircraft_id)
+    assert pos6.loc[aircraft_id]["latitude"] > pos5.loc[aircraft_id]["latitude"]
+
 
 @pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
 @pytest.mark.skipif(not bluesky_sim, reason="Not using BlueSky")
 def test_load_bluesky():
     """
-    Check that can load BlueSky scenario files (if using BlueSky) and change
+    Check that can load BlueSky scenario files (if using BlueSky) and specify
     the sim rate multiplier.
     """
-    resp = load_scenario("scenario/8.scn")
+    resp = reset_simulation()
     assert resp == True
 
-    resp = load_scenario("scenario/8.scn", 1.5)
+    resp = load_scenario("scenario/8.SCN")
+    assert resp == True
+
+    resp = reset_simulation()
+    assert resp == True
+
+    resp = load_scenario("scenario/8.SCN", 1.5)
     assert resp == True
 
 
@@ -89,4 +122,4 @@ def test_load_fail():
         load_scenario("")
 
     with pytest.raises(AssertionError):
-        load_scenario("scenario/8.scn", 0)
+        load_scenario("scenario/8.SCN", 0)

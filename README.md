@@ -1,39 +1,25 @@
 # dodo
 
-Scaffold for ATC agents
+[![Build Status](https://travis-ci.com/alan-turing-institute/dodo.svg?branch=master)](https://travis-ci.com/alan-turing-institute/dodo)
+
+Scaffold for ATC agents.
+
+Read the [Specification](Specification.md) document.
 
 ## PyDodo
 
-### Testing
-
-```{bash}
-git clone https://github.com/alan-turing-institute/dodo.git
-cd dodo/PyDodo
-pytest -v
-```
-
-If BlueSky and BlueBird are not running, the integration tests are skipped.
-
 ### Install
 
-1. From local
-
+(Optional first step)
+```
+conda create -n away-day python=3.7
+conda activate away-day
+```
+...
 ```{bash}
 git clone https://github.com/alan-turing-institute/dodo.git
 cd dodo/Pydodo
+git checkout turing-away-day
 pip install .
-```
-
-2. From GitHub
-
-```
-pip install git+https://github.com/alan-turing-institute/dodo.git@py_dodo#egg=pydodo\&subdirectory=PyDodo
-```
-
-### Example usage
-
-```{python}
-import pydodo
-
-pydodo.reset_simulation()
+cd ../notebooks && jupyter notebook
 ```

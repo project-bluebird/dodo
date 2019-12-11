@@ -1,25 +1,54 @@
-matrix:
-  include:
-    - language: python
-      dist: xenial # no python 3.7 on trusy so use xenial
-      python:
-        - 3.6
-        - 3.7
-      install:
-        - pip install -r PyDodo/requirements.txt
-      before_script:
-        cd PyDodo
-      script:
-        - pytest -v
-    - language: r
-      before_install:
-        cd rdodo
-      addons:
-        apt:
-          packages: geosphere
-      cache: packages
-      warnings_as_errors: false
 # safelist
 branches:
   only:
-  - master
+  - "master"
+  - "issue/66/example-notebooks"
+
+os:
+  - "linux"
+  - "osx"
+
+compiler:
+  - "gcc"
+  - "clang"
+
+sudo: "require"
+
+warnings_are_errors: false
+
+before_install:
+  - "if [ \"$TRAVIS_OS_NAME\" = \"linux\" ]; then sudo apt-get update -qq; sudo apt-get install libx11-xcb1; fi"
+  - "if [ \"$TRAVIS_OS_NAME\" = \"linux\" ]; then wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh; fi"
+  - "if [ \"$TRAVIS_OS_NAME\" = \"osx\" ]; then wget https://repo.continuum.io/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O miniconda.sh; fi"
+  - "echo $PWD"
+  - "git pull --all"
+  - "export DODO_HOME=$PWD"
+
+install:
+  - "bash miniconda.sh -b -p $HOME/miniconda"
+  - "export PATH=\"$HOME/miniconda/bin:$PATH\""
+  - "hash -r"
+  - "conda config --set always_yes yes --set changeps1 no"
+  - "conda update -q conda"
+  - "conda info -a"
+  - "source $HOME/miniconda/etc/profile.d/conda.sh"
+  - "export QT_QPA_PLATFORM='offscreen'"
+  - "conda create -n p36 python=3.6"
+
+script:
+  - "conda activate p36"
+  - "python --version"
+  - "pip install -r $DODO_HOME/PyDodo/requirements.txt"
+  - "bash $DODO_HOME/PyDodo/tests/.travis.sh"
+  - "conda install r-base"
+  - "conda install r-essentials"
+  - "conda install r-devtools"
+  - "conda install r-config"
+  - "conda install r-testthat"
+  - "conda install -c conda-forge r-future"
+  - "conda install -c conda-forge r-geosphere"
+  - "conda install -c r r-irkernel"
+  - "R CMD check --no-build-vignettes --no-manual $DODO_HOME/rdodo"
+  - "bash $DODO_HOME/notebooks/.travis.sh"
+
+env: TRAVIS=true

@@ -1,22 +1,24 @@
 import os
-from setuptools import setup, find_packages
+import wget
+
+from setuptools import setup
 from setuptools.command.develop import develop as _develop
 from setuptools.command.install import install as _install
-from subprocess import call
 
 with open("requirements.txt", "r") as f:
     REQUIRED_PACKAGES = f.read().splitlines()
 
 
-def get_config(dir=None):
+def get_config(config_dir=None):
+    """Downloads config file from GitHub and saves it in config_dir."""
     print("Getting the config file")
-    config = (
+    config_url = (
         "https://raw.githubusercontent.com/alan-turing-institute/dodo/master/config.yml"
     )
-    if dir == None:
-        call(["wget", config])
-    else:
-        call(["wget", config], cwd=dir)
+    if config_dir == None:
+        this_dir, this_filename = os.path.split(os.path.abspath(__file__))
+        config_dir = os.path.join(this_dir, "pydodo")
+    wget.download(config_url, config_dir)
 
 
 class develop(_develop):
@@ -24,7 +26,9 @@ class develop(_develop):
 
     def run(self):
         _develop.run(self)
-        if not os.path.exists("config.yml"):
+        this_dir, this_filename = os.path.split(os.path.abspath(__file__))
+        config_dir = os.path.join(this_dir, "pydodo")
+        if not os.path.exists(os.path.join(config_dir, "config.yml")):
             get_config()
 
 
@@ -45,7 +49,6 @@ setup(
     author="Radka Jersakova and Ruairidh MacLeod",
     install_requires=REQUIRED_PACKAGES,
     packages=["pydodo"],
-    # packages = find_packages(exclude=['*test']),
     url="https://github.com/alan-turing-institute/dodo/PyDoDo",
     cmdclass={"install": install, "develop": develop},
 )

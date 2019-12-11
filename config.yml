@@ -21,6 +21,7 @@ default:
   endpoint_create_scenario: "scenario"
   endpoint_create_aircraft: "cre"
   endpoint_aircraft_position: "pos"
+  endpoint_aircraft_flight_level: "alt"
   endpoint_change_altitude: "alt"
   endpoint_change_heading: "hdg"
   endpoint_change_speed: "spd"
@@ -32,6 +33,7 @@ default:
   endpoint_episode_log: "eplog"
   endpoint_simulation_time: "time"
   endpoint_shutdown: "shutdown"
+  endpoint_metrics: "metric"
   query_aircraft_id: "acid"
 
   # Column/element/attribute names
@@ -43,6 +45,11 @@ default:
   vertical_speed: "vertical_speed"
   simulator_time: "sim_t"
 
+  # Metrics
+  loss_of_separation: "aircraft_separation"
+  sector_exit: "sector_exit"
+
   # Physical
   feet_altitude_upper_limit: 6000
   flight_level_lower_limit: 60
+  flight_level_upper_limit: 450
