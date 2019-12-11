@@ -2,6 +2,7 @@ Package: rdodo
 Type: Package
 Title: Scaffold for ATC agents
 Version: 0.1.0
+Author: Alan Turing Institute
 Authors@R: c(
     person("Timothy", "Hobson", email = "thobson@turing.ac.uk", role = c("aut", "cre")),
     person("Gabasova", "Evelina", email = "egabasova@turing.ac.uk", role = c("aut")),
@@ -13,6 +14,6 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Suggests: testthat
-Imports: utils, config, httr, magrittr, purrr, jsonlite, future, stringr, geosphere
+Imports: utils, config, httr, purrr, jsonlite, future, stringr, geosphere
 RoxygenNote: 6.1.1
 NeedsCompilation: no

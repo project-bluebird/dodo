@@ -1,5 +1,7 @@
 #' Create a scenario
 #'
+#' Upload a scenario file from the local machine to the running simulator.
+#'
 #' @param filename
 #' The path to a scenario file on the local machine.
 #' @param scenario

@@ -15,7 +15,7 @@ create_scenario(filename, scenario)
 \code{TRUE} if successful. Otherwise \code{FALSE} and an error is thrown.
 }
 \description{
-Create a scenario
+Upload a scenario file from the local machine to the running simulator.
 }
 \examples{
 \dontrun{
