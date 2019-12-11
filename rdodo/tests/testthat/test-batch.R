@@ -126,4 +126,12 @@ test_that("the batch function handles errors correctly", {
     change_altitude(aircraft_id = aircraft_id, flight_level = 300),
     async = TRUE), regexp = "INVALID_ID not found")
 
+  # Expect an error if two commands have an invalid parameter.
+  expect_error(result <<- batch(
+    change_altitude(aircraft_id = aircraft_id, flight_level = 220),
+    change_altitude(aircraft_id = "INVALID_ID", flight_level = 240),
+    change_altitude(aircraft_id = aircraft_id, flight_level = 260),
+    change_altitude(aircraft_id = aircraft_id, flight_level = -10),
+    change_altitude(aircraft_id = aircraft_id, flight_level = 300),
+    async = TRUE), regexp = "INVALID_ID not found.*;.*flight_level_lower_limit")
 })

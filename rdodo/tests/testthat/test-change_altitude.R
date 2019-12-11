@@ -48,3 +48,39 @@ test_that("the change_altitude function works", {
   new_position <- aircraft_position(aircraft_id)
   expect_true(new_position[aircraft_id, h_altitude] > flight_level * 100)
 })
+
+test_that("the change_altitude function's altitude/flight level guard clause works", {
+
+  aircraft_id <- "test-change-altitude-guard"
+  type <- "B744"
+  latitude <- 0
+  longitude <- 0
+  heading <- 0
+  flight_level <- 250
+  speed <- 200
+
+  # Create an aircraft.
+  expect_true(create_aircraft(aircraft_id = aircraft_id,
+                              type = type,
+                              latitude = latitude,
+                              longitude = longitude,
+                              heading = heading,
+                              flight_level = flight_level,
+                              speed = speed))
+
+  # In the returned data frame aircraft_id is uppercase.
+  aircraft_id <- toupper(aircraft_id)
+
+  # Give the command to ascend with both a flight level and an altitude.
+  new_flight_level <- 450
+  new_altitude <- 30000
+  expect_error(change_altitude(aircraft_id = aircraft_id,
+                               altitude = new_altitude,
+                               flight_level = new_flight_level))
+
+  # Give the command to ascend with neither a flight level nor an altitude.
+  expect_error(change_altitude(aircraft_id = aircraft_id,
+                               altitude = NULL,
+                               flight_level = NULL))
+
+})

@@ -1,26 +1,25 @@
 #' Load a scenario
 #'
-#' @return
-#' \code{TRUE} if successful. Otherwise \code{FALSE} and an error is thrown.
-#'
-#' @param filename
-#' The relative path to a scenario file.
+#' @param scenario
+#' The name of the scenario, which must exist on the simulator host.
 #' @param multiplier
 #' (Optional) A positive number specifying the simulation rate multiplier. If
 #' omitted, the rate multiplier will be 1.
+#' @return
+#' \code{TRUE} if successful. Otherwise \code{FALSE} and an error is thrown.
 #'
 #' @examples
 #' \dontrun{
-#' load_scenario("scenario/8.SCN")
+#' load_scenario("test-scenario")
 #' }
 #'
 #' @export
-load_scenario <- function(filename, multiplier = NULL) {
+load_scenario <- function(scenario, multiplier = NULL) {
 
-  stopifnot(is.character(filename), length(filename) == 1)
+  stopifnot(is.character(scenario), length(scenario) == 1)
 
   # TODO: replace string literals with config parameters from Bluebird.
-  body <- list("filename" = filename)
+  body <- list("filename" = scenario)
   if (!is.null(multiplier)) {
     stopifnot(is.numeric(multiplier), multiplier > 0)
     body <- c(body, list("multiplier" = multiplier))
