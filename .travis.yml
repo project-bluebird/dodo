@@ -14,6 +14,9 @@ matrix:
     - language: r
       before_install:
         cd rdodo
+      addons:
+        apt:
+          packages: geosphere
       cache: packages
       warnings_as_errors: false
 # safelist
