@@ -5,7 +5,8 @@
 #' @param aircraft_id
 #' A string aircraft identifier
 #' @param vertical_speed
-#' A non-negative double. The aircraft's new vertical speed in feet/min.
+#' The aircraft's new vertical speed in feet/min expressed as a non-negative
+#' double or a quantity whose units can be converted to feet/min.
 #'
 #' @return
 #' \code{TRUE} if successful. Otherwise \code{FALSE} and an error is thrown.
@@ -21,10 +22,13 @@ change_vertical_speed <- function(aircraft_id, vertical_speed) {
   validate_aircraft_id(aircraft_id)
   validate_speed(vertical_speed)
 
+  # Convert the given speed to feet/min
+  units(vertical_speed) <- with(units::ud_units, ft/min)
+
   # TODO: replace string literals with config parameters from Bluebird.
   body <- list(
     "acid" = aircraft_id,
-    "vspd" = vertical_speed
+    "vspd" = as.double(vertical_speed)
   )
   post_call(endpoint = config_param("endpoint_change_vertical_speed"), body = body)
 }

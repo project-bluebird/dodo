@@ -13,9 +13,9 @@
 #' A double in the range [-180, 180).
 #'
 #' @return
-#' A double, the great circle distance between the two points.
+#' A double with units, the great circle distance between the two points in metres.
 #'
-#' @import geosphere
+#' @import geosphere units
 #' @export
 great_circle_distance <- function(from_lat, from_lon, to_lat, to_lon) {
 
@@ -25,5 +25,10 @@ great_circle_distance <- function(from_lat, from_lon, to_lat, to_lon) {
   validate_longitude(to_lon)
 
   # Note that coordinates in geosphere are given as longitude/latitude.
-  geosphere::distHaversine(p1 = c(from_lon, from_lat), p2 = c(to_lon, to_lat))
+  ret <- geosphere::distHaversine(p1 = c(from_lon, from_lat), p2 = c(to_lon, to_lat))
+
+  # Set units on the return value.
+  units(ret) <- with(units::ud_units, m)
+
+  ret
 }

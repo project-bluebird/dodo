@@ -42,11 +42,12 @@ test_that("the change_altitude function works", {
 
   # Wait for the altitude to increase.
   expect_true(wait(aircraft_id, property = h_altitude, operator = `>`,
-       initial_value = flight_level * 100))
+       initial_value = units::set_units(flight_level * 100, ft)))
 
   # Check that the new altitude exceeds the original one.
   new_position <- aircraft_position(aircraft_id)
-  expect_true(new_position[aircraft_id, h_altitude] > flight_level * 100)
+  expect_true(new_position[aircraft_id, h_altitude] >
+                units::set_units(flight_level * 100, ft))
 })
 
 test_that("the change_altitude function's altitude/flight level guard clause works", {
@@ -77,6 +78,11 @@ test_that("the change_altitude function's altitude/flight level guard clause wor
   expect_error(change_altitude(aircraft_id = aircraft_id,
                                altitude = new_altitude,
                                flight_level = new_flight_level))
+
+  # Test with invalid units.
+  new_altitude <- units::set_units(30000, s)
+  expect_error(change_altitude(aircraft_id = aircraft_id,
+                               altitude = new_altitude))
 
   # Give the command to ascend with neither a flight level nor an altitude.
   expect_error(change_altitude(aircraft_id = aircraft_id,

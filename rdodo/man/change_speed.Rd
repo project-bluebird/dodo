@@ -9,7 +9,8 @@ change_speed(aircraft_id, speed)
 \arguments{
 \item{aircraft_id}{A string aircraft identifier}
 
-\item{speed}{A non-negative double. The aircraft's new speed in knots.}
+\item{speed}{The aircraft's new speed in knots (KCAS) expressed as a non-negative double
+or a quantity whose units can be converted to knots.}
 }
 \value{
 \code{TRUE} if successful. Otherwise \code{FALSE} and an error is thrown.

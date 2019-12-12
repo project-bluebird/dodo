@@ -22,4 +22,9 @@ test_that("the great_circle_distance function works", {
   expected <- R * c
 
   expect_equal(result, expected = expected)
+
+  # Check units.
+  expect_true(inherits(result, "units"))
+  expect_equal(units(result)[["numerator"]], expected = "m")
+  expect_equal(units(result)[["denominator"]], expected = character(0))
 })

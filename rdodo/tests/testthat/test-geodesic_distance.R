@@ -13,4 +13,9 @@ test_that("the geodesic_distance function works", {
 
   # Compare to the result calculated using ArcGIS (to within 1% error):
   expect_equal(result, expected = 1000*176.92, tolerance = 0.01)
+
+  # Check units.
+  expect_true(inherits(result, "units"))
+  expect_equal(units(result)[["numerator"]], expected = "m")
+  expect_equal(units(result)[["denominator"]], expected = character(0))
 })
