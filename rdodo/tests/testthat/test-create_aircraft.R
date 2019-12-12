@@ -181,7 +181,20 @@ test_that("the create_aircraft altitude guard clause works", {
                                flight_level = flight_level,
                                speed = speed))
 
+  # Invalid value:
   altitude <- -1
+  flight_level <- NULL
+  expect_error(create_aircraft(aircraft_id = aircraft_id,
+                               type = type,
+                               latitude = latitude,
+                               longitude = longitude,
+                               heading = heading,
+                               altitude = altitude,
+                               flight_level = flight_level,
+                               speed = speed))
+
+  # Invalid units:
+  altitude <- units::set_units(10000, s)
   flight_level <- NULL
   expect_error(create_aircraft(aircraft_id = aircraft_id,
                                type = type,
@@ -271,6 +284,7 @@ test_that("the create_aircraft speed guard clause works", {
   heading <- 0
   flight_level <- 250
 
+  # Invalid value:
   speed <- -0.1
   expect_error(create_aircraft(aircraft_id = aircraft_id,
                                type = type,
@@ -279,6 +293,17 @@ test_that("the create_aircraft speed guard clause works", {
                                heading = heading,
                                flight_level = flight_level,
                                speed = speed))
+
+  # Invalid units:
+  speed <- units::set_units(200, m)
+  expect_error(create_aircraft(aircraft_id = aircraft_id,
+                               type = type,
+                               latitude = latitude,
+                               longitude = longitude,
+                               heading = heading,
+                               flight_level = flight_level,
+                               speed = speed))
+
 
   # Valid speed:
   speed <- 0

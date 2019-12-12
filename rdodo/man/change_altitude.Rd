@@ -10,12 +10,14 @@ change_altitude(aircraft_id, altitude = NULL, flight_level = NULL,
 \arguments{
 \item{aircraft_id}{A string aircraft identifier}
 
-\item{altitude}{A double in the range [0, 6000]. The aircraft's new altitude in feet.
-For altitudes in excess of 6000ft a flight level should be specified instead.}
+\item{altitude}{The aircraft's new altitude in feet expressed as a double in the range
+[0, 6000] or as a quantity whose units can be converted to feet. For
+altitudes in excess of 6000ft a flight level should be specified instead.}
 
 \item{flight_level}{A integer of 60 or more. The aircraft's flight level.}
 
-\item{vertical_speed}{A non-negative double. The requested vertical speed in feet/min.}
+\item{vertical_speed}{The vertical speed expressed as a non-negative double or as a quantity whose
+units can be converted to feet/min.}
 }
 \value{
 \code{TRUE} if successful. Otherwise \code{FALSE} and an error is thrown.
@@ -32,4 +34,5 @@ but not both.
 change_altitude("test1234", flight_level = 450)
 change_altitude("test1234", altitude = 5000)
 }
+
 }

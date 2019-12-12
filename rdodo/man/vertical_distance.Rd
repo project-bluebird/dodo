@@ -7,12 +7,14 @@
 vertical_distance(from_alt, to_alt)
 }
 \arguments{
-\item{from_alt}{A non-negative double.}
+\item{from_alt}{A non-negative double, interpreted as an altitude in feet, or a double value
+with a distance unit.}
 
-\item{to_alt}{A non-negative double.}
+\item{to_alt}{A non-negative double, interpreted as an altitude in feet, or a double value
+with a distance unit.}
 }
 \value{
-A double, the vertical distance between the two altitudes.
+A double with units, the vertical distance between the two altitudes in metres.
 }
 \description{
 Compute the vertical distance in metres between two altitudes. This is a

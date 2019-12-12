@@ -16,7 +16,7 @@ great_circle_distance(from_lat, from_lon, to_lat, to_lon)
 \item{to_lon}{A double in the range [-180, 180).}
 }
 \value{
-A double, the great circle distance between the two points.
+A double with units, the great circle distance between the two points in metres.
 }
 \description{
 Compute the great circle distance in metres between two latitude/longitude

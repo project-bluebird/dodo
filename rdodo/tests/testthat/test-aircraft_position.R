@@ -36,7 +36,26 @@ test_that("the aircraft_position function works with invalid aircraft ID", {
   expect_true(is.na(result[invalid_id, config_param("vertical_speed")]))
 
   # Check the simulator time attribute doesn't exist.
-  expect_true(is.null(attr(result, which = config_param("simulator_time"))))
+  expect_true(is.na(attr(result, which = config_param("simulator_time"))))
+
+  # Expect appropriate units (according to the Dodo specification).
+  expect_true(inherits(result[, config_param("altitude")], "units"))
+  expect_equal(units(result[, config_param("altitude")])[["numerator"]],
+               expected = "ft")
+  expect_equal(units(result[, config_param("altitude")])[["denominator"]],
+               expected = character(0))
+
+  expect_true(inherits(result[, config_param("ground_speed")], "units"))
+  expect_equal(units(result[, config_param("ground_speed")])[["numerator"]],
+               expected = "knot")
+  expect_equal(units(result[, config_param("ground_speed")])[["denominator"]],
+               expected = character(0))
+
+  expect_true(inherits(result[, config_param("vertical_speed")], "units"))
+  expect_equal(units(result[, config_param("vertical_speed")])[["numerator"]],
+               expected = "ft")
+  expect_equal(units(result[, config_param("vertical_speed")])[["denominator"]],
+               expected = "min")
 })
 
 test_that("the aircraft_position function works with scalar argument", {
@@ -79,7 +98,8 @@ test_that("the aircraft_position function works with scalar argument", {
                    expected = flight_level * 100)
 
   # Aircaft initial speed may differ from specified speed.
-  expect_true(result[aircraft_id, config_param("ground_speed")] > 150)
+  expect_true(result[aircraft_id, config_param("ground_speed")] >
+                units::set_units(150, m/s))
 
   expect_true(object = result[aircraft_id, config_param("latitude")] > 0)
   expect_equal(object = result[aircraft_id, config_param("longitude")],
@@ -88,9 +108,33 @@ test_that("the aircraft_position function works with scalar argument", {
                    expected = 0)
 
   # Check the simulator time attribute exists.
-  expect_true(!is.null(attr(result, which = config_param("simulator_time"))))
-  expect_true(is.numeric(attr(result, which = config_param("simulator_time"))))
-  expect_true(attr(result, which = config_param("simulator_time")) >= 0)
+  sim_time <- attr(result, which = config_param("simulator_time"))
+  expect_true(!is.null(sim_time))
+  expect_true(is.numeric(sim_time))
+  expect_true(sim_time >= units::set_units(0, s))
+
+  # Expect appropriate units (according to the Dodo specification).
+  expect_true(inherits(result[, config_param("altitude")], "units"))
+  expect_equal(units(result[, config_param("altitude")])[["numerator"]],
+               expected = "ft")
+  expect_equal(units(result[, config_param("altitude")])[["denominator"]],
+               expected = character(0))
+
+  expect_true(inherits(result[, config_param("ground_speed")], "units"))
+  expect_equal(units(result[, config_param("ground_speed")])[["numerator"]],
+               expected = "knot")
+  expect_equal(units(result[, config_param("ground_speed")])[["denominator"]],
+               expected = character(0))
+
+  expect_true(inherits(result[, config_param("vertical_speed")], "units"))
+  expect_equal(units(result[, config_param("vertical_speed")])[["numerator"]],
+               expected = "ft")
+  expect_equal(units(result[, config_param("vertical_speed")])[["denominator"]],
+               expected = "min")
+
+  expect_true(inherits(sim_time, "units"))
+  expect_equal(units(sim_time)[["numerator"]], expected = "s")
+  expect_equal(units(sim_time)[["denominator"]], expected = character(0))
 })
 
 test_that("the aircraft_position function works with a vector argument", {
@@ -152,7 +196,8 @@ test_that("the aircraft_position function works with a vector argument", {
                    expected = flight_level_1 * 100)
 
   # Aircaft initial speed may differ from specified speed.
-  expect_true(result[aircraft_id_1, config_param("ground_speed")] > 150)
+  expect_true(result[aircraft_id_1, config_param("ground_speed")] >
+                units::set_units(150, m/s))
 
   expect_true(object = result[aircraft_id_1, config_param("latitude")] > 0)
   expect_equal(object = result[aircraft_id_1, config_param("longitude")],
@@ -165,7 +210,8 @@ test_that("the aircraft_position function works with a vector argument", {
                    expected = flight_level_2 * 100)
 
   # Aircaft initial speed may differ from specified speed.
-  expect_true(result[aircraft_id_2, config_param("ground_speed")] > 150)
+  expect_true(result[aircraft_id_2, config_param("ground_speed")] >
+                units::set_units(150, m/s))
 
   expect_true(object = result[aircraft_id_2, config_param("latitude")] < 0)
   expect_equal(object = result[aircraft_id_2, config_param("longitude")],
@@ -174,9 +220,33 @@ test_that("the aircraft_position function works with a vector argument", {
                    expected = 0)
 
   # Check the simulator time attribute exists.
-  expect_true(!is.null(attr(result, which = config_param("simulator_time"))))
-  expect_true(is.numeric(attr(result, which = config_param("simulator_time"))))
-  expect_true(attr(result, which = config_param("simulator_time")) >= 0)
+  sim_time <- attr(result, which = config_param("simulator_time"))
+  expect_true(!is.null(sim_time))
+  expect_true(is.numeric(sim_time))
+  expect_true(sim_time >= units::set_units(0, s))
+
+  # Expect appropriate units (according to the Dodo specification).
+  expect_true(inherits(result[, config_param("altitude")], "units"))
+  expect_equal(units(result[, config_param("altitude")])[["numerator"]],
+               expected = "ft")
+  expect_equal(units(result[, config_param("altitude")])[["denominator"]],
+               expected = character(0))
+
+  expect_true(inherits(result[, config_param("ground_speed")], "units"))
+  expect_equal(units(result[, config_param("ground_speed")])[["numerator"]],
+               expected = "knot")
+  expect_equal(units(result[, config_param("ground_speed")])[["denominator"]],
+               expected = character(0))
+
+  expect_true(inherits(result[, config_param("vertical_speed")], "units"))
+  expect_equal(units(result[, config_param("vertical_speed")])[["numerator"]],
+               expected = "ft")
+  expect_equal(units(result[, config_param("vertical_speed")])[["denominator"]],
+               expected = "min")
+
+  expect_true(inherits(sim_time, "units"))
+  expect_equal(units(sim_time)[["numerator"]], expected = "s")
+  expect_equal(units(sim_time)[["denominator"]], expected = character(0))
 
   ###
   ### Test with a vector argument including both valid and only invalid IDs.
@@ -221,6 +291,35 @@ test_that("the aircraft_position function works with a vector argument", {
   expect_false(is.na(result[aircraft_id_2, config_param("latitude")]))
   expect_false(is.na(result[aircraft_id_2, config_param("longitude")]))
   expect_false(is.na(result[aircraft_id_2, config_param("vertical_speed")]))
+
+  # Check the simulator time attribute exists.
+  sim_time <- attr(result, which = config_param("simulator_time"))
+  expect_true(!is.null(sim_time))
+  expect_true(is.numeric(sim_time))
+  expect_true(sim_time >= units::set_units(0, s))
+
+  # Expect appropriate units (according to the Dodo specification).
+  expect_true(inherits(result[, config_param("altitude")], "units"))
+  expect_equal(units(result[, config_param("altitude")])[["numerator"]],
+               expected = "ft")
+  expect_equal(units(result[, config_param("altitude")])[["denominator"]],
+               expected = character(0))
+
+  expect_true(inherits(result[, config_param("ground_speed")], "units"))
+  expect_equal(units(result[, config_param("ground_speed")])[["numerator"]],
+               expected = "knot")
+  expect_equal(units(result[, config_param("ground_speed")])[["denominator"]],
+               expected = character(0))
+
+  expect_true(inherits(result[, config_param("vertical_speed")], "units"))
+  expect_equal(units(result[, config_param("vertical_speed")])[["numerator"]],
+               expected = "ft")
+  expect_equal(units(result[, config_param("vertical_speed")])[["denominator"]],
+               expected = "min")
+
+  expect_true(inherits(sim_time, "units"))
+  expect_equal(units(sim_time)[["numerator"]], expected = "s")
+  expect_equal(units(sim_time)[["denominator"]], expected = character(0))
 })
 
 # Reset the simulation to ensure no aircraft exist initially.
@@ -313,8 +412,32 @@ test_that("the aircraft_position function works with no argument", {
   expect_identical(object = colnames(result), expected = expected)
 
   # Check the simulator time attribute exists.
-  expect_true(!is.null(attr(result, which = config_param("simulator_time"))))
-  expect_true(is.numeric(attr(result, which = config_param("simulator_time"))))
-  expect_true(attr(result, which = config_param("simulator_time")) >= 0)
+  sim_time <- attr(result, which = config_param("simulator_time"))
+  expect_true(!is.null(sim_time))
+  expect_true(is.numeric(sim_time))
+  expect_true(sim_time >= units::set_units(0, s))
+
+  # Expect appropriate units (according to the Dodo specification).
+  expect_true(inherits(result[, config_param("altitude")], "units"))
+  expect_equal(units(result[, config_param("altitude")])[["numerator"]],
+               expected = "ft")
+  expect_equal(units(result[, config_param("altitude")])[["denominator"]],
+               expected = character(0))
+
+  expect_true(inherits(result[, config_param("ground_speed")], "units"))
+  expect_equal(units(result[, config_param("ground_speed")])[["numerator"]],
+               expected = "knot")
+  expect_equal(units(result[, config_param("ground_speed")])[["denominator"]],
+               expected = character(0))
+
+  expect_true(inherits(result[, config_param("vertical_speed")], "units"))
+  expect_equal(units(result[, config_param("vertical_speed")])[["numerator"]],
+               expected = "ft")
+  expect_equal(units(result[, config_param("vertical_speed")])[["denominator"]],
+               expected = "min")
+
+  expect_true(inherits(sim_time, "units"))
+  expect_equal(units(sim_time)[["numerator"]], expected = "s")
+  expect_equal(units(sim_time)[["denominator"]], expected = character(0))
 })
 

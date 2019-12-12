@@ -16,7 +16,7 @@ geodesic_distance(from_lat, from_lon, to_lat, to_lon)
 \item{to_lon}{A double in the range [-180, 180).}
 }
 \value{
-A double, the geodesic distance between the two points.
+A double with units, the geodesic distance between the two points in metres.
 }
 \description{
 Compute the geodesic distance in metres between two latitude/longitude
