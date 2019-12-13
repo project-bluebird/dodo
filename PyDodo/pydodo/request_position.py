@@ -81,7 +81,7 @@ def _process_pos_response(response):
     -------
     pos_df : pandas.DataFrame
         Dataframe indexed by **uppercase** aircraft ID with columns:
-    | - ``type``: A string ICAO aircraft type designator.
+    | - ``aircraft_type``: A string ICAO aircraft type designator.
     | - ``altitude``: A non-negatige double. The aircraft's altitude in feet.
     | - ``ground_speed``: A non-negative double. The aircraft's ground speed in knots.
     | - ``latitude``: A double in the range ``[-90, 90]``. The aircraft's latitude.
@@ -100,12 +100,12 @@ def _process_pos_response(response):
     """
     # map between BlueBird pos names and our pos column names
     _POS_COL_MAP = {
-        "actype": "type",
-        "alt": "altitude",
-        "gs": "ground_speed",
-        "lat": "latitude",
-        "lon": "longitude",
-        "vs": "vertical_speed",
+        "actype": config_param("aircraft_type"),
+        "alt": config_param("altitude"),
+        "gs": config_param("ground_speed"),
+        "lat": config_param("latitude"),
+        "lon": config_param("longitude"),
+        "vs": config_param("vertical_speed"),
     }
 
     if not bool(response):

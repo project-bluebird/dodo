@@ -63,7 +63,7 @@ def test_output_format(mock_get):
     output = pd.DataFrame.from_dict(
         {
             "TEST1": {
-                "type": type,
+                "aircraft_type": type,
                 "altitude": alt,
                 "ground_speed": speed,
                 "latitude": latitude,
