@@ -48,6 +48,13 @@ test_that("the geodesic_separation function works", {
   expect_identical(from_aircraft_id, rownames(result))
   expect_identical(to_aircraft_id, colnames(result))
 
+  # Check the units:
+  sapply(colnames(result), FUN = function(colname) {
+    expect_true(inherits(result[[colname]], "units"))
+    expect_equal(units(result[[colname]])[["numerator"]], expected = "m")
+    expect_equal(units(result[[colname]])[["denominator"]], expected = character(0))
+  })
+
   # Compare to the result calculated using ArcGIS (to within 1% error):
   expect_equal(result[from_aircraft_id, to_aircraft_id],
                expected = 1000*176.92, tolerance = 0.01)
@@ -100,6 +107,13 @@ test_that("the geodesic_separation function works with vector arguments", {
   expect_identical(from_aircraft_id, rownames(result))
   expect_identical(to_aircraft_id, colnames(result))
 
+  # Check the units:
+  sapply(colnames(result), FUN = function(colname) {
+    expect_true(inherits(result[[colname]], "units"))
+    expect_equal(units(result[[colname]])[["numerator"]], expected = "m")
+    expect_equal(units(result[[colname]])[["denominator"]], expected = character(0))
+  })
+
   # Compare to the result calculated using ArcGIS (to within 1% error):
   expect_equal(result[aircraft_id_1, aircraft_id_2],
                expected = 1000*176.92, tolerance = 0.01)
@@ -121,6 +135,13 @@ test_that("the geodesic_separation function works with vector arguments", {
   expect_identical(from_aircraft_id, rownames(result))
   expect_identical(to_aircraft_id, colnames(result))
 
+  # Check the units:
+  sapply(colnames(result), FUN = function(colname) {
+    expect_true(inherits(result[[colname]], "units"))
+    expect_equal(units(result[[colname]])[["numerator"]], expected = "m")
+    expect_equal(units(result[[colname]])[["denominator"]], expected = character(0))
+  })
+
   # Compare to the result calculated using ArcGIS (to within 1% error):
   expect_equal(result[aircraft_id_1, aircraft_id_1], expected = 0)
   expect_equal(result[aircraft_id_1, aircraft_id_2],
@@ -137,6 +158,13 @@ test_that("the geodesic_separation function works with vector arguments", {
   expect_true(is.data.frame(result))
   expect_identical(from_aircraft_id, rownames(result))
   expect_identical(to_aircraft_id, colnames(result))
+
+  # Check the units:
+  sapply(colnames(result), FUN = function(colname) {
+    expect_true(inherits(result[[colname]], "units"))
+    expect_equal(units(result[[colname]])[["numerator"]], expected = "m")
+    expect_equal(units(result[[colname]])[["denominator"]], expected = character(0))
+  })
 
   # Compare to the result calculated using ArcGIS (to within 1% error):
   expect_equal(result[aircraft_id_1, aircraft_id_2],

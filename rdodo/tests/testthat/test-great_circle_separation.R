@@ -48,6 +48,13 @@ test_that("the great_circle_separation function works", {
   expect_identical(from_aircraft_id, rownames(result))
   expect_identical(to_aircraft_id, colnames(result))
 
+  # Check the units:
+  sapply(colnames(result), FUN = function(colname) {
+    expect_true(inherits(result[[colname]], "units"))
+    expect_equal(units(result[[colname]])[["numerator"]], expected = "m")
+    expect_equal(units(result[[colname]])[["denominator"]], expected = character(0))
+  })
+
   # Compare to the result computed using the Haversine formula (to with 0.1%):
   dlat <- 51.507389 - 50.6083
   dlon <- 0.127806 - -1.9608
@@ -109,6 +116,13 @@ test_that("the great_circle_separation function works with vector arguments", {
   expect_identical(from_aircraft_id, rownames(result))
   expect_identical(to_aircraft_id, colnames(result))
 
+  # Check the units:
+  sapply(colnames(result), FUN = function(colname) {
+    expect_true(inherits(result[[colname]], "units"))
+    expect_equal(units(result[[colname]])[["numerator"]], expected = "m")
+    expect_equal(units(result[[colname]])[["denominator"]], expected = character(0))
+  })
+
   # Compare to the result computed using the Haversine formula (to with 0.1%):
   dlat <- 51.507389 - 50.6083
   dlon <- 0.127806 - -1.9608
@@ -139,6 +153,13 @@ test_that("the great_circle_separation function works with vector arguments", {
   expect_identical(from_aircraft_id, rownames(result))
   expect_identical(to_aircraft_id, colnames(result))
 
+  # Check the units:
+  sapply(colnames(result), FUN = function(colname) {
+    expect_true(inherits(result[[colname]], "units"))
+    expect_equal(units(result[[colname]])[["numerator"]], expected = "m")
+    expect_equal(units(result[[colname]])[["denominator"]], expected = character(0))
+  })
+
   # Compare to the result computed using the Haversine formula (to with 0.1%):
   expect_equal(result[aircraft_id_1, aircraft_id_1], expected = 0)
   expect_equal(result[aircraft_id_1, aircraft_id_2],
@@ -155,6 +176,13 @@ test_that("the great_circle_separation function works with vector arguments", {
   expect_true(is.data.frame(result))
   expect_identical(from_aircraft_id, rownames(result))
   expect_identical(to_aircraft_id, colnames(result))
+
+  # Check the units:
+  sapply(colnames(result), FUN = function(colname) {
+    expect_true(inherits(result[[colname]], "units"))
+    expect_equal(units(result[[colname]])[["numerator"]], expected = "m")
+    expect_equal(units(result[[colname]])[["denominator"]], expected = character(0))
+  })
 
   # Compare to the result computed using the Haversine formula (to with 0.1%):
   expect_equal(result[aircraft_id_1, aircraft_id_2],
