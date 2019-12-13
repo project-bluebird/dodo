@@ -11,7 +11,7 @@ endpoint = config_param("endpoint_aircraft_position")
 url = construct_endpoint_url(endpoint)
 
 
-def position_call(aircraft_id=None):
+def _position_call(aircraft_id=None):
     """
     Make a call to the BlueBird aircraft position (POS) endpoint.
 
@@ -55,7 +55,7 @@ def position_call(aircraft_id=None):
         raise requests.HTTPError(resp.text)
 
 
-def normalise_positions_units(df):
+def _normalise_positions_units(df):
     """
     Normalise units of measurement in the positions data.
     """
@@ -67,7 +67,7 @@ def normalise_positions_units(df):
     return df
 
 
-def process_pos_response(response):
+def _process_pos_response(response):
     """
     Process JSON response from BlueBird POS enndpoint request and return the
     aircraft position information as a data frame.
@@ -127,7 +127,7 @@ def process_pos_response(response):
     if sim_t is not None:
         pos_df.sim_t = sim_t
 
-    return normalise_positions_units(pos_df)
+    return _normalise_positions_units(pos_df)
 
 
 def all_positions():
@@ -163,8 +163,8 @@ def all_positions():
     ---------
     >>> pydodo.all_positions()
     """
-    pos = position_call()
-    return process_pos_response(pos)
+    pos = _position_call()
+    return _process_pos_response(pos)
 
 
 def aircraft_position(aircraft_id):
@@ -206,8 +206,8 @@ def aircraft_position(aircraft_id):
     utils._validate_id_list(aircraft_id)
 
     if type(aircraft_id) == str:
-        pos = position_call(aircraft_id)
-        return process_pos_response(pos)
+        pos = _position_call(aircraft_id)
+        return _process_pos_response(pos)
     elif type(aircraft_id) == list:
         all_pos_df = all_positions()  # get all aircraft in simulation
         return all_pos_df.reindex(aircraft_id)  # filter requested IDs

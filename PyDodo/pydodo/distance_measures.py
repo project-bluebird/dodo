@@ -128,7 +128,7 @@ def vertical_distance(from_alt, to_alt, **kwargs):
     return abs(from_alt - to_alt)
 
 
-def lla_to_ECEF(lat, lon, alt=0, radius=_EARTH_RADIUS, f=_FLATTENING):
+def _lla_to_ECEF(lat, lon, alt=0, radius=_EARTH_RADIUS, f=_FLATTENING):
     """
     Calculates ECEF coordinates of a point from lat, lon and alt.
 
@@ -224,13 +224,13 @@ def euclidean_distance(from_lat, from_lon, from_alt, to_lat, to_lon, to_alt, **k
     utils._validate_is_positive(to_alt, "altitude")
     utils._validate_is_positive(major_semiaxis, " major_semiaxis")
 
-    from_ECEF = lla_to_ECEF(from_lat, from_lon, from_alt, major_semiaxis, flattening)
-    to_ECEF = lla_to_ECEF(to_lat, to_lon, to_alt, major_semiaxis, flattening)
+    from_ECEF = _lla_to_ECEF(from_lat, from_lon, from_alt, major_semiaxis, flattening)
+    to_ECEF = _lla_to_ECEF(to_lat, to_lon, to_alt, major_semiaxis, flattening)
 
     return euclidean(from_ECEF, to_ECEF)
 
 
-def get_pos_df(from_aircraft_id, to_aircraft_id):
+def _get_pos_df(from_aircraft_id, to_aircraft_id):
     """
     Get position for all unique aircraft listed in from_aircraft_id & to_aircraft_id.
 
@@ -262,7 +262,7 @@ def get_pos_df(from_aircraft_id, to_aircraft_id):
     return pos_df
 
 
-def get_separation(from_aircraft_id, to_aircraft_id, distance_f, **kwargs):
+def _get_separation(from_aircraft_id, to_aircraft_id, distance_f, **kwargs):
     """
     Get separation (geodesic, great circle, vertical or euclidean) between all pairs of "from" and "to" aircraft.
 
@@ -310,7 +310,7 @@ def get_separation(from_aircraft_id, to_aircraft_id, distance_f, **kwargs):
     if not isinstance(to_aircraft_id, list):
         to_aircraft_id = [to_aircraft_id]
 
-    pos_df = get_pos_df(from_aircraft_id, to_aircraft_id)
+    pos_df = _get_pos_df(from_aircraft_id, to_aircraft_id)
 
     all_distances = []
     for from_id in from_aircraft_id:
@@ -375,7 +375,7 @@ def geodesic_separation(
     >>> pydodo.geodesic_separation(from_aircraft_id = "BAW123", to_aircraft_id = "KLM456")
     >>> pydodo.geodesic_separation(from_aircraft_id = ["BAW123", "KLM456"])
     """
-    return get_separation(
+    return _get_separation(
         from_aircraft_id,
         to_aircraft_id,
         distance_f=geodesic_distance,
@@ -417,7 +417,7 @@ def great_circle_separation(
     >>> pydodo.great_circle_separation(from_aircraft_id = "BAW123", to_aircraft_id = "KLM456")
     >>> pydodo.great_circle_separation(from_aircraft_id = ["BAW123", "KLM456"])
     """
-    return get_separation(
+    return _get_separation(
         from_aircraft_id,
         to_aircraft_id,
         distance_f=great_circle_distance,
@@ -454,7 +454,7 @@ def vertical_separation(from_aircraft_id, to_aircraft_id=None):
     >>> pydodo.vertical_separation(from_aircraft_id = "BAW123", to_aircraft_id = "KLM456")
     >>> pydodo.vertical_separation(from_aircraft_id = ["BAW123", "KLM456"])
     """
-    return get_separation(
+    return _get_separation(
         from_aircraft_id, to_aircraft_id, distance_f=vertical_distance
     )
 
@@ -501,7 +501,7 @@ def euclidean_separation(
     >>> pydodo.euclidean_separation(from_aircraft_id = "BAW123", to_aircraft_id = "KLM456")
     >>> pydodo.euclidean_separation(from_aircraft_id = ["BAW123", "KLM456"])
     """
-    return get_separation(
+    return _get_separation(
         from_aircraft_id,
         to_aircraft_id,
         distance_f=euclidean_distance,

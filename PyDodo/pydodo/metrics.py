@@ -11,7 +11,7 @@ endpoint = config_param("endpoint_metrics")
 url = construct_endpoint_url(endpoint)
 
 
-def metrics_call(metric, args):
+def _metrics_call(metric, args):
     """
     Make a call to the BlueBird METRIC endpoint.
 
@@ -68,7 +68,7 @@ def loss_of_separation(from_aircraft_id, to_aircraft_id):
     utils._validate_id(from_aircraft_id)
     utils._validate_id(to_aircraft_id)
 
-    return metrics_call(
+    return _metrics_call(
         config_param("loss_of_separation"),
         "{},{}".format(from_aircraft_id, to_aircraft_id)
         )
@@ -100,4 +100,4 @@ def sector_exit(aircraft_id):
     """
     utils._validate_id(aircraft_id)
 
-    return metrics_call(config_param("sector_exit"), aircraft_id)
+    return _metrics_call(config_param("sector_exit"), aircraft_id)
