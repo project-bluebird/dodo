@@ -142,7 +142,7 @@ def all_positions():
     -------
     pandas.DataFrame
         Dataframe indexed by **uppercase** aircraft ID with columns:
-    | - ``type``: A string ICAO aircraft type designator.
+    | - ``aircraft_type``: A string ICAO aircraft type designator.
     | - ``altitude``: A non-negatige double. The aircraft's altitude in feet.
     | - ``ground_speed``: A non-negative double. The aircraft's ground speed in knots.
     | - ``latitude``: A double in the range ``[-90, 90]``. The aircraft's latitude.
@@ -181,7 +181,7 @@ def aircraft_position(aircraft_id):
     -------
     pos_df : pandas.DataFrame
         Dataframe indexed by **uppercase** aircraft ID with columns:
-    | - ``type``: A string ICAO aircraft type designator.
+    | - ``aircraft_type``: A string ICAO aircraft type designator.
     | - ``altitude``: A non-negatige double. The aircraft's altitude in feet.
     | - ``ground_speed``: A non-negative double. The aircraft's ground speed in knots.
     | - ``latitude``: A double in the range ``[-90, 90]``. The aircraft's latitude.
