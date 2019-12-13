@@ -48,6 +48,13 @@ test_that("the vertical_separation function works", {
   expect_identical(from_aircraft_id, rownames(result))
   expect_identical(to_aircraft_id, colnames(result))
 
+  # Check the units:
+  sapply(colnames(result), FUN = function(colname) {
+    expect_true(inherits(result[[colname]], "units"))
+    expect_equal(units(result[[colname]])[["numerator"]], expected = "m")
+    expect_equal(units(result[[colname]])[["denominator"]], expected = character(0))
+  })
+
   # Check the result:
   # TODO.
 })
@@ -99,6 +106,13 @@ test_that("the vertical_separation function works with vector arguments", {
   expect_identical(from_aircraft_id, rownames(result))
   expect_identical(to_aircraft_id, colnames(result))
 
+  # Check the units:
+  sapply(colnames(result), FUN = function(colname) {
+    expect_true(inherits(result[[colname]], "units"))
+    expect_equal(units(result[[colname]])[["numerator"]], expected = "m")
+    expect_equal(units(result[[colname]])[["denominator"]], expected = character(0))
+  })
+
   # Check the result:
   # TODO.
 
@@ -117,6 +131,13 @@ test_that("the vertical_separation function works with vector arguments", {
   expect_identical(from_aircraft_id, rownames(result))
   expect_identical(to_aircraft_id, colnames(result))
 
+  # Check the units:
+  sapply(colnames(result), FUN = function(colname) {
+    expect_true(inherits(result[[colname]], "units"))
+    expect_equal(units(result[[colname]])[["numerator"]], expected = "m")
+    expect_equal(units(result[[colname]])[["denominator"]], expected = character(0))
+  })
+
   # Check the result:
   # TODO.
 
@@ -133,6 +154,13 @@ test_that("the vertical_separation function works with vector arguments", {
   expect_true(is.data.frame(result))
   expect_identical(from_aircraft_id, rownames(result))
   expect_identical(to_aircraft_id, colnames(result))
+
+  # Check the units:
+  sapply(colnames(result), FUN = function(colname) {
+    expect_true(inherits(result[[colname]], "units"))
+    expect_equal(units(result[[colname]])[["numerator"]], expected = "m")
+    expect_equal(units(result[[colname]])[["denominator"]], expected = character(0))
+  })
 
   # Check the result:
   # TODO.

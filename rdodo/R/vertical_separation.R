@@ -22,16 +22,13 @@ vertical_separation <- function(from_aircraft_id,
   pos <- aircraft_position(unique(c(from_aircraft_id, to_aircraft_id)))
   alt <- config_param("altitude")
 
-  # Construct a matrix to contain the results.
-  m <- matrix(NA, nrow = length(from_aircraft_id), ncol = length(to_aircraft_id),
-              dimnames = list(from_aircraft_id, to_aircraft_id))
+  # Extract the vectors of "from" and "to" altitudes.
+  from_alt <- pos[from_aircraft_id, alt]
+  to_alt <- pos[to_aircraft_id, alt]
 
-  # Fill the matrix.
-  sink <- sapply(from_aircraft_id, FUN = function(i) {
-    sapply(to_aircraft_id, FUN = function(j) {
-      m[i, j] <<- vertical_distance(from_alt = pos[i, alt], to_alt = pos[j, alt])
-    })
-  })
+  ret <- as.data.frame(vertical_distance(from_alt, to_alt))
+  rownames(ret) <- from_aircraft_id
+  colnames(ret) <- to_aircraft_id
 
-  as.data.frame(m)
+  ret
 }
