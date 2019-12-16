@@ -17,6 +17,7 @@
 #' \code{to_aircraft_id} as column names, containing the separation between the
 #' positions of the corresponding pair of aircraft.
 #'
+#' @import units
 #' @export
 separation <- function(from_aircraft_id, to_aircraft_id = from_aircraft_id,
                        f_distance) {
@@ -37,5 +38,17 @@ separation <- function(from_aircraft_id, to_aircraft_id = from_aircraft_id,
     })
   })
 
-  as.data.frame(m)
+  ret <- as.data.frame(m)
+
+  # Set the units on the return value (via an extra call to the distance function).
+  value <- f_distance(from_lat = pos[1, lat], from_lon = pos[1, lon],
+                      to_lat = pos[1, lat], to_lon = pos[1, lon])
+
+  if(!inherits(value, "units"))
+    return(ret)
+
+  for(id in to_aircraft_id)
+    units(ret[[id]]) <- units(value)
+
+  ret
 }

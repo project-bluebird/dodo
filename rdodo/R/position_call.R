@@ -48,5 +48,6 @@ position_call <- function(aircraft_id = NULL) {
     return(list())
 
   validate_response(response)
-  jsonlite::fromJSON(httr::content(response, "text"), simplifyVector = FALSE)
+  jsonlite::fromJSON(httr::content(response, as = "text", encoding = "UTF-8"),
+                     simplifyVector = FALSE)
 }
