@@ -314,24 +314,25 @@ def _get_separation(from_aircraft_id, to_aircraft_id, distance_f, **kwargs):
 
     all_distances = []
     for from_id in from_aircraft_id:
-        distances = [
-            distance_f(
-                from_lat=pos_df.loc[from_id]["latitude"],
-                from_lon=pos_df.loc[from_id]["longitude"],
-                from_alt=pos_df.loc[from_id]["altitude"],
-                to_lat=pos_df.loc[to_id]["latitude"],
-                to_lon=pos_df.loc[to_id]["longitude"],
-                to_alt=pos_df.loc[to_id]["altitude"],
-                major_semiaxis=major_semiaxis,
-                radius=radius,
-                flattening=flattening,
-            )
-            if not (
-                pos_df.loc[from_id].isnull().any() or pos_df.loc[to_id].isnull().any()
-            )
-            else np.nan
-            for to_id in to_aircraft_id
-        ]
+        if pos_df.loc[from_id].isnull().any():
+            distances = [np.nan] * len(to_aircraft_id)
+        else:
+            distances = [
+                distance_f(
+                    from_lat=pos_df.loc[from_id]["latitude"],
+                    from_lon=pos_df.loc[from_id]["longitude"],
+                    from_alt=pos_df.loc[from_id]["altitude"],
+                    to_lat=pos_df.loc[to_id]["latitude"],
+                    to_lon=pos_df.loc[to_id]["longitude"],
+                    to_alt=pos_df.loc[to_id]["altitude"],
+                    major_semiaxis=major_semiaxis,
+                    radius=radius,
+                    flattening=flattening,
+                )
+                if not pos_df.loc[to_id].isnull().any()
+                else np.nan
+                for to_id in to_aircraft_id
+            ]
         all_distances.append(distances)
 
     return pd.DataFrame(all_distances, columns=to_aircraft_id, index=from_aircraft_id)
