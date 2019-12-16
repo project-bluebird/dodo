@@ -1,115 +1,4 @@
-import requests
-
 from .config_param import config_param
-
-
-def post_request(endpoint, body=None):
-    """
-    Make a POST requests to the BlueBird API.
-
-    Parameters
-    ----------
-    endpoint : str
-        The Bluebird API endpoing to call.
-    body : str
-        A dictionary.
-
-    Returns
-    -------
-    TRUE if successful. Otherwise an exception is thrown.
-
-    Examples
-    --------
-    >>> endpoint = pydodo.config_param.config_param("endpoint_create_aircraft")
-    >>> body = {"acid"="BAW123", "type"="B744", "lat"=0, "lon"=0, "hdg"=0, "alt"=20000, "spd"=240}
-    >>> pydodo.utils.post_request(endpoint = endpoint, body = body)
-    """
-    url = construct_endpoint_url(endpoint)
-    resp = requests.post(url, json=body)
-    # if response is 4XX or 5XX, raise exception
-    resp.raise_for_status()
-    return True
-
-
-def construct_endpoint_url(endpoint):
-    """
-    Construct a BlueBird endpoint URL.
-
-    Parameters
-    ----------
-    endpoint : str
-        The Bluebird API endpoing to call.
-
-    Returns
-    -------
-    str
-        BlueBird endpoint URL.
-
-    Examples
-    --------
-    >>> pydodo.utils.construct_endpoint_url(endpoint = "ic")
-    """
-    return "{0}/{1}/{2}/{3}".format(
-        get_bluebird_url(),
-        config_param("api_path"),
-        config_param("api_version"),
-        endpoint,
-    )
-
-
-def get_bluebird_url():
-    """
-    Get the URL of the BlueBird API.
-
-    Parameters
-    ----------
-    NONE
-
-    Returns
-    -------
-    str
-        BlueBird URL.
-
-    Examples
-    --------
-    >>> pydodo.utils.get_bluebird_url()
-    """
-    return "http://{}:{}".format(config_param("host"), config_param("port"))
-
-
-def ping_bluebird():
-    """
-    Check communication with BlueBird.
-
-    Parameters
-    ----------
-    NONE
-
-    Returns
-    -------
-    boolean
-        TRUE indicates that a request to the BlueBird URL was successful.
-
-    Examples
-    --------
-    >>> pydodo.utils.ping_bluebird()
-    """
-    endpoint = config_param("endpoint_aircraft_position")
-
-    url = construct_endpoint_url(endpoint)
-    print("ping bluebird on {}".format(url))
-
-    # /pos endpoint only supports GET requests, this should return an error if BlueBird is running
-    # on the specified host
-    try:
-        resp = requests.post(url)
-    except requests.exceptions.ConnectionError as e:
-        print(e)
-        return False
-
-    if resp.status_code == 405:
-        return True
-    return False
 
 
 def _validate_latitude(lat):
@@ -182,7 +71,7 @@ def _check_flight_level(fl):
     )
 
 
-def parse_alt(alt, fl):
+def _parse_alt(alt, fl):
     """
     Assert either alt (altitude) or fl (flight level) argument is given, but not
     both. Assert the provided value is a double in the correct range. Return the

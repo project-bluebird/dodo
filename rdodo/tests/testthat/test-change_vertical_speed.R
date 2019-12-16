@@ -44,6 +44,11 @@ test_that("the change_vertical_speed function works", {
   expect_error(change_vertical_speed(aircraft_id = aircraft_id,
                             vertical_speed = invalid_vertical_speed))
 
+  # Test with an invalid units.
+  invalid_vertical_speed <- units::set_units(10, s)
+  expect_error(change_vertical_speed(aircraft_id = aircraft_id,
+                                     vertical_speed = invalid_vertical_speed))
+
   # Give the command to change vertical speed.
   new_vertical_speed <- 10
   expect_true(change_vertical_speed(aircraft_id = aircraft_id,

@@ -1,5 +1,5 @@
 from . import utils
-from .utils import post_request
+from .post_request import post_request
 from .config_param import config_param
 
 
@@ -34,7 +34,7 @@ def change_altitude(aircraft_id, altitude=None, flight_level=None, vertical_spee
     assert (
         altitude is None or flight_level is None
     ), "Only altitude or flight level should be provided, not both"
-    alt = utils.parse_alt(altitude, flight_level)
+    alt = utils._parse_alt(altitude, flight_level)
 
     body = {config_param("query_aircraft_id"): aircraft_id, "alt": alt}
 

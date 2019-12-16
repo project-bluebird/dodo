@@ -9,16 +9,16 @@ with open("requirements.txt", "r") as f:
     REQUIRED_PACKAGES = f.read().splitlines()
 
 
-def get_config(dir=None):
-    """Downloads config file from GitHub and saves it in dir."""
+def get_config(config_dir=None):
+    """Downloads config file from GitHub and saves it in config_dir."""
     print("Getting the config file")
     config_url = (
         "https://raw.githubusercontent.com/alan-turing-institute/dodo/master/config.yml"
     )
-    if dir == None:
+    if config_dir == None:
         this_dir, this_filename = os.path.split(os.path.abspath(__file__))
-        dir = os.path.join(this_dir, "pydodo")
-    wget.download(config_url, dir)
+        config_dir = os.path.join(this_dir, "pydodo")
+    wget.download(config_url, config_dir)
 
 
 class develop(_develop):
@@ -26,7 +26,9 @@ class develop(_develop):
 
     def run(self):
         _develop.run(self)
-        if not os.path.exists("config.yml"):
+        this_dir, this_filename = os.path.split(os.path.abspath(__file__))
+        config_dir = os.path.join(this_dir, "pydodo")
+        if not os.path.exists(os.path.join(config_dir, "config.yml")):
             get_config()
 
 

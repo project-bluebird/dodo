@@ -4,10 +4,10 @@
 \alias{load_scenario}
 \title{Load a scenario}
 \usage{
-load_scenario(filename, multiplier = NULL)
+load_scenario(scenario, multiplier = NULL)
 }
 \arguments{
-\item{filename}{The relative path to a scenario file.}
+\item{scenario}{The name of the scenario, which must exist on the simulator host.}
 
 \item{multiplier}{(Optional) A positive number specifying the simulation rate multiplier. If
 omitted, the rate multiplier will be 1.}
@@ -20,7 +20,7 @@ Load a scenario
 }
 \examples{
 \dontrun{
-load_scenario("scenario/8.SCN")
+load_scenario("test-scenario")
 }
 
 }

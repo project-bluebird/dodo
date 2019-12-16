@@ -6,7 +6,7 @@ import json
 from requests.exceptions import HTTPError
 
 from pydodo import aircraft_position, all_positions
-from pydodo.utils import ping_bluebird, construct_endpoint_url
+from pydodo.bluebird_connect import ping_bluebird, construct_endpoint_url
 
 
 @pytest.mark.parametrize("aircraft_id", [123, "", [], ["TEST", 123]])
@@ -63,7 +63,7 @@ def test_output_format(mock_get):
     output = pd.DataFrame.from_dict(
         {
             "TEST1": {
-                "type": type,
+                "aircraft_type": type,
                 "altitude": alt,
                 "ground_speed": speed,
                 "latitude": latitude,

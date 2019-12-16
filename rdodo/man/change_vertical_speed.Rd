@@ -9,7 +9,8 @@ change_vertical_speed(aircraft_id, vertical_speed)
 \arguments{
 \item{aircraft_id}{A string aircraft identifier}
 
-\item{vertical_speed}{A non-negative double. The aircraft's new vertical speed in feet/min.}
+\item{vertical_speed}{The aircraft's new vertical speed in feet/min expressed as a non-negative
+double or a quantity whose units can be converted to feet/min.}
 }
 \value{
 \code{TRUE} if successful. Otherwise \code{FALSE} and an error is thrown.

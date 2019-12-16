@@ -5,7 +5,7 @@ import aiohttp
 from concurrent.futures import ThreadPoolExecutor
 
 from . import utils
-from .utils import construct_endpoint_url
+from .bluebird_connect import construct_endpoint_url
 from .config_param import config_param
 
 
@@ -86,7 +86,7 @@ async def async_change_altitude(
     assert (
         altitude is None or flight_level is None
     ), "Only altitude or flight level should be provided, not both"
-    alt = utils.parse_alt(altitude, flight_level)
+    alt = utils._parse_alt(altitude, flight_level)
 
     body = {config_param("query_aircraft_id"): aircraft_id, "alt": alt}
     if vertical_speed:

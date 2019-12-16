@@ -18,12 +18,14 @@ create_aircraft(aircraft_id, type, latitude, longitude, heading,
 
 \item{heading}{A double in the range [0, 360). The aircraft's heading in degrees.}
 
-\item{altitude}{A double in the range [0, 6000]. The aircraft's altitude in feet.
-For altitudes in excess of 6000ft a flight level should be specified instead.}
+\item{altitude}{The aircraft's altitude in feet expressed as a double in the range [0, 6000]
+or a quantity whose units can be converted to feet. For altitudes in excess
+of 6000ft a flight level should be specified instead.}
 
 \item{flight_level}{A integer of 60 or more. The aircraft's flight level.}
 
-\item{speed}{A non-negative double. The aircraft's speed in knots (KCAS).}
+\item{speed}{The aircraft's speed in knots (KCAS) expressed as a non-negative double or
+a quantity whose units can be converted to knots.}
 }
 \value{
 \code{TRUE} if successful. Otherwise \code{FALSE} and an error is thrown.

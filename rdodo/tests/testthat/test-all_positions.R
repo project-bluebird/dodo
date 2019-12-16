@@ -62,7 +62,7 @@ test_that("the all_positions function works when aircraft exist", {
                expected = flight_level_1 * 100)
 
   # Aircaft initial speed may differ from specified speed.
-  expect_true(result[aircraft_id_1, "ground_speed"] > 150)
+  expect_true(result[aircraft_id_1, "ground_speed"] > set_units(150, m/s))
 
   expect_true(object = result[aircraft_id_1, "latitude"] > 0)
   expect_equal(object = result[aircraft_id_1, "longitude"], expected = 0)
@@ -107,7 +107,7 @@ test_that("the all_positions function works when aircraft exist", {
                    expected = flight_level_1 * 100)
 
   # Aircaft initial speed may differ from specified speed.
-  expect_true(result[aircraft_id_1, "ground_speed"] > 150)
+  expect_true(result[aircraft_id_1, "ground_speed"] > set_units(150, m/s))
 
   expect_true(object = result[aircraft_id_1, "latitude"] > 0)
   expect_equal(object = result[aircraft_id_1, "longitude"], expected = 0)
@@ -117,7 +117,7 @@ test_that("the all_positions function works when aircraft exist", {
                    expected = flight_level_2 * 100)
 
   # Aircaft initial speed may differ from specified speed.
-  expect_true(result[aircraft_id_2, "ground_speed"] > 150)
+  expect_true(result[aircraft_id_2, "ground_speed"] > set_units(150, m/s))
 
   expect_true(object = result[aircraft_id_2, "latitude"] < 0)
   expect_equal(object = result[aircraft_id_2, "longitude"], expected = 0)

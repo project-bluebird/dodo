@@ -12,6 +12,7 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 
 | Function  	                                                        | `Python    `| `R `    |
 |---	                                                                |---        |---	|
+| [Bluebird config](#bluebird-config)                                       |   ✔   	|       |
 | [Load Scenario](#load-scenario)                                       |   ✔   	|       |
 | [Create Scenario](#create-scenario)                                   |   ✔ 	    |       |
 | [Reset Simulation](#reset-the-simulation)                             |   ✔       |       |
@@ -64,9 +65,21 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 | Function  	                                                        | `Python    `| `R `    |
 |---	                                                                |---        |---	|
 | [Loss of separation](#loss-of-separation)                         |  ✔    |       |
+| [Sector exit](#sector-exit)                         |  ✔    |       |
 
 
 # Commands
+
+## Bluebird config
+
+**Function name:** `bluebird_config`
+
+**Parameters:**
+- `host`: An optional string. The Bluebird host.
+- `port`: An optional double. The Bluebird port.
+- `version`: An optional string. The Bluebird version.
+
+**Description:** Set Bluebird host, port and version parameters. Default values are taken from the config file.
 
 ## Load scenario
 
@@ -491,3 +504,12 @@ If any of the given aircraft IDs does not exist in the simulation, the returned 
 - `to_aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
 
 **Return value:** A double, the loss of separation score between `from_aircraft_id` and `to_aircraft_id`. If any of the given aircraft IDs does not exist in the simulation, returns missing value.
+
+## Sector exit
+
+**Function name:** `sector_exit`
+
+**Parameters:**
+- `aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
+
+**Return value:** A double, the sector exit score for `aircraft_id`. If the aircraft does not exist in the simulation or has not exited the sector yet, returns missing value.

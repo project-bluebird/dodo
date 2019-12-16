@@ -3,14 +3,15 @@ import json
 import pandas as pd
 
 from . import utils
-from .utils import post_request
+from .post_request import post_request
 from .config_param import config_param
+from .bluebird_connect import construct_endpoint_url
 
 endpoint = config_param("endpoint_list_route")
-url = utils.construct_endpoint_url(endpoint)
+url = construct_endpoint_url(endpoint)
 
 
-def route_call(aircraft_id):
+def _route_call(aircraft_id):
     """
     Make a call to the BlueBird LISTROUTE endpoint.
 
@@ -45,7 +46,7 @@ def route_call(aircraft_id):
         raise requests.HTTPError(resp.text)
 
 
-def format_wpt_info(waypoint):
+def _format_wpt_info(waypoint):
     """
     Format route dictionary of waypoints returned by BlueBird API.
 
@@ -87,7 +88,7 @@ def format_wpt_info(waypoint):
     return wpt_formatted
 
 
-def process_listroute_response(response):
+def _process_listroute_response(response):
     """
     Process JSON response from BlueBird LISTROUTE endpoint request and return
     the route information of an aircraft as a data frame.
@@ -117,7 +118,7 @@ def process_listroute_response(response):
         )
     else:
         route_dict = {
-            wpt["wpt_name"]: format_wpt_info(wpt) for wpt in response["route"]
+            wpt["wpt_name"]: _format_wpt_info(wpt) for wpt in response["route"]
         }
         df = pd.DataFrame.from_dict(route_dict, orient="index")
         wpt_order = route_dict.keys()
@@ -169,8 +170,8 @@ def list_route(aircraft_id):
 
     utils._validate_id(aircraft_id)
 
-    route = route_call(aircraft_id)
-    return process_listroute_response(route)
+    route = _route_call(aircraft_id)
+    return _process_listroute_response(route)
 
 
 def define_waypoint(waypoint_name, latitude, longitude, waypoint_type=None):
@@ -248,7 +249,7 @@ def add_waypoint(
     body = {config_param("query_aircraft_id"): aircraft_id, "wpname": waypoint_name}
 
     if altitude != None or flight_level != None:
-        alt = utils.parse_alt(altitude, flight_level)
+        alt = utils._parse_alt(altitude, flight_level)
         body["alt"] = alt
     if speed != None:
         utils._validate_speed(speed)

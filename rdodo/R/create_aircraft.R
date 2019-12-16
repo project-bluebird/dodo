@@ -17,12 +17,14 @@
 #' @param heading
 #' A double in the range [0, 360). The aircraft's heading in degrees.
 #' @param altitude
-#' A double in the range [0, 6000]. The aircraft's altitude in feet.
-#' For altitudes in excess of 6000ft a flight level should be specified instead.
+#' The aircraft's altitude in feet expressed as a double in the range [0, 6000]
+#' or a quantity whose units can be converted to feet. For altitudes in excess
+#' of 6000ft a flight level should be specified instead.
 #' @param flight_level
 #' A integer of 60 or more. The aircraft's flight level.
 #' @param speed
-#' A non-negative double. The aircraft's speed in knots (KCAS).
+#' The aircraft's speed in knots (KCAS) expressed as a non-negative double or
+#' a quantity whose units can be converted to knots.
 #'
 #' @return
 #' \code{TRUE} if successful. Otherwise \code{FALSE} and an error is thrown.
@@ -31,7 +33,7 @@
 #' \dontrun{
 #' create_aircraft("test1234", "B744", 0, 0, 0, flight_level = 250, speed = 200)
 #' }
-#' @import httr
+#' @import httr units
 #' @export
 create_aircraft <- function(aircraft_id,
                             type,
@@ -51,15 +53,19 @@ create_aircraft <- function(aircraft_id,
 
   # Either altitude or flight_level must be NULL, but not both.
   stopifnot(is.null(altitude) || is.null(flight_level))
+
   if (is.null(altitude)) {
-
     flight_level <- validate_flight_level(flight_level)
-
-    # Flight level unit corresponds to hundreds of feet.
-    altitude <- flight_level * 100
+    alt <- paste0("FL", flight_level)
   }
-  if (is.null(flight_level))
+  if (is.null(flight_level)) {
     validate_altitude(altitude)
+    units(altitude) <- with(units::ud_units, ft)
+    alt <- as.double(altitude)
+  }
+
+  # Assign/convert units as necessary.
+  units(speed) <- with(units::ud_units, "knots")
 
   # TODO: replace string literals with config parameters from Bluebird.
   body <- list(
@@ -68,8 +74,8 @@ create_aircraft <- function(aircraft_id,
     "lat" = latitude,
     "lon" = longitude,
     "hdg" = heading,
-    "alt" = altitude,
-    "spd" = speed
+    "alt" = alt,
+    "spd" = as.double(speed)
   )
 
   post_call(endpoint = config_param("endpoint_create_aircraft"), body = body)
@@ -106,15 +112,28 @@ validate_heading <- function(heading) {
             heading >= 0, heading < 360)
 }
 
+#' @import units
 validate_speed <- function(speed) {
 
-  stopifnot(is.double(speed), length(speed) == 1, speed >= 0)
+  # If the given speed has no units, check its valid.
+  if (!inherits(speed, "units"))
+    stopifnot(is.double(speed), length(speed) == 1, speed >= 0)
+
+  # Check that the given speed can be converted to knots (o/w raise an error).
+  units(speed) <- with(units::ud_units, "knots")
 }
 
 validate_altitude <- function(altitude) {
 
-  stopifnot(is.double(altitude), length(altitude) == 1,
-            altitude >= 0, altitude <= config_param("feet_altitude_upper_limit"))
+  # If the given altitude has no units, check its valid.
+  if (!inherits(altitude, "units"))
+    stopifnot(is.double(altitude),
+              length(altitude) == 1,
+              altitude >= 0,
+              altitude <= config_param("feet_altitude_upper_limit"))
+
+  # Check that the given altitude can be converted to feet (o/w raise an error).
+  units(altitude) <- with(units::ud_units, ft)
 }
 
 validate_flight_level <- function(flight_level) {

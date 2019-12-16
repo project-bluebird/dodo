@@ -9,7 +9,7 @@ from pydodo import (
     create_aircraft,
     loss_of_separation,
 )
-from pydodo.utils import ping_bluebird
+from pydodo.bluebird_connect import ping_bluebird
 
 bb_resp = ping_bluebird()
 

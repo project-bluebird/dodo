@@ -46,6 +46,8 @@ script:
   - "conda install r-config"
   - "conda install r-testthat"
   - "conda install -c conda-forge r-future"
+  - "conda install -c conda-forge r-geosphere"
+  - "conda install -c conda-forge r-units"
   - "conda install -c r r-irkernel"
   - "R CMD check --no-build-vignettes --no-manual $DODO_HOME/rdodo"
   - "bash $DODO_HOME/notebooks/.travis.sh"

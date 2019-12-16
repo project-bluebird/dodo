@@ -2,14 +2,13 @@ from os.path import abspath, dirname, join, exists
 import yaml
 
 
-def find_config():
+def find_config(config_filename):
     """
     Return the default config file location. Normally this is the package
     installation directory, except when install in develop mode or using pytest.
     If in develop mode, the config file is in the package source root. If using
     pytest, the config file is in the dodo project root.
     """
-    config_filename = "config.yml"
     this_dir = dirname(abspath(__file__))
     source_root_dir = dirname(this_dir)
     project_root_dir = dirname(source_root_dir)
@@ -26,7 +25,7 @@ def find_config():
     return cfg_file
 
 
-def config_param(param, config="default", cfg_file=find_config()):
+def config_param(param, config="default", cfg_file=find_config("config.yml")):
     """
     Get a configuration parameter.
 
