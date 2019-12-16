@@ -9,7 +9,7 @@ endpoint = config_param("endpoint_aircraft_flight_level")
 url = construct_endpoint_url(endpoint)
 
 
-def get_flight_level(aircraft_id):
+def _get_flight_level(aircraft_id):
     """
     Get a dictionary with the aircraft's current, requested and cleared flight levels.
 
@@ -64,7 +64,7 @@ def requested_flight_level(aircraft_id):
     >>> pydodo.requested_flight_level("BAW123")
     """
 
-    return get_flight_level(aircraft_id)["fl_requested"]
+    return _get_flight_level(aircraft_id)["fl_requested"]
 
 
 def cleared_flight_level(aircraft_id):
@@ -90,7 +90,7 @@ def cleared_flight_level(aircraft_id):
     >>> pydodo.cleared_flight_level("BAW123")
     """
 
-    return get_flight_level(aircraft_id)["fl_cleared"]
+    return _get_flight_level(aircraft_id)["fl_cleared"]
 
 
 def current_flight_level(aircraft_id):
@@ -115,4 +115,4 @@ def current_flight_level(aircraft_id):
     >>> pydodo.current_flight_level("BAW123")
     """
 
-    return get_flight_level(aircraft_id)["fl_current"]
+    return _get_flight_level(aircraft_id)["fl_current"]

@@ -71,7 +71,7 @@ def _check_flight_level(fl):
     )
 
 
-def parse_alt(alt, fl):
+def _parse_alt(alt, fl):
     """
     Assert either alt (altitude) or fl (flight level) argument is given, but not
     both. Assert the provided value is a double in the correct range. Return the

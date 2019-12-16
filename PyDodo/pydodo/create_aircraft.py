@@ -69,7 +69,7 @@ def create_aircraft(
     assert (
         altitude is None or flight_level is None
     ), "Only altitude or flight level should be provided, not both"
-    alt = utils.parse_alt(altitude, flight_level)
+    alt = utils._parse_alt(altitude, flight_level)
 
     body = {
         "acid": aircraft_id,

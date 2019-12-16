@@ -34,6 +34,26 @@ def bluebird_config(
     return True
 
 
+def get_bluebird_url():
+    """
+    Get the URL of the BlueBird API.
+
+    Parameters
+    ----------
+    NONE
+
+    Returns
+    -------
+    str
+        BlueBird URL.
+
+    Examples
+    --------
+    >>> pydodo.utils.get_bluebird_url()
+    """
+    return "http://{}:{}".format(_BB_HOST, _BB_PORT)
+
+
 def construct_endpoint_url(endpoint):
     """
     Construct a BlueBird endpoint URL.
@@ -58,26 +78,6 @@ def construct_endpoint_url(endpoint):
         _BB_API_VERSION,
         endpoint,
     )
-
-
-def get_bluebird_url():
-    """
-    Get the URL of the BlueBird API.
-
-    Parameters
-    ----------
-    NONE
-
-    Returns
-    -------
-    str
-        BlueBird URL.
-
-    Examples
-    --------
-    >>> pydodo.utils.get_bluebird_url()
-    """
-    return "http://{}:{}".format(_BB_HOST, _BB_PORT)
 
 
 def ping_bluebird():
