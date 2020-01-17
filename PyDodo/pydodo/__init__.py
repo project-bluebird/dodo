@@ -11,6 +11,7 @@ from .metrics import loss_of_separation, sector_exit
 from .request_position import *
 from .simulation_control import *
 from .scenario import create_scenario, load_scenario
+from .sector import create_sector
 
 __all__ = [
     "aircraft_position",
@@ -27,6 +28,7 @@ __all__ = [
     "create_aircraft",
     "create_scenario",
     "load_scenario",
+    "create_sector",
     "reset_simulation",
     "pause_simulation",
     "resume_simulation",

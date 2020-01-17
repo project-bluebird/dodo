@@ -19,6 +19,7 @@ default:
   endpoint_simulator_info: "siminfo"
   endpoint_load_scenario: "scenario"
   endpoint_create_scenario: "scenario"
+  endpoint_create_sector: "sector"
   endpoint_create_aircraft: "cre"
   endpoint_aircraft_position: "pos"
   endpoint_aircraft_flight_level: "alt"
