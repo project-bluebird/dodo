@@ -1,3 +1,5 @@
+import json
+
 from . import utils
 from .post_request import post_request
 from .config_param import config_param
@@ -10,10 +12,9 @@ def create_scenario(filename, scenario):
     Parameters
     ----------
     filename : str
-        A string indicating path to scenario file on the local machine.
+        A string indicating path to scenario json file on the local machine.
     scenario : str
-        A string indicating name to store scenario under on the simulator host
-        (<scenario>.scn).
+        A string indicating name to store scenario under on the simulator host.
 
     Returns
     -------
@@ -21,14 +22,15 @@ def create_scenario(filename, scenario):
 
     Examples
     --------
-    >>> pydodo.create_scenario(filename = "~/Documents/test_scenario.scn", scenario = "test")
+    >>> pydodo.create_scenario(filename = "~/Documents/test_scenario.json", scenario = "test")
     """
     utils._validate_string(filename, "filename")
     utils._validate_string(scenario, "scenario")
 
-    content = [line.rstrip("\n") for line in open(filename)]
+    with open(filename, "r") as f:
+        content = json.load(f)
 
-    body = {"scn_name": scenario, "content": content}
+    body = {"name": scenario, "content": content}
     return post_request(config_param("endpoint_create_scenario"), body)
 
 
