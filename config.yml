@@ -2,7 +2,7 @@ default:
   host: "localhost"
   port: "5001"
   api_path: "api"
-  api_version: "v1"
+  api_version: "v2"
   simulator: "bluesky"
   bluesky_simulator: "bluesky"
   college_simulator: "college"
