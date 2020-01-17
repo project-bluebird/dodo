@@ -10,7 +10,7 @@ from .list_route import list_route
 from .metrics import loss_of_separation, sector_exit
 from .request_position import *
 from .simulation_control import *
-
+from .scenario import create_scenario, load_scenario
 
 __all__ = [
     "aircraft_position",
