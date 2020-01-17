@@ -149,36 +149,6 @@ def set_simulation_rate_multiplier(multiplier):
     return post_request(config_param("endpoint_set_simulation_rate_multiplier"), body)
 
 
-def set_simulator_mode(mode):
-    """
-    Set simulator mode (see bluebird docs for description of simulator modes).
-
-    Parameters
-    ----------
-    mode : str
-        A string. Available modes are sandbox (the default) and agent.
-
-    Returns
-    -------
-    TRUE if successful. Otherwise an exception is thrown.
-
-    Notes
-    -----
-    Bluebird docs found at: https://github.com/alan-turing-institute/bluebird
-
-    Examples
-    --------
-    >>> pydodo.set_simulator_mode("agent")
-    >>> pydodo.set_simulator_mode("sandbox")
-    """
-    assert mode == "agent" or mode == "sandbox", "Invalid value {} for mode".format(
-        mode
-    )
-
-    body = {"mode": mode}
-    return post_request(config_param("endpoint_simulator_mode"), body)
-
-
 def simulation_step():
     """
     Step forward through the simulation. Step size is based on the simulation

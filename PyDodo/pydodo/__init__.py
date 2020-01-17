@@ -31,7 +31,6 @@ __all__ = [
     "pause_simulation",
     "resume_simulation",
     "set_simulation_rate_multiplier",
-    "set_simulator_mode",
     "simulation_step",
     "episode_log",
     "geodesic_separation",
