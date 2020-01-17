@@ -43,8 +43,9 @@ def _position_call(aircraft_id=None):
     """
 
     if aircraft_id == None:
-        aircraft_id = "all"
-    resp = requests.get(url, params={config_param("query_aircraft_id"): aircraft_id})
+        resp = requests.get(url)
+    else:
+        resp = requests.get(url, params={config_param("query_aircraft_id"): aircraft_id})
     if resp.status_code == 200:
         return json.loads(resp.text)
     elif resp.status_code == config_param("status_code_aircraft_id_not_found"):
