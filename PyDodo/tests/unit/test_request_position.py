@@ -35,7 +35,7 @@ def mocked_requests_get(*args, **kwargs):
             self.text = json.dumps(json_data)
             self.raise_for_status = requests.exceptions.HTTPError
 
-    if not "params" in kwargs.keys() or kwargs["params"]["acid"] == "TEST1":
+    if not "params" in kwargs.keys() or kwargs["params"][config_param("query_aircraft_id")] == "TEST1":
         return MockResponse(
             {
                 "TEST1": {

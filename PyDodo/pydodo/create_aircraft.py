@@ -72,7 +72,7 @@ def create_aircraft(
     alt = utils._parse_alt(altitude, flight_level)
 
     body = {
-        "callsign": aircraft_id,
+        config_param("query_aircraft_id"): aircraft_id,
         "type": type,
         "lat": latitude,
         "lon": longitude,
