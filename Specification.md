@@ -187,7 +187,7 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 - `type`: A string ICAO aircraft type designator.
 - `latitude`: A double in the range [-90, 90]. The aircraft's initial latitude.
 - `longitude`: A double in the range [-180, 180). The aircraft's initial longitude.
-- `heading`: A double in the range [0, 360). The aircraft's initial heading in degrees.
+- `heading`: An integer in the range [0, 360). The aircraft's initial heading in degrees.
 - `altitude`: A double in the range [0, 6000]. The aircraft's initial altitude in feet. For altitudes in excess of 6000ft a flight level should be specified instead.
 - `flight_level`: An integer of 60 or more. The aircraft's initial flight level.
 - `speed`: A non-negative double. The aircraft's initial calibrated air speed in knots (KCAS).
@@ -320,7 +320,7 @@ Either the `altitude` or `flight_level` argument must be given, but not both.
 
 **Parameters:**
 - `aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
-- `heading`: A double in the range [0, 360). The requested heading in degrees.
+- `heading`: An integer in the range [0, 360). The requested heading in degrees.
 
 **Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
