@@ -26,6 +26,8 @@ validate_response <- function(response) {
     )
   }
 
-  if (httr::http_type(response) != "application/json")
-    stop("Bluebird API did not return json")
+  if (length(httr::content(response)) != 0) {
+    if (httr::http_type(response) != "application/json")
+      stop("Bluebird API did not return json content")
+  }
 }

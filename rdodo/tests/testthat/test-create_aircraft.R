@@ -121,7 +121,7 @@ test_that("the create_aircraft heading guard clause works", {
   flight_level <- 250
   speed <- 200
 
-  heading <- -0.1
+  heading <- -1
   expect_error(create_aircraft(aircraft_id = aircraft_id,
                                type = type,
                                latitude = latitude,
@@ -139,8 +139,17 @@ test_that("the create_aircraft heading guard clause works", {
                                flight_level = flight_level,
                                speed = speed))
 
+  heading <- 22.5
+  expect_error(create_aircraft(aircraft_id = aircraft_id,
+                               type = type,
+                               latitude = latitude,
+                               longitude = longitude,
+                               heading = heading,
+                               flight_level = flight_level,
+                               speed = speed))
+
   # Valid heading:
-  heading <- 359.99
+  heading <- 22
   expect_true(create_aircraft(aircraft_id = aircraft_id,
                               type = type,
                               latitude = latitude,

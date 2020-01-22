@@ -15,7 +15,7 @@
 #' @param longitude
 #' A double in the range [-180, 180). The aircraft's longitude.
 #' @param heading
-#' A double in the range [0, 360). The aircraft's heading in degrees.
+#' An integer in the range [0, 360). The aircraft's heading in degrees.
 #' @param altitude
 #' The aircraft's altitude in feet expressed as a double in the range [0, 6000]
 #' or a quantity whose units can be converted to feet. For altitudes in excess
@@ -69,13 +69,13 @@ create_aircraft <- function(aircraft_id,
 
   # TODO: replace string literals with config parameters from Bluebird.
   body <- list(
-    "acid" = aircraft_id,
+    "callsign" = aircraft_id,
     "type" = type,
     "lat" = latitude,
     "lon" = longitude,
     "hdg" = heading,
     "alt" = alt,
-    "spd" = as.double(speed)
+    "gspd" = as.double(speed)
   )
 
   post_call(endpoint = config_param("endpoint_create_aircraft"), body = body)
@@ -107,6 +107,10 @@ validate_longitude <- function(longitude) {
 }
 
 validate_heading <- function(heading) {
+
+  # Check that heading is an integer value, without requiring is.integer.
+  if (!is.integer(heading))
+    stopifnot(heading %% 1 == 0)
 
   stopifnot(is.double(heading), length(heading) == 1,
             heading >= 0, heading < 360)
