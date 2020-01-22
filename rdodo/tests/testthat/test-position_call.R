@@ -51,15 +51,16 @@ test_that("the position_call function works with a valid aircraft ID", {
   expect_true(is.list(result))
   expect_identical(names(result), c(aircraft_id, config_param("simulator_time")))
 
-  expected <- c("actype", "alt", "gs", "lat", "lon", "vs")
+  expected <- c("actype", "cleared_fl", "current_fl", "requested_fl",
+                "gs", "hdg", "lat", "lon", "vs")
   expect_true(all(expected %in% names(result[[aircraft_id]])))
 
   expect_true(object = result[[aircraft_id]][["lat"]] > 0)
   expect_equal(object = result[[aircraft_id]][["lon"]], expected = 0)
   expect_equal(object = result[[aircraft_id]][["vs"]], expected = 0)
 
-  # Check for the sim_t datum.
-  expect_true(is.integer(result[[config_param("simulator_time")]]))
+  # Check the simulator_time datum in a non-negative integer.
+  expect_true(result[[config_param("simulator_time")]] %% 1 == 0)
   expect_true(result[[config_param("simulator_time")]] >= 0)
 })
 
@@ -94,7 +95,8 @@ test_that("the position_call function works with no argument", {
   expect_true(is.list(result))
   expect_identical(names(result), c(aircraft_id_1, config_param("simulator_time")))
 
-  expected <- c("actype", "alt", "gs", "lat", "lon", "vs")
+  expected <- c("actype", "cleared_fl", "current_fl", "requested_fl",
+                "gs", "hdg", "lat", "lon", "vs")
   expect_true(all(expected %in% names(result[[aircraft_id_1]])))
 
   expect_true(object = result[[aircraft_id_1]][["lat"]] > 0)
@@ -144,7 +146,7 @@ test_that("the position_call function works with no argument", {
   expect_equal(object = result[[aircraft_id_2]][["lon"]], expected = 0)
   expect_equal(object = result[[aircraft_id_2]][["vs"]], expected = 0)
 
-  # Check for the sim_t datum.
-  expect_true(is.integer(result[[config_param("simulator_time")]]))
+  # Check the simulator_time datum in a non-negative integer.
+  expect_true(result[[config_param("simulator_time")]] %% 1 == 0)
   expect_true(result[[config_param("simulator_time")]] >= 0)
 })

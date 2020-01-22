@@ -21,24 +21,30 @@
 #' @export
 position_call <- function(aircraft_id = NULL) {
 
-  if (is.null(aircraft_id))
-    aircraft_id <- "all" # TODO: replace hardcoded string literal.
-
-  validate_aircraft_id(aircraft_id)
+  # if (is.null(aircraft_id))
+  #   aircraft_id <- "all" # TODO: replace hardcoded string literal.
 
   # Construct the API call URL
-  endpoint <- config_param("endpoint_aircraft_position")
-  query <- list(aircraft_id)
-  names(query) <- config_param("query_aircraft_id")
+  query = NULL
 
+  if (!is.null(aircraft_id)) {
+    validate_aircraft_id(aircraft_id)
+    query <- list(aircraft_id)
+    names(query) <- config_param("query_aircraft_id")
+  }
+
+  endpoint <- config_param("endpoint_aircraft_position")
   response <- get_call(endpoint = endpoint, query = query, validate = FALSE)
 
-  # Status code 404 indicates that the aircraft_id was not matched to an
-  # aircraft in the simulation. In that case return a list containing an empty
-  # list.
+  # Check if the aircraft_id was not matched to an aircraft in the simulation.
+  # In that case return a list containing a *named* empty list.
   if (httr::status_code(response) == config_param("status_code_aircraft_id_not_found")) {
-    ret <- list(list()); names(ret) <- aircraft_id
-    return(ret)
+    string = httr::content(response, as = "text")
+    pattern = config_param("err_msg_aircraft_does_not_exist")
+    if (stringr::str_detect(string = string, pattern = pattern)) {
+      ret <- list(list()); names(ret) <- aircraft_id
+      return(ret)
+    }
   }
 
   # Status code 400 indicates that all positions were requested but there were

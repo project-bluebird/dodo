@@ -20,8 +20,11 @@ test_that("the aircraft_position function works with invalid aircraft ID", {
   expect_identical(object = nrow(result), expected = 1L)
   expect_identical(object = rownames(result), invalid_id)
   expected <- c(config_param("aircraft_type"),
-                config_param("altitude"),
+                config_param("current_flight_level"),
+                config_param("cleared_flight_level"),
+                config_param("requested_flight_level"),
                 config_param("ground_speed"),
+                config_param("heading"),
                 config_param("latitude"),
                 config_param("longitude"),
                 config_param("vertical_speed"))
@@ -29,7 +32,9 @@ test_that("the aircraft_position function works with invalid aircraft ID", {
 
   # Expect a row of NAs in the data frame.
   expect_true(is.na(result[invalid_id, config_param("aircraft_type")]))
-  expect_true(is.na(result[invalid_id, config_param("altitude")]))
+  expect_true(is.na(result[invalid_id, config_param("current_flight_level")]))
+  expect_true(is.na(result[invalid_id, config_param("cleared_flight_level")]))
+  expect_true(is.na(result[invalid_id, config_param("requested_flight_level")]))
   expect_true(is.na(result[invalid_id, config_param("ground_speed")]))
   expect_true(is.na(result[invalid_id, config_param("latitude")]))
   expect_true(is.na(result[invalid_id, config_param("longitude")]))
@@ -39,12 +44,6 @@ test_that("the aircraft_position function works with invalid aircraft ID", {
   expect_true(is.na(attr(result, which = config_param("simulator_time"))))
 
   # Expect appropriate units (according to the Dodo specification).
-  expect_true(inherits(result[, config_param("altitude")], "units"))
-  expect_equal(units(result[, config_param("altitude")])[["numerator"]],
-               expected = "ft")
-  expect_equal(units(result[, config_param("altitude")])[["denominator"]],
-               expected = character(0))
-
   expect_true(inherits(result[, config_param("ground_speed")], "units"))
   expect_equal(units(result[, config_param("ground_speed")])[["numerator"]],
                expected = "knot")
@@ -87,15 +86,15 @@ test_that("the aircraft_position function works with scalar argument", {
   expect_identical(object = nrow(result), expected = 1L)
   expect_identical(object = rownames(result), expected = aircraft_id)
   expected <- c(config_param("aircraft_type"),
-                config_param("altitude"),
+                config_param("current_flight_level"),
+                config_param("cleared_flight_level"),
+                config_param("requested_flight_level"),
                 config_param("ground_speed"),
+                config_param("heading"),
                 config_param("latitude"),
                 config_param("longitude"),
                 config_param("vertical_speed"))
   expect_identical(object = colnames(result), expected = expected)
-
-  expect_equal(object = result[aircraft_id, config_param("altitude")],
-                   expected = flight_level * 100)
 
   # Aircaft initial speed may differ from specified speed.
   expect_true(result[aircraft_id, config_param("ground_speed")] >
@@ -114,12 +113,6 @@ test_that("the aircraft_position function works with scalar argument", {
   expect_true(sim_time >= units::set_units(0, s))
 
   # Expect appropriate units (according to the Dodo specification).
-  expect_true(inherits(result[, config_param("altitude")], "units"))
-  expect_equal(units(result[, config_param("altitude")])[["numerator"]],
-               expected = "ft")
-  expect_equal(units(result[, config_param("altitude")])[["denominator"]],
-               expected = character(0))
-
   expect_true(inherits(result[, config_param("ground_speed")], "units"))
   expect_equal(units(result[, config_param("ground_speed")])[["numerator"]],
                expected = "knot")
@@ -184,17 +177,17 @@ test_that("the aircraft_position function works with a vector argument", {
   expect_identical(object = rownames(result),
                    expected = c(aircraft_id_1, aircraft_id_2))
   expected <- c(config_param("aircraft_type"),
-                config_param("altitude"),
+                config_param("current_flight_level"),
+                config_param("cleared_flight_level"),
+                config_param("requested_flight_level"),
                 config_param("ground_speed"),
+                config_param("heading"),
                 config_param("latitude"),
                 config_param("longitude"),
                 config_param("vertical_speed"))
   expect_identical(object = colnames(result), expected = expected)
 
   # Check aircraft_id_1 entries.
-  expect_equal(object = result[aircraft_id_1, config_param("altitude")],
-                   expected = flight_level_1 * 100)
-
   # Aircaft initial speed may differ from specified speed.
   expect_true(result[aircraft_id_1, config_param("ground_speed")] >
                 units::set_units(150, m/s))
@@ -206,9 +199,6 @@ test_that("the aircraft_position function works with a vector argument", {
                    expected = 0)
 
   # Check aircraft_id_2 entries.
-  expect_equal(object = result[aircraft_id_2, config_param("altitude")],
-                   expected = flight_level_2 * 100)
-
   # Aircaft initial speed may differ from specified speed.
   expect_true(result[aircraft_id_2, config_param("ground_speed")] >
                 units::set_units(150, m/s))
@@ -226,12 +216,6 @@ test_that("the aircraft_position function works with a vector argument", {
   expect_true(sim_time >= units::set_units(0, s))
 
   # Expect appropriate units (according to the Dodo specification).
-  expect_true(inherits(result[, config_param("altitude")], "units"))
-  expect_equal(units(result[, config_param("altitude")])[["numerator"]],
-               expected = "ft")
-  expect_equal(units(result[, config_param("altitude")])[["denominator"]],
-               expected = character(0))
-
   expect_true(inherits(result[, config_param("ground_speed")], "units"))
   expect_equal(units(result[, config_param("ground_speed")])[["numerator"]],
                expected = "knot")
@@ -263,31 +247,48 @@ test_that("the aircraft_position function works with a vector argument", {
   expect_identical(object = rownames(result),
                    expected = c(aircraft_id_1, invalid_id, aircraft_id_2))
   expected <- c(config_param("aircraft_type"),
-                config_param("altitude"),
+                config_param("current_flight_level"),
+                config_param("cleared_flight_level"),
+                config_param("requested_flight_level"),
                 config_param("ground_speed"),
+                config_param("heading"),
                 config_param("latitude"),
                 config_param("longitude"),
                 config_param("vertical_speed"))
   expect_identical(object = colnames(result), expected = expected)
 
   # Expect a row of NAs in the data frame for the invalid ID only.
-  expect_false(is.na(result[aircraft_id_1, config_param("aircraft_type")]))
-  expect_false(is.na(result[aircraft_id_1, config_param("altitude")]))
-  expect_false(is.na(result[aircraft_id_1, config_param("ground_speed")]))
-  expect_false(is.na(result[aircraft_id_1, config_param("latitude")]))
-  expect_false(is.na(result[aircraft_id_1, config_param("longitude")]))
-  expect_false(is.na(result[aircraft_id_1, config_param("vertical_speed")]))
-
   expect_true(is.na(result[invalid_id, config_param("aircraft_type")]))
-  expect_true(is.na(result[invalid_id, config_param("altitude")]))
+  expect_true(is.na(result[invalid_id, config_param("current_flight_level")]))
+  expect_true(is.na(result[invalid_id, config_param("cleared_flight_level")]))
+  expect_true(is.na(result[invalid_id, config_param("requested_flight_level")]))
   expect_true(is.na(result[invalid_id, config_param("ground_speed")]))
   expect_true(is.na(result[invalid_id, config_param("latitude")]))
   expect_true(is.na(result[invalid_id, config_param("longitude")]))
   expect_true(is.na(result[invalid_id, config_param("vertical_speed")]))
 
+  # Expect NAs only in the cleared and requested flight level columns for the
+  # valid aircraft IDs.
+  expect_false(is.na(result[aircraft_id_1, config_param("aircraft_type")]))
+  expect_false(is.na(result[aircraft_id_1, config_param("current_flight_level")]))
+
+  expect_true(is.na(result[aircraft_id_1, config_param("cleared_flight_level")]))
+  expect_true(is.na(result[aircraft_id_1, config_param("requested_flight_level")]))
+
+  expect_false(is.na(result[aircraft_id_1, config_param("ground_speed")]))
+  expect_false(is.na(result[aircraft_id_1, config_param("heading")]))
+  expect_false(is.na(result[aircraft_id_1, config_param("latitude")]))
+  expect_false(is.na(result[aircraft_id_1, config_param("longitude")]))
+  expect_false(is.na(result[aircraft_id_1, config_param("vertical_speed")]))
+
   expect_false(is.na(result[aircraft_id_2, config_param("aircraft_type")]))
-  expect_false(is.na(result[aircraft_id_2, config_param("altitude")]))
+  expect_false(is.na(result[aircraft_id_2, config_param("current_flight_level")]))
+
+  expect_true(is.na(result[aircraft_id_2, config_param("cleared_flight_level")]))
+  expect_true(is.na(result[aircraft_id_2, config_param("requested_flight_level")]))
+
   expect_false(is.na(result[aircraft_id_2, config_param("ground_speed")]))
+  expect_false(is.na(result[aircraft_id_1, config_param("heading")]))
   expect_false(is.na(result[aircraft_id_2, config_param("latitude")]))
   expect_false(is.na(result[aircraft_id_2, config_param("longitude")]))
   expect_false(is.na(result[aircraft_id_2, config_param("vertical_speed")]))
@@ -299,12 +300,6 @@ test_that("the aircraft_position function works with a vector argument", {
   expect_true(sim_time >= units::set_units(0, s))
 
   # Expect appropriate units (according to the Dodo specification).
-  expect_true(inherits(result[, config_param("altitude")], "units"))
-  expect_equal(units(result[, config_param("altitude")])[["numerator"]],
-               expected = "ft")
-  expect_equal(units(result[, config_param("altitude")])[["denominator"]],
-               expected = character(0))
-
   expect_true(inherits(result[, config_param("ground_speed")], "units"))
   expect_equal(units(result[, config_param("ground_speed")])[["numerator"]],
                expected = "knot")
@@ -334,8 +329,11 @@ test_that("the aircraft_position function works with no argument", {
   expect_true(is.data.frame(result))
   expect_identical(object = nrow(result), expected = 0L)
   expected <- c(config_param("aircraft_type"),
-                config_param("altitude"),
+                config_param("current_flight_level"),
+                config_param("cleared_flight_level"),
+                config_param("requested_flight_level"),
                 config_param("ground_speed"),
+                config_param("heading"),
                 config_param("latitude"),
                 config_param("longitude"),
                 config_param("vertical_speed"))
@@ -368,8 +366,11 @@ test_that("the aircraft_position function works with no argument", {
   expect_identical(object = nrow(result), expected = 1L)
   expect_identical(object = rownames(result), expected = aircraft_id_1)
   expected <- c(config_param("aircraft_type"),
-                config_param("altitude"),
+                config_param("current_flight_level"),
+                config_param("cleared_flight_level"),
+                config_param("requested_flight_level"),
                 config_param("ground_speed"),
+                config_param("heading"),
                 config_param("latitude"),
                 config_param("longitude"),
                 config_param("vertical_speed"))
@@ -404,8 +405,11 @@ test_that("the aircraft_position function works with no argument", {
   expect_identical(object = rownames(result),
                    expected = c(aircraft_id_1, aircraft_id_2))
   expected <- c(config_param("aircraft_type"),
-                config_param("altitude"),
+                config_param("current_flight_level"),
+                config_param("cleared_flight_level"),
+                config_param("requested_flight_level"),
                 config_param("ground_speed"),
+                config_param("heading"),
                 config_param("latitude"),
                 config_param("longitude"),
                 config_param("vertical_speed"))
@@ -418,12 +422,6 @@ test_that("the aircraft_position function works with no argument", {
   expect_true(sim_time >= units::set_units(0, s))
 
   # Expect appropriate units (according to the Dodo specification).
-  expect_true(inherits(result[, config_param("altitude")], "units"))
-  expect_equal(units(result[, config_param("altitude")])[["numerator"]],
-               expected = "ft")
-  expect_equal(units(result[, config_param("altitude")])[["denominator"]],
-               expected = character(0))
-
   expect_true(inherits(result[, config_param("ground_speed")], "units"))
   expect_equal(units(result[, config_param("ground_speed")])[["numerator"]],
                expected = "knot")

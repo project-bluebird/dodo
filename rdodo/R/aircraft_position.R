@@ -66,7 +66,7 @@ process_parsed_positions <- function(parsed_list) {
 
   # Pull out the simulator time attribute, then remove it from the list.
   sim_t <- parsed_list[[config_param("simulator_time")]]
-  if (is_null(sim_t))
+  if (is.null(sim_t))
     sim_t <- NA
   parsed_list[[config_param("simulator_time")]] <- NULL
 
@@ -96,10 +96,14 @@ process_parsed_position <- function(parsed, aircraft_id) {
   validate_aircraft_id(aircraft_id)
 
   # TODO: replace string literals with config parameters from Bluebird.
-  expected_names <- c("actype", "alt", "gs", "lat", "lon", "vs")
+  expected_names <- c("actype", "current_fl", "cleared_fl", "requested_fl",
+                "gs", "hdg", "lat", "lon", "vs")
   new_names <- c(config_param("aircraft_type"),
-                 config_param("altitude"),
+                 config_param("current_flight_level"),
+                 config_param("cleared_flight_level"),
+                 config_param("requested_flight_level"),
                  config_param("ground_speed"),
+                 config_param("heading"),
                  config_param("latitude"),
                  config_param("longitude"),
                  config_param("vertical_speed"))
@@ -117,6 +121,12 @@ process_parsed_position <- function(parsed, aircraft_id) {
   parsed <- parsed[expected_names]
   names(parsed) <- new_names
 
+  # Replace any NULL flight level values with NA.
+  if (is.null(parsed[[config_param("cleared_flight_level")]]))
+    parsed[[config_param("cleared_flight_level")]] <- NA
+  if (is.null(parsed[[config_param("requested_flight_level")]]))
+    parsed[[config_param("requested_flight_level")]] <- NA
+
   # Convert to a data frame.
   ret <- as.data.frame(parsed[new_names], stringsAsFactors = FALSE)
   rownames(ret) <- aircraft_id
@@ -132,9 +142,6 @@ assign_position_units <- function(df) {
 
   stopifnot(is.data.frame(df))
 
-  # Assign altitude units (m).
-  units(df[, config_param("altitude")]) <- with(units::ud_units, m)
-
   # Assign ground speed units (m/s).
   units(df[, config_param("ground_speed")]) <- with(units::ud_units, m/s)
 
@@ -149,12 +156,10 @@ assign_position_units <- function(df) {
 normalise_position_units <- function(df) {
 
   # Check that the relevants columns already have units assigned.
-  stopifnot(inherits(df[, config_param("altitude")], "units"))
   stopifnot(inherits(df[, config_param("ground_speed")], "units"))
   stopifnot(inherits(df[, config_param("vertical_speed")], "units"))
 
   # Convert units as necessary
-  units(df[, config_param("altitude")]) <- with(units::ud_units, ft)
   units(df[, config_param("ground_speed")]) <- with(units::ud_units, "knot")
   units(df[, config_param("vertical_speed")]) <- with(units::ud_units, ft/min)
 
