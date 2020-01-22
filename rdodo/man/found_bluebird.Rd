@@ -4,7 +4,11 @@
 \alias{found_bluebird}
 \title{Check communication with BlueBird}
 \usage{
-found_bluebird()
+found_bluebird(verbose = FALSE)
+}
+\arguments{
+\item{verbose}{A boolean flag. If \code{TRUE} then an error message is printed to the
+console in case Bluebird is not found.}
 }
 \value{
 A boolean, \code{TRUE} indicates that a request to the BlueBird URL
