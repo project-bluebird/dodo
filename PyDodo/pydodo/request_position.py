@@ -1,3 +1,4 @@
+import re
 import requests
 import json
 import numpy as np
@@ -45,10 +46,14 @@ def _position_call(aircraft_id=None):
     if aircraft_id == None:
         resp = requests.get(url)
     else:
-        resp = requests.get(url, params={config_param("query_aircraft_id"): aircraft_id})
+        resp = requests.get(
+            url, params={config_param("query_aircraft_id"): aircraft_id}
+        )
     if resp.status_code == 200:
         return json.loads(resp.text)
-    elif resp.status_code == config_param("status_code_aircraft_id_not_found"):
+    elif resp.status_code == config_param("status_code_aircraft_id_not_found") and bool(
+        re.search(config_param("err_msg_aircraft_does_not_exist"), resp.text)
+    ):
         return {aircraft_id: {}}
     elif resp.status_code == config_param("status_code_no_aircraft_found"):
         return {}
@@ -97,13 +102,13 @@ def _process_pos_response(response):
         "hdg": config_param("heading"),
         "current_fl": config_param("current_flight_level"),
         "requested_fl": config_param("requested_flight_level"),
-        "cleared_fl": config_param("cleared_flight_level")
+        "cleared_fl": config_param("cleared_flight_level"),
     }
 
     if not bool(response):
         return pd.DataFrame({col: [] for col in _POS_COL_MAP.values()})
 
-    sim_t = response.pop("scenario_time", None)
+    sim_t = response.pop(config_param("simulator_time"), None)
 
     pos_dict = {
         aircraft: (
@@ -120,6 +125,7 @@ def _process_pos_response(response):
         pos_df.sim_t = sim_t
 
     return pos_df
+
 
 def all_positions():
     """
