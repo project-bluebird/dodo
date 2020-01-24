@@ -63,3 +63,32 @@ def load_scenario(scenario, multiplier=1.0):
 
     body = {"filename": scenario, "multiplier": multiplier}
     return post_request(config_param("endpoint_load_scenario"), body)
+
+
+def upload_scenario(filename, scenario_name):
+    """
+    Upload scenario to the simulator host.
+
+    Parameters
+    ----------
+    filename : str
+        A string indicating path to scenario json file on the local machine.
+    scenario_name : str
+        A string indicating name to store scenario under on the simulator host.
+
+    Returns
+    -------
+    TRUE if successful. Otherwise an exception is thrown.
+
+    Examples
+    --------
+    >>> pydodo.upload_scenario(filename = "~/Documents/test_scenario.json", scenario_name = "test_scenario")
+    """
+    utils._validate_string(filename, "filename")
+    utils._validate_string(scenario_name, "scenario_name")
+
+    with open(filename, "r") as f:
+        content = json.load(f)
+
+    body = {"name": scenario_name, "content": content}
+    return post_request(config_param("endpoint_upload_scenario"), body)

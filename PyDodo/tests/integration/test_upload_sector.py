@@ -6,7 +6,7 @@ import pandas as pd
 
 from pydodo import (
     reset_simulation,
-    create_sector
+    upload_sector
 )
 from pydodo.bluebird_connect import ping_bluebird
 from pydodo.config_param import config_param
@@ -17,7 +17,7 @@ bluesky_sim = config_param("simulator") == config_param("bluesky_simulator")
 
 @pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
 # @pytest.mark.skipif(not bluesky_sim, reason="Not using BlueSky")
-def test_create_sector(rootdir):
+def test_upload_sector(rootdir):
     """
     Create scenario on the simulator host and load.
     Check two aircraft created succesfully with associated route.
@@ -29,5 +29,5 @@ def test_create_sector(rootdir):
     resp = reset_simulation()
     assert resp == True
 
-    resp = create_sector(filename="{}.geojson".format(test_file), sector=test_sector)
+    resp = upload_sector(filename="{}.geojson".format(test_file), sector_name=test_sector)
     assert resp == True

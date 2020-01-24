@@ -5,15 +5,15 @@ from .post_request import post_request
 from .config_param import config_param
 
 
-def create_sector(filename, sector):
+def upload_sector(filename, sector_name):
     """
-    Create sector on the simulator host.
+    Upload sector to the simulator host.
 
     Parameters
     ----------
     filename : str
         A string indicating path to sector geojson file on the local machine.
-    sector : str
+    sector_name : str
         A string indicating name to store sector under on the simulator host.
 
     Returns
@@ -22,13 +22,13 @@ def create_sector(filename, sector):
 
     Examples
     --------
-    >>> pydodo.create_scenario(filename = "~/Documents/test_sector.geojson", sector = "test")
+    >>> pydodo.upload_sector(filename = "~/Documents/test_sector.geojson", sector_name = "test_sector")
     """
     utils._validate_string(filename, "filename")
-    utils._validate_string(sector, "sector")
+    utils._validate_string(sector_name, "sector_name")
 
     with open(filename, "r") as f:
         content = json.load(f)
 
-    body = {"name": sector, "content": content}
-    return post_request(config_param("endpoint_create_sector"), body)
+    body = {"name": sector_name, "content": content}
+    return post_request(config_param("endpoint_upload_sector"), body)
