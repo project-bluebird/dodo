@@ -48,7 +48,7 @@ setup(
     version="0.1.0",
     author="Radka Jersakova and Ruairidh MacLeod",
     install_requires=REQUIRED_PACKAGES,
-    packages=["pydodo"],
+    packages=["pydodo", "birdhouse"],
     url="https://github.com/alan-turing-institute/dodo/PyDoDo",
     cmdclass={"install": install, "develop": develop},
 )
