@@ -1,12 +1,20 @@
+"""
+Implements Open AI gym like environment
+
+see: https://github.com/openai/gym/blob/master/docs/creating-environments.md
+"""
 import gym
 from gym import spaces
 from gym.utils import seeding
+import itertools
 
-import pydodo as dodo
-# DEFINE ACTIONS HERE
+from pydodo.episode_log import episode_log
+from pydodo.metrics import loss_of_separation
+from pydodo.request_position import all_positions
+from pydodo.simulation_control import simulation_step, reset_simulation, pause_simulation
 
 
-class BirdhouseEnv(gym.Env):
+class SimurghEnv(gym.Env):
     """Simple birdhouse environment
 
     ...
@@ -14,24 +22,51 @@ class BirdhouseEnv(gym.Env):
     """
     metadata = {'render.modes': ['human']}
 
-    def __init__(self, spots=37):
-        self.n = spots + 1
-        self.action_space = spaces.Discrete(self.n)
-        # self.observation_space = spaces.Box( DIMENSIONS OF SECTOR?
-        self.observation_space = spaces.Discrete(1)
+    def __init__(self):
+        # TODO: make sure BlueBird (and BlueSky) are running
+        # TODO: make sure simulator mode is "agent"
+        # TODO: start scenario
+        # Q: where/how is sector and scenario info specified?
+
+        self.action_space = spaces.Discrete(50)
+        self.observation_space = None
+
         self.seed()
 
         # Start the first game
         self.reset()
 
     def seed(self, seed=None):
+        """Sets the seed for this env's random number generator(s).
+
+        Note:
+            Some environments use multiple pseudorandom number generators.
+            We want to capture all such seeds used in order to ensure that
+            there aren't accidental correlations between multiple generators.
+
+            See: https://github.com/openai/gym/blob/master/gym/utils/seeding.py for details in
+            np_random() and hash_seed() functions
+
+        Returns:
+            list<bigint>: Returns the list of seeds used in this env's random
+              number generators. The first value in the list should be the
+              "main" seed, or the value which a reproducer should pass to
+              'seed'. Often, the main seed equals the provided 'seed', but
+              this won't be true if seed=None, for example.
+        """
+
         self.np_random, seed = seeding.np_random(seed)
         return [seed]
 
     def step(self, action):
-        """Run one timestep of the environment's dynamics. When end of
+        """
+        Run one timestep of the environment's dynamics. When end of
         episode is reached, you are responsible for calling `reset()`
         to reset this environment's state.
+
+        Stepping forward the agent (take agent selected action) is not
+        necessarily the same as stepping forward the simulation.
+
 
         Accepts an action and returns a tuple (observation, reward, done, info).
 
@@ -45,21 +80,65 @@ class BirdhouseEnv(gym.Env):
             info (dict): contains auxiliary diagnostic information (helpful for debugging, and sometimes learning)
         """
         assert self.action_space.contains(action)
-        if action == self.n - 1:
+        if action < 50:
             # observation, reward, done, info
             return 0, 0, True, {}
-        # N.B. np.random.randint draws from [A, B) while random.randint draws from [A,B]
-        val = self.np_random.randint(0, self.n - 1)
-        if val == action == 0:
-            reward = self.n - 2.0
-        elif val != 0 and action != 0 and val % 2 == action % 2:
-            print(dodo.all_positions().values)
-            reward = 1.0
-        else:
+
+        val = self.np_random.randint(49, 50)
+        if val == action == 50:
+            # observation, reward, done, info
             reward = -1.0
-        return 0, reward, False, {}
+            return 0, reward, False, {}
+
+        # TODO: take action
+        # NOTE: this requires knowing what altitude to request of which aircraft
+        # --> probably need to determine some ACTION_MAPPING
+
+        # NOTE: below is not required - could run in 'sandbox' mode
+        # simulation_step()
+
+        aircraft_ids = all_positions().index
+        aircraft_pairs = itertools.combinations(aircraft_ids, r=2)
+        separations = [
+            loss_of_separation(acid1, acid2) for acid1, acid2 in aircraft_pairs
+        ]
+
+        # TODO: get sector exit scores
+
+        # TODO: determine the environment/state features to return as obs(ervation)
+        obs = all_positions()
+
+        # NOTE: define end of episode as no aircraft in simulation
+        # Q: is this sufficient?
+        done = (obs.shape[0] == 0)
+
+        # TODO: reward should be some weighted sum of separations AND sector exits
+        return obs, sum(separations), done, {}
 
     def reset(self):
-        return 0
+        """Resets the state of the environment and returns an initial observation.
+        Returns:
+            observation (object): the initial observation.
+        """
+        # NOTE: below resets simulation and clears all aircraft data
+        # TODO: reload and resume scenario on reset
+        reset_simulation()
 
+    def close(self):
+        """Override close in your subclass to perform any necessary cleanup.
+        Environments will automatically close() themselves when
+        garbage collected or when the program exits.
+        """
+        # Q: what does close mean in this context?
+        pause_simulation()
+        episode_log()
 
+    def render(self, mode='human'):
+        """Renders the environment.
+
+        - human: render to the current display or terminal and
+          return nothing. Usually for human consumption.
+
+        """
+
+        print("Check Twicher on http://localhost:8080")
