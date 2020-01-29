@@ -1,1 +1,1 @@
-from birdhouse.envs.birdhouse import BirdhouseEnv
+from birdhouse.envs.birdhouse import SimurghEnv

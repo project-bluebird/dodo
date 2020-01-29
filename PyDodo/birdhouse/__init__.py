@@ -1,6 +1,6 @@
 from gym.envs.registration import register
 
 register(
-    id='birdhouse-v0',
-    entry_point='birdhouse.envs:BirdhouseEnv',
+    id='birdhouse-v1',
+    entry_point='birdhouse.envs:SimurghEnv',
 )
