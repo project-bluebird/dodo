@@ -26,7 +26,7 @@ def _route_call(aircraft_id):
     dict :
         A dictionary with keys:
 
-            ``"acid"``
+            ``"callsign"``
                 A string aircraft identifier.
 
             ``"route"``
@@ -41,7 +41,7 @@ def _route_call(aircraft_id):
         resp.status_code == 500
         and config_param("err_msg_aircraft_has_no_route") in resp.text
     ):
-        return {"acid": aircraft_id, "route": {}}
+        return {config_param("query_aircraft_id"): aircraft_id, "route": {}}
     else:
         raise requests.HTTPError(resp.text)
 
@@ -124,7 +124,7 @@ def _process_listroute_response(response):
         wpt_order = route_dict.keys()
         df = df.reindex(wpt_order)
         df.sim_t = response["sim_t"]
-    df.aircraft_id = response["acid"]
+    df.aircraft_id = response[config_param("query_aircraft_id")]
 
     return df
 

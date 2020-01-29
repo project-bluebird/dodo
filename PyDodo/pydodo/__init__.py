@@ -10,7 +10,8 @@ from .list_route import list_route
 from .metrics import loss_of_separation, sector_exit
 from .request_position import *
 from .simulation_control import *
-
+from .scenario import upload_scenario
+from .sector import upload_sector
 
 __all__ = [
     "aircraft_position",
@@ -25,13 +26,12 @@ __all__ = [
     "direct_to_waypoint",
     "list_route",
     "create_aircraft",
-    "create_scenario",
-    "load_scenario",
+    "upload_scenario",
+    "upload_sector",
     "reset_simulation",
     "pause_simulation",
     "resume_simulation",
     "set_simulation_rate_multiplier",
-    "set_simulator_mode",
     "simulation_step",
     "episode_log",
     "geodesic_separation",

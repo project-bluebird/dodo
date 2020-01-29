@@ -14,7 +14,6 @@ from pydodo import (
     all_positions,
     set_simulation_rate_multiplier,
     list_route,
-    set_simulator_mode,
     simulation_step,
 )
 from pydodo.bluebird_connect import ping_bluebird
@@ -75,22 +74,22 @@ def test_simulation_control():
     resp = set_simulation_rate_multiplier(1.5)
     assert resp == True
 
-    cmd = set_simulator_mode("agent")
-    assert cmd == True
-
-    pos4 = aircraft_position(aircraft_id)
-
-    time.sleep(1)
-
-    pos5 = aircraft_position(aircraft_id)
-    # using agent mode sets simulator on hold
-    assert pos4.loc[aircraft_id]["latitude"] == pos5.loc[aircraft_id]["latitude"]
-
-    cmd = simulation_step()
-    assert cmd == True
-
-    pos6 = aircraft_position(aircraft_id)
-    assert pos6.loc[aircraft_id]["latitude"] > pos5.loc[aircraft_id]["latitude"]
+    # cmd = set_simulator_mode("agent")
+    # assert cmd == True
+    #
+    # pos4 = aircraft_position(aircraft_id)
+    #
+    # time.sleep(1)
+    #
+    # pos5 = aircraft_position(aircraft_id)
+    # # using agent mode sets simulator on hold
+    # assert pos4.loc[aircraft_id]["latitude"] == pos5.loc[aircraft_id]["latitude"]
+    #
+    # cmd = simulation_step()
+    # assert cmd == True
+    #
+    # pos6 = aircraft_position(aircraft_id)
+    # assert pos6.loc[aircraft_id]["latitude"] > pos5.loc[aircraft_id]["latitude"]
 
 
 @pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")

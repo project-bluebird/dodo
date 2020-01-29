@@ -12,14 +12,12 @@ Read the [Specification](Specification.md) document.
 
 (Optional first step)
 ```
-conda create -n away-day python=3.7
-conda activate away-day
+conda create -n pydodo python=3.7
+conda activate pydodo
 ```
 ...
 ```{bash}
 git clone https://github.com/alan-turing-institute/dodo.git
-cd dodo/Pydodo
-git checkout turing-away-day
+cd dodo/PyDodo
 pip install .
-cd ../notebooks && jupyter notebook
 ```
