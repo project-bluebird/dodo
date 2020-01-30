@@ -7,7 +7,6 @@ import pandas as pd
 from pydodo import (
     create_aircraft,
     reset_simulation,
-    load_scenario,
     pause_simulation,
     resume_simulation,
     aircraft_position,
@@ -101,24 +100,24 @@ def test_load_bluesky():
     """
     resp = reset_simulation()
     assert resp == True
+    #
+    # resp = load_scenario("scenario/8.SCN")
+    # assert resp == True
+    #
+    # resp = reset_simulation()
+    # assert resp == True
+    #
+    # resp = load_scenario("scenario/8.SCN", 1.5)
+    # assert resp == True
 
-    resp = load_scenario("scenario/8.SCN")
-    assert resp == True
 
-    resp = reset_simulation()
-    assert resp == True
-
-    resp = load_scenario("scenario/8.SCN", 1.5)
-    assert resp == True
-
-
-@pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
-def test_load_fail():
-    """
-    Check fails if no scenario file is provided or wrong multiplier value provided.
-    """
-    with pytest.raises(AssertionError):
-        load_scenario("")
-
-    with pytest.raises(AssertionError):
-        load_scenario("scenario/8.SCN", 0)
+# @pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
+# def test_load_fail():
+#     """
+#     Check fails if no scenario file is provided or wrong multiplier value provided.
+#     """
+    # with pytest.raises(AssertionError):
+    #     load_scenario("")
+    #
+    # with pytest.raises(AssertionError):
+    #     load_scenario("scenario/8.SCN", 0)

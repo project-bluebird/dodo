@@ -58,7 +58,7 @@ def test_async_request():
 
     position = aircraft_position(aircraft_id)
     aircraft_id = aircraft_id.upper()
-    assert position.loc[aircraft_id]["altitude"] == flight_level * 100
+    assert position.loc[aircraft_id]["current_flight_level"] == flight_level * 100
     assert position.loc[aircraft_id]["longitude"] == 0
 
     commands = []
@@ -84,7 +84,7 @@ def test_async_request():
     time.sleep(1)
 
     new_position = aircraft_position(aircraft_id)
-    assert new_position.loc[aircraft_id]["altitude"] > flight_level * 100
+    assert new_position.loc[aircraft_id]["current_flight_level"] > flight_level * 100
     assert new_position.loc[aircraft_id]["longitude"] > 0
 
     # send more commands - return to original values

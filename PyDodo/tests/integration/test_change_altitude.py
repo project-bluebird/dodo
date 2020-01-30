@@ -37,7 +37,7 @@ def test_change_altitude():
 
     # In the returned data frame aircraft_id is uppercase.
     aircraft_id = aircraft_id.upper()
-    assert position.loc[aircraft_id]["altitude"] == pytest.approx(flight_level * 100)
+    assert position.loc[aircraft_id]["current_flight_level"] == pytest.approx(flight_level * 100)
 
     # Give the command to ascend.
     new_flight_level = 400
@@ -47,4 +47,4 @@ def test_change_altitude():
     # Check that the new altitude exceeds the original one.
     time.sleep(1)
     new_position = aircraft_position(aircraft_id)
-    assert new_position.loc[aircraft_id]["altitude"] > flight_level * 100
+    assert new_position.loc[aircraft_id]["current_flight_level"] > flight_level * 100
