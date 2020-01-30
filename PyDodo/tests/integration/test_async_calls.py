@@ -10,6 +10,7 @@ from pydodo import (
     reset_simulation,
     create_aircraft,
     aircraft_position,
+    simulation_step
 )
 from pydodo.bluebird_connect import ping_bluebird
 
@@ -70,12 +71,12 @@ def test_async_request():
     )
     commands.append(async_change_heading(aircraft_id=aircraft_id, heading=new_heading))
     commands.append(async_change_speed(aircraft_id=aircraft_id, speed=new_speed))
-    
+
     results = batch(commands)
 
     assert results == True
 
-    time.sleep(1)
+    simulation_step()
 
     new_position = aircraft_position(aircraft_id)
     assert new_position.loc[aircraft_id]["current_flight_level"] > flight_level * 100

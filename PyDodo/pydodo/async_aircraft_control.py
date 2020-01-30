@@ -154,7 +154,7 @@ async def async_change_speed(aircraft_id, speed):
     utils._validate_id(aircraft_id)
     utils._validate_speed(speed)
 
-    body = {config_param("query_aircraft_id"): aircraft_id, "spd": speed}
+    body = {config_param("query_aircraft_id"): aircraft_id, "gspd": speed}
     async with aiohttp.ClientSession(raise_for_status=True) as session:
         url = construct_endpoint_url(config_param("endpoint_change_speed"))
         async with session.post(url, json=body) as response:
