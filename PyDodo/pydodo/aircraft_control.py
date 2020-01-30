@@ -97,7 +97,7 @@ def change_speed(aircraft_id, speed):
     utils._validate_id(aircraft_id)
     utils._validate_speed(speed)
 
-    body = {config_param("query_aircraft_id"): aircraft_id, "spd": speed}
+    body = {config_param("query_aircraft_id"): aircraft_id, "gspd": speed}
     return post_request(config_param("endpoint_change_speed"), body)
 
 
