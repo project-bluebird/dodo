@@ -49,8 +49,9 @@ default:
   simulator_time: "scenario_time"
 
   # Metrics
-  loss_of_separation: "aircraft_separation"
-  sector_exit: "sector_exit"
+  loss_of_separation: "pairwise_separation_metric"
+  sector_exit: "sector_exit_metric"
+  fuel_efficiency: "fuel_efficiency_metric"
 
   # Physical
   feet_altitude_upper_limit: 6000

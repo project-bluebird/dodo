@@ -7,7 +7,7 @@ from .distance_measures import *
 from .episode_log import episode_log
 from .get_flight_level import *
 from .list_route import list_route
-from .metrics import loss_of_separation, sector_exit
+from .metrics import loss_of_separation, sector_exit, fuel_efficiency
 from .request_position import *
 from .simulation_control import *
 from .scenario import upload_scenario
@@ -50,5 +50,6 @@ __all__ = [
     "async_direct_to_waypoint",
     "loss_of_separation",
     "sector_exit",
-    "bluebird_config"
+    "bluebird_config",
+    "fuel_efficiency"
 ]
