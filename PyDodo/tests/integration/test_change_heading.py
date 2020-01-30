@@ -1,7 +1,7 @@
 import pytest
 import time
 
-from pydodo import change_heading, reset_simulation, create_aircraft, aircraft_position
+from pydodo import change_heading, reset_simulation, create_aircraft, aircraft_position, simulation_step
 from pydodo.bluebird_connect import ping_bluebird
 
 # test if can connect to BlueBird
@@ -50,6 +50,6 @@ def test_change_heading():
     assert cmd == True
 
     # Check that the heading has changed.
-    time.sleep(1)
+    simulation_step()
     new_position = aircraft_position(aircraft_id)
     assert new_position.loc[aircraft_id]["longitude"] > 0
