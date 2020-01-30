@@ -91,4 +91,4 @@ def upload_scenario(filename, scenario_name):
         content = json.load(f)
 
     body = {"name": scenario_name, "content": content}
-    return post_request(config_param("endpoint_upload_scenario"), body)
+    return post_request(config_param("endpoint_create_scenario"), body)
