@@ -6,7 +6,6 @@ from pydodo import (
     async_change_altitude,
     async_change_heading,
     async_change_speed,
-    async_change_vertical_speed,
     batch,
     reset_simulation,
     create_aircraft,
@@ -71,12 +70,7 @@ def test_async_request():
     )
     commands.append(async_change_heading(aircraft_id=aircraft_id, heading=new_heading))
     commands.append(async_change_speed(aircraft_id=aircraft_id, speed=new_speed))
-    commands.append(
-        async_change_vertical_speed(
-            aircraft_id=aircraft_id, vertical_speed=new_vertical_speed
-        )
-    )
-
+    
     results = batch(commands)
 
     assert results == True
@@ -102,9 +96,6 @@ def test_async_request():
     # send an invalid and a valid command
     commands_wrong = []
     commands_wrong.append(async_change_speed(aircraft_id=aircraft_id, speed=-5))
-    commands_wrong.append(
-        async_change_vertical_speed(aircraft_id=aircraft_id, vertical_speed=-5)
-    )
 
     with pytest.raises(Exception):
         results = batch(commands_wrong)
