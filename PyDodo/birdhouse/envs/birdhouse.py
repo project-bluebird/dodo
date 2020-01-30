@@ -81,6 +81,7 @@ class SimurghEnv(gym.Env):
         """
         assert self.action_space.contains(action)
         if action < 50:
+            print(all_positions().index)
             # observation, reward, done, info
             return 0, 0, True, {}
 
