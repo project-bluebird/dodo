@@ -6,11 +6,11 @@ from pydodo import (
     async_change_altitude,
     async_change_heading,
     async_change_speed,
-    async_change_vertical_speed,
     batch,
     reset_simulation,
     create_aircraft,
     aircraft_position,
+    simulation_step
 )
 from pydodo.bluebird_connect import ping_bluebird
 
@@ -58,7 +58,7 @@ def test_async_request():
 
     position = aircraft_position(aircraft_id)
     aircraft_id = aircraft_id.upper()
-    assert position.loc[aircraft_id]["altitude"] == flight_level * 100
+    assert position.loc[aircraft_id]["current_flight_level"] == flight_level * 100
     assert position.loc[aircraft_id]["longitude"] == 0
 
     commands = []
@@ -71,20 +71,15 @@ def test_async_request():
     )
     commands.append(async_change_heading(aircraft_id=aircraft_id, heading=new_heading))
     commands.append(async_change_speed(aircraft_id=aircraft_id, speed=new_speed))
-    commands.append(
-        async_change_vertical_speed(
-            aircraft_id=aircraft_id, vertical_speed=new_vertical_speed
-        )
-    )
 
     results = batch(commands)
 
     assert results == True
 
-    time.sleep(1)
+    simulation_step()
 
     new_position = aircraft_position(aircraft_id)
-    assert new_position.loc[aircraft_id]["altitude"] > flight_level * 100
+    assert new_position.loc[aircraft_id]["current_flight_level"] > flight_level * 100
     assert new_position.loc[aircraft_id]["longitude"] > 0
 
     # send more commands - return to original values
@@ -102,9 +97,6 @@ def test_async_request():
     # send an invalid and a valid command
     commands_wrong = []
     commands_wrong.append(async_change_speed(aircraft_id=aircraft_id, speed=-5))
-    commands_wrong.append(
-        async_change_vertical_speed(aircraft_id=aircraft_id, vertical_speed=-5)
-    )
 
     with pytest.raises(Exception):
         results = batch(commands_wrong)

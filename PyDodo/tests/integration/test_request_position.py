@@ -14,7 +14,7 @@ latitude = 0
 longitude = 0
 heading = 0
 flight_level = 250
-speed = 200
+speed = 0
 
 aircraft_id_2 = "TST2002"
 type_2 = "C744"
@@ -22,7 +22,7 @@ latitude_2 = 0
 longitude_2 = 0
 heading_2 = 180
 flight_level_2 = 200
-speed_2 = 300
+speed_2 = 0
 
 
 @pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
@@ -85,13 +85,12 @@ def test_all_positions():
     assert isinstance(pos, pd.DataFrame)
     assert len(pos.index) == 1
     assert pos.loc[aircraft_id]["aircraft_type"] == type
-    assert pos.loc[aircraft_id]["latitude"] == 0
-    assert pos.loc[aircraft_id]["longitude"] == 0
+    assert pos.loc[aircraft_id]["latitude"] == pytest.approx(0, abs=1e-5)
+    assert pos.loc[aircraft_id]["longitude"] == pytest.approx(0, abs=1e-5)
     assert pos.loc[aircraft_id]["vertical_speed"] == 0
+    # flight level is returned in feet
     assert pos.loc[aircraft_id]["current_flight_level"] == flight_level * 100
-
-    # aircraft initial speed may differ from indicated speed
-    assert pos.loc[aircraft_id]["ground_speed"] > 150
+    assert pos.loc[aircraft_id]["ground_speed"] == 0
 
     # check that dataframe has sim_t attribute
     assert isinstance(pos.sim_t, float)
@@ -111,22 +110,20 @@ def test_all_positions():
     assert isinstance(pos, pd.DataFrame)
     assert len(pos.index) == 2
     assert pos.loc[aircraft_id]["aircraft_type"] == type
-    assert pos.loc[aircraft_id]["latitude"] == 0
-    assert pos.loc[aircraft_id]["longitude"] == 0
+    assert pos.loc[aircraft_id]["latitude"] == pytest.approx(0, abs=1e-5)
+    assert pos.loc[aircraft_id]["longitude"] == pytest.approx(0, abs=1e-5)
     assert pos.loc[aircraft_id]["vertical_speed"] == 0
+    # flight level is returned in feet
     assert pos.loc[aircraft_id]["current_flight_level"] == flight_level * 100
-
-    # aircraft initial speed may differ from indicated speed
-    assert pos.loc[aircraft_id]["ground_speed"] > 150
+    assert pos.loc[aircraft_id]["ground_speed"] == 0
 
     assert pos.loc[aircraft_id_2]["aircraft_type"] == type_2
-    assert pos.loc[aircraft_id_2]["latitude"] == 0
-    assert round(pos.loc[aircraft_id_2]["longitude"], 2) == 0
+    assert pos.loc[aircraft_id_2]["latitude"] == pytest.approx(0, abs=1e-5)
+    assert pos.loc[aircraft_id_2]["longitude"] == pytest.approx(0, abs=1e-5)
     assert pos.loc[aircraft_id_2]["vertical_speed"] == 0
+    # flight level is returned in feet
     assert pos.loc[aircraft_id_2]["current_flight_level"] == flight_level_2 * 100
-
-    # aircraft initial speed may differ from indicated speed
-    assert pos.loc[aircraft_id_2]["ground_speed"] > 150
+    assert pos.loc[aircraft_id_2]["ground_speed"] == 0
 
     # check that dataframe has sim_t attribute
     assert isinstance(pos.sim_t, float)
@@ -163,16 +160,22 @@ def test_aircraft_position():
     assert isinstance(pos, pd.DataFrame)
     assert len(pos.index) == 1
     assert pos.loc[aircraft_id]["aircraft_type"] == type
-    assert pos.loc[aircraft_id]["latitude"] == 0
-    assert pos.loc[aircraft_id]["longitude"] == 0
+    assert pos.loc[aircraft_id]["latitude"] == pytest.approx(0, abs=1e-5)
+    assert pos.loc[aircraft_id]["longitude"] == pytest.approx(0, abs=1e-5)
     assert pos.loc[aircraft_id]["vertical_speed"] == 0
+    # flight level is returned in feet
     assert pos.loc[aircraft_id]["current_flight_level"] == flight_level * 100
-
-    # aircraft initial speed may differ from indicated speed
-    assert pos.loc[aircraft_id]["ground_speed"] > 150
+    assert pos.loc[aircraft_id]["ground_speed"] == 0
 
     # check that dataframe has sim_t attribute
     assert isinstance(pos.sim_t, float)
 
     pos = aircraft_position([aircraft_id, aircraft_id_2])
     assert len(pos.index) == 2
+    assert pos.loc[aircraft_id_2]["aircraft_type"] == type_2
+    assert pos.loc[aircraft_id_2]["latitude"] == pytest.approx(0, abs=1e-5)
+    assert pos.loc[aircraft_id_2]["longitude"] == pytest.approx(0, abs=1e-5)
+    assert pos.loc[aircraft_id_2]["vertical_speed"] == 0
+    # flight level is returned in feet
+    assert pos.loc[aircraft_id_2]["current_flight_level"] == flight_level_2 * 100
+    assert pos.loc[aircraft_id_2]["ground_speed"] == 0

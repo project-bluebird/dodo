@@ -1,7 +1,7 @@
 import pytest
 import time
 
-from pydodo import change_altitude, reset_simulation, create_aircraft, aircraft_position
+from pydodo import change_altitude, reset_simulation, create_aircraft, aircraft_position, simulation_step
 from pydodo.bluebird_connect import ping_bluebird
 
 # test if can connect to BlueBird
@@ -37,7 +37,7 @@ def test_change_altitude():
 
     # In the returned data frame aircraft_id is uppercase.
     aircraft_id = aircraft_id.upper()
-    assert position.loc[aircraft_id]["altitude"] == pytest.approx(flight_level * 100)
+    assert position.loc[aircraft_id]["current_flight_level"] == pytest.approx(flight_level * 100)
 
     # Give the command to ascend.
     new_flight_level = 400
@@ -45,6 +45,6 @@ def test_change_altitude():
     assert cmd == True
 
     # Check that the new altitude exceeds the original one.
-    time.sleep(1)
+    simulation_step()
     new_position = aircraft_position(aircraft_id)
-    assert new_position.loc[aircraft_id]["altitude"] > flight_level * 100
+    assert new_position.loc[aircraft_id]["current_flight_level"] > flight_level * 100

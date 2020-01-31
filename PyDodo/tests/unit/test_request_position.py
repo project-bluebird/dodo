@@ -5,7 +5,7 @@ import requests
 import json
 from requests.exceptions import HTTPError
 
-from pydodo import aircraft_position, all_positions
+from pydodo import aircraft_position, all_positions, config_param
 from pydodo.bluebird_connect import ping_bluebird, construct_endpoint_url
 
 
@@ -40,13 +40,15 @@ def mocked_requests_get(*args, **kwargs):
             {
                 "TEST1": {
                     "actype": type,
-                    "alt": altitude,
+                    "current_fl": altitude,
                     "gs": speed,
                     "lat": latitude,
                     "lon": longitude,
                     "vs": vertical_speed,
+                    "requested_fl": None,
+                    "cleared_fl": None
                 },
-                "sim_t": 0,
+                "scenario_time": 0,
             },
             200,
         )
@@ -59,23 +61,25 @@ def test_output_format(mock_get):
     """
     Check request output is formatted correctly.
     """
-    alt = round(altitude * 3.280839895, 2)
     output = pd.DataFrame.from_dict(
         {
             "TEST1": {
                 "aircraft_type": type,
-                "altitude": alt,
+                "current_flight_level": altitude,
                 "ground_speed": speed,
                 "latitude": latitude,
                 "longitude": longitude,
                 "vertical_speed": vertical_speed,
-            }
+                "requested_flight_level": None,
+                "cleared_flight_level": None
+            },
         },
         orient="index",
     )
+    output.sim_t = 0
 
-    json_data_all = all_positions()
-    assert json_data_all.equals(output)
+    pos_all = all_positions()
+    assert pos_all.equals(output)
 
-    json_data_id = aircraft_position("TEST1")
-    assert json_data_id.equals(output)
+    pos_id = aircraft_position("TEST1")
+    assert pos_id.equals(output)

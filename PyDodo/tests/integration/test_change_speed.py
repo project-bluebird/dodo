@@ -1,7 +1,7 @@
 import pytest
 import time
 
-from pydodo import change_speed, reset_simulation, create_aircraft, aircraft_position
+from pydodo import change_speed, reset_simulation, create_aircraft, aircraft_position, simulation_step
 from pydodo.bluebird_connect import ping_bluebird
 
 # test if can connect to BlueBird
@@ -38,7 +38,7 @@ def test_change_speed():
     # In the returned data frame aircraft_id is uppercase.
     aircraft_id = aircraft_id.upper()
     # Aircaft initial speed differs from specified speed.
-    assert position.loc[aircraft_id]["ground_speed"] < 198
+    assert position.loc[aircraft_id]["ground_speed"] > 200
 
     # Test with an invalid speed.
     invalid_speed = -1
@@ -51,6 +51,6 @@ def test_change_speed():
     assert cmd == True
 
     ## TO DO: check that the speed has changed - at the moment it doesn't
-    # time.sleep(1)
+    # simulation_step()
     # new_position = aircraft_position(aircraft_id)
     # assert new_position.loc[aircraft_id]["ground_speed"] > 198
