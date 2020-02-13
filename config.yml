@@ -10,6 +10,7 @@ default:
   # Bluebird API endpoints (to be removed in favour of OpenAPI)
   status_code_aircraft_id_not_found: 400
   status_code_no_aircraft_found: 400
+  status_code_aircraft_has_no_route: 400
   err_msg_aircraft_does_not_exist: "Aircraft .* does not exist"
   err_msg_aircraft_has_no_route: "Aircrafthasnoroute"
   endpoint_reset_simulation: "reset"
