@@ -4,7 +4,6 @@ import time
 from pydodo import (
     change_altitude,
     reset_simulation,
-    create_aircraft,
     all_positions,
     simulation_step,
 )
@@ -25,7 +24,6 @@ def test_change_altitude(upload_test_sector_scenario):
     # Get the position
     position = all_positions()
     acid1, acid2 = position.index
-    print(acid1)
 
     # Give the command to descend.
     new_flight_level = 100
