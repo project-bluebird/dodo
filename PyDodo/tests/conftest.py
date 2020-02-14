@@ -6,14 +6,16 @@ import numpy as np
 
 from geopy import distance
 from pydodo.config_param import config_param
+from pydodo import upload_sector, upload_scenario
 
 major_semiaxis, _, _ = distance.ELLIPSOIDS["WGS-84"]
 _EARTH_RADIUS = major_semiaxis * 1000
 
+_ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 @pytest.fixture
 def rootdir():
-    return os.path.dirname(os.path.abspath(__file__))
+    return _ROOT_DIR
 
 
 def deg2rad(deg):
@@ -42,3 +44,15 @@ def expected_great_circle():
 @pytest.fixture
 def earth_radius():
     return _EARTH_RADIUS
+
+
+def test_sector_scenario():
+    test_scenario_file = os.path.join(_ROOT_DIR, "dodo-test-scenario")
+    test_sector_file = os.path.join(_ROOT_DIR, "dodo-test-sector")
+    upload_sector(filename=f"{test_sector_file}.geojson",sector_name="test_sector")
+    upload_scenario(filename=f"{test_scenario_file}.json",scenario_name="test_scenario")
+
+
+@pytest.fixture
+def upload_test_sector_scenario():
+    return test_sector_scenario

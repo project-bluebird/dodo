@@ -12,6 +12,7 @@ from .request_position import *
 from .simulation_control import *
 from .scenario import upload_scenario
 from .sector import upload_sector
+from .simulation_info import simulation_info
 
 __all__ = [
     "aircraft_position",
@@ -49,5 +50,6 @@ __all__ = [
     "loss_of_separation",
     "sector_exit",
     "bluebird_config",
-    "fuel_efficiency"
+    "fuel_efficiency",
+    "simulation_info"
 ]
