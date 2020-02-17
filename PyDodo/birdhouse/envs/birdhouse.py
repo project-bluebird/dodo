@@ -9,6 +9,7 @@ from gym.utils import seeding
 import itertools
 
 from pydodo.episode_log import episode_log
+from pydodo import change_altitude
 from pydodo.metrics import loss_of_separation
 from pydodo.request_position import all_positions
 from pydodo.simulation_control import simulation_step, reset_simulation, pause_simulation
@@ -28,13 +29,13 @@ class SimurghEnv(gym.Env):
         # TODO: start scenario
         # Q: where/how is sector and scenario info specified?
 
-        self.action_space = spaces.Discrete(50)
+        self.action_space = None
         self.observation_space = None
 
         self.seed()
 
         # Start the first game
-        self.reset()
+        # self.reset()
 
     def seed(self, seed=None):
         """Sets the seed for this env's random number generator(s).
@@ -79,11 +80,25 @@ class SimurghEnv(gym.Env):
             done (bool): whether the episode has ended, in which case further step() calls will return undefined results
             info (dict): contains auxiliary diagnostic information (helpful for debugging, and sometimes learning)
         """
-        assert self.action_space.contains(action)
-        if action < 50:
-            print(all_positions().index)
-            # observation, reward, done, info
-            return 0, 0, True, {}
+        # assert self.action_space.contains(action)
+        if action is not None:
+            # print(all_positions().index)
+            print("HELLO WORLD!")
+            change_altitude(action[0], flight_level=action[1])
+        simulation_step()
+
+        aircraft_pos = all_positions()
+        aircraft_pairs = itertools.combinations(aircraft_pos.index, r=2)
+        separations = [
+             loss_of_separation(acid1, acid2) for acid1, acid2 in aircraft_pairs
+         ]
+
+        # print(sum(separations))
+
+        reward = sum(separations)
+        print(reward)
+        # observation, reward, done, info
+        return all_positions(), reward, True, {}
 
         val = self.np_random.randint(49, 50)
         if val == action == 50:
@@ -114,7 +129,7 @@ class SimurghEnv(gym.Env):
         done = (obs.shape[0] == 0)
 
         # TODO: reward should be some weighted sum of separations AND sector exits
-        return obs, sum(separations), done, {}
+        # return obs, sum(separations), done, {}
 
     def reset(self):
         """Resets the state of the environment and returns an initial observation.
