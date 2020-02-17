@@ -8,21 +8,24 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 
 ## Contents
 
+### BlueBird commands
+
+| Function  	                                                        | `Python  `| `R `  |
+|---	                                                                |---        |---	  |
+| [Bluebird config](#bluebird-config)                                 |   ✔      	|       |
+| [Episode Log](#episode-log)                                         |   ✔       |       |
+
 ### Simulation commands
 
 | Function  	                                                        | `Python    `| `R `    |
 |---	                                                                |---        |---	|
-| [Bluebird config](#bluebird-config)                                       |   ✔   	|       |
-| [Load Scenario](#load-scenario)                                       |   ✔   	|       |
-| [Create Scenario](#create-scenario)                                   |   ✔ 	    |       |
-| [Reset Simulation](#reset-the-simulation)                             |   ✔       |       |
+| [Upload Sector](#create-scenario)                                   |   ✔ 	    |       |
+| [Upload Scenario](#load-scenario)                                       |   ✔   	|       |
 | [Reset Simulation](#reset-the-simulation)                             |   ✔       |       |
 | [Pause Simulation](#pause-the-simulation)                             |   ✔       |       |
 | [Resume Simulation](#resume-the-simulation)                           |   ✔       |       |
 | [Set Simulation Rate Multiplier](#set-the-simulation-rate-multiplier) |   ✔       |       |
 | [Simulation Step](#simulation-step)                                   |   ✔       |       |
-| [Simulator Mode](#set-simulator-mode)                                 |   ✔       |       |
-| [Episode Log](#episode-log)                                           |   ✔       |       |
 
 ### Aircraft commands
 
@@ -66,7 +69,9 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 |---	                                                                |---        |---	|
 | [Loss of separation](#loss-of-separation)                         |  ✔    |       |
 | [Sector exit](#sector-exit)                         |  ✔    |       |
+| [Fuel efficiency](#fuel-efficiency)                         |  ✔    |       |
 
+---
 
 # Commands
 
@@ -81,29 +86,39 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 
 **Description:** Set Bluebird host, port and version parameters. Default values are taken from the config file.
 
-## Load scenario
+## Episode log
 
-**Function name:** `load_scenario`
+**Function name:** `episode_log`
+
+**Parameters:** None
+
+**Return value:** A string, the relative path to the log file. An exception is thrown if an error occurs.
+
+**Description:** Get the episode log and save to file in the working directory in a `logs` subdirectory.
+
+## Upload sector
+
+**Function name:** `upload_sector`
 
 **Parameters:**
-- `scenario`: A string indicating name of scenario file on the simulator host (`<scenario>.scn`).
-- `multiplier`: An optional double. Simulation rate multiplier.
+- `filename`: A string indicating path to sector GeoJSON file on the local machine.
+- `sector_name`: A string indicating name to store sector under.
 
 **Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
-**Description:** Load a scenario file and begin the simulation.
+**Description:** Load a sector definition and begin the simulation. The sector data format is defined in [Aviary](https://github.com/alan-turing-institute/aviary/blob/master/README.md)
 
-## Create scenario
+## Upload scenario
 
-**Function name:** `create_scenario`
+**Function name:** `upload_scenario`
 
 **Parameters:**
-- `filename`: A string indicating path to scenario file on the local machine.
-- `scenario`: A string indicating name to store scenario under on the simulator host (`<scenario>.scn`).
+- `filename`: A string indicating path to scenario JSON file on the local machine.
+- `sector_name`: A string indicating name to store scenario under.
 
 **Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
-**Description:** Create scenario file on the simulator host. Once created, scenario can be loaded and started using the above `load_scenario` function. Any existing scenario with the same name will be overwritten.
+**Description:** Upload a scenario definition. It requires that a sector definition has already been uploaded. The scenario data format is defined in [Aviary](https://github.com/alan-turing-institute/aviary/blob/master/README.md)
 
 ## Reset the simulation
 
@@ -123,7 +138,7 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 
 **Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
-**Description:** Pause the simulation.
+**Description:** Pause the simulation. This is only possible if the simulator is run in `sandbox` mode.
 
 ## Resume the simulation
 
@@ -154,29 +169,7 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 
 **Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
-
 **Description:** Step forward through the simulation. Step size is based on the [simulation rate multiplier](#set-the-simulation-rate-multiplier). Can only be used if simulator is in [agent mode](#set-simulator-mode), otherwise an exception is thrown.
-
-## Set simulator mode
-
-**Function name:** `set_simulator_mode`
-
-**Parameters:**
-- `mode`: A string. Available modes are `sandbox` (the default) and `agent`.
-
-**Return value:** `TRUE` if successful. Otherwise an exception is thrown.
-
-**Description:** Set simulator mode (see [bluebird docs](https://github.com/alan-turing-institute/bluebird/blob/master/docs/SimulatorModes.md) for description of simulator modes).
-
-## Episode log
-
-**Function name:** `episode_log`
-
-**Parameters:** None
-
-**Return value:** A string, the relative path to the log file. An exception is thrown if an error occurs.
-
-**Description:** Get the episode log and save to file in the working directory in a `logs` subdirectory.
 
 ## Create aircraft
 
@@ -504,6 +497,8 @@ If any of the given aircraft IDs does not exist in the simulation, the returned 
 
 **Return value:** A double, the loss of separation score between `from_aircraft_id` and `to_aircraft_id`. If any of the given aircraft IDs does not exist in the simulation, returns missing value.
 
+**Description:** The metric comes from [Aviary](https://github.com/alan-turing-institute/aviary/blob/master/README.md).
+
 ## Sector exit
 
 **Function name:** `sector_exit`
@@ -512,3 +507,16 @@ If any of the given aircraft IDs does not exist in the simulation, the returned 
 - `aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
 
 **Return value:** A double, the sector exit score for `aircraft_id`. If the aircraft does not exist in the simulation or has not exited the sector yet, returns missing value.
+
+**Description:** The metric comes from [Aviary](https://github.com/alan-turing-institute/aviary/blob/master/README.md).
+
+## Fuel efficiency
+
+**Function name:** `fuel_efficiency`
+
+**Parameters:**
+- `aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
+
+**Return value:** A double, the fuel efficiency score for `aircraft_id`. 
+
+**Description:** The metric comes from [Aviary](https://github.com/alan-turing-institute/aviary/blob/master/README.md).
