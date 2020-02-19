@@ -1,7 +1,7 @@
 
 from .aircraft_control import *
 from .async_aircraft_control import *
-from .bluebird_connect import bluebird_config
+from .bluebird_connect import bluebird_config, get_bluebird_url
 from .create_aircraft import create_aircraft
 from .distance_measures import *
 from .episode_log import episode_log
@@ -50,6 +50,7 @@ __all__ = [
     "loss_of_separation",
     "sector_exit",
     "bluebird_config",
+    "get_bluebird_url",
     "fuel_efficiency",
     "simulation_info"
 ]
