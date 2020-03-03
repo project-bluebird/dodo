@@ -24,7 +24,7 @@ create_aircraft(
 
 \item{longitude}{A double in the range [-180, 180). The aircraft's longitude.}
 
-\item{heading}{A double in the range [0, 360). The aircraft's heading in degrees.}
+\item{heading}{An integer in the range [0, 360). The aircraft's heading in degrees.}
 
 \item{altitude}{The aircraft's altitude in feet expressed as a double in the range [0, 6000]
 or a quantity whose units can be converted to feet. For altitudes in excess
