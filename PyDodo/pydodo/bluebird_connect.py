@@ -51,7 +51,12 @@ def get_bluebird_url():
     --------
     >>> pydodo.utils.get_bluebird_url()
     """
-    return "http://{}:{}".format(_BB_HOST, _BB_PORT)
+    return "http://{}:{}/{}/{}".format(
+        _BB_HOST,
+        _BB_PORT,
+        config_param('api_path'),
+        _BB_API_VERSION,
+    )
 
 
 def construct_endpoint_url(endpoint):
@@ -72,11 +77,9 @@ def construct_endpoint_url(endpoint):
     --------
     >>> pydodo.utils.construct_endpoint_url(endpoint = "ic")
     """
-    return "{0}/{1}/{2}/{3}".format(
+    return "{}/{}".format(
         get_bluebird_url(),
-        config_param("api_path"),
-        _BB_API_VERSION,
-        endpoint,
+        endpoint
     )
 
 

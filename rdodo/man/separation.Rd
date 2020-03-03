@@ -4,8 +4,7 @@
 \alias{separation}
 \title{Separation}
 \usage{
-separation(from_aircraft_id, to_aircraft_id = from_aircraft_id,
-  f_distance)
+separation(from_aircraft_id, to_aircraft_id = from_aircraft_id, f_distance)
 }
 \arguments{
 \item{from_aircraft_id}{A string vector of aircraft IDs.}

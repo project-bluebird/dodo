@@ -14,7 +14,6 @@
 #' @export
 #'
 validate_response <- function(response) {
-
   if (httr::http_error(response)) {
     stop(
       sprintf(

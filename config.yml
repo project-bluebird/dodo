@@ -10,6 +10,7 @@ default:
   # Bluebird API endpoints (to be removed in favour of OpenAPI)
   status_code_aircraft_id_not_found: 400
   status_code_no_aircraft_found: 400
+  status_code_aircraft_has_no_route: 400
   err_msg_aircraft_does_not_exist: "Aircraft .* does not exist"
   err_msg_aircraft_has_no_route: "Aircrafthasnoroute"
   endpoint_reset_simulation: "reset"
@@ -17,17 +18,12 @@ default:
   endpoint_resume_simulation: "op"
   endpoint_set_simulation_rate_multiplier: "dtmult"
   endpoint_simulation_step: "step"
-  endpoint_simulator_mode: "simmode"
-  endpoint_load_scenario: "ic"
   endpoint_create_scenario: "scenario"
   endpoint_create_aircraft: "cre"
   endpoint_aircraft_position: "pos"
-  endpoint_aircraft_flight_level: "alt"
   endpoint_change_altitude: "alt"
   endpoint_change_heading: "hdg"
-  endpoint_change_speed: "spd"
-  endpoint_change_vertical_speed: "vs"
-  endpoint_define_waypoint: "defwpt"
+  endpoint_change_speed: "gspd"
   endpoint_add_waypoint: "addwpt"
   endpoint_direct_to_waypoint: "direct"
   endpoint_list_route: "listroute"
@@ -54,8 +50,9 @@ default:
   simulator_time: "scenario_time"
 
   # Metrics
-  loss_of_separation: "aircraft_separation"
-  sector_exit: "sector_exit"
+  loss_of_separation: "pairwise_separation_metric"
+  sector_exit: "sector_exit_metric"
+  fuel_efficiency: "fuel_efficiency_metric"
 
   # Physical
   feet_altitude_upper_limit: 6000

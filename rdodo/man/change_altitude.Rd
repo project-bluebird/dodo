@@ -4,8 +4,12 @@
 \alias{change_altitude}
 \title{Send a "change altitude" command}
 \usage{
-change_altitude(aircraft_id, altitude = NULL, flight_level = NULL,
-  vertical_speed = NULL)
+change_altitude(
+  aircraft_id,
+  altitude = NULL,
+  flight_level = NULL,
+  vertical_speed = NULL
+)
 }
 \arguments{
 \item{aircraft_id}{A string aircraft identifier}

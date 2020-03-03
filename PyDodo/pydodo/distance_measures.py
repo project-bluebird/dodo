@@ -258,7 +258,7 @@ def _get_pos_df(from_aircraft_id, to_aircraft_id):
     ids = list(set(from_aircraft_id + to_aircraft_id))
     pos_df = aircraft_position(ids)
     SCALE_FEET_TO_METRES = 0.3048
-    pos_df.loc[:, "altitude"] = SCALE_FEET_TO_METRES * pos_df["altitude"]
+    pos_df.loc[:, "current_flight_level"] = SCALE_FEET_TO_METRES * pos_df["current_flight_level"]
     return pos_df
 
 
@@ -311,25 +311,24 @@ def _get_separation(from_aircraft_id, to_aircraft_id, distance_f, **kwargs):
         to_aircraft_id = [to_aircraft_id]
 
     pos_df = _get_pos_df(from_aircraft_id, to_aircraft_id)
-
     all_distances = []
     for from_id in from_aircraft_id:
-        if pos_df.loc[from_id].isnull().any():
+        if pos_df.loc[from_id][["current_flight_level", "longitude", "latitude"]].isnull().any():
             distances = [np.nan] * len(to_aircraft_id)
         else:
             distances = [
                 distance_f(
                     from_lat=pos_df.loc[from_id]["latitude"],
                     from_lon=pos_df.loc[from_id]["longitude"],
-                    from_alt=pos_df.loc[from_id]["altitude"],
+                    from_alt=pos_df.loc[from_id]["current_flight_level"],
                     to_lat=pos_df.loc[to_id]["latitude"],
                     to_lon=pos_df.loc[to_id]["longitude"],
-                    to_alt=pos_df.loc[to_id]["altitude"],
+                    to_alt=pos_df.loc[to_id]["current_flight_level"],
                     major_semiaxis=major_semiaxis,
                     radius=radius,
                     flattening=flattening,
                 )
-                if not pos_df.loc[to_id].isnull().any()
+                if not pos_df.loc[to_id][["current_flight_level", "longitude", "latitude"]].isnull().any()
                 else np.nan
                 for to_id in to_aircraft_id
             ]
