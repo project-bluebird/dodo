@@ -4,8 +4,16 @@
 \alias{create_aircraft}
 \title{Create an aircraft}
 \usage{
-create_aircraft(aircraft_id, type, latitude, longitude, heading,
-  altitude = NULL, flight_level = NULL, speed)
+create_aircraft(
+  aircraft_id,
+  type,
+  latitude,
+  longitude,
+  heading,
+  altitude = NULL,
+  flight_level = NULL,
+  speed
+)
 }
 \arguments{
 \item{aircraft_id}{A string aircraft identifier}

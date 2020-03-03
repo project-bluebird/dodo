@@ -4,8 +4,13 @@
 \alias{wait}
 \title{Wait for a command to take effect}
 \usage{
-wait(aircraft_id, property, operator = `!=`, initial_value = NULL,
-  timeout = 10)
+wait(
+  aircraft_id,
+  property,
+  operator = `!=`,
+  initial_value = NULL,
+  timeout = 10
+)
 }
 \arguments{
 \item{aircraft_id}{The aircraft ID.}

@@ -4,8 +4,7 @@
 \alias{great_circle_separation}
 \title{Great circle separation}
 \usage{
-great_circle_separation(from_aircraft_id,
-  to_aircraft_id = from_aircraft_id)
+great_circle_separation(from_aircraft_id, to_aircraft_id = from_aircraft_id)
 }
 \arguments{
 \item{from_aircraft_id}{A string vector of aircraft IDs.}
