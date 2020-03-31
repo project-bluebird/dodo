@@ -3,66 +3,6 @@ from .post_request import post_request
 from .config_param import config_param
 
 
-def create_scenario(filename, scenario):
-    """
-    Create scenario file on the simulator host.
-
-    Parameters
-    ----------
-    filename : str
-        A string indicating path to scenario file on the local machine.
-    scenario : str
-        A string indicating name to store scenario under on the simulator host
-        (<scenario>.scn).
-
-    Returns
-    -------
-    TRUE if successful. Otherwise an exception is thrown.
-
-    Examples
-    --------
-    >>> pydodo.create_scenario(filename = "~/Documents/test_scenario.scn", scenario = "test")
-    """
-    utils._validate_string(filename, "filename")
-    utils._validate_string(scenario, "scenario")
-
-    content = [line.rstrip("\n") for line in open(filename)]
-
-    body = {"scn_name": scenario, "content": content}
-    return post_request(config_param("endpoint_create_scenario"), body)
-
-
-def load_scenario(scenario, multiplier=1.0):
-    """
-    Load a scenario and start the simulation.
-
-    Parameters
-    ----------
-    filename : str
-        A string indicating name of scenario file on the simulator host
-        (<scenario>.scn).
-    multiplier : double
-        An optional double. Simulation rate multiplier.
-
-    Returns
-    -------
-    TRUE if successful. Otherwise an exception is thrown.
-
-    Notes
-    -----
-    The scenario must exist on the simulator host.
-
-    Examples
-    --------
-    >>> pydodo.load_scenario("test")
-    """
-    utils._validate_string(scenario, "scenario")
-    utils._validate_multiplier(multiplier)
-
-    body = {"filename": scenario, "multiplier": multiplier}
-    return post_request(config_param("endpoint_load_scenario"), body)
-
-
 def reset_simulation():
     """
     Reset simulation to the start of the currently running scenario.
@@ -147,36 +87,6 @@ def set_simulation_rate_multiplier(multiplier):
 
     body = {"multiplier": multiplier}
     return post_request(config_param("endpoint_set_simulation_rate_multiplier"), body)
-
-
-def set_simulator_mode(mode):
-    """
-    Set simulator mode (see bluebird docs for description of simulator modes).
-
-    Parameters
-    ----------
-    mode : str
-        A string. Available modes are sandbox (the default) and agent.
-
-    Returns
-    -------
-    TRUE if successful. Otherwise an exception is thrown.
-
-    Notes
-    -----
-    Bluebird docs found at: https://github.com/alan-turing-institute/bluebird
-
-    Examples
-    --------
-    >>> pydodo.set_simulator_mode("agent")
-    >>> pydodo.set_simulator_mode("sandbox")
-    """
-    assert mode == "agent" or mode == "sandbox", "Invalid value {} for mode".format(
-        mode
-    )
-
-    body = {"mode": mode}
-    return post_request(config_param("endpoint_simulator_mode"), body)
 
 
 def simulation_step():

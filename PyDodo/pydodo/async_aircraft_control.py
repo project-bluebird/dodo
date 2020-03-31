@@ -154,41 +154,9 @@ async def async_change_speed(aircraft_id, speed):
     utils._validate_id(aircraft_id)
     utils._validate_speed(speed)
 
-    body = {config_param("query_aircraft_id"): aircraft_id, "spd": speed}
+    body = {config_param("query_aircraft_id"): aircraft_id, "gspd": speed}
     async with aiohttp.ClientSession(raise_for_status=True) as session:
         url = construct_endpoint_url(config_param("endpoint_change_speed"))
-        async with session.post(url, json=body) as response:
-            return True
-
-
-async def async_change_vertical_speed(aircraft_id, vertical_speed):
-    """
-    Request an aircraft to change vertical speed.
-
-    Parameters
-    ----------
-    aircraft_id : str
-        A string aircraft identifier. For the BlueSky simulator, this has to be
-        at least three characters.
-    vertical_speed : double
-        A double. The requested vertical speed in feet/min (units according to
-        BlueSky docs).
-
-    Returns
-    -------
-    TRUE if successful. Otherwise an exception is thrown.
-
-    Examples
-    --------
-    >>> pydodo.async_change_vertical_speed("BAW123", vertical_speed = 10)
-    """
-
-    utils._validate_id(aircraft_id)
-    utils._validate_speed(vertical_speed)
-
-    body = {config_param("query_aircraft_id"): aircraft_id, "vspd": vertical_speed}
-    async with aiohttp.ClientSession(raise_for_status=True) as session:
-        url = construct_endpoint_url(config_param("endpoint_change_vertical_speed"))
         async with session.post(url, json=body) as response:
             return True
 

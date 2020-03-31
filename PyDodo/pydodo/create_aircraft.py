@@ -72,13 +72,13 @@ def create_aircraft(
     alt = utils._parse_alt(altitude, flight_level)
 
     body = {
-        "acid": aircraft_id,
+        config_param("query_aircraft_id"): aircraft_id,
         "type": type,
         "lat": latitude,
         "lon": longitude,
         "hdg": heading,
         "alt": alt,
-        "spd": speed,
+        "gspd": speed,
     }
 
     return post_request(config_param("endpoint_create_aircraft"), body)

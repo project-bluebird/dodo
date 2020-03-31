@@ -29,7 +29,7 @@ flight_level = 250
 speed = 0
 
 aircraft_id_2 = "TST2002"
-type_2 = "C744"
+type_2 = "B744"
 latitude_2 = 50.6083
 longitude_2 = -1.9608
 heading_2 = 0

@@ -2,7 +2,6 @@
 branches:
   only:
   - "master"
-  - "issue/66/example-notebooks"
 
 os:
   - "linux"
@@ -50,6 +49,5 @@ script:
   - "conda install -c conda-forge r-units"
   - "conda install -c r r-irkernel"
   - "R CMD check --no-build-vignettes --no-manual $DODO_HOME/rdodo"
-  - "bash $DODO_HOME/notebooks/.travis.sh"
 
 env: TRAVIS=true

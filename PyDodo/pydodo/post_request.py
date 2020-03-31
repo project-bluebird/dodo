@@ -21,7 +21,7 @@ def post_request(endpoint, body=None):
     Examples
     --------
     >>> endpoint = pydodo.config_param.config_param("endpoint_create_aircraft")
-    >>> body = {"acid"="BAW123", "type"="B744", "lat"=0, "lon"=0, "hdg"=0, "alt"=20000, "spd"=240}
+    >>> body = {"callsign"="BAW123", "type"="B744", "lat"=0, "lon"=0, "hdg"=0, "alt"=20000, "spd"=240}
     >>> pydodo.utils.post_request(endpoint = endpoint, body = body)
     """
     url = construct_endpoint_url(endpoint)

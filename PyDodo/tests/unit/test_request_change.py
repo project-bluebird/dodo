@@ -1,6 +1,6 @@
 import pytest
 
-from pydodo import change_altitude, change_heading, change_speed, change_vertical_speed
+from pydodo import change_altitude, change_heading, change_speed
 
 
 @pytest.mark.parametrize(
@@ -24,9 +24,3 @@ def test_change_heading(aircraft_id, heading):
 def test_change_speed(aircraft_id, speed):
     with pytest.raises(AssertionError):
         change_speed(aircraft_id, speed)
-
-
-@pytest.mark.parametrize("aircraft_id,vertical_speed", [("TST1001", -1), ("", 0)])
-def test_change_vertical_speed(aircraft_id, vertical_speed):
-    with pytest.raises(AssertionError):
-        change_vertical_speed(aircraft_id, vertical_speed)

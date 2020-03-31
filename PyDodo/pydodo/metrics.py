@@ -101,3 +101,32 @@ def sector_exit(aircraft_id):
     utils._validate_id(aircraft_id)
 
     return _metrics_call(config_param("sector_exit"), aircraft_id)
+
+
+def fuel_efficiency(aircraft_id):
+    """
+    Return a fuel_efficiency score for aircraft.
+
+    Parameters
+    ----------
+    aircraft_id: str
+        A string aircraft identifier.
+
+    Returns
+    -------
+    double
+        A fuel efficiency score for aircraft (NaN if the aircraft_id does not exist
+        in the simulation).
+
+    Notes
+    -----
+    If an invalid ID is given, or the call to Bluebird fails, an exception is
+    thrown.
+
+    Examples
+    --------
+    >>> pydodo.fuel_efficiency('BAW123')
+    """
+    utils._validate_id(aircraft_id)
+
+    return _metrics_call(config_param("fuel_efficiency"), aircraft_id)

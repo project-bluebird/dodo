@@ -1,7 +1,12 @@
 import pytest
 import time
 
-from pydodo import change_altitude, reset_simulation, create_aircraft, aircraft_position
+from pydodo import (
+    change_altitude,
+    reset_simulation,
+    all_positions,
+    simulation_step,
+)
 from pydodo.bluebird_connect import ping_bluebird
 
 # test if can connect to BlueBird
@@ -9,42 +14,25 @@ bb_resp = ping_bluebird()
 
 
 @pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
-def test_change_altitude():
+def test_change_altitude(upload_test_sector_scenario):
+
     cmd = reset_simulation()
     assert cmd == True
 
-    aircraft_id = "TST1001"
-    type = "B744"
-    latitude = 0
-    longitude = 0
-    heading = 0
-    flight_level = 250
-    speed = 200
+    upload_test_sector_scenario()
 
-    cmd = create_aircraft(
-        aircraft_id=aircraft_id,
-        type=type,
-        latitude=latitude,
-        longitude=longitude,
-        heading=heading,
-        flight_level=flight_level,
-        speed=speed,
-    )
+    # Get the position
+    position = all_positions()
+    acid1, acid2 = position.index
+
+    # Give the command to descend.
+    new_flight_level = 100
+    cmd = change_altitude(aircraft_id=acid1, flight_level=new_flight_level)
     assert cmd == True
 
-    # Check the altitude.
-    position = aircraft_position(aircraft_id)
+    # Check that the new altitude is below the original one.
+    resp = simulation_step()
+    assert resp == True
 
-    # In the returned data frame aircraft_id is uppercase.
-    aircraft_id = aircraft_id.upper()
-    assert position.loc[aircraft_id]["altitude"] == pytest.approx(flight_level * 100)
-
-    # Give the command to ascend.
-    new_flight_level = 400
-    cmd = change_altitude(aircraft_id=aircraft_id, flight_level=new_flight_level)
-    assert cmd == True
-
-    # Check that the new altitude exceeds the original one.
-    time.sleep(1)
-    new_position = aircraft_position(aircraft_id)
-    assert new_position.loc[aircraft_id]["altitude"] > flight_level * 100
+    new_position = all_positions()
+    assert new_position.loc[acid1, "current_flight_level"] < position.loc[acid1, "current_flight_level"]

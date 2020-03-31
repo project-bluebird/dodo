@@ -9,6 +9,9 @@ bb_resp = ping_bluebird()
 
 @pytest.mark.skipif(not bb_resp, reason="Can't connect to bluebird")
 def test_eplog():
+
+    pytest.xfail("BlueBird currently does not return a log.")
+
     filepath = episode_log()
     assert isinstance(filepath, str)
 

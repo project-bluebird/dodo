@@ -1,3 +1,4 @@
+import re
 import requests
 import json
 import numpy as np
@@ -43,28 +44,21 @@ def _position_call(aircraft_id=None):
     """
 
     if aircraft_id == None:
-        aircraft_id = "all"
-    resp = requests.get(url, params={config_param("query_aircraft_id"): aircraft_id})
+        resp = requests.get(url)
+    else:
+        resp = requests.get(
+            url, params={config_param("query_aircraft_id"): aircraft_id}
+        )
     if resp.status_code == 200:
         return json.loads(resp.text)
-    elif resp.status_code == config_param("status_code_aircraft_id_not_found"):
+    elif resp.status_code == config_param("status_code_aircraft_id_not_found") and bool(
+        re.search(config_param("err_msg_aircraft_does_not_exist"), resp.text)
+    ):
         return {aircraft_id: {}}
     elif resp.status_code == config_param("status_code_no_aircraft_found"):
         return {}
     else:
         raise requests.HTTPError(resp.text)
-
-
-def _normalise_positions_units(df):
-    """
-    Normalise units of measurement in the positions data.
-    """
-    _SCALE_METRES_TO_FEET = 3.280839895
-
-    # Bluesky returns altitude in metres, not feet.
-    if config_param("simulator") == config_param("bluesky_simulator"):
-        df.loc[:, "altitude"] = (_SCALE_METRES_TO_FEET * df["altitude"]).round(2)
-    return df
 
 
 def _process_pos_response(response):
@@ -82,11 +76,13 @@ def _process_pos_response(response):
     pos_df : pandas.DataFrame
         Dataframe indexed by **uppercase** aircraft ID with columns:
     | - ``aircraft_type``: A string ICAO aircraft type designator.
-    | - ``altitude``: A non-negatige double. The aircraft's altitude in feet.
+    | - ``current_flight_level``: A non-negatige double. The aircraft's altitude in feet.
     | - ``ground_speed``: A non-negative double. The aircraft's ground speed in knots.
     | - ``latitude``: A double in the range ``[-90, 90]``. The aircraft's latitude.
     | - ``longitude``: A double in the range ``[-180, 180]``. The aircraft's longitude.
     | - ``vertical_speed``: A double. The aircraft's vertical speed in feet/min (units according to BlueSky docs).
+    | - ``fl_requested``: The aircraft's requested flight level in meters.
+    | - ``fl_cleare"`` : The aircraft's cleared flight level in meters.
 
     Notes
     -----
@@ -101,17 +97,20 @@ def _process_pos_response(response):
     # map between BlueBird pos names and our pos column names
     _POS_COL_MAP = {
         "actype": config_param("aircraft_type"),
-        "alt": config_param("altitude"),
         "gs": config_param("ground_speed"),
         "lat": config_param("latitude"),
         "lon": config_param("longitude"),
         "vs": config_param("vertical_speed"),
+        "hdg": config_param("heading"),
+        "current_fl": config_param("current_flight_level"),
+        "requested_fl": config_param("requested_flight_level"),
+        "cleared_fl": config_param("cleared_flight_level"),
     }
 
     if not bool(response):
         return pd.DataFrame({col: [] for col in _POS_COL_MAP.values()})
 
-    sim_t = response.pop("sim_t", None)
+    sim_t = response.pop(config_param("simulator_time"), None)
 
     pos_dict = {
         aircraft: (
@@ -127,7 +126,7 @@ def _process_pos_response(response):
     if sim_t is not None:
         pos_df.sim_t = sim_t
 
-    return _normalise_positions_units(pos_df)
+    return pos_df
 
 
 def all_positions():
@@ -143,11 +142,13 @@ def all_positions():
     pandas.DataFrame
         Dataframe indexed by **uppercase** aircraft ID with columns:
     | - ``aircraft_type``: A string ICAO aircraft type designator.
-    | - ``altitude``: A non-negatige double. The aircraft's altitude in feet.
+    | - ``current_flight_level``: A non-negatige double. The aircraft's altitude in feet.
     | - ``ground_speed``: A non-negative double. The aircraft's ground speed in knots.
     | - ``latitude``: A double in the range ``[-90, 90]``. The aircraft's latitude.
     | - ``longitude``: A double in the range ``[-180, 180]``. The aircraft's longitude.
     | - ``vertical_speed``: A double. The aircraft's vertical speed in feet/min (units according to BlueSky docs).
+    | - ``fl_requested``: The aircraft's requested flight level in meters.
+    | - ``fl_cleare"`` : The aircraft's cleared flight level in meters.
 
     Notes
     -----
@@ -182,11 +183,13 @@ def aircraft_position(aircraft_id):
     pos_df : pandas.DataFrame
         Dataframe indexed by **uppercase** aircraft ID with columns:
     | - ``aircraft_type``: A string ICAO aircraft type designator.
-    | - ``altitude``: A non-negatige double. The aircraft's altitude in feet.
+    | - ``current_flight_level``: A non-negatige double. The aircraft's altitude in feet.
     | - ``ground_speed``: A non-negative double. The aircraft's ground speed in knots.
     | - ``latitude``: A double in the range ``[-90, 90]``. The aircraft's latitude.
     | - ``longitude``: A double in the range ``[-180, 180)``. The aircraft's longitude.
     | - ``vertical_speed``: A double. The aircraft's vertical speed in feet/min (units according to BlueSky docs).
+    | - ``fl_requested``: The aircraft's requested flight level in meters.
+    | - ``fl_cleare"`` : The aircraft's cleared flight level in meters.
 
     Notes
     -----
