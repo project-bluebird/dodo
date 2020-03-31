@@ -13,7 +13,7 @@ def get_config(config_dir=None):
     """Downloads config file from GitHub and saves it in config_dir."""
     print("Getting the config file")
     config_url = (
-        "https://raw.githubusercontent.com/alan-turing-institute/dodo/master/config.yml"
+        "https://raw.githubusercontent.com/alan-turing-institute/dodo/develop/config.yml"
     )
     if config_dir == None:
         this_dir, this_filename = os.path.split(os.path.abspath(__file__))
@@ -45,7 +45,7 @@ class install(_install):
 setup(
     name="PyDodo",
     description="Scaffold for ATC agents to interface with the BlueBird API",
-    version="0.1.0",
+    version="1.0.0",
     author="Radka Jersakova and Ruairidh MacLeod",
     install_requires=REQUIRED_PACKAGES,
     packages=["pydodo"],
