@@ -6,11 +6,11 @@
 
 Dodo is a package that provides a scaffold for building air traffic control agents, as part of the [Simurgh](https://github.com/alan-turing-institute/simurgh) project. The packages is written in Python ([PyDodo](#pydodo)) and R ([rdodo](#rdodo)).
 
-Note that the package requires [BlueBird](https://github.com/alan-turing-institute/bluebird) **version >= 1.3**.
+Note that the package is built to communicate with **[BlueBird](https://github.com/alan-turing-institute/bluebird) version >= 2.0**.
 
-All the default settings and parameter values are specified in a common [configuration file](config.yml).
+All the default settings and parameter values (e.g., BlueBird version number) are specified in a common [configuration file](config.yml).
 
-For an overview of all functionality, please read the [Specification](Specification.md) document.
+For an overview of all functionality, please read the [specification](Specification.md) document.
 
 ### Contents
 
@@ -43,7 +43,7 @@ pip install .
 
 ### PyDodo usage
 
-If BlueBird (and a simulator) are running, then one can communicate with the simulator (via BlueBird) using PyDodo:
+If BlueBird (and a simulator) are running, then one can communicate with BlueBird using PyDodo:
 
  ```python
  >>> import pydodo
@@ -70,10 +70,10 @@ Otherwise integration tests are skipped and only unit tests are run.
 
 #### Style guide
 
-Docstrings should follow [numpydoc][https://numpydoc.readthedocs.io/en/latest/format.html] convention.
+Docstrings should follow [numpydoc](https://numpydoc.readthedocs.io/en/latest/format.html) convention.
 We encourage extensive documentation.
 
-The python code itself should follow [PEP8][https://www.python.org/dev/peps/pep-0008/] convention whenever possible, with at most about 500 lines of code (not including docstrings) per script.
+The python code itself should follow [PEP8](https://www.python.org/dev/peps/pep-0008/) convention whenever possible, with at most about 500 lines of code (not including docstrings) per script.
 
 To format the code we recommend using the [black](https://black.readthedocs.io/en/stable/) code formatter.
 
@@ -93,4 +93,4 @@ We welcome all contributions from documentation to testing to writing code. Don'
 
 To contribute to PyDodo or rdodo development, please check the corresponding section ([PyDodo development](#pydodo-development) or [rdodo development](#rdodo-development) for details.
 
-To implement Dodo in another programming language, please follow the [Specification](Specification.md) document. The shared [configuration file](config.yml) specifies common required parameters and settings.
+To implement Dodo in another programming language, please follow the [specification](Specification.md) document. The shared [configuration file](config.yml) specifies common required parameters and settings.
