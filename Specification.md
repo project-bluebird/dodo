@@ -2,74 +2,64 @@
 
 # Overview
 
-Dodo is a scaffold for air traffic control (ATC) agents implemented in Python and R (PyDodo and rdodo respectively). It provides a set of commands for communicating with [BlueBird](https://github.com/alan-turing-institute/bluebird), an API for communicating with ATC simulators (e.g, [BlueSky](https://github.com/alan-turing-institute/bluesky)).
+Dodo is a scaffold for air traffic control (ATC) agents implemented in Python and R (PyDodo and rdodo respectively). It provides a set of commands for communicating with [BlueBird](https://github.com/alan-turing-institute/bluebird).
 
-A shared `config.yml` file exists for both rdodo and PyDodo, specifying common required parameters, settings and test cases.
+Dodo commands allow one to control [BlueBird](#bluebird-commands), the [simulation](#simulation-commands) or [aircraft in the simultion](#aircraft-commands). Dodo also provides [distance measures](#distance-measures) and performance [metrics](#metrics).
+
+A shared `config.yml` file exists for both rdodo and PyDodo, specifying common required parameters and settings.
 
 ## Contents
 
 ### BlueBird commands
 
-| Function  	                                                        | `Python  `| `R `  |
-|---	                                                                |---        |---	  |
-| [Bluebird config](#bluebird-config)                                 |   ✔      	|       |
-| [Episode Log](#episode-log)                                         |   ✔       |       |
+- [Bluebird config](#bluebird-config)
+- [Episode Log](#episode-log)
 
 ### Simulation commands
 
-| Function  	                                                        | `Python    `| `R `    |
-|---	                                                                |---        |---	|
-| [Upload Sector](#create-scenario)                                   |   ✔ 	    |       |
-| [Upload Scenario](#load-scenario)                                       |   ✔   	|       |
-| [Reset Simulation](#reset-the-simulation)                             |   ✔       |       |
-| [Pause Simulation](#pause-the-simulation)                             |   ✔       |       |
-| [Resume Simulation](#resume-the-simulation)                           |   ✔       |       |
-| [Set Simulation Rate Multiplier](#set-the-simulation-rate-multiplier) |   ✔       |       |
-| [Simulation Step](#simulation-step)                                   |   ✔       |       |
+- [Upload Sector](#create-scenario)
+- [Upload Scenario](#load-scenario)
+- [Reset Simulation](#reset-the-simulation)
+- [Pause Simulation](#pause-the-simulation)
+- [Resume Simulation](#resume-the-simulation)
+- [Set Simulation Rate Multiplier](#set-the-simulation-rate-multiplier)
+- [Simulation Step](#simulation-step)
 
 ### Aircraft commands
 
-| Function  	                                                        | `Python    `| `R `    |
-|---	                                                                |---        |---	|
-| [Create Aircraft](#create-aircraft)                                   |   ✔       |       |
-| [Get aircraft position](#get-aircraft-position)                       |   ✔       |       |
-| [Get all aircraft positions](#get-all-aircraft-positions)             |   ✔       |       |
-| [List Route](#list-aircraft-route)                                    |   ✔       |       |
-| [Current flight level](#current-flight-level)                         |   ✔       |       |
-| [Requested flight level](#requested-flight-level)                     |   ✔       |       |
-| [Cleared flight level](#cleared-flight-level)                         |   ✔       |       |
+- [Create Aircraft](#create-aircraft)
+- [Get aircraft position](#get-aircraft-position)
+- [Get all aircraft positions](#get-all-aircraft-positions)
+- [List Route](#list-aircraft-route)
+- [Current flight level](#current-flight-level)
+- [Requested flight level](#requested-flight-level)
+- [Cleared flight level](#cleared-flight-level)
 
 ### Aircraft control
 
-| Function  	                                                        | `Python    `| `R `    |
-|---	                                                                |---        |---	|
-| [Change Altitude](#change-aircraft-altitude)                          |   ✔       |       |
-| [Change Heading](#change-aircraft-heading)                            |   ✔       |       |
-| [Change Speed](#change-aircraft-speed)                                |   ✔       |       |
-| [Change Vertical Speed](#change-aircraft-vertical-speed)              |   ✔       |       |
-| [Direct to Waypoint](#direct-aircaft-to-waypoint)                     |   ✔       |       |
-| [Batch](#batch)                                                       |   ✔       |       |
+- [Change Altitude](#change-aircraft-altitude)
+- [Change Heading](#change-aircraft-heading)
+- [Change Speed](#change-aircraft-speed)
+- [Change Vertical Speed](#change-aircraft-vertical-speed)
+- [Direct to Waypoint](#direct-aircaft-to-waypoint)
+- [Batch](#batch)
 
 ### Distance measures
 
-| Function  	                                                        | `Python    `| `R `    |
-|---	                                                                |---        |---	|
-| [Geodesic separation](#geodesic-separation)                           | ✔          |       |
-| [Geodesic distance](#geodesic-distance)                               |  ✔         |       |
-| [Great-circle separation](#great-circle-separation)                   |   ✔        |       |
-| [Great-circle distance](#great-circle-distance)                       |    ✔       |       |
-| [Vertical separation](#vertical-separation)                           |     ✔      |       |
-| [Vertical distance](#vertical-distance)                               |      ✔     |       |
-| [Euclidean separation](#euclidean-separation)                         |       ✔    |       |
-| [Euclidean distance](#euclidean-distance)                             |        ✔   |       |
+- [Geodesic separation](#geodesic-separation)
+- [Geodesic distance](#geodesic-distance)
+- [Great-circle separation](#great-circle-separation)
+- [Great-circle distance](#great-circle-distance)
+- [Vertical separation](#vertical-separation)
+- [Vertical distance](#vertical-distance)
+- [Euclidean separation](#euclidean-separation)
+- [Euclidean distance](#euclidean-distance)
 
 ### Metrics
 
-| Function  	                                                        | `Python    `| `R `    |
-|---	                                                                |---        |---	|
-| [Loss of separation](#loss-of-separation)                         |  ✔    |       |
-| [Sector exit](#sector-exit)                         |  ✔    |       |
-| [Fuel efficiency](#fuel-efficiency)                         |  ✔    |       |
+- [Loss of separation](#loss-of-separation)
+- [Sector exit](#sector-exit)
+- [Fuel efficiency](#fuel-efficiency)
 
 ---
 
@@ -517,6 +507,6 @@ If any of the given aircraft IDs does not exist in the simulation, the returned 
 **Parameters:**
 - `aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
 
-**Return value:** A double, the fuel efficiency score for `aircraft_id`. 
+**Return value:** A double, the fuel efficiency score for `aircraft_id`.
 
 **Description:** The metric comes from [Aviary](https://github.com/alan-turing-institute/aviary/blob/master/README.md).
