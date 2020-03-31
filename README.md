@@ -28,6 +28,7 @@ For an overview of all functionality, please read the [Specification](Specificat
 ### PyDodo installation
 
 (Optional first step)
+
 ```
 conda create -n pydodo python=3.7
 conda activate pydodo
@@ -40,6 +41,18 @@ pip install .
 ```
 
 ### PyDodo usage
+
+If BlueBird (and a simulator) are running, then one can communicate with the simulator (via BlueBird) using PyDodo:
+
+ ```python
+ >>> import pydodo
+ >>>
+ >>> pydodo.reset_simulation()
+ True
+ >>>
+ ```
+
+See the [specification document](https://github.com/alan-turing-institute/dodo/blob/master/Specification.md) for a detailed overview of the supported commands.
 
 ### PyDodo development
 
