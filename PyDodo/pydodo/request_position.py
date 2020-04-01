@@ -9,7 +9,6 @@ from .config_param import config_param
 from .bluebird_connect import construct_endpoint_url
 
 endpoint = config_param("endpoint_aircraft_position")
-url = construct_endpoint_url(endpoint)
 
 
 def _position_call(aircraft_id=None):
@@ -42,6 +41,7 @@ def _position_call(aircraft_id=None):
     >>> pydodo.request_position.position_call()
     >>> pydodo.request_position.position_call("BAW123")
     """
+    url = construct_endpoint_url(endpoint)
 
     if aircraft_id == None:
         resp = requests.get(url)

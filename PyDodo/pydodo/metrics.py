@@ -8,7 +8,6 @@ from .bluebird_connect import construct_endpoint_url
 from .config_param import config_param
 
 endpoint = config_param("endpoint_metrics")
-url = construct_endpoint_url(endpoint)
 
 
 def _metrics_call(metric, args):
@@ -28,6 +27,7 @@ def _metrics_call(metric, args):
         Score returned by the metric (NaN if any of the aircraft specified in
         args does not exist in the simulation)
     """
+    url = construct_endpoint_url(endpoint)
     resp = requests.get(url, params={"name": metric, "args": args})
     if resp.status_code == 200:
         json_data = json.loads(resp.text)
