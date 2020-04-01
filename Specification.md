@@ -4,7 +4,7 @@
 
 Dodo is a scaffold for air traffic control (ATC) agents implemented in Python and R (PyDodo and rdodo respectively). It provides a set of commands for communicating with [BlueBird](https://github.com/alan-turing-institute/bluebird).
 
-Dodo commands allow one to control [BlueBird](#bluebird-commands), the [simulation](#simulation-commands) or [aircraft in the simultion](#aircraft-commands). Dodo also provides [distance measures](#distance-measures) and performance [metrics](#metrics).
+Dodo commands allow one to control [BlueBird](#bluebird-commands), the [simulation](#simulation-commands) or [aircraft in the simultion](#aircraft-commands). Dodo also provides [aircraft information](#aircraft-information), [distance measures](#distance-measures) and performance [metrics](#metrics).
 
 A shared `config.yml` file exists for both rdodo and PyDodo, specifying common required parameters and settings.
 
@@ -13,35 +13,35 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 ### BlueBird commands
 
 - [Bluebird config](#bluebird-config)
-- [Episode Log](#episode-log)
+- [Episode log](#episode-log)
 
 ### Simulation commands
 
-- [Upload Sector](#create-scenario)
-- [Upload Scenario](#load-scenario)
-- [Reset Simulation](#reset-the-simulation)
-- [Pause Simulation](#pause-the-simulation)
-- [Resume Simulation](#resume-the-simulation)
-- [Set Simulation Rate Multiplier](#set-the-simulation-rate-multiplier)
-- [Simulation Step](#simulation-step)
+- [Upload sector](#create-scenario)
+- [Upload scenario](#load-scenario)
+- [Create aircraft](#create-aircraft)
+- [Reset simulation](#reset-the-simulation)
+- [Pause simulation](#pause-the-simulation)
+- [Resume simulation](#resume-the-simulation)
+- [Set the simulation rate multiplier](#set-the-simulation-rate-multiplier)
+- [Simulation step](#simulation-step)
 
-### Aircraft commands
+### Aircraft information
 
-- [Create Aircraft](#create-aircraft)
 - [Get aircraft position](#get-aircraft-position)
 - [Get all aircraft positions](#get-all-aircraft-positions)
-- [List Route](#list-aircraft-route)
-- [Current flight level](#current-flight-level)
-- [Requested flight level](#requested-flight-level)
-- [Cleared flight level](#cleared-flight-level)
+- [Get aircraft route](#list-aircraft-route)
+- [Get current flight level](#current-flight-level)
+- [Get requested flight level](#requested-flight-level)
+- [Get cleared flight level](#cleared-flight-level)
 
 ### Aircraft control
 
-- [Change Altitude](#change-aircraft-altitude)
-- [Change Heading](#change-aircraft-heading)
-- [Change Speed](#change-aircraft-speed)
-- [Change Vertical Speed](#change-aircraft-vertical-speed)
-- [Direct to Waypoint](#direct-aircaft-to-waypoint)
+- [Change altitude](#change-aircraft-altitude)
+- [Change heading](#change-aircraft-heading)
+- [Change speed](#change-aircraft-speed)
+- [Change vertical speed](#change-aircraft-vertical-speed)
+- [Direct to waypoint](#direct-aircaft-to-waypoint)
 - [Batch](#batch)
 
 ### Distance measures
@@ -110,6 +110,26 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 
 **Description:** Upload a scenario definition. It requires that a sector definition has already been uploaded. The scenario data format is defined in [Aviary](https://github.com/alan-turing-institute/aviary/blob/master/README.md)
 
+## Create aircraft
+
+**Function name:** `create_aircraft`
+
+**Parameters:**
+- `aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
+- `type`: A string ICAO aircraft type designator.
+- `latitude`: A double in the range [-90, 90]. The aircraft's initial latitude.
+- `longitude`: A double in the range [-180, 180). The aircraft's initial longitude.
+- `heading`: A double in the range [0, 360). The aircraft's initial heading in degrees.
+- `altitude`: A double in the range [0, 6000]. The aircraft's initial altitude in feet. For altitudes in excess of 6000ft a flight level should be specified instead.
+- `flight_level`: An integer of 60 or more. The aircraft's initial flight level.
+- `speed`: A non-negative double. The aircraft's initial calibrated air speed in knots (KCAS).
+
+Either the `altitude` or `flight_level` argument must be given, but not both.
+
+**Return value:** `TRUE` if successful. Otherwise an exception is thrown.
+
+**Description:** Initiate a new aircraft in the simulation at the given position, heading and speed.
+
 ## Reset the simulation
 
 **Function name:** `reset_simulation`
@@ -118,7 +138,7 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 
 **Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
-**Description:** Reset simulation to the start of the currently running scenario.
+**Description:** Reset the simulation. If used with the BlueSky simulator, this leads to a clean reset (as if launched from fresh) which means a scenario needs to be reloaded. 
 
 ## Pause the simulation
 
@@ -149,7 +169,7 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 
 **Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
-**Description:** Sets the simulation rate multiplier for the current simulation. By default this multiplier is equal to one (real-time operation). If set to another value, the simulation will run faster (or slower) than real-time, with a fixed multiplier as provided. For example, a multiplier of 2 would cause the simulation to run twice as fast: 60 simulation minutes take 30 actual minutes.
+**Description:** Sets the simulation rate multiplier for the current simulation. By default this multiplier is equal to one (real-time operation). If set to another value, the simulation will run faster (or slower) than real-time, with a fixed multiplier as provided. If in **agent** mode (the BlueBird default), this corresponds to the number of seconds which are progressed during a [simulation step](#simulation-step) command. In **sandbox** mode, a multiplier of 2 would cause the simulation to run twice as fast: 60 simulation minutes take 30 actual minutes. 
 
 ## Simulation step
 
@@ -160,26 +180,6 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 **Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
 **Description:** Step forward through the simulation. Step size is based on the [simulation rate multiplier](#set-the-simulation-rate-multiplier). Can only be used if simulator is in [agent mode](#set-simulator-mode), otherwise an exception is thrown.
-
-## Create aircraft
-
-**Function name:** `create_aircraft`
-
-**Parameters:**
-- `aircraft_id`: A string aircraft identifier. For the BlueSky simulator, this has to be at least three characters.
-- `type`: A string ICAO aircraft type designator.
-- `latitude`: A double in the range [-90, 90]. The aircraft's initial latitude.
-- `longitude`: A double in the range [-180, 180). The aircraft's initial longitude.
-- `heading`: An integer in the range [0, 360). The aircraft's initial heading in degrees.
-- `altitude`: A double in the range [0, 6000]. The aircraft's initial altitude in feet. For altitudes in excess of 6000ft a flight level should be specified instead.
-- `flight_level`: An integer of 60 or more. The aircraft's initial flight level.
-- `speed`: A non-negative double. The aircraft's initial calibrated air speed in knots (KCAS).
-
-Either the `altitude` or `flight_level` argument must be given, but not both.
-
-**Return value:** `TRUE` if successful. Otherwise an exception is thrown.
-
-**Description:** Initiate a new aircraft in the simulation at the given position, heading and speed.
 
 ## Get aircraft position
 
