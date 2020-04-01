@@ -118,7 +118,7 @@ A shared `config.yml` file exists for both rdodo and PyDodo, specifying common r
 
 **Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
-**Description:** Reset simulation. If used with the BlueSky simulator, the scenario needs to be reloaded after a reset. Otherwise resets to the start of the currently running scenario.
+**Description:** Reset the simulation. If used with the BlueSky simulator, this leads to a clean reset (as if launched from fresh) which means a scenario needs to be reloaded. 
 
 ## Pause the simulation
 
