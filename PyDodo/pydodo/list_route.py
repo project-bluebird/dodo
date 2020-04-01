@@ -8,7 +8,6 @@ from .config_param import config_param
 from .bluebird_connect import construct_endpoint_url
 
 endpoint = config_param("endpoint_list_route")
-url = construct_endpoint_url(endpoint)
 
 
 def _route_call(aircraft_id):
@@ -43,6 +42,7 @@ def _route_call(aircraft_id):
     If the aircraft has no route information, a dictionary with just
     the callsign is returned.
     """
+    url = construct_endpoint_url(endpoint)
     resp = requests.get(url, params={config_param("query_aircraft_id"): aircraft_id})
     if resp.status_code == 200:
         return json.loads(resp.text)
