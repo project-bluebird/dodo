@@ -138,7 +138,11 @@ Either the `altitude` or `flight_level` argument must be given, but not both.
 
 **Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
+<<<<<<< HEAD
 **Description:** Reset the simulation. If used with the BlueSky simulator, this leads to a clean reset (as if launched from fresh) which means a scenario needs to be reloaded.
+=======
+**Description:** Reset the simulation. If used with the BlueSky simulator, this leads to a clean reset (as if launched from fresh) which means a scenario needs to be reloaded.
+>>>>>>> 425929662754fc32d2e9765fbdfefa869a2a4823
 
 ## Pause the simulation
 
