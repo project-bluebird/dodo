@@ -22,8 +22,8 @@ def _get_flight_level(aircraft_id):
     pos_df : pandas.DataFrame
         Dataframe indexed by **uppercase** aircraft ID with columns:
     | - ``current_flight_level``: A non-negatige double. The aircraft's altitude in feet.
-    | - ``requested_flight_level``: The aircraft's requested flight level in meters.
-    | - ``cleared_flight_level"`` : The aircraft's cleared flight level in meters.
+    | - ``requested_flight_level``: The aircraft's requested flight level.
+    | - ``cleared_flight_level"`` : The aircraft's cleared flight level.
 
     Examples
     --------
