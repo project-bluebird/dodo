@@ -256,7 +256,7 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 
 **Return value:** A non-negative double. The aircraft's current flight level in meters. If an invalid ID is given, or the call to Bluebird fails, an exception is thrown.
 
-**Description:** Get the aircraft's current flight level (in meters).
+**Description:** Get the aircraft's current flight level (in feet).
 
 ## Requested flight level
 
@@ -267,7 +267,7 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 
 **Return value:** A non-negative double. The aircraft's requested flight level in meters. If an invalid ID is given, or the call to Bluebird fails, an exception is thrown.
 
-**Description:** Get the aircraft's requested flight level (in meters). Can only be returned if the aircraft has a defined route.
+**Description:** Get the aircraft's requested flight level. Can only be returned if the aircraft has a defined route.
 
 ## Cleared flight level
 
@@ -278,7 +278,7 @@ If any other error occurs (e.g. a failure to parse the route information), an ex
 
 **Return value:** A non-negative double. The aircraft's cleared flight level in meters. If an invalid ID is given, or the call to Bluebird fails, an exception is thrown.
 
-**Description:** Get the aircraft's cleared flight level (in meters). The initial cleared flight level is set to the initial altitude when a scenario is loaded.
+**Description:** Get the aircraft's cleared flight level. The initial cleared flight level is set to the initial altitude when a scenario is loaded.
 
 ## Change aircraft altitude
 

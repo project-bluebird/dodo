@@ -81,8 +81,8 @@ def _process_pos_response(response):
     | - ``latitude``: A double in the range ``[-90, 90]``. The aircraft's latitude.
     | - ``longitude``: A double in the range ``[-180, 180]``. The aircraft's longitude.
     | - ``vertical_speed``: A double. The aircraft's vertical speed in feet/min (units according to BlueSky docs).
-    | - ``fl_requested``: The aircraft's requested flight level in meters.
-    | - ``fl_cleare"`` : The aircraft's cleared flight level in meters.
+    | - ``requested_flight_level``: The aircraft's requested flight level.
+    | - ``cleared_flight_level"`` : The aircraft's cleared flight level .
 
     Notes
     -----
@@ -147,8 +147,8 @@ def all_positions():
     | - ``latitude``: A double in the range ``[-90, 90]``. The aircraft's latitude.
     | - ``longitude``: A double in the range ``[-180, 180]``. The aircraft's longitude.
     | - ``vertical_speed``: A double. The aircraft's vertical speed in feet/min (units according to BlueSky docs).
-    | - ``fl_requested``: The aircraft's requested flight level in meters.
-    | - ``fl_cleare"`` : The aircraft's cleared flight level in meters.
+    | - ``requested_flight_level``: The aircraft's requested flight level.
+    | - ``cleared_flight_level"`` : The aircraft's cleared flight level.
 
     Notes
     -----
@@ -188,8 +188,8 @@ def aircraft_position(aircraft_id):
     | - ``latitude``: A double in the range ``[-90, 90]``. The aircraft's latitude.
     | - ``longitude``: A double in the range ``[-180, 180)``. The aircraft's longitude.
     | - ``vertical_speed``: A double. The aircraft's vertical speed in feet/min (units according to BlueSky docs).
-    | - ``fl_requested``: The aircraft's requested flight level in meters.
-    | - ``fl_cleare"`` : The aircraft's cleared flight level in meters.
+    | - ``requested_flight_level``: The aircraft's requested flight level.
+    | - ``cleared_flight_level"`` : The aircraft's cleared flight level
 
     Notes
     -----

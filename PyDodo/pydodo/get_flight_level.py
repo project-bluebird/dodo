@@ -21,9 +21,9 @@ def _get_flight_level(aircraft_id):
     -------
     pos_df : pandas.DataFrame
         Dataframe indexed by **uppercase** aircraft ID with columns:
-    | - ``fl_current`` : The aircraft's current flight level in feet.
-    | - ``fl_requested``: The aircraft's requested flight level in meters.
-    | - ``fl_cleare"`` : The aircraft's cleared flight level in meters.
+    | - ``current_flight_level``: A non-negatige double. The aircraft's altitude in feet.
+    | - ``requested_flight_level``: The aircraft's requested flight level.
+    | - ``cleared_flight_level"`` : The aircraft's cleared flight level.
 
     Examples
     --------
@@ -35,7 +35,7 @@ def _get_flight_level(aircraft_id):
 
 def requested_flight_level(aircraft_id):
     """
-    Get the aircraft's requested flight level (in meters). Can only be returned
+    Get the aircraft's requested flight level. Can only be returned
     if the aircraft has a defined route.
 
     Parameters
@@ -47,7 +47,7 @@ def requested_flight_level(aircraft_id):
     Returns
     -------
     flight_level : double
-        A non-negative double. The aircraft's requested flight level in meters.
+        A non-negative double. The aircraft's requested flight level.
         If an invalid ID is given, or the call to Bluebird fails, an exception
         is thrown.
 
@@ -56,12 +56,12 @@ def requested_flight_level(aircraft_id):
     >>> pydodo.requested_flight_level("BAW123")
     """
 
-    return _get_flight_level(aircraft_id)["fl_requested"]
+    return _get_flight_level(aircraft_id).iloc[0]["requested_flight_level"]
 
 
 def cleared_flight_level(aircraft_id):
     """
-     Get the aircraft's cleared flight level (in meters). The initial cleared
+     Get the aircraft's cleared flight level. The initial cleared
      flight level is set to the initial altitude when a scenario is loaded.
 
     Parameters
@@ -73,7 +73,7 @@ def cleared_flight_level(aircraft_id):
     Returns
     -------
     cleared_flight_level : double
-        A non-negative double. The aircraft's cleared flight level in meters. If
+        A non-negative double. The aircraft's cleared flight level. If
         an invalid ID is given, or the call to Bluebird fails, an exception is
         thrown.
 
@@ -82,12 +82,12 @@ def cleared_flight_level(aircraft_id):
     >>> pydodo.cleared_flight_level("BAW123")
     """
 
-    return _get_flight_level(aircraft_id)["fl_cleared"]
+    return _get_flight_level(aircraft_id).iloc[0]["cleared_flight_level"]
 
 
 def current_flight_level(aircraft_id):
     """
-    Get the aircraft's current flight level (in meters).
+    Get the aircraft's current flight level (in feet).
 
     Parameters
     ----------
@@ -98,7 +98,7 @@ def current_flight_level(aircraft_id):
     Returns
     -------
     current_flight_level : double
-        A non-negative double. The aircraft's current flight level in meters. If
+        A non-negative double. The aircraft's current flight level in feet. If
         an invalid ID is given, or the call to Bluebird fails, an exception is
         thrown.
 
@@ -107,5 +107,4 @@ def current_flight_level(aircraft_id):
     >>> pydodo.current_flight_level("BAW123")
     """
 
-    SCALE_FEET_TO_METRES = 0.3048
-    return _get_flight_level(aircraft_id)["fl_current"] * SCALE_FEET_TO_METRES
+    return _get_flight_level(aircraft_id).iloc[0]["current_flight_level"]
