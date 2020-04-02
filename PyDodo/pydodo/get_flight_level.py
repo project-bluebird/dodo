@@ -56,7 +56,7 @@ def requested_flight_level(aircraft_id):
     >>> pydodo.requested_flight_level("BAW123")
     """
 
-    return _get_flight_level(aircraft_id)["requested_flight_level"]
+    return _get_flight_level(aircraft_id).iloc[0]["requested_flight_level"]
 
 
 def cleared_flight_level(aircraft_id):
@@ -82,7 +82,7 @@ def cleared_flight_level(aircraft_id):
     >>> pydodo.cleared_flight_level("BAW123")
     """
 
-    return _get_flight_level(aircraft_id)["cleared_flight_level"]
+    return _get_flight_level(aircraft_id).iloc[0]["cleared_flight_level"]
 
 
 def current_flight_level(aircraft_id):
@@ -107,4 +107,4 @@ def current_flight_level(aircraft_id):
     >>> pydodo.current_flight_level("BAW123")
     """
 
-    return _get_flight_level(aircraft_id)["current_flight_level"]
+    return _get_flight_level(aircraft_id).iloc[0]["current_flight_level"]
