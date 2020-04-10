@@ -138,7 +138,7 @@ Either the `altitude` or `flight_level` argument must be given, but not both.
 
 **Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
-**Description:** Reset the simulation. If used with the BlueSky simulator, this leads to a clean reset (as if launched from fresh) which means a scenario needs to be reloaded. 
+**Description:** Reset the simulation. If used with the BlueSky simulator, this leads to a clean reset (as if launched from fresh) which means a scenario needs to be reloaded.
 
 ## Pause the simulation
 
@@ -169,7 +169,7 @@ Either the `altitude` or `flight_level` argument must be given, but not both.
 
 **Return value:** `TRUE` if successful. Otherwise an exception is thrown.
 
-**Description:** Sets the simulation rate multiplier for the current simulation. By default this multiplier is equal to one (real-time operation). If set to another value, the simulation will run faster (or slower) than real-time, with a fixed multiplier as provided. If in **agent** mode (the BlueBird default), this corresponds to the number of seconds which are progressed during a [simulation step](#simulation-step) command. In **sandbox** mode, a multiplier of 2 would cause the simulation to run twice as fast: 60 simulation minutes take 30 actual minutes. 
+**Description:** Sets the simulation rate multiplier for the current simulation. By default this multiplier is equal to one (real-time operation). If set to another value, the simulation will run faster (or slower) than real-time, with a fixed multiplier as provided. If in **agent** mode (the BlueBird default), this corresponds to the number of seconds which are progressed during a [simulation step](#simulation-step) command. In **sandbox** mode, a multiplier of 2 would cause the simulation to run twice as fast: 60 simulation minutes take 30 actual minutes.
 
 ## Simulation step
 
