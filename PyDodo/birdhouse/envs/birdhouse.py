@@ -1,21 +1,21 @@
 """
-Implements Open AI gym like environment
+Implements Open AI gym like environment.
 
-see: https://github.com/openai/gym/blob/master/docs/creating-environments.md
+See: https://github.com/openai/gym/blob/master/docs/creating-environments.md
 """
+
 import gym
-from gym import spaces
 from gym.utils import seeding
 import itertools
 
-from pydodo.episode_log import episode_log
+#from pydodo.episode_log import episode_log
 from pydodo import change_altitude
 from pydodo.metrics import loss_of_separation
 from pydodo.request_position import all_positions
 from pydodo.simulation_control import simulation_step, reset_simulation, pause_simulation
 
 
-class SimurghEnv(gym.Env):
+class BirdhouseEnv(gym.Env):
     """Simple birdhouse environment
 
     ...
@@ -68,7 +68,6 @@ class SimurghEnv(gym.Env):
         Stepping forward the agent (take agent selected action) is not
         necessarily the same as stepping forward the simulation.
 
-
         Accepts an action and returns a tuple (observation, reward, done, info).
 
         Args:
@@ -81,10 +80,16 @@ class SimurghEnv(gym.Env):
             info (dict): contains auxiliary diagnostic information (helpful for debugging, and sometimes learning)
         """
         # assert self.action_space.contains(action)
+
+        #=====================================================================
+        # TAKE ACTION
+        #=====================================================================
         if action is not None:
-            # print(all_positions().index)
-            print("HELLO WORLD!")
             change_altitude(action[0], flight_level=action[1])
+
+        #=====================================================================
+        # STEP THROUGH THE ENVIRONMENT
+        #=====================================================================
         simulation_step()
 
         aircraft_pos = all_positions()
@@ -93,7 +98,6 @@ class SimurghEnv(gym.Env):
              loss_of_separation(acid1, acid2) for acid1, acid2 in aircraft_pairs
          ]
 
-        # print(sum(separations))
 
         reward = sum(separations)
         print(reward)
@@ -154,7 +158,6 @@ class SimurghEnv(gym.Env):
 
         - human: render to the current display or terminal and
           return nothing. Usually for human consumption.
-
         """
 
         print("Check Twicher on http://localhost:8080")
