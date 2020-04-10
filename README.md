@@ -43,7 +43,7 @@ pip install .
 
 ### PyDodo usage
 
-If BlueBird (and a simulator) are running, then one can communicate with BlueBird using PyDodo:
+If BlueBird (and a simulator) are running, then one can communicate with BlueBird using PyDodo. For example:
 
  ```python
  >>> import pydodo
@@ -53,7 +53,9 @@ If BlueBird (and a simulator) are running, then one can communicate with BlueBir
  >>>
  ```
 
-See the [specification document](https://github.com/alan-turing-institute/dodo/blob/master/Specification.md) for a detailed overview of the supported commands.
+The [specification document](https://github.com/alan-turing-institute/dodo/blob/master/Specification.md) gives a detailed overview of the supported commands.
+
+See the [example notebook](https://github.com/alan-turing-institute/simurgh/blob/master/examples/Example-pipeline.ipynb) in the Simurgh project repository for a run through of how to use PyDodo to interact with BlueBird.
 
 ### PyDodo development
 
