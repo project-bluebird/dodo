@@ -13,7 +13,7 @@ def get_config(config_dir=None):
     """Downloads config file from GitHub and saves it in config_dir."""
     print("Getting the config file")
     config_url = (
-        "https://raw.githubusercontent.com/alan-turing-institute/dodo/develop/config.yml"
+        "https://raw.githubusercontent.com/alan-turing-institute/dodo/master/config.yml"
     )
     if config_dir == None:
         this_dir, this_filename = os.path.split(os.path.abspath(__file__))
