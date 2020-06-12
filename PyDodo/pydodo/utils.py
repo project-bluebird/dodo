@@ -32,10 +32,7 @@ def _validate_id(aircraft_id):
     """Assert aircraft_id is non-empty string (and length >= 3 if using BlueSky)."""
     _validate_string(aircraft_id, "aircraft ID")
     if config_param("simulator") == config_param("bluesky_simulator"):
-        assert (
-            len(aircraft_id) >= 3,
-            "Invalid input {} for aircraft ID".format(aircraft_id),
-        )
+        assert len(aircraft_id) >= 3, f"Invalid input {aircraft_id} for aircraft ID"
 
 
 def _validate_id_list(aircraft_id):
