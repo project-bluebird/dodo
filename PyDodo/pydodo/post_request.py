@@ -27,5 +27,8 @@ def post_request(endpoint, body=None):
     url = construct_endpoint_url(endpoint)
     resp = requests.post(url, json=body)
     # if response is 4XX or 5XX, raise exception
-    resp.raise_for_status()
+    try:
+        resp.raise_for_status()
+    except requests.exceptions.HTTPError as e:
+        raise Exception(f"BlueBird returned '{resp.text}'") from e
     return True
