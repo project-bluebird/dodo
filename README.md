@@ -1,3 +1,5 @@
+Active development moved under [Project BlueBird](https://github.com/project-bluebird).
+
 # Dodo
 
 [![Build Status](https://travis-ci.com/alan-turing-institute/dodo.svg?branch=master)](https://travis-ci.com/alan-turing-institute/dodo)
