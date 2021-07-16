@@ -91,7 +91,7 @@ async def async_change_altitude(
     body = {config_param("query_aircraft_id"): aircraft_id, "alt": alt}
     if vertical_speed:
         utils._validate_speed(vertical_speed)
-        body["vs"] = vertical_speed
+        body["vspd"] = vertical_speed
     async with aiohttp.ClientSession(raise_for_status=True) as session:
         url = construct_endpoint_url(config_param("endpoint_change_altitude"))
         async with session.post(url, json=body) as response:

@@ -40,7 +40,7 @@ def change_altitude(aircraft_id, altitude=None, flight_level=None, vertical_spee
 
     if vertical_speed:
         utils._validate_speed(vertical_speed)
-        body["vs"] = vertical_speed
+        body["vspd"] = vertical_speed
     return post_request(config_param("endpoint_change_altitude"), body)
 
 
